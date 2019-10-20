@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>关于博客网站的搭建备忘</title>
+      <link href="/2019/10/20/guan-yu-bo-ke-wang-zhan-de-da-jian-bei-wang/"/>
+      <url>/2019/10/20/guan-yu-bo-ke-wang-zhan-de-da-jian-bei-wang/</url>
+      
+        <content type="html"><![CDATA[<h1 id="如何搭建github-io的博客网站"><a href="#如何搭建github-io的博客网站" class="headerlink" title="如何搭建github.io的博客网站"></a>如何搭建github.io的博客网站</h1><h2 id="1-注册github账号"><a href="#1-注册github账号" class="headerlink" title="1. 注册github账号"></a>1. 注册github账号</h2><h2 id="2-创建仓库：github用户名-github-io"><a href="#2-创建仓库：github用户名-github-io" class="headerlink" title="2. 创建仓库：github用户名.github.io"></a>2. 创建仓库：github用户名.github.io</h2><h2 id="3-本地安装node-js、npm"><a href="#3-本地安装node-js、npm" class="headerlink" title="3.本地安装node.js、npm"></a>3.本地安装node.js、npm</h2><h2 id="4-安装git-并配置git-ssh-key"><a href="#4-安装git-并配置git-ssh-key" class="headerlink" title="4.安装git 并配置git ssh key"></a>4.安装git 并配置git ssh key</h2><h2 id="5-绑定域名"><a href="#5-绑定域名" class="headerlink" title="5.绑定域名"></a>5.绑定域名</h2><h2 id="6-how-use"><a href="#6-how-use" class="headerlink" title="6. how use:"></a>6. how use:</h2><p><strong>refer to:</strong> <a href="https://github.com/blinkfox/hexo-theme-matery/blob/develop/README_CN.md" target="_blank" rel="noopener">https://github.com/blinkfox/hexo-theme-matery/blob/develop/README_CN.md</a></p><p><strong>change the file _config.xml:</strong><br>first create the reposity: your_github_usrname.github.io</p><pre class=" language-yml"><code class="language-yml">deploy:  type: git  repository: https://github.com/your_github_usrname/your_github_usrname.github.io  branch: master</code></pre><p>then run the following command in terminal(git bash or cmder  etc. on windows or other os)</p><pre class=" language-bash"><code class="language-bash"><span class="token function">git</span> clone git@github.com:njustwh2014/whblogsource.git<span class="token function">cd</span> whblogsource<span class="token function">npm</span> <span class="token function">install</span> -g hexo<span class="token function">npm</span> <span class="token function">install</span><span class="token function">npm</span> <span class="token function">install</span> hexo-deployer-git --save<span class="token function">npm</span> <span class="token function">install</span> hexo-generator-feed --save<span class="token function">npm</span> <span class="token function">install</span> hexo-generator-sitemap --savehexo ghexo d</code></pre><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hello World</title>
       <link href="/2019/10/19/hello-world/"/>
       <url>/2019/10/19/hello-world/</url>
