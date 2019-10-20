@@ -5,9 +5,9 @@
   <subtitle>每天进步一点点</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="http://eternalhorizon.cn/"/>
   <updated>2019-10-19T11:43:18.978Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>http://eternalhorizon.cn/</id>
   
   <author>
     <name>Wang Huan</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="http://yoursite.com/2019/10/19/hello-world/"/>
-    <id>http://yoursite.com/2019/10/19/hello-world/</id>
+    <link href="http://eternalhorizon.cn/2019/10/19/hello-world/"/>
+    <id>http://eternalhorizon.cn/2019/10/19/hello-world/</id>
     <published>2019-10-19T11:43:18.978Z</published>
     <updated>2019-10-19T11:43:18.978Z</updated>
     
