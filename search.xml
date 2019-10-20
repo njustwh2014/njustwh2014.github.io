@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>valine评论组件使用</title>
+      <link href="/2019/10/20/valinecomment/"/>
+      <url>/2019/10/20/valinecomment/</url>
+      
+        <content type="html"><![CDATA[<h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># Install leancloud's js-sdk</span><span class="token function">npm</span> <span class="token function">install</span> leancloud-storage --save<span class="token comment" spellcheck="true"># Install valine</span><span class="token function">npm</span> <span class="token function">install</span> valine --save</code></pre><h2 id="参考官方教程：https-valine-js-org-quickstart-html"><a href="#参考官方教程：https-valine-js-org-quickstart-html" class="headerlink" title="参考官方教程：https://valine.js.org/quickstart.html"></a>参考官方教程：<a href="https://valine.js.org/quickstart.html" target="_blank" rel="noopener">https://valine.js.org/quickstart.html</a></h2><p><img src="/.cn//1.png" alt="配置文件图"></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> Hexo </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 配置 </tag>
+            
+            <tag> Hexo </tag>
+            
+            <tag> valine </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>如何搭建github.io的博客网站</title>
       <link href="/2019/10/20/guan-yu-bo-ke-wang-zhan-de-da-jian-bei-wang/"/>
       <url>/2019/10/20/guan-yu-bo-ke-wang-zhan-de-da-jian-bei-wang/</url>
@@ -27,19 +56,6 @@
             <tag> Hexo </tag>
             
         </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Hello World</title>
-      <link href="/2019/10/19/hello-world/"/>
-      <url>/2019/10/19/hello-world/</url>
-      
-        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class=" language-bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span></code></pre><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class=" language-bash"><code class="language-bash">$ hexo server</code></pre><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class=" language-bash"><code class="language-bash">$ hexo generate</code></pre><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class=" language-bash"><code class="language-bash">$ hexo deploy</code></pre><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
-      
-      
       
     </entry>
     

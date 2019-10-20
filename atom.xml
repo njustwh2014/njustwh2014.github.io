@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://eternalhorizon.cn/"/>
-  <updated>2019-10-20T08:40:14.043Z</updated>
+  <updated>2019-10-20T09:26:09.052Z</updated>
   <id>http://eternalhorizon.cn/</id>
   
   <author>
@@ -17,11 +17,42 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>valine评论组件使用</title>
+    <link href="http://eternalhorizon.cn/2019/10/20/valinecomment/"/>
+    <id>http://eternalhorizon.cn/2019/10/20/valinecomment/</id>
+    <published>2019-10-20T09:17:56.000Z</published>
+    <updated>2019-10-20T09:26:09.052Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;安装依赖&quot;&gt;&lt;a href=&quot;#安装依赖&quot; class=&quot;headerlink&quot; title=&quot;安装依赖&quot;&gt;&lt;/a&gt;安装依赖&lt;/h2&gt;&lt;pre class=&quot; language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Hexo" scheme="http://eternalhorizon.cn/categories/Hexo/"/>
+    
+    
+      <category term="配置" scheme="http://eternalhorizon.cn/tags/%E9%85%8D%E7%BD%AE/"/>
+    
+      <category term="Hexo" scheme="http://eternalhorizon.cn/tags/Hexo/"/>
+    
+      <category term="valine" scheme="http://eternalhorizon.cn/tags/valine/"/>
+    
+  </entry>
+  
+  <entry>
     <title>如何搭建github.io的博客网站</title>
     <link href="http://eternalhorizon.cn/2019/10/20/guan-yu-bo-ke-wang-zhan-de-da-jian-bei-wang/"/>
     <id>http://eternalhorizon.cn/2019/10/20/guan-yu-bo-ke-wang-zhan-de-da-jian-bei-wang/</id>
-    <published>2019-10-20T07:57:21.278Z</published>
-    <updated>2019-10-20T08:40:14.043Z</updated>
+    <published>2019-10-20T08:40:00.000Z</published>
+    <updated>2019-10-20T09:12:02.791Z</updated>
     
     <summary type="html">
     
@@ -44,29 +75,6 @@
       <category term="记录" scheme="http://eternalhorizon.cn/tags/%E8%AE%B0%E5%BD%95/"/>
     
       <category term="Hexo" scheme="http://eternalhorizon.cn/tags/Hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://eternalhorizon.cn/2019/10/19/hello-world/"/>
-    <id>http://eternalhorizon.cn/2019/10/19/hello-world/</id>
-    <published>2019-10-19T11:43:18.978Z</published>
-    <updated>2019-10-19T11:43:18.978Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a
-        
-      
-    
-    </summary>
-    
-    
     
   </entry>
   
