@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="Java, 中间件, Spring, Redis">
-    <meta name="description" content="王欢的小世界">
+    <meta name="description" content="Eternal Horizon">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>王欢的小世界</title>
+    <title>Eternal Horizon</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -38,7 +38,7 @@
                     
                     <img src="/medias/logo.png" class="logo-img" alt="LOGO">
                     
-                    <span class="logo-span">王欢的小世界</span>
+                    <span class="logo-span">Eternal Horizon</span>
                 </a>
             </div>
             
@@ -136,10 +136,10 @@
         
         <img src="/medias/logo.png" class="logo-img circle responsive-img">
         
-        <div class="logo-name">王欢的小世界</div>
+        <div class="logo-name">Eternal Horizon</div>
         <div class="logo-desc">
             
-            切勿清歌与漏舟之中，痛饮在焚屋之下
+            属于王欢的私人博客，记录学习心得、读书感受以及一些Java知识。
             
         </div>
     </div>
@@ -356,6 +356,13 @@
 
 <div id="page" class="carousel carousel-slider center index-cover" data-indicators="true" style="margin-top: -64px;">
     
+    <div id="prev-cover" class="left waves-effect carousel-control">
+        <i class="icon fas fa-angle-left"></i>
+    </div>
+    <div id="next-cover" class="right waves-effect carousel-control">
+        <i class="icon fas fa-angle-right"></i>
+    </div>
+    
 
     <div class="carousel-item red white-text bg-cover about-cover">
         <div class="container" style="right: 0px;left: 0px;">
@@ -442,6 +449,32 @@
         </div>
     </div>
 
+    
+    
+
+    
+    
+    <div class="carousel-item amber white-text carousel-post bg-cover"
+            style="background-image: url('http://pzpoejx7j.bkt.clouddn.com/image/javajava.png');">
+        <div class="container" style="right: 0px;left: 0px;">
+            <div class="row">
+                <div class="col s10 offset-s1">
+                    <div class="title center-align">我的网站开发经历与Java学习心路历程</div>
+                    <div class="description center-align">
+                    
+                        俱乐部网站以及个人博客网站介绍，以及从零开始接触Java的学习心路历程。
+                    
+                    </div>
+                    <div class="cover-btns">
+                        <a href="/2019/10/22/wo-de-wang-zhan-kai-fa-jing-li-yu-java-xue-xi-xin-lu-li-cheng/" class="waves-effect waves-light btn" target="_blank">
+                            <i class="icon far fa-eye fa-fw"></i>阅读更多
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     
 </div>
 
@@ -554,6 +587,37 @@ $(function () {
 
 
 
+
+
+<div class="title"><i class="far fa-thumbs-up"></i>&nbsp;&nbsp;推荐文章</div>
+
+<div class="row">
+
+    
+    
+    <div class="col s12" >
+        <div class="post-card" style="background-image: url('http://pzpoejx7j.bkt.clouddn.com/image/javajava.png')">
+            <div class="post-body">
+                <div class="post-categories">
+                    
+                    <a href="/categories/Java/" class="category">Java</a>
+                    
+                </div>
+                <a href="/2019/10/22/wo-de-wang-zhan-kai-fa-jing-li-yu-java-xue-xi-xin-lu-li-cheng/">
+                    <h3 class="post-title">我的网站开发经历与Java学习心路历程</h3>
+                </a>
+                <p class="post-description">俱乐部网站以及个人博客网站介绍，以及从零开始接触Java的学习心路历程。</p>
+                <a href="/2019/10/22/wo-de-wang-zhan-kai-fa-jing-li-yu-java-xue-xi-xin-lu-li-cheng/" class="read-more btn waves-effect waves-light" style="background: linear-gradient(to right, #FF5E3A 0%, #FF2A68 100%)" target="_blank">
+                    <i class="icon far fa-eye fa-fw"></i>阅读更多
+                </a>
+            </div>
+        </div>
+    </div>
+    
+
+</div>
+
+
                     </div>
                 </div>
             </div>
@@ -569,7 +633,423 @@ $(function () {
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2019/10/20/valinecomment/">
+                    <a href="/2019/11/04/solve-problem-unable-to-correct-problems-you-have-held-broken-packages/">
+                        <div class="card-image">
+                            
+                            <img src="http://pzpoejx7j.bkt.clouddn.com/linuxcover.jpg" class="responsive-img" alt="solve problem: unable to correct problems, you have held broken packages">
+                            
+                            <span class="card-title">solve problem: unable to correct problems, you have held broken packages</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                问题原因大多是因为依赖出问题。
+最蛋疼的办法是
+sudo apt-get install aptitude
+sudo aptitude install &lt;packagename>
+害，可是都报这个错了，还怎么安装aptitude？？？
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-11-04
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/Linux/" class="post-category">
+                                    Linux
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Linux/">
+                            <span class="chip bg-color">Linux</span>
+                        </a>
+                        
+                        <a href="/tags/apt/">
+                            <span class="chip bg-color">apt</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2019/11/04/chu-shi-lock-he-abstractqueuedsynchronizer-aqs/">
+                        <div class="card-image">
+                            
+                            <img src="http://pzpoejx7j.bkt.clouddn.com/concurrentcover.png" class="responsive-img" alt="初识Lock和AbstractQueuedSynchronizer(AQS)">
+                            
+                            <span class="card-title">初识Lock和AbstractQueuedSynchronizer(AQS)</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                我的github项目，有一些代码示例 forked from https://github.com/CL0610/Java-concurrency
+1. concurrent包的结构层次在针对并发编程中，Doug Lea大师为我们提供了大量
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-11-04
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/Concurrent/" class="post-category">
+                                    Concurrent
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Java/">
+                            <span class="chip bg-color">Java</span>
+                        </a>
+                        
+                        <a href="/tags/Concurrent/">
+                            <span class="chip bg-color">Concurrent</span>
+                        </a>
+                        
+                        <a href="/tags/AQS/">
+                            <span class="chip bg-color">AQS</span>
+                        </a>
+                        
+                        <a href="/tags/Lock/">
+                            <span class="chip bg-color">Lock</span>
+                        </a>
+                        
+                        <a href="/tags/Condition/">
+                            <span class="chip bg-color">Condition</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2019/10/30/yi-ci-jian-dan-de-elasticsearch-shi-yong/">
+                        <div class="card-image">
+                            
+                            <img src="http://pzpoejx7j.bkt.clouddn.com/systemstructure.png" class="responsive-img" alt="一次简单的elasticsearch使用">
+                            
+                            <span class="card-title">一次简单的elasticsearch使用</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                System structure
+
+First, main thread monitors the bif data folder backup. 
+When the file directory is updated，the live t
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-10-30
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/elasticsearch/" class="post-category">
+                                    elasticsearch
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/elasticsearch/">
+                            <span class="chip bg-color">elasticsearch</span>
+                        </a>
+                        
+                        <a href="/tags/grafana/">
+                            <span class="chip bg-color">grafana</span>
+                        </a>
+                        
+                        <a href="/tags/java/">
+                            <span class="chip bg-color">java</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2019/10/28/java-zhong-zheng-ze-biao-da-shi-shi-yong/">
+                        <div class="card-image">
+                            
+                            <img src="http://pzpoejx7j.bkt.clouddn.com/regex.png" class="responsive-img" alt="Java中正则表达式使用">
+                            
+                            <span class="card-title">Java中正则表达式使用</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                什么是正则表达式正则表达式是一个定义搜索模式的字符串。
+示例
+
+
+正则表达式
+匹配
+
+
+
+this is text
+精确匹配到字符串this is text
+
+
+this\s+is\s+text
+匹配单词this和is后跟一个或多个空格
+
+
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-10-28
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/Java/" class="post-category">
+                                    Java
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Java/">
+                            <span class="chip bg-color">Java</span>
+                        </a>
+                        
+                        <a href="/tags/Regex/">
+                            <span class="chip bg-color">Regex</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2019/10/22/wo-de-wang-zhan-kai-fa-jing-li-yu-java-xue-xi-xin-lu-li-cheng/">
+                        <div class="card-image">
+                            
+                            <img src="http://pzpoejx7j.bkt.clouddn.com/image/javajava.png" class="responsive-img" alt="我的网站开发经历与Java学习心路历程">
+                            
+                            <span class="card-title">我的网站开发经历与Java学习心路历程</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                俱乐部网站以及个人博客网站介绍，以及从零开始接触Java的学习心路历程。
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-10-22
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/Java/" class="post-category">
+                                    Java
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Java/">
+                            <span class="chip bg-color">Java</span>
+                        </a>
+                        
+                        <a href="/tags/Spring/">
+                            <span class="chip bg-color">Spring</span>
+                        </a>
+                        
+                        <a href="/tags/JavaScript/">
+                            <span class="chip bg-color">JavaScript</span>
+                        </a>
+                        
+                        <a href="/tags/Vue/">
+                            <span class="chip bg-color">Vue</span>
+                        </a>
+                        
+                        <a href="/tags/Redis/">
+                            <span class="chip bg-color">Redis</span>
+                        </a>
+                        
+                        <a href="/tags/Mysql/">
+                            <span class="chip bg-color">Mysql</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2019/10/22/ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou/">
+                        <div class="card-image">
+                            
+                            <img src="http://pzpoejx7j.bkt.clouddn.com/sslh.png" class="responsive-img" alt="应用sslh实现多协议访问同一端口">
+                            
+                            <span class="card-title">应用sslh实现多协议访问同一端口</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                什么是SSLH一种不同的multiplexing在相同端口处理多种协议，sslh就是这样可以处理ssl和ssh。sslh可以分辨进入端口的是哪种协议，并转发到相应的服务。这样就可以在同一个端口同时处理http和ssh。注意，这个方法并不是掩
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-10-22
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="post-category">
+                                    计算机网络
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Https/">
+                            <span class="chip bg-color">Https</span>
+                        </a>
+                        
+                        <a href="/tags/SSLH/">
+                            <span class="chip bg-color">SSLH</span>
+                        </a>
+                        
+                        <a href="/tags/SSH/">
+                            <span class="chip bg-color">SSH</span>
+                        </a>
+                        
+                        <a href="/tags/Nginx/">
+                            <span class="chip bg-color">Nginx</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2019/10/21/ru-he-zai-hexo-bo-ke-zhong-cha-ru-tu-pian/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="如何在Hexo博客中插入图片">
+                            
+                            <span class="card-title">如何在Hexo博客中插入图片</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                在hexo博客中插入图片有好几种方法，但本着markdown语言所见即所得的原则，本文选择一种插件方式来显示图片。由于hexo在生成页面时会对文件路径前加入时间，所以直接使用markdown插入图片的方式是不可行的。
+参考大佬的插件：htt
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-10-21
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/Hexo/" class="post-category">
+                                    Hexo
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/hexo-asset-image/">
+                            <span class="chip bg-color">hexo-asset-image</span>
+                        </a>
+                        
+                        <a href="/tags/hexo/">
+                            <span class="chip bg-color">hexo</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2019/10/20/valine-ping-lun-zu-jian-shi-yong/">
                         <div class="card-image">
                             
                             
@@ -609,12 +1089,12 @@ npm install valine --save
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/%E9%85%8D%E7%BD%AE/">
-                            <span class="chip bg-color">配置</span>
-                        </a>
-                        
                         <a href="/tags/Hexo/">
                             <span class="chip bg-color">Hexo</span>
+                        </a>
+                        
+                        <a href="/tags/%E9%85%8D%E7%BD%AE/">
+                            <span class="chip bg-color">配置</span>
                         </a>
                         
                         <a href="/tags/valine/">
@@ -664,16 +1144,16 @@ npm install valine --save
                     
                     <div class="card-action article-tags">
                         
+                        <a href="/tags/Hexo/">
+                            <span class="chip bg-color">Hexo</span>
+                        </a>
+                        
                         <a href="/tags/%E9%85%8D%E7%BD%AE/">
                             <span class="chip bg-color">配置</span>
                         </a>
                         
                         <a href="/tags/%E8%AE%B0%E5%BD%95/">
                             <span class="chip bg-color">记录</span>
-                        </a>
-                        
-                        <a href="/tags/Hexo/">
-                            <span class="chip bg-color">Hexo</span>
                         </a>
                         
                     </div>
@@ -700,7 +1180,7 @@ npm install valine --save
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">268</span>&nbsp;字
+                class="white-color">9k</span>&nbsp;字
             
             
             

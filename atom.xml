@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>王欢的小世界</title>
+  <title>Eternal Horizon</title>
   
   <subtitle>每天进步一点点</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://eternalhorizon.cn/"/>
-  <updated>2019-10-20T09:28:27.672Z</updated>
+  <updated>2019-11-04T11:19:44.372Z</updated>
   <id>http://eternalhorizon.cn/</id>
   
   <author>
@@ -17,11 +17,238 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>solve problem: unable to correct problems, you have held broken packages</title>
+    <link href="http://eternalhorizon.cn/2019/11/04/solve-problem-unable-to-correct-problems-you-have-held-broken-packages/"/>
+    <id>http://eternalhorizon.cn/2019/11/04/solve-problem-unable-to-correct-problems-you-have-held-broken-packages/</id>
+    <published>2019-11-04T11:09:33.000Z</published>
+    <updated>2019-11-04T11:19:44.372Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;问题原因大多是因为依赖出问题。&lt;/p&gt;
+&lt;p&gt;最蛋疼的办法是&lt;/p&gt;
+&lt;pre class=&quot; language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="http://eternalhorizon.cn/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="http://eternalhorizon.cn/tags/Linux/"/>
+    
+      <category term="apt" scheme="http://eternalhorizon.cn/tags/apt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>初识Lock和AbstractQueuedSynchronizer(AQS)</title>
+    <link href="http://eternalhorizon.cn/2019/11/04/chu-shi-lock-he-abstractqueuedsynchronizer-aqs/"/>
+    <id>http://eternalhorizon.cn/2019/11/04/chu-shi-lock-he-abstractqueuedsynchronizer-aqs/</id>
+    <published>2019-11-04T07:35:52.000Z</published>
+    <updated>2019-11-04T10:51:11.323Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;a href=&quot;https://github.com/njustwh2014/MyJavaRepo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;我的github项目，有一些代码示例&lt;/a&gt; forked from &lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Concurrent" scheme="http://eternalhorizon.cn/categories/Concurrent/"/>
+    
+    
+      <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
+    
+      <category term="Concurrent" scheme="http://eternalhorizon.cn/tags/Concurrent/"/>
+    
+      <category term="AQS" scheme="http://eternalhorizon.cn/tags/AQS/"/>
+    
+      <category term="Lock" scheme="http://eternalhorizon.cn/tags/Lock/"/>
+    
+      <category term="Condition" scheme="http://eternalhorizon.cn/tags/Condition/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>一次简单的elasticsearch使用</title>
+    <link href="http://eternalhorizon.cn/2019/10/30/yi-ci-jian-dan-de-elasticsearch-shi-yong/"/>
+    <id>http://eternalhorizon.cn/2019/10/30/yi-ci-jian-dan-de-elasticsearch-shi-yong/</id>
+    <published>2019-10-30T06:52:29.000Z</published>
+    <updated>2019-11-04T10:51:11.319Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;System-structure&quot;&gt;&lt;a href=&quot;#System-structure&quot; class=&quot;headerlink&quot; title=&quot;System structure&quot;&gt;&lt;/a&gt;System structure&lt;/h2&gt;&lt;p&gt;&lt;img
+        
+      
+    
+    </summary>
+    
+    
+      <category term="elasticsearch" scheme="http://eternalhorizon.cn/categories/elasticsearch/"/>
+    
+    
+      <category term="elasticsearch" scheme="http://eternalhorizon.cn/tags/elasticsearch/"/>
+    
+      <category term="grafana" scheme="http://eternalhorizon.cn/tags/grafana/"/>
+    
+      <category term="java" scheme="http://eternalhorizon.cn/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java中正则表达式使用</title>
+    <link href="http://eternalhorizon.cn/2019/10/28/java-zhong-zheng-ze-biao-da-shi-shi-yong/"/>
+    <id>http://eternalhorizon.cn/2019/10/28/java-zhong-zheng-ze-biao-da-shi-shi-yong/</id>
+    <published>2019-10-28T03:15:43.000Z</published>
+    <updated>2019-11-04T10:51:11.319Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;什么是正则表达式&quot;&gt;&lt;a href=&quot;#什么是正则表达式&quot; class=&quot;headerlink&quot; title=&quot;什么是正则表达式&quot;&gt;&lt;/a&gt;什么是正则表达式&lt;/h2&gt;&lt;p&gt;正则表达式是一个定义&lt;strong&gt;搜索模式&lt;/strong&gt;的字符串。&lt;/p&gt;
+&lt;h2
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="http://eternalhorizon.cn/categories/Java/"/>
+    
+    
+      <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
+    
+      <category term="Regex" scheme="http://eternalhorizon.cn/tags/Regex/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我的网站开发经历与Java学习心路历程</title>
+    <link href="http://eternalhorizon.cn/2019/10/22/wo-de-wang-zhan-kai-fa-jing-li-yu-java-xue-xi-xin-lu-li-cheng/"/>
+    <id>http://eternalhorizon.cn/2019/10/22/wo-de-wang-zhan-kai-fa-jing-li-yu-java-xue-xi-xin-lu-li-cheng/</id>
+    <published>2019-10-22T02:36:59.000Z</published>
+    <updated>2019-10-29T12:44:49.163Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;网站介绍&quot;&gt;&lt;a href=&quot;#网站介绍&quot; class=&quot;headerlink&quot; title=&quot;网站介绍&quot;&gt;&lt;/a&gt;网站介绍&lt;/h2&gt;&lt;h3 id=&quot;功能介绍&quot;&gt;&lt;a href=&quot;#功能介绍&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="http://eternalhorizon.cn/categories/Java/"/>
+    
+    
+      <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
+    
+      <category term="Spring" scheme="http://eternalhorizon.cn/tags/Spring/"/>
+    
+      <category term="JavaScript" scheme="http://eternalhorizon.cn/tags/JavaScript/"/>
+    
+      <category term="Vue" scheme="http://eternalhorizon.cn/tags/Vue/"/>
+    
+      <category term="Redis" scheme="http://eternalhorizon.cn/tags/Redis/"/>
+    
+      <category term="Mysql" scheme="http://eternalhorizon.cn/tags/Mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>应用sslh实现多协议访问同一端口</title>
+    <link href="http://eternalhorizon.cn/2019/10/22/ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou/"/>
+    <id>http://eternalhorizon.cn/2019/10/22/ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou/</id>
+    <published>2019-10-22T01:05:12.000Z</published>
+    <updated>2019-10-22T13:33:37.523Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;什么是SSLH&quot;&gt;&lt;a href=&quot;#什么是SSLH&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="计算机网络" scheme="http://eternalhorizon.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+    
+      <category term="Https" scheme="http://eternalhorizon.cn/tags/Https/"/>
+    
+      <category term="SSLH" scheme="http://eternalhorizon.cn/tags/SSLH/"/>
+    
+      <category term="SSH" scheme="http://eternalhorizon.cn/tags/SSH/"/>
+    
+      <category term="Nginx" scheme="http://eternalhorizon.cn/tags/Nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何在Hexo博客中插入图片</title>
+    <link href="http://eternalhorizon.cn/2019/10/21/ru-he-zai-hexo-bo-ke-zhong-cha-ru-tu-pian/"/>
+    <id>http://eternalhorizon.cn/2019/10/21/ru-he-zai-hexo-bo-ke-zhong-cha-ru-tu-pian/</id>
+    <published>2019-10-21T01:34:33.000Z</published>
+    <updated>2019-10-22T13:33:37.523Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在hexo博客中插入图片有好几种方法，但本着markdown语言所见即所得的原则，本文选择一种插件方式来显示图片。由于hexo在生成页面时会对文件路径前加入时间，所以直接使用markdown插入图片的方式是不可行的。&lt;/p&gt;
+&lt;p&gt;参考大佬的插件：&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Hexo" scheme="http://eternalhorizon.cn/categories/Hexo/"/>
+    
+    
+      <category term="hexo-asset-image" scheme="http://eternalhorizon.cn/tags/hexo-asset-image/"/>
+    
+      <category term="hexo" scheme="http://eternalhorizon.cn/tags/hexo/"/>
+    
+  </entry>
+  
+  <entry>
     <title>valine评论组件使用</title>
-    <link href="http://eternalhorizon.cn/2019/10/20/valinecomment/"/>
-    <id>http://eternalhorizon.cn/2019/10/20/valinecomment/</id>
+    <link href="http://eternalhorizon.cn/2019/10/20/valine-ping-lun-zu-jian-shi-yong/"/>
+    <id>http://eternalhorizon.cn/2019/10/20/valine-ping-lun-zu-jian-shi-yong/</id>
     <published>2019-10-20T09:17:56.000Z</published>
-    <updated>2019-10-20T09:28:27.672Z</updated>
+    <updated>2019-10-22T13:33:37.523Z</updated>
     
     <summary type="html">
     
@@ -39,9 +266,9 @@
       <category term="Hexo" scheme="http://eternalhorizon.cn/categories/Hexo/"/>
     
     
-      <category term="配置" scheme="http://eternalhorizon.cn/tags/%E9%85%8D%E7%BD%AE/"/>
-    
       <category term="Hexo" scheme="http://eternalhorizon.cn/tags/Hexo/"/>
+    
+      <category term="配置" scheme="http://eternalhorizon.cn/tags/%E9%85%8D%E7%BD%AE/"/>
     
       <category term="valine" scheme="http://eternalhorizon.cn/tags/valine/"/>
     
@@ -70,11 +297,11 @@
       <category term="Hexo" scheme="http://eternalhorizon.cn/categories/Hexo/"/>
     
     
+      <category term="Hexo" scheme="http://eternalhorizon.cn/tags/Hexo/"/>
+    
       <category term="配置" scheme="http://eternalhorizon.cn/tags/%E9%85%8D%E7%BD%AE/"/>
     
       <category term="记录" scheme="http://eternalhorizon.cn/tags/%E8%AE%B0%E5%BD%95/"/>
-    
-      <category term="Hexo" scheme="http://eternalhorizon.cn/tags/Hexo/"/>
     
   </entry>
   
