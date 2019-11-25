@@ -308,7 +308,7 @@ sudo aptitude install &amp;lt;packagename&gt;
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('http://pzpoejx7j.bkt.clouddn.com/linuxcover.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -987,55 +987,63 @@ sudo aptitude install &amp;lt;packagename&gt;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/11/04/solve-problem-unable-to-correct-problems-you-have-held-broken-packages/">
+                <a href="/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/">
                     <div class="card-image">
                         
-                        <img src="http://pzpoejx7j.bkt.clouddn.com/linuxcover.jpg" class="responsive-img" alt="solve problem: unable to correct problems, you have held broken packages">
                         
-                        <span class="card-title">solve problem: unable to correct problems, you have held broken packages</span>
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="深入理解AbstractQueuedSynchronizer(AQS)">
+                        
+                        <span class="card-title">深入理解AbstractQueuedSynchronizer(AQS)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            问题原因大多是因为依赖出问题。
-最蛋疼的办法是
-sudo apt-get install aptitude
-sudo aptitude install &lt;packagename>
-害，可是都报这个错了，还怎么安装aptitude？？？
+                            我的github项目，有一些代码示例 forked from https://github.com/CL0610/Java-concurrency
+1. AQS简介在上一篇文章中我们对lock和AbstractQueuedSynchroni
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-11-04
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-11-05
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category">
-                                    Linux
+                            <a href="/categories/Concurrent/" class="post-category">
+                                    Concurrent
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
                     </a>
                     
-                    <a href="/tags/apt/">
-                        <span class="chip bg-color">apt</span>
+                    <a href="/tags/Concurrent/">
+                        <span class="chip bg-color">Concurrent</span>
+                    </a>
+                    
+                    <a href="/tags/AQS/">
+                        <span class="chip bg-color">AQS</span>
+                    </a>
+                    
+                    <a href="/tags/Lock/">
+                        <span class="chip bg-color">Lock</span>
+                    </a>
+                    
+                    <a href="/tags/Condition/">
+                        <span class="chip bg-color">Condition</span>
                     </a>
                     
                 </div>
@@ -1052,7 +1060,8 @@ sudo aptitude install &lt;packagename>
                 <a href="/2019/11/04/chu-shi-lock-he-abstractqueuedsynchronizer-aqs/">
                     <div class="card-image">
                         
-                        <img src="http://pzpoejx7j.bkt.clouddn.com/concurrentcover.png" class="responsive-img" alt="初识Lock和AbstractQueuedSynchronizer(AQS)">
+                        
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="初识Lock和AbstractQueuedSynchronizer(AQS)">
                         
                         <span class="card-title">初识Lock和AbstractQueuedSynchronizer(AQS)</span>
                     </div>
@@ -1251,7 +1260,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">9k</span>&nbsp;字
+                class="white-color">25.1k</span>&nbsp;字
             
             
             
@@ -1392,8 +1401,29 @@ $(function () {
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151523301-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'UA-151523301-1');
+</script>
+
 
     <!-- Baidu Analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?e387edbea506d311dbff53ded17a4db5";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
 
 
     <!-- Baidu Push -->
