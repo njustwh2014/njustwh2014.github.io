@@ -768,7 +768,7 @@
     <span class="token keyword">return</span> null<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <p>put方法的代码量有点长，我们按照上面的分解的步骤一步步来看。<strong>从整体而言，为了解决线程安全的问题，ConcurrentHashMap使用了synchronzied和CAS的方式</strong>。在之前了解过HashMap以及1.8版本之前的ConcurrenHashMap都应该知道ConcurrentHashMap结构图，为了方面下面的讲解这里先直接给出，如果对这有疑问的话，可以在网上随便搜搜即可。</p>
-<p><img src="/.cn//ConcurrentHashMap%E6%95%A3%E5%88%97%E6%A1%B6%E6%95%B0%E7%BB%84%E7%BB%93%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="ConcurrentHashMap散列桶数组结构示意图"></p>
+<p><img src="/2019/12/06/bing-fa-rong-qi-zhi-concurrenthashmap-jdk-1-8-ban-ben/ConcurrentHashMap%E6%95%A3%E5%88%97%E6%A1%B6%E6%95%B0%E7%BB%84%E7%BB%93%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="ConcurrentHashMap散列桶数组结构示意图"></p>
 <p>如图（图片摘自网络），ConcurrentHashMap是一个哈希桶数组，如果不出现哈希冲突的时候，每个元素均匀的分布在哈希桶数组中。当出现哈希冲突的时候，是<strong>标准的链地址的解决方式</strong>，将hash值相同的节点构成链表的形式，称为“拉链法”，另外，在1.8版本中为了防止拉链过长，当链表的长度大于8的时候会将链表转换成红黑树。table数组中的每个元素实际上是单链表的头结点或者红黑树的根节点。当插入键值对时首先应该定位到要插入的桶，即插入table数组的索引i处。那么，怎样计算得出索引i呢？当然是根据key的hashCode值。</p>
 <blockquote>
 <p>1.spread()重哈希，以减小Hash冲突</p>
@@ -1038,7 +1038,7 @@
 <li>如果这个位置是TreeBin节点（fh&lt;0），也做一个反序处理，并且判断是否需要untreefi，把处理的结果分别放在nextTable的i和i+n的位置上</li>
 <li>遍历过所有的节点以后就完成了复制工作，这时让nextTable作为新的table，并且更新sizeCtl为新容量的0.75倍 ，完成扩容。设置为新容量的0.75倍代码为 <code>sizeCtl = (n &lt;&lt; 1) - (n &gt;&gt;&gt; 1)</code>，仔细体会下是不是很巧妙，n&lt;&lt;1相当于n右移一位表示n的两倍即2n,n&gt;&gt;&gt;1左右一位相当于n除以2即0.5n,然后两者相减为2n-0.5n=1.5n,是不是刚好等于新容量的0.75倍即2n*0.75=1.5n。最后用一个示意图来进行总结（图片摘自网络）：</li>
 </ol>
-<p><img src="/.cn//ConcurrentHashMap%E6%89%A9%E5%AE%B9%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="ConcurrentHashMap扩容示意图"></p>
+<p><img src="/2019/12/06/bing-fa-rong-qi-zhi-concurrenthashmap-jdk-1-8-ban-ben/ConcurrentHashMap%E6%89%A9%E5%AE%B9%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="ConcurrentHashMap扩容示意图"></p>
 <h3 id="3-6-与size相关的一些方法"><a href="#3-6-与size相关的一些方法" class="headerlink" title="3.6 与size相关的一些方法"></a>3.6 与size相关的一些方法</h3><p>对于ConcurrentHashMap来说，这个table里到底装了多少东西其实是个不确定的数量，因为<strong>不可能在调用size()方法的时候像GC的“stop the world”一样让其他线程都停下来让你去统计，因此只能说这个数量是个估计值。对于这个估计值</strong>，ConcurrentHashMap也是大费周章才计算出来的。</p>
 <p>为了统计元素个数，ConcurrentHashMap定义了一些变量和一个内部类</p>
 <pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**

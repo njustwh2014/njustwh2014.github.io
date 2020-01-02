@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://eternalhorizon.cn/"/>
-  <updated>2020-01-02T01:17:12.538Z</updated>
+  <updated>2020-01-02T01:35:50.446Z</updated>
   <id>http://eternalhorizon.cn/</id>
   
   <author>
@@ -15,6 +15,21 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>属于渣欢和狗婷的一百</title>
+    <link href="http://eternalhorizon.cn/2020/01/02/shu-yu-zha-huan-he-gou-ting-de-yi-bai/"/>
+    <id>http://eternalhorizon.cn/2020/01/02/shu-yu-zha-huan-he-gou-ting-de-yi-bai/</id>
+    <published>2020-01-02T01:35:50.000Z</published>
+    <updated>2020-01-02T01:35:50.446Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Java基础复习笔记</title>
@@ -314,11 +329,11 @@
       <category term="Concurrent" scheme="http://eternalhorizon.cn/categories/Concurrent/"/>
     
     
+      <category term="redis" scheme="http://eternalhorizon.cn/tags/redis/"/>
+    
       <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
     
       <category term="Concurrent" scheme="http://eternalhorizon.cn/tags/Concurrent/"/>
-    
-      <category term="redis" scheme="http://eternalhorizon.cn/tags/redis/"/>
     
       <category term="mysql" scheme="http://eternalhorizon.cn/tags/mysql/"/>
     
@@ -385,9 +400,9 @@
       <category term="Centos" scheme="http://eternalhorizon.cn/categories/Centos/"/>
     
     
-      <category term="mysql" scheme="http://eternalhorizon.cn/tags/mysql/"/>
-    
       <category term="Centos" scheme="http://eternalhorizon.cn/tags/Centos/"/>
+    
+      <category term="mysql" scheme="http://eternalhorizon.cn/tags/mysql/"/>
     
   </entry>
   
@@ -517,9 +532,9 @@
     
       <category term="elasticsearch" scheme="http://eternalhorizon.cn/tags/elasticsearch/"/>
     
-      <category term="grafana" scheme="http://eternalhorizon.cn/tags/grafana/"/>
-    
       <category term="kibana" scheme="http://eternalhorizon.cn/tags/kibana/"/>
+    
+      <category term="grafana" scheme="http://eternalhorizon.cn/tags/grafana/"/>
     
       <category term="python" scheme="http://eternalhorizon.cn/tags/python/"/>
     
@@ -636,37 +651,6 @@
       <category term="Lock" scheme="http://eternalhorizon.cn/tags/Lock/"/>
     
       <category term="Condition" scheme="http://eternalhorizon.cn/tags/Condition/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>solve problem: unable to correct problems, you have held broken packages</title>
-    <link href="http://eternalhorizon.cn/2019/11/04/solve-problem-unable-to-correct-problems-you-have-held-broken-packages/"/>
-    <id>http://eternalhorizon.cn/2019/11/04/solve-problem-unable-to-correct-problems-you-have-held-broken-packages/</id>
-    <published>2019-11-04T11:09:33.000Z</published>
-    <updated>2019-11-22T06:36:50.387Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;问题原因大多是因为依赖出问题。&lt;/p&gt;
-&lt;p&gt;最蛋疼的办法是&lt;/p&gt;
-&lt;pre class=&quot; language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Linux" scheme="http://eternalhorizon.cn/categories/Linux/"/>
-    
-    
-      <category term="Linux" scheme="http://eternalhorizon.cn/tags/Linux/"/>
-    
-      <category term="apt" scheme="http://eternalhorizon.cn/tags/apt/"/>
     
   </entry>
   

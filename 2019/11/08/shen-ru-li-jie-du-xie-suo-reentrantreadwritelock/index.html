@@ -550,7 +550,7 @@
 <p>其中<strong>EXCLUSIVE_MASK</strong>为:  <code>static final int EXCLUSIVE_MASK = (1 &lt;&lt; SHARED_SHIFT) - 1;</code>      EXCLUSIVE _MASK为1左移16位然后减1，即为0x0000FFFF。而exclusiveCount方法是将同步状态（state为int类型）与0x0000FFFF相与，即取同步状态的低16位。那么低16位代表什么呢？根据exclusiveCount方法的注释为独占式获取的次数即写锁被获取的次数，现在就可以得出来一个结论<strong>同步状态的低16位用来表示写锁的获取次数</strong>。同时还有一个方法值得我们注意：</p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">sharedCount</span><span class="token punctuation">(</span><span class="token keyword">int</span> c<span class="token punctuation">)</span>    <span class="token punctuation">{</span> <span class="token keyword">return</span> c <span class="token operator">>>></span> SHARED_SHIFT<span class="token punctuation">;</span> <span class="token punctuation">}</span></code></pre>
 <p>该方法是获取读锁被获取的次数，是将同步状态（int c）右移16次，即取同步状态的高16位，现在我们可以得出另外一个结论<strong>同步状态的高16位用来表示读锁被获取的次数</strong>。现在还记得我们开篇说的需要弄懂的第一个问题吗？读写锁是怎样实现分别记录读锁和写锁的状态的，现在这个问题的答案就已经被我们弄清楚了，其示意图如下图所示：</p>
-<p><img src="/.cn//%E8%AF%BB%E5%86%99%E9%94%81%E7%9A%84%E8%AF%BB%E5%86%99%E7%8A%B6%E6%80%81%E8%AE%BE%E8%AE%A1.png" alt="读写锁的读写状态设计.png"></p>
+<p><img src="/2019/11/08/shen-ru-li-jie-du-xie-suo-reentrantreadwritelock/%E8%AF%BB%E5%86%99%E9%94%81%E7%9A%84%E8%AF%BB%E5%86%99%E7%8A%B6%E6%80%81%E8%AE%BE%E8%AE%A1.png" alt="读写锁的读写状态设计.png"></p>
 <p>现在我们回过头来看写锁获取方法tryAcquire，其主要逻辑为：<strong>当读锁已经被读线程获取或者写锁已经被其他写线程获取，则写锁获取失败；否则，获取成功并支持重入，增加写状态。</strong></p>
 <h3 id="2-2-写锁的释放"><a href="#2-2-写锁的释放" class="headerlink" title="2.2.写锁的释放"></a>2.2.写锁的释放</h3><p>写锁释放通过重写AQS的tryRelease方法，源码为：</p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">protected</span> <span class="token keyword">final</span> <span class="token keyword">boolean</span> <span class="token function">tryRelease</span><span class="token punctuation">(</span><span class="token keyword">int</span> releases<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -1308,12 +1308,12 @@
                         <span class="chip bg-color">elasticsearch</span>
                     </a>
                     
-                    <a href="/tags/grafana/">
-                        <span class="chip bg-color">grafana</span>
-                    </a>
-                    
                     <a href="/tags/kibana/">
                         <span class="chip bg-color">kibana</span>
+                    </a>
+                    
+                    <a href="/tags/grafana/">
+                        <span class="chip bg-color">grafana</span>
                     </a>
                     
                     <a href="/tags/python/">

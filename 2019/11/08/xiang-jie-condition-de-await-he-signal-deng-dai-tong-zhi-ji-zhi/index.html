@@ -538,11 +538,11 @@ Node nextWaiter<span class="token punctuation">;</span></code></pre>
 <span class="token punctuation">}</span></code></pre>
 这段代码没有任何实际意义，甚至很臭，只是想说明下我们刚才所想的。新建了10个线程，每个线程先获取锁，然后调用condition.await方法释放锁将当前线程加入到等待队列中，通过debug控制当走到第10个线程的时候查看<code>firstWaiter</code>即等待队列中的头结点，debug模式下情景图如下：</li>
 </ol>
-<p><img src="/.cn//debug%E6%A8%A1%E5%BC%8F%E4%B8%8B%E6%83%85%E6%99%AF%E5%9B%BE.png" alt="debug模式下情景图"></p>
+<p><img src="/2019/11/08/xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi/debug%E6%A8%A1%E5%BC%8F%E4%B8%8B%E6%83%85%E6%99%AF%E5%9B%BE.png" alt="debug模式下情景图"></p>
 <p>从这个图我们可以很清楚的看到这样几点：1. 调用condition.await方法后线程依次尾插入到等待队列中，如图队列中的线程引用依次为Thread-0,Thread-1,Thread-2….Thread-8；2. 等待队列是一个单向队列。通过我们的猜想然后进行实验验证，我们可以得出等待队列的示意图如下图所示：</p>
-<p><img src="/.cn//debug%E6%A8%A1%E5%BC%8F%E4%B8%8B%E6%83%85%E6%99%AF%E5%9B%BE.png" alt="等待队列的示意图"></p>
+<p><img src="/2019/11/08/xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi/debug%E6%A8%A1%E5%BC%8F%E4%B8%8B%E6%83%85%E6%99%AF%E5%9B%BE.png" alt="等待队列的示意图"></p>
 <p>同时还有一点需要注意的是：我们可以多次调用lock.newCondition()方法创建多个condition对象，也就是一个lock可以持有多个等待队列。而在之前利用Object的方式实际上是指在<strong>对象Object对象监视器上只能拥有一个同步队列和一个等待队列，而并发包中的Lock拥有一个同步队列和多个等待队列</strong>。示意图如下：</p>
-<p><img src="/.cn//AQS%E6%8C%81%E6%9C%89%E5%A4%9A%E4%B8%AACondition.png" alt="AQS持有多个Condition.png"></p>
+<p><img src="/2019/11/08/xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi/AQS%E6%8C%81%E6%9C%89%E5%A4%9A%E4%B8%AACondition.png" alt="AQS持有多个Condition.png"></p>
 <p>如图所示，ConditionObject是AQS的内部类，因此每个ConditionObject能够访问到AQS提供的方法，相当于每个Condition都拥有所属同步器的引用。</p>
 <h3 id="2-2-await实现原理"><a href="#2-2-await实现原理" class="headerlink" title="2.2 await实现原理"></a>2.2 await实现原理</h3><p><strong>当调用condition.await()方法后会使得当前获取lock的线程进入到等待队列，如果该线程能够从await()方法返回的话一定是该线程获取了与condition相关联的lock</strong>。接下来，我们还是从源码的角度去看，只有熟悉了源码的逻辑我们的理解才是最深的。await()方法源码为：</p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">await</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> InterruptedException <span class="token punctuation">{</span>
@@ -613,7 +613,7 @@ Node nextWaiter<span class="token punctuation">;</span></code></pre>
         <span class="token keyword">break</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <p>很显然，当线程第一次调用condition.await()方法时，会进入到这个while()循环中，然后通过LockSupport.park(this)方法使得当前线程进入等待状态，那么要想退出这个await方法第一个前提条件自然而然的是要先退出这个while循环，出口就只剩下两个地方：<strong>1. 逻辑走到break退出while循环；2. while循环中的逻辑判断为false</strong>。再看代码出现第1种情况的条件是当前等待的线程被中断后代码会走到break退出，第二种情况是当前节点被移动到了同步队列中（即另外线程调用的condition的signal或者signalAll方法），while中逻辑判断为false后结束while循环。总结下，就是<strong>当前线程被中断或者调用condition.signal/condition.signalAll方法当前节点移动到了同步队列后</strong> ，这是当前线程退出await方法的前提条件。当退出while循环后就会调用<code>acquireQueued(node, savedState)</code>，这个方法在介绍AQS的底层实现时说过了，若感兴趣的话可以去<a href="http://eternalhorizon.cn/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/">看这篇文章</a>，该方法的作用是在<strong>自旋过程中线程不断尝试获取同步状态，直至成功（线程获取到lock）</strong>。这样也说明了<strong>退出await方法必须是已经获得了condition引用（关联）的lock</strong>。到目前为止，开头的三个问题我们通过阅读源码的方式已经完全找到了答案，也对await方法的理解加深。await方法示意图如下图：</p>
-<p><img src="/.cn//await%E6%96%B9%E6%B3%95%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="await方法示意图"></p>
+<p><img src="/2019/11/08/xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi/await%E6%96%B9%E6%B3%95%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="await方法示意图"></p>
 <p>如图，调用condition.await方法的线程必须是已经获得了lock，也就是当前线程是同步队列中的头结点。调用该方法后会使得当前线程所封装的Node尾插入到等待队列中。</p>
 <blockquote>
 <p>超时机制的支持</p>
@@ -680,7 +680,7 @@ Node nextWaiter<span class="token punctuation">;</span></code></pre>
     <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <p>关键逻辑请看注释，这段代码主要做了两件事情1.将头结点的状态更改为CONDITION；2.调用enq方法，将该节点尾插入到同步队列中，关于enq方法请看AQS的底层实现这篇文章。现在我们可以得出结论：<strong>调用condition的signal的前提条件是当前线程已经获取了lock，该方法会使得等待队列中的头节点即等待时间最长的那个节点移入到同步队列，而移入到同步队列后才有机会使得等待线程被唤醒，即从await方法中的LockSupport.park(this)方法中返回，从而才有机会使得调用await方法的线程成功退出</strong>。signal执行示意图如下图：</p>
-<p><img src="/.cn//signal%E6%89%A7%E8%A1%8C%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="signal执行示意图"></p>
+<p><img src="/2019/11/08/xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi/signal%E6%89%A7%E8%A1%8C%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="signal执行示意图"></p>
 <blockquote>
 <p>signalAll</p>
 </blockquote>
@@ -696,7 +696,7 @@ Node nextWaiter<span class="token punctuation">;</span></code></pre>
 <span class="token punctuation">}</span></code></pre>
 <p>该方法只不过时间等待队列中的每一个节点都移入到同步队列中，即“通知”当前调用condition.await()方法的每一个线程。</p>
 <h2 id="3-await与signal-signalAll的结合思考"><a href="#3-await与signal-signalAll的结合思考" class="headerlink" title="3. await与signal/signalAll的结合思考"></a>3. await与signal/signalAll的结合思考</h2><p>文章开篇提到等待/通知机制，通过使用condition提供的await和signal/signalAll方法就可以实现这种机制，而这种机制能够解决最经典的问题就是“生产者与消费者问题”，关于“生产者消费者问题”之后会用单独的一篇文章进行讲解，这也是面试的高频考点。await和signal和signalAll方法就像一个开关控制着线程A（等待方）和线程B（通知方）。它们之间的关系可以用下面一个图来表现得更加贴切：</p>
-<p><img src="/.cn//condition%E4%B8%8B%E7%9A%84%E7%AD%89%E5%BE%85%E9%80%9A%E7%9F%A5%E6%9C%BA%E5%88%B6.png" alt="condition下的等待通知机制.png"></p>
+<p><img src="/2019/11/08/xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi/condition%E4%B8%8B%E7%9A%84%E7%AD%89%E5%BE%85%E9%80%9A%E7%9F%A5%E6%9C%BA%E5%88%B6.png" alt="condition下的等待通知机制.png"></p>
 <p>如图，<strong>线程awaitThread先通过lock.lock()方法获取锁成功后调用了condition.await方法进入等待队列，而另一个线程signalThread通过lock.lock()方法获取锁成功后调用了condition.signal或者signalAll方法，使得线程awaitThread能够有机会移入到同步队列中，当其他线程释放lock后使得线程awaitThread能够有机会获取lock，从而使得线程awaitThread能够从await方法中退出执行后续操作。如果awaitThread获取lock失败会直接进入到同步队列</strong>。</p>
 <h2 id="4-一个例子"><a href="#4-一个例子" class="headerlink" title="4. 一个例子"></a>4. 一个例子</h2><p>我们用一个很简单的例子说说condition的用法：</p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AwaitSignal</span> <span class="token punctuation">{</span>

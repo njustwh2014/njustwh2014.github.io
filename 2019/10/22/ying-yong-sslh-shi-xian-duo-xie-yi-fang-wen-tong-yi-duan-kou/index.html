@@ -508,7 +508,7 @@ openssl req -new -x509 -key cert.key -out cert.pem -days 3650</code></pre>
 <pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span> /etc/nginx/conf.d
 <span class="token function">ls</span></code></pre>
 <ul>
-<li><p>修改default.conf localhost:80<br><img src="/.cn//1.png" alt="default.conf"></p>
+<li><p>修改default.conf localhost:80<br><img src="/2019/10/22/ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou/1.png" alt="default.conf"></p>
 </li>
 <li><p>新建sslh.conf</p>
 <pre class=" language-bash"><code class="language-bash">vim sslh.conf
@@ -577,7 +577,7 @@ protocols:
 <p>现在我们准备在443端口上启动sslh，提供HTTPS和SSH的协议转发</p>
 <pre class=" language-bash"><code class="language-bash">systemctl start sslh
 systemctl status sslh -l</code></pre>
-<p><img src="/.cn//2.png" alt="sslh启动状态"></p>
+<p><img src="/2019/10/22/ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou/2.png" alt="sslh启动状态"></p>
 <h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>在另一台可以ping到该服务器的机器上</p>
 <pre class=" language-bash"><code class="language-bash"><span class="token function">ssh</span> 10.206.210.235 -p 443</code></pre>
 <p>浏览器访问：</p>
@@ -1130,12 +1130,12 @@ systemctl status sslh -l</code></pre>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Java/">
-                        <span class="chip bg-color">Java</span>
-                    </a>
-                    
                     <a href="/tags/redis/">
                         <span class="chip bg-color">redis</span>
+                    </a>
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
                     </a>
                     
                     <a href="/tags/mysql/">

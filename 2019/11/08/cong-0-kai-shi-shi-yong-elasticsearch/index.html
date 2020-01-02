@@ -437,12 +437,12 @@
                                 <span class="chip bg-color">elasticsearch</span>
                             </a>
                         
-                            <a href="/tags/grafana/">
-                                <span class="chip bg-color">grafana</span>
-                            </a>
-                        
                             <a href="/tags/kibana/">
                                 <span class="chip bg-color">kibana</span>
+                            </a>
+                        
+                            <a href="/tags/grafana/">
+                                <span class="chip bg-color">grafana</span>
                             </a>
                         
                             <a href="/tags/python/">
@@ -503,15 +503,15 @@
 <ul>
 <li>首先监测Backup文件夹，由于公司lab环境和office环境ping不通，我利用我在公司个人文件夹，监测Backup文件夹，当有新的文件传入，会复制到我的个人文件夹data内。</li>
 </ul>
-<p><img src="/.cn//backup%E6%88%AA%E5%9B%BE.png" alt="Backup截图"></p>
-<p><img src="/.cn//data%E6%88%AA%E5%9B%BE.png" alt="Backup截图"></p>
+<p><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/backup%E6%88%AA%E5%9B%BE.png" alt="Backup截图"></p>
+<p><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/data%E6%88%AA%E5%9B%BE.png" alt="Backup截图"></p>
 <ul>
 <li><p>同样原理，这时就可以进入lab环境开发，由于我一开始在windows上写的Java代码，所以是在windows上进行解压缩，解析，以及发送解析后的json文件到elasticsearch所在的centos服务器上，其实没必要这样，建议后面改为解压缩解析都在centos服务器上，当然更好的是在获得源文件时不需要压缩直接解析上传至elasticsearch.</p>
 </li>
 <li><p>我在Centos服务器上写了个脚本，当有json文件上传至服务器，就上传到elasticsearch</p>
 </li>
 </ul>
-<h2 id="Java代码后期只需要修改配置文件即可"><a href="#Java代码后期只需要修改配置文件即可" class="headerlink" title="Java代码后期只需要修改配置文件即可"></a>Java代码后期只需要修改配置文件即可</h2><p><img src="/.cn//%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3.png" alt="配置文件详解"></p>
+<h2 id="Java代码后期只需要修改配置文件即可"><a href="#Java代码后期只需要修改配置文件即可" class="headerlink" title="Java代码后期只需要修改配置文件即可"></a>Java代码后期只需要修改配置文件即可</h2><p><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3.png" alt="配置文件详解"></p>
 <h2 id="ElasticSearch"><a href="#ElasticSearch" class="headerlink" title="ElasticSearch"></a>ElasticSearch</h2><p>关于elk安装配置，在windows上总是会出现各种问题，这里我完全参考了这个<a href="https://www.howtoing.com/how-to-install-elasticsearch-logstash-and-kibana-elastic-stack-on-centos-7" target="_blank" rel="noopener">教程</a>在centos下进行安装配置。大家也可以跟着教程安装配置。</p>
 <p>此次项目，我建立的索引如下：</p>
 <pre class=" language-bash"><code class="language-bash">curl -X PUT <span class="token string">"localhost:9200/acinfoindex?pretty"</span> -H <span class="token string">'Content-Type: application/json'</span> -d<span class="token string">'
@@ -548,7 +548,7 @@
   }
 }
 '</span></code></pre>
-<p><img src="/.cn//%E7%B4%A2%E5%BC%95%E8%AF%A6%E8%A7%A3.png" alt="索引详解"></p>
+<p><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/%E7%B4%A2%E5%BC%95%E8%AF%A6%E8%A7%A3.png" alt="索引详解"></p>
 <h2 id="上传数据至elasticsearch"><a href="#上传数据至elasticsearch" class="headerlink" title="上传数据至elasticsearch"></a>上传数据至elasticsearch</h2><pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> os
 <span class="token keyword">import</span> pyinotify
 
@@ -570,27 +570,27 @@ notifier<span class="token operator">=</span>pyinotify<span class="token punctua
 
 wm<span class="token punctuation">.</span>add_watch<span class="token punctuation">(</span><span class="token string">'/home/huanhuan/data'</span><span class="token punctuation">,</span>multi_event<span class="token punctuation">)</span>
 notifier<span class="token punctuation">.</span>loop<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
-<p><img src="/.cn//codepython.png" alt="重要就上传的一句话"></p>
+<p><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/codepython.png" alt="重要就上传的一句话"></p>
 <h2 id="如何在Kibana上查看我们上传的数据"><a href="#如何在Kibana上查看我们上传的数据" class="headerlink" title="如何在Kibana上查看我们上传的数据"></a>如何在Kibana上查看我们上传的数据</h2><blockquote>
-<p>查看数据是否上传成功<br><img src="/.cn//uploadsuccess.png" alt></p>
+<p>查看数据是否上传成功<br><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/uploadsuccess.png" alt></p>
 </blockquote>
 <blockquote>
-<p>建立Index Pattern<br><img src="/.cn//indexstep1.png" alt><br><img src="/.cn//indexstep2.png" alt><br><img src="/.cn//indexstep3.png" alt></p>
+<p>建立Index Pattern<br><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/indexstep1.png" alt><br><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/indexstep2.png" alt><br><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/indexstep3.png" alt></p>
 </blockquote>
 <blockquote>
-<p>Discover中查看数据，大家以后检验数据是否正确，可以在这里搜索查看。<br><img src="/.cn//indexstep4.png" alt></p>
+<p>Discover中查看数据，大家以后检验数据是否正确，可以在这里搜索查看。<br><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/indexstep4.png" alt></p>
 </blockquote>
 <h2 id="grafana"><a href="#grafana" class="headerlink" title="grafana"></a>grafana</h2><p><a href="https://www.aiprose.com/blog/26" target="_blank" rel="noopener">安装教程</a></p>
 <p><a href="http://docs.flycloud.me/docs/ELKStack/elasticsearch/other/grafana.html" target="_blank" rel="noopener">官方教程</a></p>
-<h3 id="添加datasource"><a href="#添加datasource" class="headerlink" title="添加datasource"></a>添加datasource</h3><p><img src="/.cn//grafanadatasource1.png" alt></p>
+<h3 id="添加datasource"><a href="#添加datasource" class="headerlink" title="添加datasource"></a>添加datasource</h3><p><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/grafanadatasource1.png" alt></p>
 <p>具体添加elasticsearch就不赘述了,<a href="http://docs.flycloud.me/docs/ELKStack/elasticsearch/other/grafana.html" target="_blank" rel="noopener">教程</a>中有。</p>
-<h3 id="怎么在table中添加全局变量"><a href="#怎么在table中添加全局变量" class="headerlink" title="怎么在table中添加全局变量"></a>怎么在table中添加全局变量</h3><p><img src="/.cn//grafanavar1.png" alt><br><img src="/.cn//grafanavar2.png" alt><br><img src="/.cn//grafanavar3.png" alt><br><img src="/.cn//grafanavar4.png" alt></p>
+<h3 id="怎么在table中添加全局变量"><a href="#怎么在table中添加全局变量" class="headerlink" title="怎么在table中添加全局变量"></a>怎么在table中添加全局变量</h3><p><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/grafanavar1.png" alt><br><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/grafanavar2.png" alt><br><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/grafanavar3.png" alt><br><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/grafanavar4.png" alt></p>
 <h3 id="怎么添加一个graph等等"><a href="#怎么添加一个graph等等" class="headerlink" title="怎么添加一个graph等等"></a>怎么添加一个graph等等</h3><p>参考<a href="http://docs.flycloud.me/docs/ELKStack/elasticsearch/other/grafana.html" target="_blank" rel="noopener">教程</a>。</p>
 <blockquote>
-<p>table<br><img src="/.cn//grafanatable1.png" alt><br><img src="/.cn//grafanatable2.png" alt></p>
+<p>table<br><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/grafanatable1.png" alt><br><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/grafanatable2.png" alt></p>
 </blockquote>
 <blockquote>
-<p>graph<br><img src="/.cn//grafanagraph1.png" alt><br><img src="/.cn//grafanagraph2.png" alt></p>
+<p>graph<br><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/grafanagraph1.png" alt><br><img src="/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/grafanagraph2.png" alt></p>
 </blockquote>
 
             </div>
@@ -663,12 +663,12 @@ notifier<span class="token punctuation">.</span>loop<span class="token punctuati
                                     <span class="chip bg-color">elasticsearch</span>
                                 </a>
                             
-                                <a href="/tags/grafana/">
-                                    <span class="chip bg-color">grafana</span>
-                                </a>
-                            
                                 <a href="/tags/kibana/">
                                     <span class="chip bg-color">kibana</span>
+                                </a>
+                            
+                                <a href="/tags/grafana/">
+                                    <span class="chip bg-color">grafana</span>
                                 </a>
                             
                                 <a href="/tags/python/">
