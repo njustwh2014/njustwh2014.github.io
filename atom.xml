@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://eternalhorizon.cn/"/>
-  <updated>2019-11-25T07:44:29.792Z</updated>
+  <updated>2020-01-02T01:17:12.538Z</updated>
   <id>http://eternalhorizon.cn/</id>
   
   <author>
@@ -17,11 +17,228 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Java基础复习笔记</title>
+    <link href="http://eternalhorizon.cn/2019/12/11/java-ji-chu-fu-xi-bi-ji/"/>
+    <id>http://eternalhorizon.cn/2019/12/11/java-ji-chu-fu-xi-bi-ji/</id>
+    <published>2019-12-11T08:50:16.000Z</published>
+    <updated>2020-01-02T01:17:12.538Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;数据类型&quot;&gt;&lt;a href=&quot;#数据类型&quot; class=&quot;headerlink&quot; title=&quot;数据类型&quot;&gt;&lt;/a&gt;数据类型&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;new Integer(123)&lt;/code&gt; 与
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="http://eternalhorizon.cn/categories/Java/"/>
+    
+    
+      <category term="-Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>并发容器之ConcurrentLinkedQueue</title>
+    <link href="http://eternalhorizon.cn/2019/12/08/bing-fa-rong-qi-zhi-concurrentlinkedqueue/"/>
+    <id>http://eternalhorizon.cn/2019/12/08/bing-fa-rong-qi-zhi-concurrentlinkedqueue/</id>
+    <published>2019-12-08T05:47:45.000Z</published>
+    <updated>2019-12-08T05:54:28.565Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;1-ConcurrentLinkedQueue简介&quot;&gt;&lt;a href=&quot;#1-ConcurrentLinkedQueue简介&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>并发容器之ConcurrentHashMap(JDK 1.8版本)</title>
+    <link href="http://eternalhorizon.cn/2019/12/06/bing-fa-rong-qi-zhi-concurrenthashmap-jdk-1-8-ban-ben/"/>
+    <id>http://eternalhorizon.cn/2019/12/06/bing-fa-rong-qi-zhi-concurrenthashmap-jdk-1-8-ban-ben/</id>
+    <published>2019-12-06T05:57:43.000Z</published>
+    <updated>2019-12-08T05:43:15.788Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/njustwh2014/MyJavaRepo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;我的github项目，有一些代码示例&lt;/a&gt; forked from &lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Concurrent" scheme="http://eternalhorizon.cn/categories/Concurrent/"/>
+    
+    
+      <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
+    
+      <category term="Concurrent" scheme="http://eternalhorizon.cn/tags/Concurrent/"/>
+    
+      <category term="HashMap" scheme="http://eternalhorizon.cn/tags/HashMap/"/>
+    
+      <category term="ConcurrentHashMap" scheme="http://eternalhorizon.cn/tags/ConcurrentHashMap/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java中的Cloneable和Serializable接口思考</title>
+    <link href="http://eternalhorizon.cn/2019/12/06/java-zhong-de-cloneable-he-serializable-jie-kou-si-kao/"/>
+    <id>http://eternalhorizon.cn/2019/12/06/java-zhong-de-cloneable-he-serializable-jie-kou-si-kao/</id>
+    <published>2019-12-06T01:57:06.000Z</published>
+    <updated>2019-12-08T05:43:15.780Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;Cloneable接口&quot;&gt;&lt;a href=&quot;#Cloneable接口&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="http://eternalhorizon.cn/categories/Java/"/>
+    
+    
+      <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
+    
+      <category term="Cloneable" scheme="http://eternalhorizon.cn/tags/Cloneable/"/>
+    
+      <category term="Serializable" scheme="http://eternalhorizon.cn/tags/Serializable/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>LockSupport工具</title>
+    <link href="http://eternalhorizon.cn/2019/12/05/locksupport-gong-ju/"/>
+    <id>http://eternalhorizon.cn/2019/12/05/locksupport-gong-ju/</id>
+    <published>2019-12-05T08:50:12.000Z</published>
+    <updated>2019-12-08T05:43:15.781Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;a href=&quot;https://github.com/njustwh2014/MyJavaRepo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;我的github项目，有一些代码示例&lt;/a&gt; forked from &lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Concurrent" scheme="http://eternalhorizon.cn/categories/Concurrent/"/>
+    
+    
+      <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
+    
+      <category term="Concurrent" scheme="http://eternalhorizon.cn/tags/Concurrent/"/>
+    
+      <category term="AQS" scheme="http://eternalhorizon.cn/tags/AQS/"/>
+    
+      <category term="Lock" scheme="http://eternalhorizon.cn/tags/Lock/"/>
+    
+      <category term="Condition" scheme="http://eternalhorizon.cn/tags/Condition/"/>
+    
+      <category term="ReentrantLock" scheme="http://eternalhorizon.cn/tags/ReentrantLock/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>centos上部署docker、java、nginx、elasticsearch</title>
+    <link href="http://eternalhorizon.cn/2019/12/05/centos-shang-bu-shu-docker-java-nginx-elasticsearch/"/>
+    <id>http://eternalhorizon.cn/2019/12/05/centos-shang-bu-shu-docker-java-nginx-elasticsearch/</id>
+    <published>2019-12-05T02:00:46.000Z</published>
+    <updated>2019-12-08T05:43:15.782Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;安装centos6&quot;&gt;&lt;a href=&quot;#安装centos6&quot; class=&quot;headerlink&quot; title=&quot;安装centos6&quot;&gt;&lt;/a&gt;安装centos6&lt;/h2&gt;&lt;pre class=&quot; language-bash&quot;&gt;&lt;code
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Centos" scheme="http://eternalhorizon.cn/categories/Centos/"/>
+    
+    
+      <category term="docker" scheme="http://eternalhorizon.cn/tags/docker/"/>
+    
+      <category term="java" scheme="http://eternalhorizon.cn/tags/java/"/>
+    
+      <category term="nginx" scheme="http://eternalhorizon.cn/tags/nginx/"/>
+    
+      <category term="elasticsearch" scheme="http://eternalhorizon.cn/tags/elasticsearch/"/>
+    
+      <category term="vue" scheme="http://eternalhorizon.cn/tags/vue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>docker中使用grafana</title>
+    <link href="http://eternalhorizon.cn/2019/11/28/docker-zhong-shi-yong-grafana/"/>
+    <id>http://eternalhorizon.cn/2019/11/28/docker-zhong-shi-yong-grafana/</id>
+    <published>2019-11-28T05:54:07.000Z</published>
+    <updated>2019-12-08T05:43:15.784Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;查看grafana镜像&quot;&gt;&lt;a href=&quot;#查看grafana镜像&quot; class=&quot;headerlink&quot; title=&quot;查看grafana镜像&quot;&gt;&lt;/a&gt;查看grafana镜像&lt;/h2&gt;&lt;pre class=&quot; language-bash&quot;&gt;&lt;code
+        
+      
+    
+    </summary>
+    
+    
+      <category term="docker" scheme="http://eternalhorizon.cn/categories/docker/"/>
+    
+    
+      <category term="docker" scheme="http://eternalhorizon.cn/tags/docker/"/>
+    
+      <category term="grafana" scheme="http://eternalhorizon.cn/tags/grafana/"/>
+    
+  </entry>
+  
+  <entry>
     <title>docker中使用kibana</title>
     <link href="http://eternalhorizon.cn/2019/11/22/docker-zhong-shi-yong-kibana/"/>
     <id>http://eternalhorizon.cn/2019/11/22/docker-zhong-shi-yong-kibana/</id>
     <published>2019-11-22T06:38:21.000Z</published>
-    <updated>2019-11-25T07:44:29.792Z</updated>
+    <updated>2019-12-08T05:43:15.785Z</updated>
     
     <summary type="html">
     
@@ -50,7 +267,7 @@
     <link href="http://eternalhorizon.cn/2019/11/20/docker-zhong-shi-yong-elasticsearch/"/>
     <id>http://eternalhorizon.cn/2019/11/20/docker-zhong-shi-yong-elasticsearch/</id>
     <published>2019-11-20T06:36:43.000Z</published>
-    <updated>2019-11-25T07:37:58.091Z</updated>
+    <updated>2019-12-08T05:43:15.784Z</updated>
     
     <summary type="html">
     
@@ -97,11 +314,11 @@
       <category term="Concurrent" scheme="http://eternalhorizon.cn/categories/Concurrent/"/>
     
     
-      <category term="redis" scheme="http://eternalhorizon.cn/tags/redis/"/>
-    
       <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
     
       <category term="Concurrent" scheme="http://eternalhorizon.cn/tags/Concurrent/"/>
+    
+      <category term="redis" scheme="http://eternalhorizon.cn/tags/redis/"/>
     
       <category term="mysql" scheme="http://eternalhorizon.cn/tags/mysql/"/>
     
@@ -168,9 +385,9 @@
       <category term="Centos" scheme="http://eternalhorizon.cn/categories/Centos/"/>
     
     
-      <category term="Centos" scheme="http://eternalhorizon.cn/tags/Centos/"/>
-    
       <category term="mysql" scheme="http://eternalhorizon.cn/tags/mysql/"/>
+    
+      <category term="Centos" scheme="http://eternalhorizon.cn/tags/Centos/"/>
     
   </entry>
   
@@ -296,13 +513,13 @@
       <category term="elasticsearch" scheme="http://eternalhorizon.cn/categories/elasticsearch/"/>
     
     
-      <category term="elasticsearch" scheme="http://eternalhorizon.cn/tags/elasticsearch/"/>
+      <category term="java" scheme="http://eternalhorizon.cn/tags/java/"/>
     
-      <category term="kibana" scheme="http://eternalhorizon.cn/tags/kibana/"/>
+      <category term="elasticsearch" scheme="http://eternalhorizon.cn/tags/elasticsearch/"/>
     
       <category term="grafana" scheme="http://eternalhorizon.cn/tags/grafana/"/>
     
-      <category term="java" scheme="http://eternalhorizon.cn/tags/java/"/>
+      <category term="kibana" scheme="http://eternalhorizon.cn/tags/kibana/"/>
     
       <category term="python" scheme="http://eternalhorizon.cn/tags/python/"/>
     
@@ -450,233 +667,6 @@
       <category term="Linux" scheme="http://eternalhorizon.cn/tags/Linux/"/>
     
       <category term="apt" scheme="http://eternalhorizon.cn/tags/apt/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>初识Lock和AbstractQueuedSynchronizer(AQS)</title>
-    <link href="http://eternalhorizon.cn/2019/11/04/chu-shi-lock-he-abstractqueuedsynchronizer-aqs/"/>
-    <id>http://eternalhorizon.cn/2019/11/04/chu-shi-lock-he-abstractqueuedsynchronizer-aqs/</id>
-    <published>2019-11-04T07:35:52.000Z</published>
-    <updated>2019-11-22T06:36:50.404Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;&lt;a href=&quot;https://github.com/njustwh2014/MyJavaRepo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;我的github项目，有一些代码示例&lt;/a&gt; forked from &lt;a
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Concurrent" scheme="http://eternalhorizon.cn/categories/Concurrent/"/>
-    
-    
-      <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
-    
-      <category term="Concurrent" scheme="http://eternalhorizon.cn/tags/Concurrent/"/>
-    
-      <category term="AQS" scheme="http://eternalhorizon.cn/tags/AQS/"/>
-    
-      <category term="Lock" scheme="http://eternalhorizon.cn/tags/Lock/"/>
-    
-      <category term="Condition" scheme="http://eternalhorizon.cn/tags/Condition/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>一次简单的elasticsearch使用</title>
-    <link href="http://eternalhorizon.cn/2019/10/30/yi-ci-jian-dan-de-elasticsearch-shi-yong/"/>
-    <id>http://eternalhorizon.cn/2019/10/30/yi-ci-jian-dan-de-elasticsearch-shi-yong/</id>
-    <published>2019-10-30T06:52:29.000Z</published>
-    <updated>2019-11-22T06:36:50.400Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;System-structure&quot;&gt;&lt;a href=&quot;#System-structure&quot; class=&quot;headerlink&quot; title=&quot;System structure&quot;&gt;&lt;/a&gt;System structure&lt;/h2&gt;&lt;p&gt;&lt;img
-        
-      
-    
-    </summary>
-    
-    
-      <category term="elasticsearch" scheme="http://eternalhorizon.cn/categories/elasticsearch/"/>
-    
-    
-      <category term="elasticsearch" scheme="http://eternalhorizon.cn/tags/elasticsearch/"/>
-    
-      <category term="grafana" scheme="http://eternalhorizon.cn/tags/grafana/"/>
-    
-      <category term="java" scheme="http://eternalhorizon.cn/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java中正则表达式使用</title>
-    <link href="http://eternalhorizon.cn/2019/10/28/java-zhong-zheng-ze-biao-da-shi-shi-yong/"/>
-    <id>http://eternalhorizon.cn/2019/10/28/java-zhong-zheng-ze-biao-da-shi-shi-yong/</id>
-    <published>2019-10-28T03:15:43.000Z</published>
-    <updated>2019-11-22T06:36:50.372Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;什么是正则表达式&quot;&gt;&lt;a href=&quot;#什么是正则表达式&quot; class=&quot;headerlink&quot; title=&quot;什么是正则表达式&quot;&gt;&lt;/a&gt;什么是正则表达式&lt;/h2&gt;&lt;p&gt;正则表达式是一个定义&lt;strong&gt;搜索模式&lt;/strong&gt;的字符串。&lt;/p&gt;
-&lt;h2
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Java" scheme="http://eternalhorizon.cn/categories/Java/"/>
-    
-    
-      <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
-    
-      <category term="Regex" scheme="http://eternalhorizon.cn/tags/Regex/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>我的网站开发经历与Java学习心路历程</title>
-    <link href="http://eternalhorizon.cn/2019/10/22/wo-de-wang-zhan-kai-fa-jing-li-yu-java-xue-xi-xin-lu-li-cheng/"/>
-    <id>http://eternalhorizon.cn/2019/10/22/wo-de-wang-zhan-kai-fa-jing-li-yu-java-xue-xi-xin-lu-li-cheng/</id>
-    <published>2019-10-22T02:36:59.000Z</published>
-    <updated>2019-11-22T06:36:50.410Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;网站介绍&quot;&gt;&lt;a href=&quot;#网站介绍&quot; class=&quot;headerlink&quot; title=&quot;网站介绍&quot;&gt;&lt;/a&gt;网站介绍&lt;/h2&gt;&lt;h3 id=&quot;功能介绍&quot;&gt;&lt;a href=&quot;#功能介绍&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Java" scheme="http://eternalhorizon.cn/categories/Java/"/>
-    
-    
-      <category term="redis" scheme="http://eternalhorizon.cn/tags/redis/"/>
-    
-      <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
-    
-      <category term="mysql" scheme="http://eternalhorizon.cn/tags/mysql/"/>
-    
-      <category term="Spring" scheme="http://eternalhorizon.cn/tags/Spring/"/>
-    
-      <category term="JavaScript" scheme="http://eternalhorizon.cn/tags/JavaScript/"/>
-    
-      <category term="Vue" scheme="http://eternalhorizon.cn/tags/Vue/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>应用sslh实现多协议访问同一端口</title>
-    <link href="http://eternalhorizon.cn/2019/10/22/ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou/"/>
-    <id>http://eternalhorizon.cn/2019/10/22/ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou/</id>
-    <published>2019-10-22T01:05:12.000Z</published>
-    <updated>2019-11-22T06:36:50.407Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;什么是SSLH&quot;&gt;&lt;a href=&quot;#什么是SSLH&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="计算机网络" scheme="http://eternalhorizon.cn/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-    
-      <category term="Https" scheme="http://eternalhorizon.cn/tags/Https/"/>
-    
-      <category term="SSLH" scheme="http://eternalhorizon.cn/tags/SSLH/"/>
-    
-      <category term="SSH" scheme="http://eternalhorizon.cn/tags/SSH/"/>
-    
-      <category term="Nginx" scheme="http://eternalhorizon.cn/tags/Nginx/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>如何在Hexo博客中插入图片</title>
-    <link href="http://eternalhorizon.cn/2019/10/21/ru-he-zai-hexo-bo-ke-zhong-cha-ru-tu-pian/"/>
-    <id>http://eternalhorizon.cn/2019/10/21/ru-he-zai-hexo-bo-ke-zhong-cha-ru-tu-pian/</id>
-    <published>2019-10-21T01:34:33.000Z</published>
-    <updated>2019-10-22T13:33:37.523Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;在hexo博客中插入图片有好几种方法，但本着markdown语言所见即所得的原则，本文选择一种插件方式来显示图片。由于hexo在生成页面时会对文件路径前加入时间，所以直接使用markdown插入图片的方式是不可行的。&lt;/p&gt;
-&lt;p&gt;参考大佬的插件：&lt;a
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Hexo" scheme="http://eternalhorizon.cn/categories/Hexo/"/>
-    
-    
-      <category term="hexo-asset-image" scheme="http://eternalhorizon.cn/tags/hexo-asset-image/"/>
-    
-      <category term="hexo" scheme="http://eternalhorizon.cn/tags/hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>valine评论组件使用</title>
-    <link href="http://eternalhorizon.cn/2019/10/20/valine-ping-lun-zu-jian-shi-yong/"/>
-    <id>http://eternalhorizon.cn/2019/10/20/valine-ping-lun-zu-jian-shi-yong/</id>
-    <published>2019-10-20T09:17:56.000Z</published>
-    <updated>2019-10-22T13:33:37.523Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;安装依赖&quot;&gt;&lt;a href=&quot;#安装依赖&quot; class=&quot;headerlink&quot; title=&quot;安装依赖&quot;&gt;&lt;/a&gt;安装依赖&lt;/h2&gt;&lt;pre class=&quot; language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Hexo" scheme="http://eternalhorizon.cn/categories/Hexo/"/>
-    
-    
-      <category term="Hexo" scheme="http://eternalhorizon.cn/tags/Hexo/"/>
-    
-      <category term="配置" scheme="http://eternalhorizon.cn/tags/%E9%85%8D%E7%BD%AE/"/>
-    
-      <category term="valine" scheme="http://eternalhorizon.cn/tags/valine/"/>
     
   </entry>
   

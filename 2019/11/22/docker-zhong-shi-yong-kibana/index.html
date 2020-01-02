@@ -459,7 +459,7 @@ docker images
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        67
+                        74
                     </div>
                     
 
@@ -484,7 +484,7 @@ docker images
             <div id="articleContent">
                 <h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><pre class=" language-bash"><code class="language-bash">docker pull docker.elastic.co/kibana/kibana:6.5.2
 docker images</code></pre>
-<h2 id="启动镜像"><a href="#启动镜像" class="headerlink" title="启动镜像"></a>启动镜像</h2><pre class=" language-bash"><code class="language-bash">docker run -it -d -e ELASTICSEARCH_URL<span class="token operator">=</span>http://127.0.0.1:9200 --name kibana --network<span class="token operator">=</span>container:elasticsearch kibana</code></pre>
+<h2 id="启动镜像"><a href="#启动镜像" class="headerlink" title="启动镜像"></a>启动镜像</h2><pre class=" language-bash"><code class="language-bash">docker run -it -d -e ELASTICSEARCH_URL<span class="token operator">=</span>http://127.0.0.1:9200 --name kibana --network<span class="token operator">=</span>container:elasticsearch docker.elastic.co/kibana/kibana:6.5.2</code></pre>
 <blockquote>
 <p>–network 指定容器共享elasticsearch容器的网络栈 (使用了–network 就不能使用-p 来暴露端口)</p>
 </blockquote>
@@ -981,32 +981,31 @@ docker images</code></pre>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/11/22/docker-zhong-shi-yong-kibana/">
+                <a href="/2019/11/28/docker-zhong-shi-yong-grafana/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="docker中使用kibana">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="docker中使用grafana">
                         
-                        <span class="card-title">docker中使用kibana</span>
+                        <span class="card-title">docker中使用grafana</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            拉取镜像docker pull docker.elastic.co/kibana/kibana:6.5.2
-docker images
-启动镜像docker run -it -d -e ELASTICSEARCH_URL=http://12
+                            查看grafana镜像docker search grafana
+拉取grafana镜像docker pull grafana/grafana:latest
+运行镜像docker run -d -p 3000:3000 --name=gra
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-11-22
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-11-28
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1019,7 +1018,6 @@ docker images
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
@@ -1027,8 +1025,8 @@ docker images
                         <span class="chip bg-color">docker</span>
                     </a>
                     
-                    <a href="/tags/kibana/">
-                        <span class="chip bg-color">kibana</span>
+                    <a href="/tags/grafana/">
+                        <span class="chip bg-color">grafana</span>
                     </a>
                     
                 </div>
@@ -1056,7 +1054,7 @@ docker images
                         
                             拉取镜像docker pull elasticsearch:6.5.0
 docker images
-启动容器docker run -d -p 9200:9200 -p 9300:9300 -p 9200:9200 -p 5601:5601 
+启动容器docker run -d  -p 9300:9300 -p 9200:9200 -p 5601:5601 --name elast
                         
                     </div>
                     <div class="publish-info">
@@ -1234,7 +1232,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">25.1k</span>&nbsp;字
+                class="white-color">43.4k</span>&nbsp;字
             
             
             
