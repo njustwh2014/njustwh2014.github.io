@@ -483,7 +483,7 @@ leetcode刷题
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        203
+                        277
                     </div>
                     
 
@@ -521,17 +521,36 @@ leetcode刷题
 <p>leetcode刷题</p>
 </blockquote>
 <h2 id="网站重新部署和优化工作"><a href="#网站重新部署和优化工作" class="headerlink" title="网站重新部署和优化工作"></a>网站重新部署和优化工作</h2><h3 id="redis安装部署备忘"><a href="#redis安装部署备忘" class="headerlink" title="redis安装部署备忘"></a>redis安装部署备忘</h3><p>redis安装在130机器</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 运行服务for windows</span>
-docker run -it --name redis -v F:/codeHub/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf -v F:/codeHub/docker/redis/data:/data -d -p 6379:6379 redis:latest /bin/bash
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 运行服务</span>
+docker run -it --name redis -v /root/wanghuan/docker/redis/cfg/redis.conf:/usr/local/etc/redis/redis.conf -v /root/wanghuan/docker/redis/data:/data -d -p 6379:6379 redis:latest /bin/bash
 
-<span class="token comment" spellcheck="true"># 运行服务 </span>
-docker run -it --name redis -v /home/huanhuan/myweb/redisdata/redis.conf:/usr/local/etc/redis/redis.conf -v /home/huanhuan/myweb/redisdata/data:/data -d -p 6379:6379 redis:latest /bin/bash
 <span class="token comment" spellcheck="true"># 进入容器</span>
 docker <span class="token function">exec</span> -it redis <span class="token function">bash</span>
 <span class="token comment" spellcheck="true"># 加载配置</span>
 redis-server /usr/local/etc/redis/redis.conf
 <span class="token comment" spellcheck="true"># 测试连接</span>
 redis-cli -a wanghuan</code></pre>
+<blockquote>
+<p>tips: redis desktop manager for free: <a href="https://github.com/qishibo/AnotherRedisDesktopManager/" target="_blank" rel="noopener">https://github.com/qishibo/AnotherRedisDesktopManager/</a></p>
+</blockquote>
+<h3 id="mysql安装部署备忘"><a href="#mysql安装部署备忘" class="headerlink" title="mysql安装部署备忘"></a>mysql安装部署备忘</h3><p>mysql安装在130机器</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># pull image</span>
+docker pull mysql:latest
+<span class="token comment" spellcheck="true"># run</span>
+docker run --name mysql-mstc -v /root/wanghuan/docker/mysql/data:/data -e MYSQL_ROOT_PASSWORD<span class="token operator">=</span>123456 -d -i -p 3306:3306 --restart<span class="token operator">=</span>always  mysql:latest
+
+<span class="token comment" spellcheck="true"># 导出sql文件</span>
+mysqldump -u root -p seumstc <span class="token operator">></span> F:/seumstc.sql
+<span class="token comment" spellcheck="true"># docker容器内导入sql文件</span>
+<span class="token comment" spellcheck="true"># 进入docker容器</span>
+docker <span class="token function">exec</span> -it mysql-mstc <span class="token function">bash</span>
+<span class="token comment" spellcheck="true"># 连接mysql</span>
+mysql -u root -p
+<span class="token comment" spellcheck="true"># 新建数据库</span>
+create database seumstc<span class="token punctuation">;</span>
+use seumstc<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true"># 导入sql文件</span>
+<span class="token function">source</span> /data/seumstc.sql<span class="token punctuation">;</span></code></pre>
 <h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><blockquote>
 <p><code>new Integer(123)</code> 与 <code>Integer.valueOf(123)</code> 的区别在于</p>
 </blockquote>
@@ -1319,7 +1338,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">44.3k</span>&nbsp;字
+                class="white-color">44.4k</span>&nbsp;字
             
             
             
