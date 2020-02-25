@@ -19,7 +19,8 @@ redis、mysql部署在130虚拟机
 
 leetcode刷题
 
-网站重新部署和优化工作redis安装部署备忘redis安装在13">
+网站重新部署和优化工作
+docker-compose.yml详解">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -483,14 +484,14 @@ leetcode刷题
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        2.8k
+                        2.9k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        10 分
+                        11 分
                     </div>
                     
                 
@@ -520,7 +521,37 @@ leetcode刷题
 <blockquote>
 <p>leetcode刷题</p>
 </blockquote>
-<h2 id="网站重新部署和优化工作"><a href="#网站重新部署和优化工作" class="headerlink" title="网站重新部署和优化工作"></a>网站重新部署和优化工作</h2><h3 id="redis安装部署备忘"><a href="#redis安装部署备忘" class="headerlink" title="redis安装部署备忘"></a>redis安装部署备忘</h3><p>redis安装在130机器</p>
+<h2 id="网站重新部署和优化工作"><a href="#网站重新部署和优化工作" class="headerlink" title="网站重新部署和优化工作"></a>网站重新部署和优化工作</h2><blockquote>
+<p><a href="https://www.jianshu.com/p/2217cfed29d7" target="_blank" rel="noopener">docker-compose.yml详解</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://juejin.im/post/5c3363bf6fb9a049e2322cdb" target="_blank" rel="noopener">docker网络模式</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.cnblogs.com/javabg/p/7976977.html" target="_blank" rel="noopener">servlet+idea环境配置参考</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.cnblogs.com/starof/p/4680083.html" target="_blank" rel="noopener">centos上安装mysql</a> </p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.cnblogs.com/zuidongfeng/p/8859229.html" target="_blank" rel="noopener">centos上部署springboot项目</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://blog.csdn.net/chen3888015/article/details/70172505/" target="_blank" rel="noopener">centos上配置fdfs</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://www.ityouknow.com/springboot/2018/01/16/spring-boot-fastdfs.html" target="_blank" rel="noopener">微笑大神： 使用fdfs</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://blog.csdn.net/qq_34301871/article/details/80060235" target="_blank" rel="noopener">HTTP请求不能访问文件的原因</a></p>
+</blockquote>
+<blockquote>
+<p><a href>出现缺少fastcommon.h修改办法</a> <a href="https://blog.csdn.net/babydavic/article/details/21240021" target="_blank" rel="noopener">https://blog.csdn.net/babydavic/article/details/21240021</a>)</p>
+</blockquote>
+<blockquote>
+<p><a href="https://blog.csdn.net/qq_36922927/article/details/79554806" target="_blank" rel="noopener">nginx安装</a></p>
+</blockquote>
+<h3 id="redis安装部署备忘"><a href="#redis安装部署备忘" class="headerlink" title="redis安装部署备忘"></a>redis安装部署备忘</h3><p>redis安装在130机器</p>
 <pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 运行服务</span>
 docker run -it --name redis -v /root/wanghuan/docker/redis/cfg/redis.conf:/usr/local/etc/redis/redis.conf -v /root/wanghuan/docker/redis/data:/data -d -p 6379:6379 redis:latest /bin/bash
 
@@ -730,7 +761,7 @@ use seumstc<span class="token punctuation">;</span>
 <h3 id="3-Redis持久化方式有哪些？并比较"><a href="#3-Redis持久化方式有哪些？并比较" class="headerlink" title="3. Redis持久化方式有哪些？并比较"></a>3. Redis持久化方式有哪些？并比较</h3><h3 id="4-Redis过期回收策略和内存淘汰机制"><a href="#4-Redis过期回收策略和内存淘汰机制" class="headerlink" title="4.Redis过期回收策略和内存淘汰机制"></a>4.Redis过期回收策略和内存淘汰机制</h3><h3 id="5-redis主从复制机制"><a href="#5-redis主从复制机制" class="headerlink" title="5.redis主从复制机制"></a>5.redis主从复制机制</h3><blockquote>
 <p>分布式系统的CAP理论</p>
 </blockquote>
-<h3 id="6-redis对事务的支持"><a href="#6-redis对事务的支持" class="headerlink" title="6.redis对事务的支持"></a>6.redis对事务的支持</h3><h3 id="7-redis的哨兵模式"><a href="#7-redis的哨兵模式" class="headerlink" title="7.redis的哨兵模式"></a>7.redis的哨兵模式</h3><h3 id="8-redis实现分布式锁"><a href="#8-redis实现分布式锁" class="headerlink" title="8.redis实现分布式锁"></a>8.redis实现分布式锁</h3>
+<h3 id="6-redis对事务的支持"><a href="#6-redis对事务的支持" class="headerlink" title="6.redis对事务的支持"></a>6.redis对事务的支持</h3><h3 id="7-redis的哨兵模式"><a href="#7-redis的哨兵模式" class="headerlink" title="7.redis的哨兵模式"></a>7.redis的哨兵模式</h3><h3 id="8-redis实现分布式锁"><a href="#8-redis实现分布式锁" class="headerlink" title="8.redis实现分布式锁"></a>8.redis实现分布式锁</h3><h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><h3 id="1-fast-forward"><a href="#1-fast-forward" class="headerlink" title="1. fast-forward"></a>1. fast-forward</h3><h3 id="2-merge与rebase区别"><a href="#2-merge与rebase区别" class="headerlink" title="2. merge与rebase区别"></a>2. merge与rebase区别</h3>
             </div>
             <hr/>
 
@@ -1266,7 +1297,8 @@ redis、mysql部署在130虚拟机
 
 leetcode刷题
 
-网站重新部署和优化工作redis安装部署备忘redis安装在13
+网站重新部署和优化工作
+docker-compose.yml详解
                         
                     </div>
                     <div class="publish-info">
