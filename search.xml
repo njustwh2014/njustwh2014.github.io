@@ -4,6 +4,39 @@
   
     
     <entry>
+      <title>面试问题汇总</title>
+      <link href="/2020/02/27/mian-shi-wen-ti-hui-zong/"/>
+      <url>/2020/02/27/mian-shi-wen-ti-hui-zong/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><h3 id="1-讲一下HashMap的原理，如果链表过长怎么办，如果想让Map按照put的顺序存放键值对应该使用什么类？"><a href="#1-讲一下HashMap的原理，如果链表过长怎么办，如果想让Map按照put的顺序存放键值对应该使用什么类？" class="headerlink" title="1.讲一下HashMap的原理，如果链表过长怎么办，如果想让Map按照put的顺序存放键值对应该使用什么类？"></a>1.讲一下HashMap的原理，如果链表过长怎么办，如果想让Map按照put的顺序存放键值对应该使用什么类？</h3><p>HashMap在存在hash冲突的情况下，会使用链表或红黑树存储hash冲突的key，一般当链表长度超过<code>TREEIFY_THRESHOLD</code>会将链表转成红黑树。</p><p>Map按照元素大小排序用TreeMap</p><p>Map按照元素put顺序用LinkedHashMap</p><h3 id="2-Synchronized实现原理，原子变量实现原理"><a href="#2-Synchronized实现原理，原子变量实现原理" class="headerlink" title="2.Synchronized实现原理，原子变量实现原理"></a>2.Synchronized实现原理，原子变量实现原理</h3><h3 id="3-Spring-Aop实现方式，还有其他的什么方式实现"><a href="#3-Spring-Aop实现方式，还有其他的什么方式实现" class="headerlink" title="3.Spring Aop实现方式，还有其他的什么方式实现"></a>3.Spring Aop实现方式，还有其他的什么方式实现</h3><h3 id="4-JVM-GC收集器特点"><a href="#4-JVM-GC收集器特点" class="headerlink" title="4.JVM GC收集器特点"></a>4.JVM GC收集器特点</h3><h3 id="5-JVM双亲委派机制"><a href="#5-JVM双亲委派机制" class="headerlink" title="5.JVM双亲委派机制"></a>5.JVM双亲委派机制</h3><h3 id="6-Session"><a href="#6-Session" class="headerlink" title="6.Session"></a>6.Session</h3><h3 id="7-JDK1-8新特性"><a href="#7-JDK1-8新特性" class="headerlink" title="7.JDK1.8新特性"></a>7.JDK1.8新特性</h3><h3 id="8-NIO原理"><a href="#8-NIO原理" class="headerlink" title="8.NIO原理"></a>8.NIO原理</h3><h3 id="9-JVM-运行时数据区"><a href="#9-JVM-运行时数据区" class="headerlink" title="9.JVM 运行时数据区"></a>9.JVM 运行时数据区</h3><h2 id="网络通信"><a href="#网络通信" class="headerlink" title="网络通信"></a>网络通信</h2><h3 id="1-Http协议"><a href="#1-Http协议" class="headerlink" title="1.Http协议"></a>1.Http协议</h3><h3 id="2-XSS攻击，避免的方法"><a href="#2-XSS攻击，避免的方法" class="headerlink" title="2.XSS攻击，避免的方法"></a>2.XSS攻击，避免的方法</h3><h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><h3 id="1-数据库索引，数据库乐观锁悲观锁"><a href="#1-数据库索引，数据库乐观锁悲观锁" class="headerlink" title="1.数据库索引，数据库乐观锁悲观锁"></a>1.数据库索引，数据库乐观锁悲观锁</h3><h3 id="2-SQL注入原理"><a href="#2-SQL注入原理" class="headerlink" title="2.SQL注入原理"></a>2.SQL注入原理</h3><h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><h3 id="1-linux熟悉吗"><a href="#1-linux熟悉吗" class="headerlink" title="1. linux熟悉吗"></a>1. linux熟悉吗</h3>]]></content>
+      
+      
+      <categories>
+          
+          <category> 求职 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+            <tag> Redis </tag>
+            
+            <tag> Mysql </tag>
+            
+            <tag> Vue </tag>
+            
+            <tag> Springboot </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>2020一定要拿到offer啊</title>
       <link href="/2020/02/02/2020-yi-ding-yao-na-dao-offer-a/"/>
       <url>/2020/02/02/2020-yi-ding-yao-na-dao-offer-a/</url>
@@ -304,9 +337,9 @@
             
             <tag> Java </tag>
             
-            <tag> redis </tag>
-            
             <tag> Concurrent </tag>
+            
+            <tag> redis </tag>
             
             <tag> mysql </tag>
             
@@ -362,9 +395,9 @@
       
         <tags>
             
-            <tag> Centos </tag>
-            
             <tag> mysql </tag>
+            
+            <tag> Centos </tag>
             
         </tags>
       
