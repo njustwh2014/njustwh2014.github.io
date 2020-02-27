@@ -469,14 +469,14 @@
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        1.5k
+                        2.6k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        6 分
+                        10 分
                     </div>
                     
                 
@@ -714,7 +714,80 @@
         base<span class="token punctuation">.</span><span class="token function">search</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
-<h3 id="4-JVM-GC收集器特点"><a href="#4-JVM-GC收集器特点" class="headerlink" title="4.JVM GC收集器特点"></a>4.JVM GC收集器特点</h3><h3 id="5-JVM双亲委派机制"><a href="#5-JVM双亲委派机制" class="headerlink" title="5.JVM双亲委派机制"></a>5.JVM双亲委派机制</h3><h3 id="6-Session"><a href="#6-Session" class="headerlink" title="6.Session"></a>6.Session</h3><h3 id="7-JDK1-8新特性"><a href="#7-JDK1-8新特性" class="headerlink" title="7.JDK1.8新特性"></a>7.JDK1.8新特性</h3><h3 id="8-NIO原理"><a href="#8-NIO原理" class="headerlink" title="8.NIO原理"></a>8.NIO原理</h3><h3 id="9-JVM-运行时数据区"><a href="#9-JVM-运行时数据区" class="headerlink" title="9.JVM 运行时数据区"></a>9.JVM 运行时数据区</h3><h2 id="网络通信"><a href="#网络通信" class="headerlink" title="网络通信"></a>网络通信</h2><h3 id="1-Http协议"><a href="#1-Http协议" class="headerlink" title="1.Http协议"></a>1.Http协议</h3><h3 id="2-XSS攻击，避免的方法"><a href="#2-XSS攻击，避免的方法" class="headerlink" title="2.XSS攻击，避免的方法"></a>2.XSS攻击，避免的方法</h3><h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><h3 id="1-数据库索引，数据库乐观锁悲观锁"><a href="#1-数据库索引，数据库乐观锁悲观锁" class="headerlink" title="1.数据库索引，数据库乐观锁悲观锁"></a>1.数据库索引，数据库乐观锁悲观锁</h3><h3 id="2-SQL注入原理"><a href="#2-SQL注入原理" class="headerlink" title="2.SQL注入原理"></a>2.SQL注入原理</h3><h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><h3 id="1-linux熟悉吗"><a href="#1-linux熟悉吗" class="headerlink" title="1. linux熟悉吗"></a>1. linux熟悉吗</h3><h2 id="编程题"><a href="#编程题" class="headerlink" title="编程题"></a>编程题</h2><h3 id="1-二分查找"><a href="#1-二分查找" class="headerlink" title="1. 二分查找"></a>1. 二分查找</h3><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/*
+<h3 id="4-JVM-GC收集器特点"><a href="#4-JVM-GC收集器特点" class="headerlink" title="4.JVM GC收集器特点"></a>4.JVM GC收集器特点</h3><h3 id="5-JVM双亲委派机制"><a href="#5-JVM双亲委派机制" class="headerlink" title="5.JVM双亲委派机制"></a>5.JVM双亲委派机制</h3><h3 id="6-Session"><a href="#6-Session" class="headerlink" title="6.Session"></a>6.Session</h3><h3 id="7-JDK1-8新特性"><a href="#7-JDK1-8新特性" class="headerlink" title="7.JDK1.8新特性"></a>7.JDK1.8新特性</h3><h3 id="8-NIO原理"><a href="#8-NIO原理" class="headerlink" title="8.NIO原理"></a>8.NIO原理</h3><h3 id="9-JVM-运行时数据区"><a href="#9-JVM-运行时数据区" class="headerlink" title="9.JVM 运行时数据区"></a>9.JVM 运行时数据区</h3><h3 id="10-IOC容器初始化过程"><a href="#10-IOC容器初始化过程" class="headerlink" title="10.IOC容器初始化过程"></a>10.IOC容器初始化过程</h3><p>IOC初始化过程主要包括<strong>Resource资源定位，BeanDefinition载入，BeanDefinition注册</strong>三个步骤。</p>
+<ul>
+<li>Resource资源定位</li>
+</ul>
+<p>Resource资源定位是指BeanDefinition资源定位，IOC容器找数据的过程。Spring通过外部资源，如xml文件或注解形式定描述一个Bean对象，IOC容器第一步就是需要定位Resource资源，由ResourceLoader通过统一统一的Resource接口实现。</p>
+<ul>
+<li>BeanDefinition载入</li>
+</ul>
+<p>载入的过程就是把定义好Bean表示成IOC容器内部数据结构，即BeanDefinition.在配置文件中每一个Bean都对应着一个BeanDefinition对象。</p>
+<p>通过BeanDefinitionReader读取，解析Resource定位的资源，将用户定义好的Bean表示成IOC容器的内部数据结构BeanDefinition。</p>
+<p>在IOC容器内部维护着一个BeanDefinitionMap的数据结构，通过BeanDefinitionMap，IOC容器可以对Bean进行更好的管理</p>
+<ul>
+<li>BeanDefinition注册</li>
+</ul>
+<p>注册就是将前面的BeanDefition保存到Map中的过程，通过BeanDefinitionRegistry接口来实现注册。</p>
+<p>IOC容器的初始化过程就是对Bean定义资源的定位、载入和注册，此时容器对Bean的依赖注入并没有发生。依赖注入时刻由<code>lazy-init=false</code>决定。</p>
+<h3 id="11-BeanFactory与FactoryBean的区别"><a href="#11-BeanFactory与FactoryBean的区别" class="headerlink" title="11.BeanFactory与FactoryBean的区别"></a>11.BeanFactory与FactoryBean的区别</h3><ul>
+<li><p>BeanFactory: Bean工厂，是一个工厂，是Spring IOC容器的最顶层接口，用于管理bean，即实例化、定位和配置应用程序中的对象以及建立这些对象间的依赖关系。</p>
+</li>
+<li><p>FactoryBean: 工厂Bean，是一个Bean。作用是产生其他Bean实例，需要提供一个工厂方法，该方法用于返回其他Bean实例。</p>
+</li>
+</ul>
+<h3 id="12-接着说说BeanFactory与ApplicationContext区别"><a href="#12-接着说说BeanFactory与ApplicationContext区别" class="headerlink" title="12. 接着说说BeanFactory与ApplicationContext区别"></a>12. 接着说说BeanFactory与ApplicationContext区别</h3><p>BeanFactory是Spring里面最顶层的接口，包含了各种Bean的定义，读取Bean配置文档，管理Bean的加载、实例化，控制Bean的生命周期，维护Bean之间的依赖关系。</p>
+<p>ApplicationContext接口是BeanFactory的派生，除了提供BeanFactory所具有的功能外，还提供了更完整的框架功能：</p>
+<ul>
+<li><p>继承了MessageSource，支持国际化。</p>
+</li>
+<li><p>提供了统一的资源文件访问方式。</p>
+</li>
+<li><p>提供在Listener中注册Bean的事件。</p>
+</li>
+<li><p>提供同时加载多个配置文件的功能。</p>
+</li>
+<li><p>载入多个（有继承关系）上下文 ，使得每一个上下文都专注于一个特定的层次，比如应用的web层。</p>
+</li>
+</ul>
+<p><strong>ApplicationContext 三种常见的实现方式:</strong></p>
+<ul>
+<li><p>FileSystemXmlApplicationContext：此容器从一个XML文件中加载Bean的定义，XML Bean 配置文件的全路径名必须提供给它的构造函数。</p>
+</li>
+<li><p>ClassPathXmlApplicationContext：此容器也从一个XML文件中加载Bean的定义，需要正确设置classpath因为这个容器将在classpath里找Bean配置。</p>
+</li>
+<li><p>WebXmlApplicationContext：此容器加载一个XML文件，定义了一个WEB应用的所有Bean。</p>
+</li>
+</ul>
+<p><strong>在创建Bean和内存方面的区别</strong></p>
+<ul>
+<li><p><strong>BeanFactory采用的是延迟加载形式来注入Bean的</strong>，即只有在使用到某个Bean时(调用<code>getBean()</code>)，才对该Bean进行加载实例化。这样，就不能发现一些存在于Spring配置中的问题。如果Bean的某一个属性没有注入，BeanFactory加载后，直至第一次使用调用getBean方法才会抛出异常。</p>
+</li>
+<li><p>ApplicationContext，它是在容器启动时，一次性创建了所有的Bean。这样，在容器启动时，我们就可以发现Spring中存在的配置错误，这样有利于检查所依赖属性是否注入。 ApplicationContext启动后预载入所有的单实例Bean，通过预载入单实例Bean ,确保当需要的时候，可以直接获取。</p>
+</li>
+<li><p>相对于基本的BeanFactory，ApplicationContext不足之处是占用内存空间。当应用程序配置Bean较多时，程序启动较慢，因为其一次性创建了所有的Bean。</p>
+</li>
+</ul>
+<p><strong>二者优缺点对比</strong></p>
+<blockquote>
+<p>BeanFactory的优缺点：</p>
+</blockquote>
+<ul>
+<li><p>优点：应用启动的时候占用资源很少，对资源要求较高的应用，比较有优势；</p>
+</li>
+<li><p>缺点：运行速度会相对来说慢一些。而且有可能会出现空指针异常的错误，而且通过Bean工厂创建的Bean生命周期会简单一些。</p>
+</li>
+</ul>
+<blockquote>
+<p>ApplicationContext的优缺点：</p>
+</blockquote>
+<ul>
+<li><p>优点：所有的Bean在启动的时候都进行了加载，系统运行的速度快；在系统启动的时候，可以发现系统中的配置问题。</p>
+</li>
+<li><p>缺点：把费时的操作放到系统启动中完成，所有的对象都可以预加载，缺点就是内存占用较大。</p>
+</li>
+</ul>
+<h2 id="网络通信"><a href="#网络通信" class="headerlink" title="网络通信"></a>网络通信</h2><h3 id="1-Http协议"><a href="#1-Http协议" class="headerlink" title="1.Http协议"></a>1.Http协议</h3><h3 id="2-XSS攻击，避免的方法"><a href="#2-XSS攻击，避免的方法" class="headerlink" title="2.XSS攻击，避免的方法"></a>2.XSS攻击，避免的方法</h3><h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><h3 id="1-数据库索引，数据库乐观锁悲观锁"><a href="#1-数据库索引，数据库乐观锁悲观锁" class="headerlink" title="1.数据库索引，数据库乐观锁悲观锁"></a>1.数据库索引，数据库乐观锁悲观锁</h3><h3 id="2-SQL注入原理"><a href="#2-SQL注入原理" class="headerlink" title="2.SQL注入原理"></a>2.SQL注入原理</h3><h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><h3 id="1-linux熟悉吗"><a href="#1-linux熟悉吗" class="headerlink" title="1. linux熟悉吗"></a>1. linux熟悉吗</h3><h2 id="编程题"><a href="#编程题" class="headerlink" title="编程题"></a>编程题</h2><h3 id="1-二分查找"><a href="#1-二分查找" class="headerlink" title="1. 二分查找"></a>1. 二分查找</h3><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/*
 @nums 排序好的数组
 @target
 @return f返回目标下标 如果没有 返回-1
@@ -1544,7 +1617,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">48.5k</span>&nbsp;字
+                class="white-color">49.6k</span>&nbsp;字
             
             
             
