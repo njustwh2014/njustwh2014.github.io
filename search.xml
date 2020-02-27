@@ -519,9 +519,9 @@
             
             <tag> elasticsearch </tag>
             
-            <tag> kibana </tag>
-            
             <tag> grafana </tag>
+            
+            <tag> kibana </tag>
             
             <tag> python </tag>
             

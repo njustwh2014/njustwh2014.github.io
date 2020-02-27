@@ -591,9 +591,9 @@
     
       <category term="elasticsearch" scheme="http://eternalhorizon.cn/tags/elasticsearch/"/>
     
-      <category term="kibana" scheme="http://eternalhorizon.cn/tags/kibana/"/>
-    
       <category term="grafana" scheme="http://eternalhorizon.cn/tags/grafana/"/>
+    
+      <category term="kibana" scheme="http://eternalhorizon.cn/tags/kibana/"/>
     
       <category term="python" scheme="http://eternalhorizon.cn/tags/python/"/>
     
