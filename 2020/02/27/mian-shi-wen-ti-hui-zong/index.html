@@ -860,7 +860,7 @@
 <span class="token punctuation">}</span></code></pre>
 <p>头节点的prev和尾节点的next都指向null</p>
 <ul>
-<li><p>字典</p>
+<li><p>字典 由hashtable实现</p>
 <pre class=" language-c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> dictht <span class="token punctuation">{</span>
  <span class="token comment" spellcheck="true">//哈希表数组</span>
  dictEntry <span class="token operator">*</span><span class="token operator">*</span>table<span class="token punctuation">;</span>
@@ -937,9 +937,9 @@
 </li>
 </ul>
 <p>不像c字符串那样通过空字符判断字符串结束，而是通过len属性</p>
-<p><strong>缓冲区溢出、扩容</strong></p>
 <h3 id="6-字典和HashMap的比较"><a href="#6-字典和HashMap的比较" class="headerlink" title="6. 字典和HashMap的比较"></a>6. 字典和HashMap的比较</h3><p><strong>*扩容方式和扩容大小</strong></p>
-<h3 id="7-单线程的Redis为何快"><a href="#7-单线程的Redis为何快" class="headerlink" title="7. 单线程的Redis为何快"></a>7. 单线程的Redis为何快</h3><h2 id="网络通信"><a href="#网络通信" class="headerlink" title="网络通信"></a>网络通信</h2><h3 id="1-Http协议"><a href="#1-Http协议" class="headerlink" title="1.Http协议"></a>1.Http协议</h3><blockquote>
+<h3 id="7-单线程的Redis为何快"><a href="#7-单线程的Redis为何快" class="headerlink" title="7. 单线程的Redis为何快"></a>7. <a href="https://www.iminho.me/wiki/blog-25.html" target="_blank" rel="noopener">单线程的Redis为何快</a></h3><p><a href="https://www.iminho.me/wiki/blog-25.html" target="_blank" rel="noopener">一定要看</a></p>
+<h2 id="网络通信"><a href="#网络通信" class="headerlink" title="网络通信"></a>网络通信</h2><h3 id="1-Http协议"><a href="#1-Http协议" class="headerlink" title="1.Http协议"></a>1.Http协议</h3><blockquote>
 <p>Get和Post比较</p>
 </blockquote>
 <blockquote>
