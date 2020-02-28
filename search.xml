@@ -223,11 +223,11 @@
             
             <tag> docker </tag>
             
-            <tag> elasticsearch </tag>
-            
             <tag> java </tag>
             
             <tag> nginx </tag>
+            
+            <tag> elasticsearch </tag>
             
             <tag> vue </tag>
             
@@ -515,13 +515,13 @@
       
         <tags>
             
-            <tag> elasticsearch </tag>
-            
             <tag> java </tag>
             
-            <tag> grafana </tag>
+            <tag> elasticsearch </tag>
             
             <tag> kibana </tag>
+            
+            <tag> grafana </tag>
             
             <tag> python </tag>
             
@@ -715,9 +715,9 @@
       
         <tags>
             
-            <tag> elasticsearch </tag>
-            
             <tag> java </tag>
+            
+            <tag> elasticsearch </tag>
             
             <tag> grafana </tag>
             
