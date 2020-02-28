@@ -469,14 +469,14 @@
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        3.8k
+                        4.1k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        15 分
+                        16 分
                     </div>
                     
                 
@@ -831,10 +831,62 @@
 <blockquote>
 <p>分布式和持久化有效应对高并发</p>
 </blockquote>
-<h3 id="2-底层数据结构"><a href="#2-底层数据结构" class="headerlink" title="2. 底层数据结构"></a>2. 底层数据结构</h3><ul>
-<li>SDS(Simple Dynamic String)</li>
+<h3 id="2-底层数据结构"><a href="#2-底层数据结构" class="headerlink" title="2. 底层数据结构"></a>2. 底层数据结构</h3><p><a href="https://www.cnblogs.com/jaycekon/p/6227442.html" target="_blank" rel="noopener">参考文章</a></p>
+<ul>
+<li><p>SDS(Simple Dynamic String)</p>
+</li>
+<li><p>双端链表</p>
+</li>
 </ul>
-<p><strong>SDS、字典、跳跃表、链表、压缩数组、整数列表</strong></p>
+<pre class=" language-c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> listNode<span class="token punctuation">{</span>
+      <span class="token keyword">struct</span> listNode <span class="token operator">*</span>prev<span class="token punctuation">;</span>
+      <span class="token keyword">struct</span> listNode <span class="token operator">*</span> next<span class="token punctuation">;</span>
+      <span class="token keyword">void</span> <span class="token operator">*</span> value<span class="token punctuation">;</span>  
+<span class="token punctuation">}</span></code></pre>
+<p>可以直接操作<code>list</code>来操作链表更方便</p>
+<pre class=" language-c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> list<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//表头节点</span>
+    listNode  <span class="token operator">*</span> head<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//表尾节点</span>
+    listNode  <span class="token operator">*</span> tail<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//链表长度</span>
+    <span class="token keyword">unsigned</span> <span class="token keyword">long</span> len<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//节点值复制函数</span>
+    <span class="token keyword">void</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token operator">*</span>dup<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>ptr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//节点值释放函数</span>
+    <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">*</span>free<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>ptr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//节点值对比函数</span>
+    <span class="token keyword">int</span> <span class="token punctuation">(</span><span class="token operator">*</span>match<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>ptr<span class="token punctuation">,</span> <span class="token keyword">void</span> <span class="token operator">*</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>头节点的prev和尾节点的next都指向null</p>
+<ul>
+<li><p>字典</p>
+<pre class=" language-c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> dictht <span class="token punctuation">{</span>
+ <span class="token comment" spellcheck="true">//哈希表数组</span>
+ dictEntry <span class="token operator">*</span><span class="token operator">*</span>table<span class="token punctuation">;</span>
+ <span class="token comment" spellcheck="true">//哈希表大小</span>
+ <span class="token keyword">unsigned</span> <span class="token keyword">long</span> size<span class="token punctuation">;</span>
+
+ <span class="token comment" spellcheck="true">//哈希表大小掩码，用于计算索引值</span>
+ <span class="token keyword">unsigned</span> <span class="token keyword">long</span> sizemask<span class="token punctuation">;</span>
+ <span class="token comment" spellcheck="true">//该哈希表已有节点的数量</span>
+ <span class="token keyword">unsigned</span> <span class="token keyword">long</span> used<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+</ul>
+<p><strong>SDS、字典、跳跃表、链表、压缩列表</strong></p>
+<ul>
+<li>跳跃表</li>
+</ul>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzA4NTg1MjM0Mg==&mid=509777776&idx=1&sn=e56f24bdf2de7e25515fe9f25ef57557&mpshare=1&scene=1&srcid=1010HdkIxon3icsWNmTyecI6#rd" target="_blank" rel="noopener">Redis内部数据结构详解</a></p>
+<p><a href="https://juejin.im/post/57fa935b0e3dd90057c50fbc" target="_blank" rel="noopener">skiplist</a></p>
+<p><code>sorted list</code>底层用到skiplist，那么为什么不用平衡树呢？</p>
+<p>内存占用方面skiplist每个节点平均1.33个指针，而平衡树是2</p>
+<p>范围查找实现简单</p>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzA4NTg1MjM0Mg==&mid=2657261265&idx=1&sn=e105c4b86a5640c5fc8212cd824f750b&scene=21#wechat_redirect" target="_blank" rel="noopener">压缩列表</a></li>
+</ul>
+<p>因为 ziplist 节约内存的性质， 哈希键、列表键和有序集合键初始化的底层实现皆采用 ziplist</p>
 <h3 id="3-RDB和AOF两种不同方式的比较以及优缺点"><a href="#3-RDB和AOF两种不同方式的比较以及优缺点" class="headerlink" title="3. RDB和AOF两种不同方式的比较以及优缺点"></a>3. RDB和AOF两种不同方式的比较以及优缺点</h3><blockquote>
 <p>原理</p>
 </blockquote>
@@ -1799,7 +1851,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">50.8k</span>&nbsp;字
+                class="white-color">51.1k</span>&nbsp;字
             
             
             
