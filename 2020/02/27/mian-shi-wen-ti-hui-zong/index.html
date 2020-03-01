@@ -1222,8 +1222,60 @@
 <p>session是存储在服务器端,cookie是存储在客户端的,所以安全来讲session的安全性要比cookie高,然后我们获取session里的信息是通过存放在<strong>会话cookie</strong>里的sessionid获取的。又由于session是存放在服务器的内存中,所以session里的东西不断增加会造成服务器的负担,所以会把很重要的信息存储在session中,而把一些次要东西存储在客户端的cookie里。</p>
 <p>cookie确切的说分为两大类分为<strong>会话cookie和持久化cookie</strong>,会话cookie确切的说是存放在客户端浏览器的内存中,所以说他的生命周期和浏览器是一致的,浏览器关了会话cookie也就消失了,然而持久化cookie是存放在客户端硬盘中,而持久化cookie的生命周期就是我们在设置cookie时候设置的那个保存时间,然后我们考虑一问题当浏览器关闭时session会不会丢失,从上面叙述分析session的信息是通过sessionid获取的,而sessionid是存放在会话cookie当中的,当浏览器关闭的时候会话cookie消失所以我们的sessionid也就消失了,但是session的信息还存在服务器端,这时我们只是查不到所谓的session但它并不是不存在。那么,session在什么情况下丢失,就是在服务器关闭的时候,或者是sessio过期,再或者调用了invalidate()的或者是我们想要session中的某一条数据消失调用session.removeAttribute()方法,然后session在什么时候被创建呢,确切的说是通过调用session.getsession来创建,这就是session与cookie的区别。</p>
 <blockquote>
-<p>常用HTTP的头部<br>|<br>—-|—-<br>Accept: text/html,image/*|浏览器接受的数据类型<br>Accept-Charset: ISO-8859-1|浏览器接受的编码格式<br>Accept-Encoding: gzip,compress|浏览器接受的数据压缩格式<br>Accept-Language: en-us,zh-|浏览器接受的语言<br>Host: <a href="http://www.it315.org:80|（必须的）当前请求访问的目标地址（主机:端口）" target="_blank" rel="noopener">www.it315.org:80|（必须的）当前请求访问的目标地址（主机:端口）</a><br>If-Modified-Since: Tue, 11 Jul 2000 18:23:51 GMT |浏览器最后的缓存时间<br>Referer: <a href="http://www.it315.org/index.jsp" target="_blank" rel="noopener">http://www.it315.org/index.jsp</a>   |当前请求来自于哪里<br>User-Agent: Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0) |浏览器类型<br>Cookie:name=eric                     – 浏览器保存的cookie信息<br>Connection: close/Keep-Alive            – 浏览器跟服务器连接状态。close: 连接关闭  keep-alive：保存连接。<br>Date: Tue, 11 Jul 2000 18:23:51 GMT      – 请求发出的时间</p>
+<p>常用HTTP的头部</p>
 </blockquote>
+<table>
+<thead>
+<tr>
+<th>头部</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Accept: text/html,image/*</td>
+<td>浏览器接受的数据类型</td>
+</tr>
+<tr>
+<td>Accept-Charset: ISO-8859-1</td>
+<td>浏览器接受的编码格式</td>
+</tr>
+<tr>
+<td>Accept-Encoding: gzip,compress</td>
+<td>浏览器接受的数据压缩格式</td>
+</tr>
+<tr>
+<td>Accept-Language: en-us,zh-</td>
+<td>浏览器接受的语言</td>
+</tr>
+<tr>
+<td>Host: <a href="http://www.it315.org:80" target="_blank" rel="noopener">www.it315.org:80</a></td>
+<td>（必须的）当前请求访问的目标地址（主机:端口）</td>
+</tr>
+<tr>
+<td>If-Modified-Since: Tue, 11 Jul 2000 18:23:51 GMT</td>
+<td>浏览器最后的缓存时间</td>
+</tr>
+<tr>
+<td>Referer: <a href="http://www.it315.org/index.jsp" target="_blank" rel="noopener">http://www.it315.org/index.jsp</a></td>
+<td>当前请求来自于哪里</td>
+</tr>
+<tr>
+<td>User-Agent: Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0)</td>
+<td>浏览器类型</td>
+</tr>
+<tr>
+<td>Cookie:name=eric                     – 浏览器保存的cookie信息</td>
+<td></td>
+</tr>
+<tr>
+<td>Connection: close/Keep-Alive            – 浏览器跟服务器连接状态。close: 连接关闭  keep-alive：保存连接。</td>
+<td></td>
+</tr>
+<tr>
+<td>Date: Tue, 11 Jul 2000 18:23:51 GMT      – 请求发出的时间</td>
+<td></td>
+</tr>
+</tbody></table>
 <blockquote>
 <p>常用的HTTP状态码</p>
 </blockquote>
