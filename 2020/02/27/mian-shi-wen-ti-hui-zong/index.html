@@ -469,14 +469,14 @@
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        5.6k
+                        6.1k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        21 分
+                        23 分
                     </div>
                     
                 
@@ -864,7 +864,25 @@
 <td>面向服务端应用，将来替换CMS</td>
 </tr>
 </tbody></table>
-<h3 id="5-JVM双亲委派机制"><a href="#5-JVM双亲委派机制" class="headerlink" title="5.JVM双亲委派机制"></a>5.JVM双亲委派机制</h3><h3 id="6-Session"><a href="#6-Session" class="headerlink" title="6.Session"></a>6.Session</h3><h3 id="7-JDK1-8新特性"><a href="#7-JDK1-8新特性" class="headerlink" title="7.JDK1.8新特性"></a>7.JDK1.8新特性</h3><h3 id="8-NIO原理"><a href="#8-NIO原理" class="headerlink" title="8.NIO原理"></a>8.NIO原理</h3><h3 id="9-JVM-运行时数据区"><a href="#9-JVM-运行时数据区" class="headerlink" title="9.JVM 运行时数据区"></a>9.JVM 运行时数据区</h3><h3 id="10-IOC容器初始化过程"><a href="#10-IOC容器初始化过程" class="headerlink" title="10.IOC容器初始化过程"></a>10.IOC容器初始化过程</h3><p>IOC初始化过程主要包括<strong>Resource资源定位，BeanDefinition载入，BeanDefinition注册</strong>三个步骤。</p>
+<h3 id="5-JVM双亲委派机制"><a href="#5-JVM双亲委派机制" class="headerlink" title="5.JVM双亲委派机制"></a>5.JVM双亲委派机制</h3><p><a href="https://blog.csdn.net/u011080472/article/details/51332866" target="_blank" rel="noopener">参考文章</a></p>
+<p>Java虚拟机中的一个类由其类加载器和二进制字节流class文件唯一确定。</p>
+<blockquote>
+<p>什么是JVM双亲委派机制？</p>
+</blockquote>
+<p>所谓双亲委派机制是Java推荐的类加载机制，其实现流程就是当需要加载一个类的时候，首先将该加载需求委托给父类加载器，如果父类不能完成类加载，则再调用子类加载器。</p>
+<p>类加载器的继承关系：</p>
+<p>启动类加载器&lt;-扩展类记载器&lt;-应用/系统类加载器&lt;-用户自定义类加载器</p>
+<blockquote>
+<p>为什么需要双亲委派模型？</p>
+</blockquote>
+<p>举个例子来说明，例如<code>java.lang.Object</code>类在<code>rt.jar</code>中，是由启动类加载器加载，在双亲委派机制下，无论哪个类加载器要加载该类，最终都会委托给启动类加载器来加载，因此得到都是同一个类。相反，如果没有双亲委派机制，开发者在自己的classpath下定义一个<code>Object</code>类，并由自己的类加载器或者应用类加载器加载，得到是不同的<code>Object</code>类，程序就会存在好几个<code>Object</code>类，导致程序混乱。</p>
+<blockquote>
+<p>什么时候需要破坏双亲委派机制？</p>
+</blockquote>
+<p>JNDI服务：JNDI的目的就是对资源进行集中管理和查找，它需要调用独立厂商实现部部署在应用程序的classpath下的JNDI接口提供者(SPI, Service Provider Interface)的代码。</p>
+<p>因此，为了破坏这种双亲委派机制，在<strong>启动类里也能够使用系统类加载器对类进行加载</strong>，Java设计了<strong>线程上下文加载器</strong>。在核心类进行类加载时，可以读取当前线程的线程上下文加载器，使用该加载器加载实现了SPI接口的类。</p>
+<p>Java中所有涉及SPI的加载动作基本上都采用这种方式，例如JNDI,JDBC,JCE,JAXB和JBI等</p>
+<h3 id="6-Session"><a href="#6-Session" class="headerlink" title="6.Session"></a>6.Session</h3><h3 id="7-JDK1-8新特性"><a href="#7-JDK1-8新特性" class="headerlink" title="7.JDK1.8新特性"></a>7.JDK1.8新特性</h3><h3 id="8-NIO原理"><a href="#8-NIO原理" class="headerlink" title="8.NIO原理"></a>8.NIO原理</h3><h3 id="9-JVM-运行时数据区"><a href="#9-JVM-运行时数据区" class="headerlink" title="9.JVM 运行时数据区"></a>9.JVM 运行时数据区</h3><h3 id="10-IOC容器初始化过程"><a href="#10-IOC容器初始化过程" class="headerlink" title="10.IOC容器初始化过程"></a>10.IOC容器初始化过程</h3><p>IOC初始化过程主要包括<strong>Resource资源定位，BeanDefinition载入，BeanDefinition注册</strong>三个步骤。</p>
 <ul>
 <li>Resource资源定位</li>
 </ul>
@@ -2001,7 +2019,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">52.6k</span>&nbsp;字
+                class="white-color">53.1k</span>&nbsp;字
             
             
             
