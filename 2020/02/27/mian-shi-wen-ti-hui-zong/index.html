@@ -469,14 +469,14 @@
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        6.9k
+                        7.2k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        26 分
+                        27 分
                     </div>
                     
                 
@@ -943,7 +943,38 @@
 <p>运行时(JVM)</p>
 </blockquote>
 <p>使用Metaspace（JEP 122）代替持久代（PermGen space）。在JVM参数方面，使用-XX:MetaSpaceSize和-XX:MaxMetaspaceSize代替原来的-XX:PermSize和-XX:MaxPermSize。</p>
-<h3 id="8-NIO原理"><a href="#8-NIO原理" class="headerlink" title="8.NIO原理"></a>8.NIO原理</h3><h3 id="9-JVM-运行时数据区"><a href="#9-JVM-运行时数据区" class="headerlink" title="9.JVM 运行时数据区"></a>9.JVM 运行时数据区</h3><h3 id="10-IOC容器初始化过程"><a href="#10-IOC容器初始化过程" class="headerlink" title="10.IOC容器初始化过程"></a>10.IOC容器初始化过程</h3><p>IOC初始化过程主要包括<strong>Resource资源定位，BeanDefinition载入，BeanDefinition注册</strong>三个步骤。</p>
+<h3 id="8-NIO原理"><a href="#8-NIO原理" class="headerlink" title="8.NIO原理"></a>8.NIO原理</h3><blockquote>
+<p>NIO与传统IO比较</p>
+</blockquote>
+<ul>
+<li>面向缓冲和面向流</li>
+<li>非阻塞与阻塞</li>
+<li>选择器(单线程管理多个通道)</li>
+</ul>
+<blockquote>
+<p>NIO与IO适用场景不同</p>
+</blockquote>
+<p>由于NIO是面向缓冲的这导致数据处理前都需要处理缓冲区中数据是否完整或者读取完毕。</p>
+<p>NIO适用于连接数大，但每次只传送极少数的数据，如聊天服务器</p>
+<p>IO适合于连接数少，但需要传输大量数据</p>
+<blockquote>
+<p>NIO原理</p>
+</blockquote>
+<p>NIO核心 buffer channal selector</p>
+<p><strong>小小tips：</strong></p>
+<ul>
+<li>同步与异步：同步是指用户空间是主动发起IO请求的一方，内核空间被动接受，而异步相反，用户空间线程向内核空间注册各种回调函数，由内核空间调用</li>
+<li>阻塞与非阻塞</li>
+</ul>
+<p><strong>四种IO模型</strong></p>
+<p><a href="https://www.cnblogs.com/crazymakercircle/p/10225159.html#%E5%9B%9B%E7%A7%8D%E4%B8%BB%E8%A6%81%E7%9A%84io%E6%A8%A1%E5%9E%8B" target="_blank" rel="noopener">参考文章</a></p>
+<ul>
+<li>同步阻塞(IO)</li>
+<li>同步非阻塞(NIO)</li>
+<li>多路复用  IO多路复用模型，就是通过一种新的系统调用，一个进程可以监视多个文件描述符，一旦某个描述符就绪（一般是内核缓冲区可读/可写），内核kernel能够通知程序进行相应的IO系统调用。</li>
+<li>异步IO模型</li>
+</ul>
+<h3 id="9-JVM-运行时数据区"><a href="#9-JVM-运行时数据区" class="headerlink" title="9.JVM 运行时数据区"></a>9.JVM 运行时数据区</h3><h3 id="10-IOC容器初始化过程"><a href="#10-IOC容器初始化过程" class="headerlink" title="10.IOC容器初始化过程"></a>10.IOC容器初始化过程</h3><p>IOC初始化过程主要包括<strong>Resource资源定位，BeanDefinition载入，BeanDefinition注册</strong>三个步骤。</p>
 <ul>
 <li>Resource资源定位</li>
 </ul>
@@ -1018,7 +1049,8 @@
 </ul>
 <h3 id="13-集合类-HashMap和ConcurrentHashMap-源码比较-重点"><a href="#13-集合类-HashMap和ConcurrentHashMap-源码比较-重点" class="headerlink" title="13.集合类:HashMap和ConcurrentHashMap(源码比较) 重点"></a>13.集合类:HashMap和ConcurrentHashMap(源码比较) <strong>重点</strong></h3><p>JDK1.7和JDK1.8对于二者改动及原因</p>
 <h3 id="14-ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet"><a href="#14-ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet" class="headerlink" title="14.ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet"></a>14.ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet</h3><p>需要了解底层数据结构和各容器之间的优劣比较</p>
-<h3 id="15-JVM-类加载机制"><a href="#15-JVM-类加载机制" class="headerlink" title="15. JVM: 类加载机制"></a>15. JVM: 类加载机制</h3><h3 id="16-JVM-常见GC算法"><a href="#16-JVM-常见GC算法" class="headerlink" title="16. JVM: 常见GC算法"></a>16. JVM: 常见GC算法</h3><h3 id="17-JVM-JVM内存模型"><a href="#17-JVM-JVM内存模型" class="headerlink" title="17. JVM: JVM内存模型"></a>17. JVM: JVM内存模型</h3><h3 id="18-JVM-JVM运行时内存区域"><a href="#18-JVM-JVM运行时内存区域" class="headerlink" title="18. JVM: JVM运行时内存区域"></a>18. JVM: JVM运行时内存区域</h3><h3 id="19-JVM-常见垃圾收集器-CMS、G1、ZGC"><a href="#19-JVM-常见垃圾收集器-CMS、G1、ZGC" class="headerlink" title="19. JVM: 常见垃圾收集器(CMS、G1、ZGC)"></a>19. JVM: 常见垃圾收集器(CMS、G1、ZGC)</h3><h3 id="20-JVM-常见的启动参数"><a href="#20-JVM-常见的启动参数" class="headerlink" title="20. JVM: 常见的启动参数"></a>20. JVM: 常见的启动参数</h3><h3 id="21-JVM：内存溢出的分析过程"><a href="#21-JVM：内存溢出的分析过程" class="headerlink" title="21. JVM：内存溢出的分析过程"></a>21. JVM：内存溢出的分析过程</h3><h3 id="22-JVM：synchronized和volatile关键字在JVM中的行为"><a href="#22-JVM：synchronized和volatile关键字在JVM中的行为" class="headerlink" title="22. JVM：synchronized和volatile关键字在JVM中的行为"></a>22. JVM：<code>synchronized</code>和<code>volatile</code>关键字在JVM中的行为</h3><h3 id="23-创建线程的几种方式"><a href="#23-创建线程的几种方式" class="headerlink" title="23. 创建线程的几种方式"></a>23. 创建线程的几种方式</h3><h3 id="24-线程池原理及参数含义"><a href="#24-线程池原理及参数含义" class="headerlink" title="24. 线程池原理及参数含义"></a>24. 线程池原理及参数含义</h3><h3 id="25-死锁产生条件以及解决策略"><a href="#25-死锁产生条件以及解决策略" class="headerlink" title="25. 死锁产生条件以及解决策略"></a>25. 死锁产生条件以及解决策略</h3><h3 id="26-JUC下源码分析-偶尔带着看吧"><a href="#26-JUC下源码分析-偶尔带着看吧" class="headerlink" title="26. JUC下源码分析(偶尔带着看吧)"></a>26. JUC下源码分析(偶尔带着看吧)</h3><h3 id="27-Lock接口下实现的锁和synchronized关键字比较，各自优缺点"><a href="#27-Lock接口下实现的锁和synchronized关键字比较，各自优缺点" class="headerlink" title="27. Lock接口下实现的锁和synchronized关键字比较，各自优缺点"></a>27. Lock接口下实现的锁和<code>synchronized</code>关键字比较，各自优缺点</h3><h3 id="28-AQS"><a href="#28-AQS" class="headerlink" title="28. AQS"></a>28. AQS</h3><h2 id="Redis-结合项目问"><a href="#Redis-结合项目问" class="headerlink" title="Redis(结合项目问)"></a>Redis(结合项目问)</h2><h3 id="1-常见用途"><a href="#1-常见用途" class="headerlink" title="1. 常见用途"></a>1. 常见用途</h3><p><a href="https://zhuanlan.zhihu.com/p/29665317" target="_blank" rel="noopener">参考连接</a></p>
+<h3 id="15-JVM-类加载机制"><a href="#15-JVM-类加载机制" class="headerlink" title="15. JVM: 类加载机制"></a>15. JVM: 类加载机制</h3><p>双亲委派机制</p>
+<h3 id="16-JVM-常见GC算法"><a href="#16-JVM-常见GC算法" class="headerlink" title="16. JVM: 常见GC算法"></a>16. JVM: 常见GC算法</h3><h3 id="17-JVM-JVM内存模型"><a href="#17-JVM-JVM内存模型" class="headerlink" title="17. JVM: JVM内存模型"></a>17. JVM: JVM内存模型</h3><h3 id="18-JVM-JVM运行时内存区域"><a href="#18-JVM-JVM运行时内存区域" class="headerlink" title="18. JVM: JVM运行时内存区域"></a>18. JVM: JVM运行时内存区域</h3><h3 id="19-JVM-常见垃圾收集器-CMS、G1、ZGC"><a href="#19-JVM-常见垃圾收集器-CMS、G1、ZGC" class="headerlink" title="19. JVM: 常见垃圾收集器(CMS、G1、ZGC)"></a>19. JVM: 常见垃圾收集器(CMS、G1、ZGC)</h3><h3 id="20-JVM-常见的启动参数"><a href="#20-JVM-常见的启动参数" class="headerlink" title="20. JVM: 常见的启动参数"></a>20. JVM: 常见的启动参数</h3><h3 id="21-JVM：内存溢出的分析过程"><a href="#21-JVM：内存溢出的分析过程" class="headerlink" title="21. JVM：内存溢出的分析过程"></a>21. JVM：内存溢出的分析过程</h3><h3 id="22-JVM：synchronized和volatile关键字在JVM中的行为"><a href="#22-JVM：synchronized和volatile关键字在JVM中的行为" class="headerlink" title="22. JVM：synchronized和volatile关键字在JVM中的行为"></a>22. JVM：<code>synchronized</code>和<code>volatile</code>关键字在JVM中的行为</h3><h3 id="23-创建线程的几种方式"><a href="#23-创建线程的几种方式" class="headerlink" title="23. 创建线程的几种方式"></a>23. 创建线程的几种方式</h3><h3 id="24-线程池原理及参数含义"><a href="#24-线程池原理及参数含义" class="headerlink" title="24. 线程池原理及参数含义"></a>24. 线程池原理及参数含义</h3><h3 id="25-死锁产生条件以及解决策略"><a href="#25-死锁产生条件以及解决策略" class="headerlink" title="25. 死锁产生条件以及解决策略"></a>25. 死锁产生条件以及解决策略</h3><h3 id="26-JUC下源码分析-偶尔带着看吧"><a href="#26-JUC下源码分析-偶尔带着看吧" class="headerlink" title="26. JUC下源码分析(偶尔带着看吧)"></a>26. JUC下源码分析(偶尔带着看吧)</h3><h3 id="27-Lock接口下实现的锁和synchronized关键字比较，各自优缺点"><a href="#27-Lock接口下实现的锁和synchronized关键字比较，各自优缺点" class="headerlink" title="27. Lock接口下实现的锁和synchronized关键字比较，各自优缺点"></a>27. Lock接口下实现的锁和<code>synchronized</code>关键字比较，各自优缺点</h3><h3 id="28-AQS"><a href="#28-AQS" class="headerlink" title="28. AQS"></a>28. AQS</h3><h2 id="Redis-结合项目问"><a href="#Redis-结合项目问" class="headerlink" title="Redis(结合项目问)"></a>Redis(结合项目问)</h2><h3 id="1-常见用途"><a href="#1-常见用途" class="headerlink" title="1. 常见用途"></a>1. 常见用途</h3><p><a href="https://zhuanlan.zhihu.com/p/29665317" target="_blank" rel="noopener">参考连接</a></p>
 <p>这一题要结合着Redis特性来回答，首先得明确Redis有哪些特性。</p>
 <blockquote>
 <p>应用1：读写性能优异可以当作缓存</p>
@@ -2080,7 +2112,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">53.9k</span>&nbsp;字
+                class="white-color">54.2k</span>&nbsp;字
             
             
             
