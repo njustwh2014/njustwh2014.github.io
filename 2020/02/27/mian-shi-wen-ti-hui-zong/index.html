@@ -469,14 +469,14 @@
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        7.2k
+                        8.1k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        27 分
+                        30 分
                     </div>
                     
                 
@@ -1203,11 +1203,26 @@
 <h2 id="网络通信"><a href="#网络通信" class="headerlink" title="网络通信"></a>网络通信</h2><h3 id="1-Http协议"><a href="#1-Http协议" class="headerlink" title="1.Http协议"></a>1.Http协议</h3><blockquote>
 <p>Get和Post比较</p>
 </blockquote>
+<p><a href="https://learnku.com/articles/25881" target="_blank" rel="noopener">看这篇装逼文章</a></p>
+<ul>
+<li>Get发送一次数据包 Post发送两次数据包</li>
+<li>GET在浏览器回退时是无害的，而POST会再次提交请求。</li>
+<li>GET产生的URL地址可以被Bookmark，而POST不可以。</li>
+<li>GET请求会被浏览器主动cache，而POST不会，除非手动设置。</li>
+<li>GET请求只能进行url编码，而POST支持多种编码方式。</li>
+<li>GET请求参数会被完整保留在浏览器历史记录里，而POST中的参数不会被保留。</li>
+<li>GET请求在URL中传送的参数是有长度限制的，而POST么有。</li>
+<li>对参数的数据类型，GET只接受ASCII字符，而POST没有限制。</li>
+<li>GET比POST更不安全，因为参数直接暴露在URL上，所以不能用来传递敏感信息。</li>
+<li>GET参数通过URL传递，POST放在Request body中。</li>
+</ul>
 <blockquote>
 <p>Session和Cookie比较</p>
 </blockquote>
+<p>session是存储在服务器端,cookie是存储在客户端的,所以安全来讲session的安全性要比cookie高,然后我们获取session里的信息是通过存放在<strong>会话cookie</strong>里的sessionid获取的。又由于session是存放在服务器的内存中,所以session里的东西不断增加会造成服务器的负担,所以会把很重要的信息存储在session中,而把一些次要东西存储在客户端的cookie里。</p>
+<p>cookie确切的说分为两大类分为<strong>会话cookie和持久化cookie</strong>,会话cookie确切的说是存放在客户端浏览器的内存中,所以说他的生命周期和浏览器是一致的,浏览器关了会话cookie也就消失了,然而持久化cookie是存放在客户端硬盘中,而持久化cookie的生命周期就是我们在设置cookie时候设置的那个保存时间,然后我们考虑一问题当浏览器关闭时session会不会丢失,从上面叙述分析session的信息是通过sessionid获取的,而sessionid是存放在会话cookie当中的,当浏览器关闭的时候会话cookie消失所以我们的sessionid也就消失了,但是session的信息还存在服务器端,这时我们只是查不到所谓的session但它并不是不存在。那么,session在什么情况下丢失,就是在服务器关闭的时候,或者是sessio过期,再或者调用了invalidate()的或者是我们想要session中的某一条数据消失调用session.removeAttribute()方法,然后session在什么时候被创建呢,确切的说是通过调用session.getsession来创建,这就是session与cookie的区别。</p>
 <blockquote>
-<p>常用HTTP的头部</p>
+<p>常用HTTP的头部<br>|<br>—-|—-<br>Accept: text/html,image/*|浏览器接受的数据类型<br>Accept-Charset: ISO-8859-1|浏览器接受的编码格式<br>Accept-Encoding: gzip,compress|浏览器接受的数据压缩格式<br>Accept-Language: en-us,zh-|浏览器接受的语言<br>Host: <a href="http://www.it315.org:80|（必须的）当前请求访问的目标地址（主机:端口）" target="_blank" rel="noopener">www.it315.org:80|（必须的）当前请求访问的目标地址（主机:端口）</a><br>If-Modified-Since: Tue, 11 Jul 2000 18:23:51 GMT |浏览器最后的缓存时间<br>Referer: <a href="http://www.it315.org/index.jsp" target="_blank" rel="noopener">http://www.it315.org/index.jsp</a>   |当前请求来自于哪里<br>User-Agent: Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0) |浏览器类型<br>Cookie:name=eric                     – 浏览器保存的cookie信息<br>Connection: close/Keep-Alive            – 浏览器跟服务器连接状态。close: 连接关闭  keep-alive：保存连接。<br>Date: Tue, 11 Jul 2000 18:23:51 GMT      – 请求发出的时间</p>
 </blockquote>
 <blockquote>
 <p>常用的HTTP状态码</p>
@@ -1282,7 +1297,8 @@
 <blockquote>
 <p>各自的使用场景</p>
 </blockquote>
-<h3 id="4-锁-共享锁、排他锁、行锁、表锁、间隙锁"><a href="#4-锁-共享锁、排他锁、行锁、表锁、间隙锁" class="headerlink" title="4. 锁(共享锁、排他锁、行锁、表锁、间隙锁)"></a>4. 锁(共享锁、排他锁、行锁、表锁、间隙锁)</h3><h3 id="5-SQL语句-常见为聚类函数的使用、表连接查询"><a href="#5-SQL语句-常见为聚类函数的使用、表连接查询" class="headerlink" title="5. SQL语句(常见为聚类函数的使用、表连接查询)"></a>5. SQL语句(常见为聚类函数的使用、表连接查询)</h3><h3 id="6-分库分表策略"><a href="#6-分库分表策略" class="headerlink" title="6. 分库分表策略"></a>6. 分库分表策略</h3><h3 id="7-SQL注入原理-常用SQL防注入框架"><a href="#7-SQL注入原理-常用SQL防注入框架" class="headerlink" title="7. SQL注入原理(常用SQL防注入框架)"></a>7. SQL注入原理(常用SQL防注入框架)</h3><h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><h3 id="1-linux熟悉吗"><a href="#1-linux熟悉吗" class="headerlink" title="1. linux熟悉吗"></a>1. linux熟悉吗</h3><h2 id="编程题"><a href="#编程题" class="headerlink" title="编程题"></a>编程题</h2><h3 id="1-二分查找"><a href="#1-二分查找" class="headerlink" title="1. 二分查找"></a>1. 二分查找</h3><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/*
+<h3 id="4-锁-共享锁、排他锁、行锁、表锁、间隙锁"><a href="#4-锁-共享锁、排他锁、行锁、表锁、间隙锁" class="headerlink" title="4. 锁(共享锁、排他锁、行锁、表锁、间隙锁)"></a>4. 锁(共享锁、排他锁、行锁、表锁、间隙锁)</h3><h3 id="5-SQL语句-常见为聚类函数的使用、表连接查询"><a href="#5-SQL语句-常见为聚类函数的使用、表连接查询" class="headerlink" title="5. SQL语句(常见为聚类函数的使用、表连接查询)"></a>5. SQL语句(常见为聚类函数的使用、表连接查询)</h3><h3 id="6-分库分表策略"><a href="#6-分库分表策略" class="headerlink" title="6. 分库分表策略"></a>6. 分库分表策略</h3><h3 id="7-SQL注入原理-常用SQL防注入框架"><a href="#7-SQL注入原理-常用SQL防注入框架" class="headerlink" title="7. SQL注入原理(常用SQL防注入框架)"></a>7. SQL注入原理(常用SQL防注入框架)</h3><h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><h3 id="1-linux熟悉吗"><a href="#1-linux熟悉吗" class="headerlink" title="1. linux熟悉吗"></a>1. linux熟悉吗</h3><p><a href="https://www.cnblogs.com/yzh-blog/p/11670289.html" target="_blank" rel="noopener">qnmd不熟</a></p>
+<h2 id="编程题"><a href="#编程题" class="headerlink" title="编程题"></a>编程题</h2><h3 id="1-二分查找"><a href="#1-二分查找" class="headerlink" title="1. 二分查找"></a>1. 二分查找</h3><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/*
 @nums 排序好的数组
 @target
 @return f返回目标下标 如果没有 返回-1
@@ -2112,7 +2128,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">54.2k</span>&nbsp;字
+                class="white-color">55.1k</span>&nbsp;字
             
             
             
