@@ -469,14 +469,14 @@
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        8.2k
+                        9.1k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        30 分
+                        34 分
                     </div>
                     
                 
@@ -974,7 +974,59 @@
 <li>多路复用  IO多路复用模型，就是通过一种新的系统调用，一个进程可以监视多个文件描述符，一旦某个描述符就绪（一般是内核缓冲区可读/可写），内核kernel能够通知程序进行相应的IO系统调用。</li>
 <li>异步IO模型</li>
 </ul>
-<h3 id="9-JVM-运行时数据区"><a href="#9-JVM-运行时数据区" class="headerlink" title="9.JVM 运行时数据区"></a>9.JVM 运行时数据区</h3><h3 id="10-IOC容器初始化过程"><a href="#10-IOC容器初始化过程" class="headerlink" title="10.IOC容器初始化过程"></a>10.IOC容器初始化过程</h3><p>IOC初始化过程主要包括<strong>Resource资源定位，BeanDefinition载入，BeanDefinition注册</strong>三个步骤。</p>
+<h3 id="9-JVM-运行时数据区"><a href="#9-JVM-运行时数据区" class="headerlink" title="9.JVM 运行时数据区"></a>9.JVM 运行时数据区</h3><blockquote>
+<p>栈区：栈区需要内存连续</p>
+</blockquote>
+<ul>
+<li><p>程序计数器：记录正在执行的虚拟机字节码指令地址(如果是本地方法则为空)</p>
+</li>
+<li><p>Java虚拟机栈：每一个Java方法在执行的同时会创建一个栈帧用于存放<strong>局部变量表、操作数栈、常量池引用</strong>等信息，方法的调用直至执行完成对应着栈帧入栈和出栈过程。</p>
+<ul>
+<li><p>可以通过<code>-Xss</code>这个参数来描述Java虚拟机栈的内存大小，JDK1.4默认256k，而JDK1.5+默认为1M</p>
+<pre><code>java -Xss2M HackTheJava</code></pre></li>
+<li><p>该区域可能抛出如下异常：</p>
+<ul>
+<li><p>线程请求的栈深度超过最大值，抛出<code>StackOverflowError</code></p>
+</li>
+<li><p>栈进行动态扩展时无法申请到足够内存时，抛出<code>OutOfMemoryError</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>本地方法栈：本地方法栈与 Java 虚拟机栈类似，它们之间的区别只不过是本地方法栈为本地方法服务。</li>
+</ul>
+<p>本地方法一般是用其它语言（C、C++ 或汇编语言等）编写的，并且被编译为基于本机硬件和操作系统的程序，对待这些方法需要特别处理。</p>
+<blockquote>
+<p>堆区：堆区不需要连续的内存，可动态增加内存，增加内存失败会抛出<code>OutOfMemoryError</code></p>
+</blockquote>
+<p>所有的对象都在堆区分配内存，是垃圾收集的主要区域(GC堆)</p>
+<p>现在的垃圾收集器都采用分代收集算法，其主要思想采用不同类型的对象采用不同的垃圾收集算法，可以将堆分成两块：</p>
+<pre><code>+ 新生代
+
++ 老年代</code></pre><p>可以通过 <code>-Xms</code> 和 <code>-Xmx</code> 这两个虚拟机参数来指定一个程序的堆内存大小，第一个参数设置初始值，第二个参数设置最大值。</p>
+<pre><code>java -Xms1M -Xmx2M HackTheJava</code></pre><blockquote>
+<p>方法区</p>
+</blockquote>
+<p>用于存放<strong>已被加载的类信息、常量、静态变量、即时编译器编译后的代码</strong>等数据。</p>
+<p>和<strong>堆一样不需要连续的内存</strong>，并且可以动态扩展，动态扩展失败一样会抛出 <code>OutOfMemoryError</code> 异常。</p>
+<p>对这块区域进行垃圾回收的主要目标是对常量池的回收和对类的卸载，但是一般比较难实现。</p>
+<p>HotSpot虚拟机把它当成永久代来进行垃圾回收。但很难确定永久代的大小，因为它受到很多因素影响，并且每次 Full GC 之后永久代的大小都会改变，所以经常会抛出<code>OutOfMemoryError</code>异常。为了更容易管理方法区，从 JDK 1.8 开始，移除永久代，并把方法区移至元空间(metaspace)，它位于本地内存中，而不是虚拟机内存中。</p>
+<p>方法区是一个JVM规范，永久代与元空间都是其一种实现方式。在 JDK 1.8 之后，原来永久代的数据被分到了堆和元空间中。元空间存储类的元信息，静态变量和常量池等放入堆中。</p>
+<ul>
+<li><p>运行时常量池</p>
+<p><strong>运行时常量池是方法区的一部分</strong>。</p>
+<p>Class 文件中的常量池（编译器生成的字面量和符号引用）会在类加载后被放入这个区域。</p>
+<p>除了在编译期生成的常量，还允许动态生成，例如 String 类的 intern()。</p>
+</li>
+</ul>
+<blockquote>
+<p>直接内存</p>
+</blockquote>
+<p>在 JDK 1.4 中新引入了 NIO 类，它可以使用 Native 函数库直接分配堆外内存，然后通过 Java 堆里的 DirectByteBuffer 对象作为这块内存的引用进行操作。这样能在一些场景中显著提高性能，因为避免了在堆内存和堆外内存来回拷贝数据。</p>
+<h3 id="10-IOC容器初始化过程"><a href="#10-IOC容器初始化过程" class="headerlink" title="10.IOC容器初始化过程"></a>10.IOC容器初始化过程</h3><p>IOC初始化过程主要包括<strong>Resource资源定位，BeanDefinition载入，BeanDefinition注册</strong>三个步骤。</p>
 <ul>
 <li>Resource资源定位</li>
 </ul>
@@ -2206,7 +2258,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">55.2k</span>&nbsp;字
+                class="white-color">56.1k</span>&nbsp;字
             
             
             
