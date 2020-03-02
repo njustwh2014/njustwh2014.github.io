@@ -1105,7 +1105,35 @@
 <blockquote>
 <p>HashMap与HashTable比较</p>
 </blockquote>
-<p>|HashMap|HashTable<br>—-|—-|—-<br>实现原理|继承自AbstractMap类|继承自Dictionary(JDK1.0添加)没用过<br>初始化容量不同(二者负载因子均为0.75)|初始容量为16|初始容量为11<br>扩容机制不同(当前容量大于总容量*负载因子)|总容量翻倍(保持始终为2的幂)|总容量翻倍+1<br>迭代器不同|使用Iterator迭代器，是fail-fast的|使用Enumerator，不是fail-fast的</p>
+<table>
+<thead>
+<tr>
+<th>不同点</th>
+<th>HashMap</th>
+<th>HashTable</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>实现原理</td>
+<td>继承自AbstractMap类</td>
+<td>继承自Dictionary(JDK1.0添加)没用过</td>
+</tr>
+<tr>
+<td>初始化容量不同(二者负载因子均为0.75)</td>
+<td>初始容量为16</td>
+<td>初始容量为11</td>
+</tr>
+<tr>
+<td>扩容机制不同(当前容量大于总容量*负载因子)</td>
+<td>总容量翻倍(保持始终为2的幂)</td>
+<td>总容量翻倍+1</td>
+</tr>
+<tr>
+<td>迭代器不同</td>
+<td>使用Iterator迭代器，是fail-fast的</td>
+<td>使用Enumerator，不是fail-fast的</td>
+</tr>
+</tbody></table>
 <p><a href="https://mp.weixin.qq.com/s/AixdbEiXf3KfE724kg2YIw" target="_blank" rel="noopener">看这篇屁话</a></p>
 <p>JDK1.7和JDK1.8对于二者改动及原因</p>
 <h3 id="14-ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet"><a href="#14-ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet" class="headerlink" title="14.ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet"></a>14.ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet</h3><p>需要了解底层数据结构和各容器之间的优劣比较</p>
