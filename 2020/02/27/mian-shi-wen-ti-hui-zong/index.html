@@ -469,7 +469,7 @@
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        9.1k
+                        9.2k
                     </div>
                     
 
@@ -1099,7 +1099,15 @@
 <li><p>缺点：把费时的操作放到系统启动中完成，所有的对象都可以预加载，缺点就是内存占用较大。</p>
 </li>
 </ul>
-<h3 id="13-集合类-HashMap和ConcurrentHashMap-源码比较-重点"><a href="#13-集合类-HashMap和ConcurrentHashMap-源码比较-重点" class="headerlink" title="13.集合类:HashMap和ConcurrentHashMap(源码比较) 重点"></a>13.集合类:HashMap和ConcurrentHashMap(源码比较) <strong>重点</strong></h3><p>JDK1.7和JDK1.8对于二者改动及原因</p>
+<h3 id="13-集合类-HashMap和HashTable、ConcurrentHashMap-源码比较-重点"><a href="#13-集合类-HashMap和HashTable、ConcurrentHashMap-源码比较-重点" class="headerlink" title="13.集合类:HashMap和HashTable、ConcurrentHashMap(源码比较) 重点"></a>13.集合类:HashMap和HashTable、ConcurrentHashMap(源码比较) <strong>重点</strong></h3><blockquote>
+<p>HashMap是非线程安全，HashTable和ConcurrentHashMap是线程安全</p>
+</blockquote>
+<blockquote>
+<p>HashMap与HashTable比较</p>
+</blockquote>
+<p>|HashMap|HashTable<br>—-|—-|—-<br>实现原理|继承自AbstractMap类|继承自Dictionary(JDK1.0添加)没用过<br>初始化容量不同(二者负载因子均为0.75)|初始容量为16|初始容量为11<br>扩容机制不同(当前容量大于总容量*负载因子)|总容量翻倍(保持始终为2的幂)|总容量翻倍+1<br>迭代器不同|使用Iterator迭代器，是fail-fast的|使用Enumerator，不是fail-fast的</p>
+<p><a href="https://mp.weixin.qq.com/s/AixdbEiXf3KfE724kg2YIw" target="_blank" rel="noopener">看这篇屁话</a></p>
+<p>JDK1.7和JDK1.8对于二者改动及原因</p>
 <h3 id="14-ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet"><a href="#14-ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet" class="headerlink" title="14.ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet"></a>14.ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet</h3><p>需要了解底层数据结构和各容器之间的优劣比较</p>
 <h3 id="15-JVM-类加载机制"><a href="#15-JVM-类加载机制" class="headerlink" title="15. JVM: 类加载机制"></a>15. JVM: 类加载机制</h3><p>双亲委派机制</p>
 <h3 id="16-JVM-常见GC算法"><a href="#16-JVM-常见GC算法" class="headerlink" title="16. JVM: 常见GC算法"></a>16. JVM: 常见GC算法</h3><h3 id="17-JVM-JVM内存模型"><a href="#17-JVM-JVM内存模型" class="headerlink" title="17. JVM: JVM内存模型"></a>17. JVM: JVM内存模型</h3><h3 id="18-JVM-JVM运行时内存区域"><a href="#18-JVM-JVM运行时内存区域" class="headerlink" title="18. JVM: JVM运行时内存区域"></a>18. JVM: JVM运行时内存区域</h3><h3 id="19-JVM-常见垃圾收集器-CMS、G1、ZGC"><a href="#19-JVM-常见垃圾收集器-CMS、G1、ZGC" class="headerlink" title="19. JVM: 常见垃圾收集器(CMS、G1、ZGC)"></a>19. JVM: 常见垃圾收集器(CMS、G1、ZGC)</h3><h3 id="20-JVM-常见的启动参数"><a href="#20-JVM-常见的启动参数" class="headerlink" title="20. JVM: 常见的启动参数"></a>20. JVM: 常见的启动参数</h3><h3 id="21-JVM：内存溢出的分析过程"><a href="#21-JVM：内存溢出的分析过程" class="headerlink" title="21. JVM：内存溢出的分析过程"></a>21. JVM：内存溢出的分析过程</h3><h3 id="22-JVM：synchronized和volatile关键字在JVM中的行为"><a href="#22-JVM：synchronized和volatile关键字在JVM中的行为" class="headerlink" title="22. JVM：synchronized和volatile关键字在JVM中的行为"></a>22. JVM：<code>synchronized</code>和<code>volatile</code>关键字在JVM中的行为</h3><h3 id="23-创建线程的几种方式"><a href="#23-创建线程的几种方式" class="headerlink" title="23. 创建线程的几种方式"></a>23. 创建线程的几种方式</h3><h3 id="24-线程池原理及参数含义"><a href="#24-线程池原理及参数含义" class="headerlink" title="24. 线程池原理及参数含义"></a>24. 线程池原理及参数含义</h3><h3 id="25-死锁产生条件以及解决策略"><a href="#25-死锁产生条件以及解决策略" class="headerlink" title="25. 死锁产生条件以及解决策略"></a>25. 死锁产生条件以及解决策略</h3><h3 id="26-JUC下源码分析-偶尔带着看吧"><a href="#26-JUC下源码分析-偶尔带着看吧" class="headerlink" title="26. JUC下源码分析(偶尔带着看吧)"></a>26. JUC下源码分析(偶尔带着看吧)</h3><h3 id="27-Lock接口下实现的锁和synchronized关键字比较，各自优缺点"><a href="#27-Lock接口下实现的锁和synchronized关键字比较，各自优缺点" class="headerlink" title="27. Lock接口下实现的锁和synchronized关键字比较，各自优缺点"></a>27. Lock接口下实现的锁和<code>synchronized</code>关键字比较，各自优缺点</h3><h3 id="28-AQS"><a href="#28-AQS" class="headerlink" title="28. AQS"></a>28. AQS</h3><h2 id="Redis-结合项目问"><a href="#Redis-结合项目问" class="headerlink" title="Redis(结合项目问)"></a>Redis(结合项目问)</h2><h3 id="1-常见用途"><a href="#1-常见用途" class="headerlink" title="1. 常见用途"></a>1. 常见用途</h3><p><a href="https://zhuanlan.zhihu.com/p/29665317" target="_blank" rel="noopener">参考连接</a></p>
@@ -2258,7 +2266,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">56.1k</span>&nbsp;字
+                class="white-color">56.3k</span>&nbsp;字
             
             
             
