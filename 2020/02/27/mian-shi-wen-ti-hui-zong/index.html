@@ -469,7 +469,7 @@
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        9.2k
+                        9.3k
                     </div>
                     
 
@@ -1134,6 +1134,22 @@
 <td>使用Enumerator，不是fail-fast的</td>
 </tr>
 </tbody></table>
+<blockquote>
+<p>HashMap底层原理 关键点</p>
+</blockquote>
+<ul>
+<li>JDK1.8引入数组加链表+红黑树</li>
+<li>链表长度超过8时转成红黑树</li>
+</ul>
+<blockquote>
+<p>ConcurrentHashMap</p>
+</blockquote>
+<ul>
+<li>JDK1.7 有segment分段锁</li>
+<li>JDK1.8 放弃分段锁<a href="https://cloud.tencent.com/developer/article/1509556" target="_blank" rel="noopener">为何？</a></li>
+<li>CAS和synchronied</li>
+<li>get和put操作</li>
+</ul>
 <p><a href="https://mp.weixin.qq.com/s/AixdbEiXf3KfE724kg2YIw" target="_blank" rel="noopener">看这篇屁话</a></p>
 <p>JDK1.7和JDK1.8对于二者改动及原因</p>
 <h3 id="14-ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet"><a href="#14-ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet" class="headerlink" title="14.ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet"></a>14.ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet</h3><p>需要了解底层数据结构和各容器之间的优劣比较</p>
