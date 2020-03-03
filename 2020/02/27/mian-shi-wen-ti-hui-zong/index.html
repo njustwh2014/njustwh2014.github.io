@@ -469,14 +469,14 @@
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        9.3k
+                        10.9k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        34 分
+                        40 分
                     </div>
                     
                 
@@ -1154,8 +1154,104 @@
 <p>JDK1.7和JDK1.8对于二者改动及原因</p>
 <h3 id="14-ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet"><a href="#14-ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet" class="headerlink" title="14.ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet"></a>14.ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet</h3><p><img src="/2020/02/27/mian-shi-wen-ti-hui-zong/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%9B%BE.jpg" alt="Java集合框架图"></p>
 <p>需要了解底层数据结构和各容器之间的优劣比较</p>
-<h3 id="15-JVM-类加载机制"><a href="#15-JVM-类加载机制" class="headerlink" title="15. JVM: 类加载机制"></a>15. JVM: 类加载机制</h3><p>双亲委派机制</p>
-<h3 id="16-JVM-常见GC算法"><a href="#16-JVM-常见GC算法" class="headerlink" title="16. JVM: 常见GC算法"></a>16. JVM: 常见GC算法</h3><h3 id="17-JVM-JVM内存模型"><a href="#17-JVM-JVM内存模型" class="headerlink" title="17. JVM: JVM内存模型"></a>17. JVM: JVM内存模型</h3><h3 id="18-JVM-JVM运行时内存区域"><a href="#18-JVM-JVM运行时内存区域" class="headerlink" title="18. JVM: JVM运行时内存区域"></a>18. JVM: JVM运行时内存区域</h3><h3 id="19-JVM-常见垃圾收集器-CMS、G1、ZGC"><a href="#19-JVM-常见垃圾收集器-CMS、G1、ZGC" class="headerlink" title="19. JVM: 常见垃圾收集器(CMS、G1、ZGC)"></a>19. JVM: 常见垃圾收集器(CMS、G1、ZGC)</h3><h3 id="20-JVM-常见的启动参数"><a href="#20-JVM-常见的启动参数" class="headerlink" title="20. JVM: 常见的启动参数"></a>20. JVM: 常见的启动参数</h3><h3 id="21-JVM：内存溢出的分析过程"><a href="#21-JVM：内存溢出的分析过程" class="headerlink" title="21. JVM：内存溢出的分析过程"></a>21. JVM：内存溢出的分析过程</h3><h3 id="22-JVM：synchronized和volatile关键字在JVM中的行为"><a href="#22-JVM：synchronized和volatile关键字在JVM中的行为" class="headerlink" title="22. JVM：synchronized和volatile关键字在JVM中的行为"></a>22. JVM：<code>synchronized</code>和<code>volatile</code>关键字在JVM中的行为</h3><h3 id="23-创建线程的几种方式"><a href="#23-创建线程的几种方式" class="headerlink" title="23. 创建线程的几种方式"></a>23. 创建线程的几种方式</h3><h3 id="24-线程池原理及参数含义"><a href="#24-线程池原理及参数含义" class="headerlink" title="24. 线程池原理及参数含义"></a>24. 线程池原理及参数含义</h3><h3 id="25-死锁产生条件以及解决策略"><a href="#25-死锁产生条件以及解决策略" class="headerlink" title="25. 死锁产生条件以及解决策略"></a>25. 死锁产生条件以及解决策略</h3><h3 id="26-JUC下源码分析-偶尔带着看吧"><a href="#26-JUC下源码分析-偶尔带着看吧" class="headerlink" title="26. JUC下源码分析(偶尔带着看吧)"></a>26. JUC下源码分析(偶尔带着看吧)</h3><h3 id="27-Lock接口下实现的锁和synchronized关键字比较，各自优缺点"><a href="#27-Lock接口下实现的锁和synchronized关键字比较，各自优缺点" class="headerlink" title="27. Lock接口下实现的锁和synchronized关键字比较，各自优缺点"></a>27. Lock接口下实现的锁和<code>synchronized</code>关键字比较，各自优缺点</h3><h3 id="28-AQS"><a href="#28-AQS" class="headerlink" title="28. AQS"></a>28. AQS</h3><h2 id="Redis-结合项目问"><a href="#Redis-结合项目问" class="headerlink" title="Redis(结合项目问)"></a>Redis(结合项目问)</h2><h3 id="1-常见用途"><a href="#1-常见用途" class="headerlink" title="1. 常见用途"></a>1. 常见用途</h3><p><a href="https://zhuanlan.zhihu.com/p/29665317" target="_blank" rel="noopener">参考连接</a></p>
+<h3 id="15-JVM-类加载机制"><a href="#15-JVM-类加载机制" class="headerlink" title="15. JVM: 类加载机制"></a>15. JVM: 类加载机制</h3><p>Java虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是虚拟机的加载机制。</p>
+<p><a href="https://juejin.im/post/5a810b0e5188257a5c606a85#heading-1" target="_blank" rel="noopener">要看看哦</a></p>
+<h3 id="16-JVM-常见GC算法"><a href="#16-JVM-常见GC算法" class="headerlink" title="16. JVM: 常见GC算法"></a>16. JVM: 常见GC算法</h3><blockquote>
+<p>Java四种引用类型</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java">Object ref<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//ref是Object对象的强引用</span>
+
+<span class="token comment" spellcheck="true">//将一个软引用指向Object对象，此时Object对象有两个引用</span>
+SoftReference<span class="token operator">&lt;</span>Object<span class="token operator">></span> sf<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">SoftReference</span><span class="token operator">&lt;</span>Object<span class="token operator">></span><span class="token punctuation">(</span>ref<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ref<span class="token operator">=</span>null<span class="token punctuation">;</span><span class="token comment" spellcheck="true">//移除强引用</span>
+
+Object object<span class="token operator">=</span>ref<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//获取目标对象</span>
+
+System<span class="token punctuation">.</span><span class="token function">gc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//gc只有在内存不足时才会移除软引用对象</span></code></pre>
+<table>
+<thead>
+<tr>
+<th>引用类型</th>
+<th>取得目标方法</th>
+<th>垃圾回收条件</th>
+<th>是否可能内存泄漏</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>强引用</td>
+<td>直接调用</td>
+<td>不回收</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>软引用</td>
+<td>get()</td>
+<td>视内存情况</td>
+<td>不可能</td>
+</tr>
+<tr>
+<td>弱引用</td>
+<td>get()</td>
+<td>gc即回收</td>
+<td>不可能</td>
+</tr>
+<tr>
+<td>虚引用</td>
+<td>无法取得</td>
+<td>不回收</td>
+<td>可能</td>
+</tr>
+</tbody></table>
+<p><a href="https://zhang0peter.com/2020/02/13/java-gc/" target="_blank" rel="noopener">不记得时，就看看吧</a></p>
+<blockquote>
+<p>标记算法</p>
+</blockquote>
+<ul>
+<li><p>引用计数法</p>
+<p>通过在对象中分配一个字段用来存储对象引用计数，一旦对象被引用，则引用计数加一，引用失效则减一，一旦引用计数为0，可以被回收</p>
+<ul>
+<li><p>优点：实现简单，过程高效，具有实时性</p>
+</li>
+<li><p>缺点：需要额外资源维护，且无法解决对象循环依赖问题(Python中解决方法是采用标记-清除算法)</p>
+</li>
+</ul>
+</li>
+<li><p>可达性分析法</p>
+<p>维护一系列<code>GC Root</code>对象作为根，当一个对象经过引用链到达根节点时没有任何引用，则表明该对象不可用，可以被GC回收。</p>
+<p>可以当作<code>GC Root</code>的对象包括但不限于:</p>
+<ul>
+<li>方法中的局部变量</li>
+<li>静态变量、常量</li>
+<li>JNI handles</li>
+</ul>
+<p>需要注意的是，在可达性分析算法中被判定不可达的对象还未真的判『死刑』，至少要经历两次标记过程：判断对象是否有必要执行finalize()方法；若被判定为有必要执行finalize()方法，之后还会对对象再进行一次筛选，如果对象能在finalize()中重新与引用链上的任何一个对象建立关联，将被移除出“即将回收”的集合。</p>
+</li>
+</ul>
+<blockquote>
+<p>回收算法</p>
+</blockquote>
+<ul>
+<li><p>标记清除算法: 会产生空间碎片，当出现连续空间不足够时，虚拟机会感知内存不足，则再次触发GC，而且标记清除算法效率不高，会导致GC时间占用过多，影响程序运行。</p>
+</li>
+<li><p>复制算法：以空间换时间的算法，每次只用一半空间，且不存在空间碎片。在虚拟机内存的新生代中，大批对象死去只保留少数对象，因此适用于复制算法。</p>
+</li>
+<li><p>标记整理算法：是在标记清除算法基础上加上对象移动这个整理过程，从而解决了空间碎片问题，但效率比标记清除还低，适用于老年代。</p>
+</li>
+<li><p>分代收集算法</p>
+<p>  从上面三种 GC 算法可以看到，并没有一种空间与时间效率都是比较完美的算法，所以只能做的是综合利用各种算法特点将其作用到不用的内存区域。</p>
+<p>  js的V8引擎，Python, HotSpot 都采用了分代收集算法。</p>
+<p>  目前JVM虚拟机根据对象存活周期不同划分内存区域，一般分为新生代，老年代。新对象一般情况都会优先分配在新生代，新生代对象若存活时间大于一定阈值之后，将会移到至老年代。新生代的对象都是存活时间短，老年代的对象存活时间长。</p>
+<p>  新生代每次 GC 之后都可以回收大批量对象，所以比较适合复制算法，只需要付出少量复制存活对象的成本。这里内存划分并没有按照 1:1 划分，默认将会按照 8:1:1 划分成 Eden 与两块 Survivor 空间。每次使用 Eden 与一块 Survivor 空间，这样我们只是闲置 10% 内存空间。不过我们每次回收并不能保证存活对象小于 10%,在这种情况下就需要依靠老年代的内存分配担保。当 Survivor 空间并不能保存剩余存活对象，就将这些对象通过分配担保进制移动至老年代。</p>
+<p>  老年代中对象存活率将会特别高，且没有额外空间进行分配担保，所以并不适合复制算法，所以需要使用标记-清除或标记-整理算法。</p>
+<p>  大多数情况下，新的对象都分配在Eden区，当 Eden 区没有空间进行分配时，将进行一次 Minor GC，清理 Eden 区中的无用对象。清理后，Eden 和 From Survivor 中的存活对象如果小于To Survivor 的可用空间则进入To Survivor，否则直接进入老年代；Eden 和 From Survivor 中还存活且能够进入 To Survivor 的对象年龄增加 1 岁（虚拟机为每个对象定义了一个年龄计数器，每执行一次 Minor GC 年龄加 1），当存活对象的年龄到达一定程度（默认 15 岁）后进入老年代，可以通过 -XX:MaxTenuringThreshold 来设置年龄的值。</p>
+<p>  当进行了 Minor GC 后，Eden 还不足以为新对象分配空间（那这个新对象肯定很大），新对象直接进入老年代。</p>
+<p>  占 To Survivor 空间一半以上且年龄相等的对象，大于等于该年龄的对象直接进入老年代，比如 Survivor 空间是 10M，有几个年龄为 4 的对象占用总空间已经超过 5M，则年龄大于等于 4 的对象都直接进入老年代，不需要等到 MaxTenuringThreshold 指定的岁数。</p>
+<p>  在进行 Minor GC 之前，会判断老年代最大连续可用空间是否大于新生代所有对象总空间，如果大于，说明 Minor GC 是安全的，否则会判断是否允许担保失败，如果允许，判断老年代最大连续可用空间是否大于历次晋升到老年代的对象的平均大小，如果大于，则执行 Minor GC，否则执行 Full GC。</p>
+<p>  大对象（需要大量连续内存的对象）例如很长的数组，会直接进入老年代，如果老年代没有足够的连续大空间来存放，则会进行 Full GC。</p>
+</li>
+</ul>
+<h3 id="17-JVM-JVM内存模型"><a href="#17-JVM-JVM内存模型" class="headerlink" title="17. JVM: JVM内存模型"></a>17. JVM: JVM内存模型</h3><h3 id="18-JVM-JVM运行时内存区域"><a href="#18-JVM-JVM运行时内存区域" class="headerlink" title="18. JVM: JVM运行时内存区域"></a>18. JVM: JVM运行时内存区域</h3><h3 id="19-JVM-常见垃圾收集器-CMS、G1、ZGC"><a href="#19-JVM-常见垃圾收集器-CMS、G1、ZGC" class="headerlink" title="19. JVM: 常见垃圾收集器(CMS、G1、ZGC)"></a>19. JVM: 常见垃圾收集器(CMS、G1、ZGC)</h3><h3 id="20-JVM-常见的启动参数"><a href="#20-JVM-常见的启动参数" class="headerlink" title="20. JVM: 常见的启动参数"></a>20. JVM: 常见的启动参数</h3><h3 id="21-JVM：内存溢出的分析过程"><a href="#21-JVM：内存溢出的分析过程" class="headerlink" title="21. JVM：内存溢出的分析过程"></a>21. JVM：内存溢出的分析过程</h3><h3 id="22-JVM：synchronized和volatile关键字在JVM中的行为"><a href="#22-JVM：synchronized和volatile关键字在JVM中的行为" class="headerlink" title="22. JVM：synchronized和volatile关键字在JVM中的行为"></a>22. JVM：<code>synchronized</code>和<code>volatile</code>关键字在JVM中的行为</h3><h3 id="23-创建线程的几种方式"><a href="#23-创建线程的几种方式" class="headerlink" title="23. 创建线程的几种方式"></a>23. 创建线程的几种方式</h3><h3 id="24-线程池原理及参数含义"><a href="#24-线程池原理及参数含义" class="headerlink" title="24. 线程池原理及参数含义"></a>24. 线程池原理及参数含义</h3><h3 id="25-死锁产生条件以及解决策略"><a href="#25-死锁产生条件以及解决策略" class="headerlink" title="25. 死锁产生条件以及解决策略"></a>25. 死锁产生条件以及解决策略</h3><h3 id="26-JUC下源码分析-偶尔带着看吧"><a href="#26-JUC下源码分析-偶尔带着看吧" class="headerlink" title="26. JUC下源码分析(偶尔带着看吧)"></a>26. JUC下源码分析(偶尔带着看吧)</h3><h3 id="27-Lock接口下实现的锁和synchronized关键字比较，各自优缺点"><a href="#27-Lock接口下实现的锁和synchronized关键字比较，各自优缺点" class="headerlink" title="27. Lock接口下实现的锁和synchronized关键字比较，各自优缺点"></a>27. Lock接口下实现的锁和<code>synchronized</code>关键字比较，各自优缺点</h3><h3 id="28-AQS"><a href="#28-AQS" class="headerlink" title="28. AQS"></a>28. AQS</h3><h2 id="Redis-结合项目问"><a href="#Redis-结合项目问" class="headerlink" title="Redis(结合项目问)"></a>Redis(结合项目问)</h2><h3 id="1-常见用途"><a href="#1-常见用途" class="headerlink" title="1. 常见用途"></a>1. 常见用途</h3><p><a href="https://zhuanlan.zhihu.com/p/29665317" target="_blank" rel="noopener">参考连接</a></p>
 <p>这一题要结合着Redis特性来回答，首先得明确Redis有哪些特性。</p>
 <blockquote>
 <p>应用1：读写性能优异可以当作缓存</p>
@@ -2311,7 +2407,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">56.3k</span>&nbsp;字
+                class="white-color">57.9k</span>&nbsp;字
             
             
             
