@@ -337,9 +337,9 @@
             
             <tag> Java </tag>
             
-            <tag> Concurrent </tag>
-            
             <tag> redis </tag>
+            
+            <tag> Concurrent </tag>
             
             <tag> mysql </tag>
             
@@ -395,9 +395,9 @@
       
         <tags>
             
-            <tag> mysql </tag>
-            
             <tag> Centos </tag>
+            
+            <tag> mysql </tag>
             
         </tags>
       
@@ -517,11 +517,11 @@
             
             <tag> elasticsearch </tag>
             
-            <tag> kibana </tag>
-            
             <tag> grafana </tag>
             
             <tag> java </tag>
+            
+            <tag> kibana </tag>
             
             <tag> python </tag>
             

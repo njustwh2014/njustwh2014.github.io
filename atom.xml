@@ -391,9 +391,9 @@
     
       <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
     
-      <category term="Concurrent" scheme="http://eternalhorizon.cn/tags/Concurrent/"/>
-    
       <category term="redis" scheme="http://eternalhorizon.cn/tags/redis/"/>
+    
+      <category term="Concurrent" scheme="http://eternalhorizon.cn/tags/Concurrent/"/>
     
       <category term="mysql" scheme="http://eternalhorizon.cn/tags/mysql/"/>
     
@@ -460,9 +460,9 @@
       <category term="Centos" scheme="http://eternalhorizon.cn/categories/Centos/"/>
     
     
-      <category term="mysql" scheme="http://eternalhorizon.cn/tags/mysql/"/>
-    
       <category term="Centos" scheme="http://eternalhorizon.cn/tags/Centos/"/>
+    
+      <category term="mysql" scheme="http://eternalhorizon.cn/tags/mysql/"/>
     
   </entry>
   
@@ -590,11 +590,11 @@
     
       <category term="elasticsearch" scheme="http://eternalhorizon.cn/tags/elasticsearch/"/>
     
-      <category term="kibana" scheme="http://eternalhorizon.cn/tags/kibana/"/>
-    
       <category term="grafana" scheme="http://eternalhorizon.cn/tags/grafana/"/>
     
       <category term="java" scheme="http://eternalhorizon.cn/tags/java/"/>
+    
+      <category term="kibana" scheme="http://eternalhorizon.cn/tags/kibana/"/>
     
       <category term="python" scheme="http://eternalhorizon.cn/tags/python/"/>
     
