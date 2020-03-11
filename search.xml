@@ -339,9 +339,9 @@
             
             <tag> redis </tag>
             
-            <tag> Concurrent </tag>
-            
             <tag> mysql </tag>
+            
+            <tag> Concurrent </tag>
             
             <tag> springboot </tag>
             
@@ -519,9 +519,9 @@
             
             <tag> elasticsearch </tag>
             
-            <tag> grafana </tag>
-            
             <tag> kibana </tag>
+            
+            <tag> grafana </tag>
             
             <tag> python </tag>
             
@@ -773,9 +773,9 @@
             
             <tag> Java </tag>
             
-            <tag> redis </tag>
-            
             <tag> Vue </tag>
+            
+            <tag> redis </tag>
             
             <tag> mysql </tag>
             

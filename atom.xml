@@ -393,9 +393,9 @@
     
       <category term="redis" scheme="http://eternalhorizon.cn/tags/redis/"/>
     
-      <category term="Concurrent" scheme="http://eternalhorizon.cn/tags/Concurrent/"/>
-    
       <category term="mysql" scheme="http://eternalhorizon.cn/tags/mysql/"/>
+    
+      <category term="Concurrent" scheme="http://eternalhorizon.cn/tags/Concurrent/"/>
     
       <category term="springboot" scheme="http://eternalhorizon.cn/tags/springboot/"/>
     
@@ -592,9 +592,9 @@
     
       <category term="elasticsearch" scheme="http://eternalhorizon.cn/tags/elasticsearch/"/>
     
-      <category term="grafana" scheme="http://eternalhorizon.cn/tags/grafana/"/>
-    
       <category term="kibana" scheme="http://eternalhorizon.cn/tags/kibana/"/>
+    
+      <category term="grafana" scheme="http://eternalhorizon.cn/tags/grafana/"/>
     
       <category term="python" scheme="http://eternalhorizon.cn/tags/python/"/>
     
