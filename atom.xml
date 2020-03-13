@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://eternalhorizon.cn/"/>
-  <updated>2020-03-12T09:04:19.508Z</updated>
+  <updated>2020-03-13T12:46:29.043Z</updated>
   <id>http://eternalhorizon.cn/</id>
   
   <author>
@@ -17,11 +17,43 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Java基础面试题汇总</title>
+    <link href="http://eternalhorizon.cn/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/"/>
+    <id>http://eternalhorizon.cn/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/</id>
+    <published>2020-03-13T12:32:50.000Z</published>
+    <updated>2020-03-13T12:46:29.043Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;a href=&quot;https://www.processon.com/view/link/5db53025e4b0893e9a654cda#map&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;学习大纲&lt;/a&gt;&lt;/p&gt;
+&lt;h2
+        
+      
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+      <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
+    
+      <category term="Springboot" scheme="http://eternalhorizon.cn/tags/Springboot/"/>
+    
+      <category term="JVM" scheme="http://eternalhorizon.cn/tags/JVM/"/>
+    
+  </entry>
+  
+  <entry>
     <title>面试问题汇总</title>
     <link href="http://eternalhorizon.cn/2020/02/27/mian-shi-wen-ti-hui-zong/"/>
     <id>http://eternalhorizon.cn/2020/02/27/mian-shi-wen-ti-hui-zong/</id>
     <published>2020-02-27T02:20:25.000Z</published>
-    <updated>2020-03-12T09:04:19.508Z</updated>
+    <updated>2020-03-12T09:27:50.418Z</updated>
     
     <summary type="html">
     
@@ -623,6 +655,8 @@
       <category term="面试" scheme="http://eternalhorizon.cn/categories/%E9%9D%A2%E8%AF%95/"/>
     
     
+      <category term="JVM" scheme="http://eternalhorizon.cn/tags/JVM/"/>
+    
       <category term="面试" scheme="http://eternalhorizon.cn/tags/%E9%9D%A2%E8%AF%95/"/>
     
       <category term="字节跳动" scheme="http://eternalhorizon.cn/tags/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/"/>
@@ -635,47 +669,7 @@
     
       <category term="数据结构" scheme="http://eternalhorizon.cn/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
-      <category term="JVM" scheme="http://eternalhorizon.cn/tags/JVM/"/>
-    
       <category term="GC" scheme="http://eternalhorizon.cn/tags/GC/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>彻底理解ReentrantLock</title>
-    <link href="http://eternalhorizon.cn/2019/11/05/che-di-li-jie-reentrantlock/"/>
-    <id>http://eternalhorizon.cn/2019/11/05/che-di-li-jie-reentrantlock/</id>
-    <published>2019-11-05T05:31:31.000Z</published>
-    <updated>2019-11-22T06:36:50.408Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/njustwh2014/MyJavaRepo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;我的github项目，有一些代码示例&lt;/a&gt; forked from &lt;a
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Concurrent" scheme="http://eternalhorizon.cn/categories/Concurrent/"/>
-    
-    
-      <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
-    
-      <category term="Concurrent" scheme="http://eternalhorizon.cn/tags/Concurrent/"/>
-    
-      <category term="AQS" scheme="http://eternalhorizon.cn/tags/AQS/"/>
-    
-      <category term="Lock" scheme="http://eternalhorizon.cn/tags/Lock/"/>
-    
-      <category term="Condition" scheme="http://eternalhorizon.cn/tags/Condition/"/>
-    
-      <category term="ReentrantLock" scheme="http://eternalhorizon.cn/tags/ReentrantLock/"/>
     
   </entry>
   
