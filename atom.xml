@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://eternalhorizon.cn/"/>
-  <updated>2020-03-13T12:46:29.043Z</updated>
+  <updated>2020-03-13T12:51:58.081Z</updated>
   <id>http://eternalhorizon.cn/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>redis面试题汇总</title>
+    <link href="http://eternalhorizon.cn/2020/03/13/redis-mian-shi-ti-hui-zong/"/>
+    <id>http://eternalhorizon.cn/2020/03/13/redis-mian-shi-ti-hui-zong/</id>
+    <published>2020-03-13T12:49:29.000Z</published>
+    <updated>2020-03-13T12:51:58.081Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;常见应用&quot;&gt;&lt;a href=&quot;#常见应用&quot; class=&quot;headerlink&quot; title=&quot;常见应用&quot;&gt;&lt;/a&gt;常见应用&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/29665317&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+      <category term="Redis" scheme="http://eternalhorizon.cn/tags/Redis/"/>
+    
+  </entry>
   
   <entry>
     <title>Java基础面试题汇总</title>
@@ -53,7 +80,7 @@
     <link href="http://eternalhorizon.cn/2020/02/27/mian-shi-wen-ti-hui-zong/"/>
     <id>http://eternalhorizon.cn/2020/02/27/mian-shi-wen-ti-hui-zong/</id>
     <published>2020-02-27T02:20:25.000Z</published>
-    <updated>2020-03-12T09:27:50.418Z</updated>
+    <updated>2020-03-13T12:49:11.483Z</updated>
     
     <summary type="html">
     
@@ -61,8 +88,7 @@
       
         
         
-          &lt;p&gt;&lt;a href=&quot;https://www.processon.com/view/link/5db53025e4b0893e9a654cda#map&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;学习大纲&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&quot;Java&quot;&gt;&lt;a
+          &lt;h2 id=&quot;Redis-结合项目问&quot;&gt;&lt;a href=&quot;#Redis-结合项目问&quot; class=&quot;headerlink&quot; title=&quot;Redis(结合项目问)&quot;&gt;&lt;/a&gt;Redis(结合项目问)&lt;/h2&gt;&lt;h3 id=&quot;1-常见用途&quot;&gt;&lt;a href=&quot;#1-常见用途&quot;
         
       
     
@@ -301,11 +327,11 @@
     
       <category term="docker" scheme="http://eternalhorizon.cn/tags/docker/"/>
     
-      <category term="elasticsearch" scheme="http://eternalhorizon.cn/tags/elasticsearch/"/>
-    
       <category term="java" scheme="http://eternalhorizon.cn/tags/java/"/>
     
       <category term="nginx" scheme="http://eternalhorizon.cn/tags/nginx/"/>
+    
+      <category term="elasticsearch" scheme="http://eternalhorizon.cn/tags/elasticsearch/"/>
     
       <category term="vue" scheme="http://eternalhorizon.cn/tags/vue/"/>
     
@@ -421,11 +447,11 @@
       <category term="Concurrent" scheme="http://eternalhorizon.cn/categories/Concurrent/"/>
     
     
+      <category term="redis" scheme="http://eternalhorizon.cn/tags/redis/"/>
+    
       <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
     
       <category term="Concurrent" scheme="http://eternalhorizon.cn/tags/Concurrent/"/>
-    
-      <category term="redis" scheme="http://eternalhorizon.cn/tags/redis/"/>
     
       <category term="mysql" scheme="http://eternalhorizon.cn/tags/mysql/"/>
     
@@ -492,9 +518,9 @@
       <category term="Centos" scheme="http://eternalhorizon.cn/categories/Centos/"/>
     
     
-      <category term="mysql" scheme="http://eternalhorizon.cn/tags/mysql/"/>
-    
       <category term="Centos" scheme="http://eternalhorizon.cn/tags/Centos/"/>
+    
+      <category term="mysql" scheme="http://eternalhorizon.cn/tags/mysql/"/>
     
   </entry>
   
@@ -620,56 +646,15 @@
       <category term="elasticsearch" scheme="http://eternalhorizon.cn/categories/elasticsearch/"/>
     
     
+      <category term="java" scheme="http://eternalhorizon.cn/tags/java/"/>
+    
       <category term="elasticsearch" scheme="http://eternalhorizon.cn/tags/elasticsearch/"/>
     
       <category term="kibana" scheme="http://eternalhorizon.cn/tags/kibana/"/>
     
       <category term="grafana" scheme="http://eternalhorizon.cn/tags/grafana/"/>
     
-      <category term="java" scheme="http://eternalhorizon.cn/tags/java/"/>
-    
       <category term="python" scheme="http://eternalhorizon.cn/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>字节跳动后端实习面试记录</title>
-    <link href="http://eternalhorizon.cn/2019/11/08/zi-jie-tiao-dong-hou-duan-shi-xi-mian-shi-ji-lu/"/>
-    <id>http://eternalhorizon.cn/2019/11/08/zi-jie-tiao-dong-hou-duan-shi-xi-mian-shi-ji-lu/</id>
-    <published>2019-11-08T01:03:57.000Z</published>
-    <updated>2019-11-22T06:36:50.405Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;心血来潮，在牛客网上给字节跳动投递了后端开发实习生，大概是近期太膨胀了吧，面试完还是我太菜了。害。。。。。&lt;br&gt;&lt;img src=&quot;http://pzpoejx7j.bkt.clouddn.com/%E5%A4%AA%E9%9A%BE%E4%BA%86.jpeg&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="面试" scheme="http://eternalhorizon.cn/categories/%E9%9D%A2%E8%AF%95/"/>
-    
-    
-      <category term="JVM" scheme="http://eternalhorizon.cn/tags/JVM/"/>
-    
-      <category term="面试" scheme="http://eternalhorizon.cn/tags/%E9%9D%A2%E8%AF%95/"/>
-    
-      <category term="字节跳动" scheme="http://eternalhorizon.cn/tags/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8/"/>
-    
-      <category term="数据库" scheme="http://eternalhorizon.cn/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="操作系统" scheme="http://eternalhorizon.cn/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
-    
-      <category term="计算机网络" scheme="http://eternalhorizon.cn/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-      <category term="数据结构" scheme="http://eternalhorizon.cn/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-      <category term="GC" scheme="http://eternalhorizon.cn/tags/GC/"/>
     
   </entry>
   
