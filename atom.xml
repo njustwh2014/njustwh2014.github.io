@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://eternalhorizon.cn/"/>
-  <updated>2020-03-13T12:51:58.081Z</updated>
+  <updated>2020-03-13T13:05:53.111Z</updated>
   <id>http://eternalhorizon.cn/</id>
   
   <author>
@@ -15,6 +15,116 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>编程题汇总</title>
+    <link href="http://eternalhorizon.cn/2020/03/13/bian-cheng-ti-hui-zong/"/>
+    <id>http://eternalhorizon.cn/2020/03/13/bian-cheng-ti-hui-zong/</id>
+    <published>2020-03-13T13:05:04.000Z</published>
+    <updated>2020-03-13T13:05:53.111Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;二分查找&quot;&gt;&lt;a href=&quot;#二分查找&quot; class=&quot;headerlink&quot; title=&quot;二分查找&quot;&gt;&lt;/a&gt;二分查找&lt;/h2&gt;&lt;pre class=&quot; language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span
+        
+      
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+      <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mysql面试汇总</title>
+    <link href="http://eternalhorizon.cn/2020/03/13/mysql-mian-shi-hui-zong/"/>
+    <id>http://eternalhorizon.cn/2020/03/13/mysql-mian-shi-hui-zong/</id>
+    <published>2020-03-13T12:59:55.000Z</published>
+    <updated>2020-03-13T13:02:57.279Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;数据库索引&quot;&gt;&lt;a href=&quot;#数据库索引&quot; class=&quot;headerlink&quot; title=&quot;数据库索引&quot;&gt;&lt;/a&gt;数据库索引&lt;/h2&gt;&lt;h3 id=&quot;索引有哪几种&quot;&gt;&lt;a href=&quot;#索引有哪几种&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+      <category term="Mysql" scheme="http://eternalhorizon.cn/tags/Mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>设计模式题汇总</title>
+    <link href="http://eternalhorizon.cn/2020/03/13/she-ji-mo-shi-ti-hui-zong/"/>
+    <id>http://eternalhorizon.cn/2020/03/13/she-ji-mo-shi-ti-hui-zong/</id>
+    <published>2020-03-13T12:56:00.000Z</published>
+    <updated>2020-03-13T12:59:31.834Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;设计原则有哪些？&quot;&gt;&lt;a href=&quot;#设计原则有哪些？&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+      <category term="设计模式" scheme="http://eternalhorizon.cn/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>网络协议面试题汇总</title>
+    <link href="http://eternalhorizon.cn/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/"/>
+    <id>http://eternalhorizon.cn/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/</id>
+    <published>2020-03-13T12:53:35.000Z</published>
+    <updated>2020-03-13T12:55:37.785Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;Http协议&quot;&gt;&lt;a href=&quot;#Http协议&quot; class=&quot;headerlink&quot; title=&quot;Http协议&quot;&gt;&lt;/a&gt;Http协议&lt;/h2&gt;&lt;h3 id=&quot;Get和Post比较&quot;&gt;&lt;a href=&quot;#Get和Post比较&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+      <category term="TCP" scheme="http://eternalhorizon.cn/tags/TCP/"/>
+    
+      <category term="HTTP" scheme="http://eternalhorizon.cn/tags/HTTP/"/>
+    
+  </entry>
   
   <entry>
     <title>redis面试题汇总</title>
@@ -80,7 +190,7 @@
     <link href="http://eternalhorizon.cn/2020/02/27/mian-shi-wen-ti-hui-zong/"/>
     <id>http://eternalhorizon.cn/2020/02/27/mian-shi-wen-ti-hui-zong/</id>
     <published>2020-02-27T02:20:25.000Z</published>
-    <updated>2020-03-13T12:49:11.483Z</updated>
+    <updated>2020-03-13T13:08:29.302Z</updated>
     
     <summary type="html">
     
@@ -88,7 +198,7 @@
       
         
         
-          &lt;h2 id=&quot;Redis-结合项目问&quot;&gt;&lt;a href=&quot;#Redis-结合项目问&quot; class=&quot;headerlink&quot; title=&quot;Redis(结合项目问)&quot;&gt;&lt;/a&gt;Redis(结合项目问)&lt;/h2&gt;&lt;h3 id=&quot;1-常见用途&quot;&gt;&lt;a href=&quot;#1-常见用途&quot;
+          &lt;h2 id=&quot;Java、JVM、Spring&quot;&gt;&lt;a href=&quot;#Java、JVM、Spring&quot; class=&quot;headerlink&quot; title=&quot;Java、JVM、Spring&quot;&gt;&lt;/a&gt;Java、JVM、Spring&lt;/h2&gt;&lt;h2 id=&quot;redis&quot;&gt;&lt;a
         
       
     
@@ -150,7 +260,7 @@
     <link href="http://eternalhorizon.cn/2020/01/02/shu-yu-zha-huan-he-gou-ting-de-yi-bai/"/>
     <id>http://eternalhorizon.cn/2020/01/02/shu-yu-zha-huan-he-gou-ting-de-yi-bai/</id>
     <published>2020-01-02T01:35:50.000Z</published>
-    <updated>2020-01-02T02:16:58.921Z</updated>
+    <updated>2020-03-13T13:06:31.324Z</updated>
     
     <summary type="html">
     
@@ -521,140 +631,6 @@
       <category term="Centos" scheme="http://eternalhorizon.cn/tags/Centos/"/>
     
       <category term="mysql" scheme="http://eternalhorizon.cn/tags/mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>我的阿里云服务器配置备忘</title>
-    <link href="http://eternalhorizon.cn/2019/11/11/wo-de-a-li-yun-fu-wu-qi-pei-zhi-bei-wang/"/>
-    <id>http://eternalhorizon.cn/2019/11/11/wo-de-a-li-yun-fu-wu-qi-pei-zhi-bei-wang/</id>
-    <published>2019-11-11T07:22:54.000Z</published>
-    <updated>2019-11-22T06:36:50.412Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;更换系统盘后出现”WARNING-REMOTE-HOST-IDENTIFICATION-HAS-CHANGED-”&quot;&gt;&lt;a href=&quot;#更换系统盘后出现”WARNING-REMOTE-HOST-IDENTIFICATION-HAS-CHANGED-”&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Centos" scheme="http://eternalhorizon.cn/categories/Centos/"/>
-    
-    
-      <category term="Centos" scheme="http://eternalhorizon.cn/tags/Centos/"/>
-    
-      <category term="阿里云" scheme="http://eternalhorizon.cn/tags/%E9%98%BF%E9%87%8C%E4%BA%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>详解Condition的await和signal等待通知机制</title>
-    <link href="http://eternalhorizon.cn/2019/11/08/xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi/"/>
-    <id>http://eternalhorizon.cn/2019/11/08/xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi/</id>
-    <published>2019-11-08T05:36:45.000Z</published>
-    <updated>2019-11-22T06:36:50.416Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;&lt;a href=&quot;https://github.com/njustwh2014/MyJavaRepo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;我的github项目，有一些代码示例&lt;/a&gt; forked from &lt;a
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Concurrent" scheme="http://eternalhorizon.cn/categories/Concurrent/"/>
-    
-    
-      <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
-    
-      <category term="Concurrent" scheme="http://eternalhorizon.cn/tags/Concurrent/"/>
-    
-      <category term="AQS" scheme="http://eternalhorizon.cn/tags/AQS/"/>
-    
-      <category term="Lock" scheme="http://eternalhorizon.cn/tags/Lock/"/>
-    
-      <category term="Condition" scheme="http://eternalhorizon.cn/tags/Condition/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>深入理解读写锁ReentrantReadWriteLock</title>
-    <link href="http://eternalhorizon.cn/2019/11/08/shen-ru-li-jie-du-xie-suo-reentrantreadwritelock/"/>
-    <id>http://eternalhorizon.cn/2019/11/08/shen-ru-li-jie-du-xie-suo-reentrantreadwritelock/</id>
-    <published>2019-11-08T05:06:39.000Z</published>
-    <updated>2019-11-22T06:36:50.414Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;&lt;a href=&quot;https://github.com/njustwh2014/MyJavaRepo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;我的github项目，有一些代码示例&lt;/a&gt; forked from &lt;a
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Concurrent" scheme="http://eternalhorizon.cn/categories/Concurrent/"/>
-    
-    
-      <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
-    
-      <category term="Concurrent" scheme="http://eternalhorizon.cn/tags/Concurrent/"/>
-    
-      <category term="AQS" scheme="http://eternalhorizon.cn/tags/AQS/"/>
-    
-      <category term="Lock" scheme="http://eternalhorizon.cn/tags/Lock/"/>
-    
-      <category term="Condition" scheme="http://eternalhorizon.cn/tags/Condition/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>从0开始使用ElasticSearch</title>
-    <link href="http://eternalhorizon.cn/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/"/>
-    <id>http://eternalhorizon.cn/2019/11/08/cong-0-kai-shi-shi-yong-elasticsearch/</id>
-    <published>2019-11-08T01:36:06.000Z</published>
-    <updated>2019-11-22T06:36:50.401Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;整体框架&quot;&gt;&lt;a href=&quot;#整体框架&quot; class=&quot;headerlink&quot; title=&quot;整体框架&quot;&gt;&lt;/a&gt;整体框架&lt;/h2&gt;&lt;p&gt;&lt;img
-        
-      
-    
-    </summary>
-    
-    
-      <category term="elasticsearch" scheme="http://eternalhorizon.cn/categories/elasticsearch/"/>
-    
-    
-      <category term="java" scheme="http://eternalhorizon.cn/tags/java/"/>
-    
-      <category term="elasticsearch" scheme="http://eternalhorizon.cn/tags/elasticsearch/"/>
-    
-      <category term="kibana" scheme="http://eternalhorizon.cn/tags/kibana/"/>
-    
-      <category term="grafana" scheme="http://eternalhorizon.cn/tags/grafana/"/>
-    
-      <category term="python" scheme="http://eternalhorizon.cn/tags/python/"/>
     
   </entry>
   
