@@ -462,7 +462,7 @@ GET请求会被浏览器">
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        3k
+                        3.1k
                     </div>
                     
 
@@ -638,6 +638,14 @@ GET请求会被浏览器">
 <p>为了避免流量控制引发的死锁，TCP使用了持续计时器。每当发送者收到一个零窗口的应答后就启动该计时器。时间一到便主动发送报文询问接收者的窗口大小。若接收者仍然返回零窗口，则重置该计时器继续等待；若窗口不为0，则表示应答报文丢失了，此时重置发送窗口后开始发送，这样就避免了死锁的产生。</p>
 <p><strong>拥塞控制作用于网络，防止大量数据进入网络导致阻塞，流量控制是作用于接收者的，它是控制发送者的发送速度从而使接收者来得及接收，防止分组丢失的。</strong></p>
 <h3 id="Nagle"><a href="#Nagle" class="headerlink" title="Nagle"></a>Nagle</h3><p><a href="https://blog.csdn.net/ce123_zhouwei/article/details/9050797" target="_blank" rel="noopener">参考文章</a></p>
+<h3 id="TCP与UDP的区别"><a href="#TCP与UDP的区别" class="headerlink" title="TCP与UDP的区别"></a>TCP与UDP的区别</h3><ul>
+<li>1、基于连接与无连接； why？</li>
+<li>2、对系统资源的要求（TCP较多，UDP少）； why?</li>
+<li>3、UDP程序结构较简单； why?</li>
+<li>4、流模式与数据报模式 ； why?</li>
+<li>5、TCP保证数据正确性，UDP可能丢包； why?</li>
+<li>6、TCP保证数据顺序，UDP不保证。why?</li>
+</ul>
 <h2 id="描述数据从网卡至内核空间最后至用户空间的过程"><a href="#描述数据从网卡至内核空间最后至用户空间的过程" class="headerlink" title="描述数据从网卡至内核空间最后至用户空间的过程"></a>描述数据从网卡至内核空间最后至用户空间的过程</h2><p>数据通过网线进入网卡后，进行模数转换写入网卡缓存，通过DMA写入计算机内存，一个内核线程根据TCP协议进行拆包，最后将数据写入每个socket对应的sync/accept队列中，供应用程序使用(应用程序需要进行组包操作，对应着分包操作)。</p>
 
             </div>
@@ -1386,7 +1394,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">64.3k</span>&nbsp;字
+                class="white-color">64.4k</span>&nbsp;字
             
             
             
