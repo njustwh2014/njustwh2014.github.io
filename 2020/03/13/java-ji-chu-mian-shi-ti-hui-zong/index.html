@@ -7,12 +7,12 @@
     <meta name="keywords" content="Java基础面试题汇总, Java, 中间件, Spring, Redis">
     <meta name="description" content="Java基础线程间同步方式看看看看
 
-synchronized修饰方法和方法块
+1.synchronized修饰方法和方法块
 
-使用特殊域变量volatile
+2.使用特殊域变量volatile
 
 volatile关键字为域变量的访问提供了一种免锁机制，
-使用volatile修饰域相当于告诉虚拟机该域可能会被其他线程更新">
+使用volatile修饰域相当于告诉虚拟机该域可能会被其他">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -493,9 +493,9 @@ volatile关键字为域变量的访问提供了一种免锁机制，
             <div id="articleContent">
                 <h2 id="Java基础"><a href="#Java基础" class="headerlink" title="Java基础"></a>Java基础</h2><h3 id="线程间同步方式"><a href="#线程间同步方式" class="headerlink" title="线程间同步方式"></a>线程间同步方式</h3><p><a href="https://www.cnblogs.com/xhjt/p/3897440.html" target="_blank" rel="noopener">看看看看</a></p>
 <ul>
-<li><p><code>synchronized</code>修饰方法和方法块</p>
+<li><p>1.<code>synchronized</code>修饰方法和方法块</p>
 </li>
-<li><p>使用特殊域变量<code>volatile</code></p>
+<li><p>2.使用特殊域变量<code>volatile</code></p>
 <ul>
 <li>volatile关键字为域变量的访问提供了一种免锁机制，</li>
 <li>使用volatile修饰域相当于告诉虚拟机该域可能会被其他线程更新，</li>
@@ -503,7 +503,7 @@ volatile关键字为域变量的访问提供了一种免锁机制，
 <li>volatile不会提供任何原子操作，它也不能用来修饰final类型的变量</li>
 </ul>
 </li>
-<li><p>使用重入锁<code>RetrentLock</code></p>
+<li><p>3.使用重入锁<code>RetrentLock</code></p>
 <p>在JavaSE5.0中新增了一个java.util.concurrent包来支持同步。ReentrantLock类是可重入、互斥、实现了Lock接口的锁，它与使用synchronized方法和快具有相同的基本行为和语义，并且扩展了其能力</p>
 <p>ReenreantLock类的常用方法有：</p>
 <ul>
@@ -513,29 +513,33 @@ volatile关键字为域变量的访问提供了一种免锁机制，
 </ul>
 <p>注：ReentrantLock()还有一个可以创建公平锁的构造方法，但由于能大幅度降低程序运行效率，不推荐使用</p>
 </li>
-<li><p>使用<code>ThreadLocal</code><br>如果使用ThreadLocal管理变量，则每一个使用该变量的线程都获得该变量的副本，副本之间相互独立，这样每一个线程都可以随意修改自己的变量副本，而不会对其他线程产生影响。</p>
+<li><p>4.使用<code>ThreadLocal</code><br>如果使用ThreadLocal管理变量，则每一个使用该变量的线程都获得该变量的副本，副本之间相互独立，这样每一个线程都可以随意修改自己的变量副本，而不会对其他线程产生影响。</p>
 <p>ThreadLocal与同步机制:</p>
 <ul>
 <li>a.ThreadLocal与同步机制都是为了解决多线程中相同变量的访问冲突问题。</li>
 <li>b.前者采用以”空间换时间”的方法，后者采用以”时间换空间”的方式</li>
 </ul>
 </li>
-<li><p><a href="https://www.jianshu.com/p/9394b257fdde" target="_blank" rel="noopener">使用阻塞队列<code>LinkedBlockingQueue</code></a></p>
-</li>
-</ul>
-<p>(1) LinkedBlockingQueue继承于AbstractQueue，它本质上是一个FIFO(先进先出)的队列。</p>
-<p>(2) LinkedBlockingQueue实现了BlockingQueue接口，它支持多线程并发。当多线程竞争同一个资源时，某线程获取到该资源之后，其它线程需要阻塞等待。</p>
-<p>(3) LinkedBlockingQueue是通过<strong>单链表</strong>实现的。</p>
-<p>3.a) head是链表的表头。取出数据时，都是从表头head处插入。</p>
-<p>3.b) last是链表的表尾。新增数据时，都是从表尾last处插入。</p>
-<p>3.c) count是链表的实际大小，即当前链表中包含的节点个数。</p>
-<p>3.d) capacity是列表的容量，它是在创建链表时指定的。</p>
-<p>3.e) putLock是插入锁，takeLock是取出锁；notEmpty是“非空条件”，notFull是“未满条件”。通过它们对链表进行并发控制。</p>
-<p>LinkedBlockingQueue在实现“多线程对竞争资源的互斥访问”时，对于“插入”和“取出(删除)”操作分别使用了不同的锁。对于插入操作，通过“插入锁putLock”进行同步；对于取出操作，通过“取出锁takeLock”进行同步。 此外，插入锁putLock和“非满条件notFull”相关联，取出锁takeLock和“非空条件notEmpty”相关联。通过notFull和notEmpty更细腻的控制锁。</p>
-<p>– 若某线程(线程A)要取出数据时，队列正好为空，则该线程会执行notEmpty.await()进行等待；当其它某个线程(线程B)向队列中插入了数据之后，会调用notEmpty.signal()唤醒“notEmpty上的等待线程”。此时，线程A会被唤醒从而得以继续运行。 此外，线程A在执行取操作前，会获取takeLock，在取操作执行完毕再释放takeLock。</p>
-<p>– 若某线程(线程H)要插入数据时，队列已满，则该线程会它执行notFull.await()进行等待；当其它某个线程(线程I)取出数据之后，会调用notFull.signal()唤醒“notFull上的等待线程”。此时，线程H就会被唤醒从而得以继续运行。 此外，线程H在执行插入操作前，会获取putLock，在插入操作执行完毕才释放putLock。</p>
+<li><p>5.<a href="https://www.jianshu.com/p/9394b257fdde" target="_blank" rel="noopener">使用阻塞队列<code>LinkedBlockingQueue</code></a></p>
 <ul>
-<li><p>使用原子变量<br>需要使用线程同步的根本原因在于对普通变量的操作不是原子的。</p>
+<li>(1) LinkedBlockingQueue继承于AbstractQueue，它本质上是一个FIFO(先进先出)的队列。</li>
+<li>(2) LinkedBlockingQueue实现了BlockingQueue接口，它支持多线程并发。当多线程竞争同一个资源时，某线程获取到该资源之后，其它线程需要阻塞等待。</li>
+<li>(3) LinkedBlockingQueue是通过<strong>单链表</strong>实现的。</li>
+</ul>
+<ul>
+<li>a) head是链表的表头。取出数据时，都是从表头head处插入。</li>
+<li>b) last是链表的表尾。新增数据时，都是从表尾last处插入。</li>
+<li>c) count是链表的实际大小，即当前链表中包含的节点个数。</li>
+<li>d) capacity是列表的容量，它是在创建链表时指定的。</li>
+<li>e) putLock是插入锁，takeLock是取出锁；notEmpty是“非空条件”，notFull是“未满条件”。通过它们对链表进行并发控制。</li>
+</ul>
+<p>LinkedBlockingQueue在实现“多线程对竞争资源的互斥访问”时，对于“插入”和“取出(删除)”操作分别使用了不同的锁。对于插入操作，通过“插入锁putLock”进行同步；对于取出操作，通过“取出锁takeLock”进行同步。 此外，插入锁putLock和“非满条件notFull”相关联，取出锁takeLock和“非空条件notEmpty”相关联。通过notFull和notEmpty更细腻的控制锁。</p>
+<ul>
+<li>若某线程(线程A)要取出数据时，队列正好为空，则该线程会执行notEmpty.await()进行等待；当其它某个线程(线程B)向队列中插入了数据之后，会调用notEmpty.signal()唤醒“notEmpty上的等待线程”。此时，线程A会被唤醒从而得以继续运行。 此外，线程A在执行取操作前，会获取takeLock，在取操作执行完毕再释放takeLock。</li>
+<li>若某线程(线程H)要插入数据时，队列已满，则该线程会它执行notFull.await()进行等待；当其它某个线程(线程I)取出数据之后，会调用notFull.signal()唤醒“notFull上的等待线程”。此时，线程H就会被唤醒从而得以继续运行。 此外，线程H在执行插入操作前，会获取putLock，在插入操作执行完毕才释放putLock。</li>
+</ul>
+</li>
+<li><p>6.使用原子变量<br>需要使用线程同步的根本原因在于对普通变量的操作不是原子的。</p>
 <p>那么什么是原子操作呢？</p>
 <p>原子操作就是指将读取变量值、修改变量值、保存变量值看成一个整体来操作即这几种行为要么同时完成，要么都不完成。</p>
 </li>
