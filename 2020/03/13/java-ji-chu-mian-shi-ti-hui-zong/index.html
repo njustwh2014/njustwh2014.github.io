@@ -524,14 +524,14 @@ volatile关键字为域变量的访问提供了一种免锁机制，
 <ul>
 <li>(1) LinkedBlockingQueue继承于AbstractQueue，它本质上是一个FIFO(先进先出)的队列。</li>
 <li>(2) LinkedBlockingQueue实现了BlockingQueue接口，它支持多线程并发。当多线程竞争同一个资源时，某线程获取到该资源之后，其它线程需要阻塞等待。</li>
-<li>(3) LinkedBlockingQueue是通过<strong>单链表</strong>实现的。</li>
-</ul>
-<ul>
+<li>(3) LinkedBlockingQueue是通过<strong>单链表</strong>实现的。<ul>
 <li>a) head是链表的表头。取出数据时，都是从表头head处插入。</li>
 <li>b) last是链表的表尾。新增数据时，都是从表尾last处插入。</li>
 <li>c) count是链表的实际大小，即当前链表中包含的节点个数。</li>
 <li>d) capacity是列表的容量，它是在创建链表时指定的。</li>
 <li>e) putLock是插入锁，takeLock是取出锁；notEmpty是“非空条件”，notFull是“未满条件”。通过它们对链表进行并发控制。</li>
+</ul>
+</li>
 </ul>
 <p>LinkedBlockingQueue在实现“多线程对竞争资源的互斥访问”时，对于“插入”和“取出(删除)”操作分别使用了不同的锁。对于插入操作，通过“插入锁putLock”进行同步；对于取出操作，通过“取出锁takeLock”进行同步。 此外，插入锁putLock和“非满条件notFull”相关联，取出锁takeLock和“非空条件notEmpty”相关联。通过notFull和notEmpty更细腻的控制锁。</p>
 <ul>
@@ -544,7 +544,12 @@ volatile关键字为域变量的访问提供了一种免锁机制，
 <p>原子操作就是指将读取变量值、修改变量值、保存变量值看成一个整体来操作即这几种行为要么同时完成，要么都不完成。</p>
 </li>
 </ul>
-<h3 id="创建线程的几种方式"><a href="#创建线程的几种方式" class="headerlink" title="创建线程的几种方式"></a>创建线程的几种方式</h3><h3 id="线程池原理及参数含义"><a href="#线程池原理及参数含义" class="headerlink" title="线程池原理及参数含义"></a>线程池原理及参数含义</h3><h3 id="死锁产生条件以及解决策略"><a href="#死锁产生条件以及解决策略" class="headerlink" title="死锁产生条件以及解决策略"></a>死锁产生条件以及解决策略</h3><h3 id="JUC下源码分析-偶尔带着看吧"><a href="#JUC下源码分析-偶尔带着看吧" class="headerlink" title="JUC下源码分析(偶尔带着看吧)"></a>JUC下源码分析(偶尔带着看吧)</h3><h3 id="Lock接口下实现的锁和synchronized关键字比较，各自优缺点"><a href="#Lock接口下实现的锁和synchronized关键字比较，各自优缺点" class="headerlink" title="Lock接口下实现的锁和synchronized关键字比较，各自优缺点"></a>Lock接口下实现的锁和<code>synchronized</code>关键字比较，各自优缺点</h3><h3 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h3><h3 id="为什么要重写hashCode和equals方法"><a href="#为什么要重写hashCode和equals方法" class="headerlink" title="为什么要重写hashCode和equals方法"></a>为什么要重写hashCode和equals方法</h3><p>如果不重写，则会默认调用Object类的hashCode和equals方法，Object类的hashCode方法是根据对象内存首地址计算得到，equals方法也同样是根据对象内存首地址进行判断。这在很多场景下是不可用的。</p>
+<h3 id="创建线程的几种方式"><a href="#创建线程的几种方式" class="headerlink" title="创建线程的几种方式"></a>创建线程的几种方式</h3><ul>
+<li>1.实现Runnable接口</li>
+<li>2.实现Callable接口：带返回值 FutureTask</li>
+<li>3.继承Thread类：由于一般类都有继承，这种方式代价太高，导致类无法继承</li>
+</ul>
+<h3 id="线程池原理及参数含义"><a href="#线程池原理及参数含义" class="headerlink" title="线程池原理及参数含义"></a>线程池原理及参数含义</h3><h3 id="死锁产生条件以及解决策略"><a href="#死锁产生条件以及解决策略" class="headerlink" title="死锁产生条件以及解决策略"></a>死锁产生条件以及解决策略</h3><h3 id="JUC下源码分析-偶尔带着看吧"><a href="#JUC下源码分析-偶尔带着看吧" class="headerlink" title="JUC下源码分析(偶尔带着看吧)"></a>JUC下源码分析(偶尔带着看吧)</h3><h3 id="Lock接口下实现的锁和synchronized关键字比较，各自优缺点"><a href="#Lock接口下实现的锁和synchronized关键字比较，各自优缺点" class="headerlink" title="Lock接口下实现的锁和synchronized关键字比较，各自优缺点"></a>Lock接口下实现的锁和<code>synchronized</code>关键字比较，各自优缺点</h3><h3 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h3><h3 id="为什么要重写hashCode和equals方法"><a href="#为什么要重写hashCode和equals方法" class="headerlink" title="为什么要重写hashCode和equals方法"></a>为什么要重写hashCode和equals方法</h3><p>如果不重写，则会默认调用Object类的hashCode和equals方法，Object类的hashCode方法是根据对象内存首地址计算得到，equals方法也同样是根据对象内存首地址进行判断。这在很多场景下是不可用的。</p>
 <h3 id="hashCode与equals区别"><a href="#hashCode与equals区别" class="headerlink" title="hashCode与equals区别"></a>hashCode与equals区别</h3><h3 id="集合类-HashMap和HashTable、ConcurrentHashMap-源码比较-重点"><a href="#集合类-HashMap和HashTable、ConcurrentHashMap-源码比较-重点" class="headerlink" title="集合类:HashMap和HashTable、ConcurrentHashMap(源码比较) 重点"></a>集合类:HashMap和HashTable、ConcurrentHashMap(源码比较) <strong>重点</strong></h3><blockquote>
 <p>HashMap是非线程安全，HashTable和ConcurrentHashMap是线程安全</p>
 </blockquote>
