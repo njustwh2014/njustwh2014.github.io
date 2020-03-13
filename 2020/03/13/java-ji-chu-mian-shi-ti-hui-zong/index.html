@@ -468,14 +468,14 @@ volatile关键字为域变量的访问提供了一种免锁机制，
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        9.6k
+                        9.9k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        35 分
+                        36 分
                     </div>
                     
                 
@@ -550,7 +550,17 @@ volatile关键字为域变量的访问提供了一种免锁机制，
 <li>3.继承Thread类：由于一般类都有继承，这种方式代价太高，导致类无法继承</li>
 </ul>
 <h3 id="线程池原理及参数含义"><a href="#线程池原理及参数含义" class="headerlink" title="线程池原理及参数含义"></a>线程池原理及参数含义</h3><h3 id="死锁产生条件以及解决策略"><a href="#死锁产生条件以及解决策略" class="headerlink" title="死锁产生条件以及解决策略"></a>死锁产生条件以及解决策略</h3><h3 id="JUC下源码分析-偶尔带着看吧"><a href="#JUC下源码分析-偶尔带着看吧" class="headerlink" title="JUC下源码分析(偶尔带着看吧)"></a>JUC下源码分析(偶尔带着看吧)</h3><h3 id="Lock接口下实现的锁和synchronized关键字比较，各自优缺点"><a href="#Lock接口下实现的锁和synchronized关键字比较，各自优缺点" class="headerlink" title="Lock接口下实现的锁和synchronized关键字比较，各自优缺点"></a>Lock接口下实现的锁和<code>synchronized</code>关键字比较，各自优缺点</h3><h3 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h3><h3 id="为什么要重写hashCode和equals方法"><a href="#为什么要重写hashCode和equals方法" class="headerlink" title="为什么要重写hashCode和equals方法"></a>为什么要重写hashCode和equals方法</h3><p>如果不重写，则会默认调用Object类的hashCode和equals方法，Object类的hashCode方法是根据对象内存首地址计算得到，equals方法也同样是根据对象内存首地址进行判断。这在很多场景下是不可用的。</p>
-<h3 id="hashCode与equals区别"><a href="#hashCode与equals区别" class="headerlink" title="hashCode与equals区别"></a>hashCode与equals区别</h3><h3 id="集合类-HashMap和HashTable、ConcurrentHashMap-源码比较-重点"><a href="#集合类-HashMap和HashTable、ConcurrentHashMap-源码比较-重点" class="headerlink" title="集合类:HashMap和HashTable、ConcurrentHashMap(源码比较) 重点"></a>集合类:HashMap和HashTable、ConcurrentHashMap(源码比较) <strong>重点</strong></h3><blockquote>
+<h3 id="hashCode与equals区别"><a href="#hashCode与equals区别" class="headerlink" title="hashCode与equals区别"></a>hashCode与equals区别</h3><ul>
+<li>规范1：若重写equals(Object obj)方法，有必要重写hashcode()方法，确保通过equals(Object obj)方法判断结果为true的两个对象具备相等的hashcode()返回值。说得简单点就是：“如果两个对象相同，那么他们的hashcode应该 相等”。不过请注意：这个只是规范，如果你非要写一个类让equals(Object obj)返回true而hashcode()返回两个不相等的值，编译和运行都是不会报错的。不过这样违反了Java规范，程序也就埋下了BUG。 </li>
+<li>规范2：如果equals(Object obj)返回false，即两个对象“不相同”，并不要求对这两个对象调用hashcode()方法得到两个不相同的数。说的简单点就是：“如果两个对象不相同，他们的hashcode可能相同”。<br>根据这两个规范，可以得到如下推论： <ul>
+<li>1、如果两个对象equals，Java运行时环境会认为他们的hashcode一定相等。 </li>
+<li>2、如果两个对象不equals，他们的hashcode有可能相等。 </li>
+<li>3、如果两个对象hashcode相等，他们不一定equals。 </li>
+<li>4、如果两个对象hashcode不相等，他们一定不equals。 </li>
+</ul>
+</li>
+</ul>
+<h3 id="集合类-HashMap和HashTable、ConcurrentHashMap-源码比较-重点"><a href="#集合类-HashMap和HashTable、ConcurrentHashMap-源码比较-重点" class="headerlink" title="集合类:HashMap和HashTable、ConcurrentHashMap(源码比较) 重点"></a>集合类:HashMap和HashTable、ConcurrentHashMap(源码比较) <strong>重点</strong></h3><blockquote>
 <p>HashMap是非线程安全，HashTable和ConcurrentHashMap是线程安全</p>
 </blockquote>
 <blockquote>
@@ -2070,7 +2080,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">63.5k</span>&nbsp;字
+                class="white-color">63.8k</span>&nbsp;字
             
             
             
