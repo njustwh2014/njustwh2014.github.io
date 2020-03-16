@@ -461,14 +461,14 @@
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        1.8k
+                        2.7k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        6 分
+                        10 分
                     </div>
                     
                 
@@ -495,6 +495,36 @@
 </ul>
 </li>
 </ul>
+<h2 id="jdk1-8-Map接口实现类的比较"><a href="#jdk1-8-Map接口实现类的比较" class="headerlink" title="jdk1.8 Map接口实现类的比较"></a>jdk1.8 Map接口实现类的比较</h2><p>Java为数据结构中的映射定义了一个接口java.util.Map，此接口主要有四个常用的实现类，分别是HashMap、Hashtable、LinkedHashMap和TreeMap，类继承关系如下图所示：</p>
+<p><img src="/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/map.png" alt="Map接口类继承"></p>
+<ul>
+<li>(1) HashMap：它根据键的hashCode值存储数据，大多数情况下可以直接定位到它的值，因而具有很快的访问速度，但遍历顺序却是不确定的。 HashMap最多只允许一条记录的键为null，允许多条记录的值为null。HashMap非线程安全，即任一时刻可以有多个线程同时写HashMap，可能会导致数据的不一致。如果需要满足线程安全，可以用 Collections的synchronizedMap方法使HashMap具有线程安全的能力，或者使用ConcurrentHashMap。</li>
+<li>(2) Hashtable：Hashtable是遗留类，很多映射的常用功能与HashMap类似，不同的是它承自Dictionary类，并且是线程安全的，任一时间只有一个线程能写Hashtable，并发性不如ConcurrentHashMap，因为ConcurrentHashMap引入了分段锁。Hashtable不建议在新代码中使用，不需要线程安全的场合可以用HashMap替换，需要线程安全的场合可以用ConcurrentHashMap替换。</li>
+<li>(3) LinkedHashMap：LinkedHashMap是HashMap的一个子类，使用双向连边，保存了记录的插入顺序，在用Iterator遍历LinkedHashMap时，先得到的记录肯定是先插入的，也可以在构造时带参数，按照访问次序排序。</li>
+<li>(4) TreeMap：TreeMap实现SortedMap接口，能够把它保存的记录根据键排序，默认是按键值的升序排序，也可以指定排序的比较器，当用Iterator遍历TreeMap时，得到的记录是排过序的。如果使用排序的映射，建议使用TreeMap。在使用TreeMap时，key必须实现Comparable接口或者在构造TreeMap传入自定义的Comparator，否则会在运行时抛出java.lang.ClassCastException类型的异常。</li>
+</ul>
+<p>对于上述四种Map类型的类，要求映射中的key是不可变对象。不可变对象是该对象在创建后它的哈希值不会被改变。如果对象的哈希值发生变化，Map对象很可能就定位不到映射的位置了。</p>
+<h2 id="HashMap实现原理"><a href="#HashMap实现原理" class="headerlink" title="HashMap实现原理"></a>HashMap实现原理</h2><h3 id="存储结构"><a href="#存储结构" class="headerlink" title="存储结构"></a>存储结构</h3><p>从结构实现来讲，HashMap是数组+链表+红黑树（JDK1.8增加了红黑树部分）实现的，如下如所示。</p>
+<p><img src="/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/hashmapstruct.png" alt="HashMap存储结构"></p>
+<blockquote>
+<p>HashMap类中有一个非常重要的字段，就是 Node[] table，即哈希桶数组，明显它是一个Node的数组。</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Node</span><span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> <span class="token keyword">implements</span> <span class="token class-name">Map<span class="token punctuation">.</span>Entry</span><span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">final</span> <span class="token keyword">int</span> hash<span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//用来定位数组索引位置</span>
+        <span class="token keyword">final</span> K key<span class="token punctuation">;</span>
+        V value<span class="token punctuation">;</span>
+        Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> next<span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//链表的下一个node</span>
+
+        <span class="token function">Node</span><span class="token punctuation">(</span><span class="token keyword">int</span> hash<span class="token punctuation">,</span> K key<span class="token punctuation">,</span> V value<span class="token punctuation">,</span> Node<span class="token operator">&lt;</span>K<span class="token punctuation">,</span>V<span class="token operator">></span> next<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token keyword">final</span> K <span class="token function">getKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token keyword">final</span> V <span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token keyword">final</span> String <span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">int</span> <span class="token function">hashCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token keyword">final</span> V <span class="token function">setValue</span><span class="token punctuation">(</span>V newValue<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">boolean</span> <span class="token function">equals</span><span class="token punctuation">(</span>Object o<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Node是HashMap的一个内部类，实现了Map.Entry接口，本质是就是一个映射(键值对)。上图中的每个黑色圆点就是一个Node对象。</p>
+<p><a href="https://crossoverjie.top/2018/07/23/java-senior/ConcurrentHashMap/" target="_blank" rel="noopener">https://crossoverjie.top/2018/07/23/java-senior/ConcurrentHashMap/</a></p>
 <h2 id="集合类-HashMap和HashTable、ConcurrentHashMap-源码比较-重点"><a href="#集合类-HashMap和HashTable、ConcurrentHashMap-源码比较-重点" class="headerlink" title="集合类:HashMap和HashTable、ConcurrentHashMap(源码比较) 重点"></a>集合类:HashMap和HashTable、ConcurrentHashMap(源码比较) <strong>重点</strong></h2><h3 id="HashMap是非线程安全，HashTable和ConcurrentHashMap是线程安全"><a href="#HashMap是非线程安全，HashTable和ConcurrentHashMap是线程安全" class="headerlink" title="HashMap是非线程安全，HashTable和ConcurrentHashMap是线程安全"></a>HashMap是非线程安全，HashTable和ConcurrentHashMap是线程安全</h3><h3 id="HashMap与HashTable比较"><a href="#HashMap与HashTable比较" class="headerlink" title="HashMap与HashTable比较"></a>HashMap与HashTable比较</h3><table>
 <thead>
 <tr>
@@ -528,6 +558,10 @@
 <li>JDK1.8引入数组加链表+红黑树</li>
 <li>链表长度超过8时转成红黑树</li>
 </ul>
+<blockquote>
+<p>Hashmap中的链表大小超过八个时会自动转化为红黑树，当删除小于六时重新变为链表，为啥呢？</p>
+</blockquote>
+<p>根据泊松分布，在负载因子默认为0.75的时候，单个hash槽内元素个数为8的概率小于百万分之一，所以将7作为一个分水岭，等于7的时候不转换，大于等于8的时候才进行转换，小于等于6的时候就化为链表。</p>
 <h3 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h3><ul>
 <li>JDK1.7 有segment分段锁</li>
 <li>JDK1.8 放弃分段锁<a href="https://cloud.tencent.com/developer/article/1509556" target="_blank" rel="noopener">为何？</a></li>
@@ -1368,7 +1402,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">72.7k</span>&nbsp;字
+                class="white-color">73.6k</span>&nbsp;字
             
             
             
