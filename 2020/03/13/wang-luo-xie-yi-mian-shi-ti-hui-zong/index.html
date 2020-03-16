@@ -461,7 +461,7 @@ Get发送一次数据包 Post发送两次数据包
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        3.1k
+                        3.3k
                     </div>
                     
 
@@ -650,6 +650,9 @@ Get发送一次数据包 Post发送两次数据包
 <li>6、TCP保证数据顺序，UDP不保证。why?</li>
 </ul>
 <h2 id="描述数据从网卡至内核空间最后至用户空间的过程"><a href="#描述数据从网卡至内核空间最后至用户空间的过程" class="headerlink" title="描述数据从网卡至内核空间最后至用户空间的过程"></a>描述数据从网卡至内核空间最后至用户空间的过程</h2><p>数据通过网线进入网卡后，进行模数转换写入网卡缓存，通过DMA写入计算机内存，一个内核线程根据TCP协议进行拆包，最后将数据写入每个socket对应的sync/accept队列中，供应用程序使用(应用程序需要进行组包操作，对应着分包操作)。</p>
+<h2 id="url到获取页面过程"><a href="#url到获取页面过程" class="headerlink" title="url到获取页面过程"></a>url到获取页面过程</h2><p>在浏览器中输入一个网址，首先要做的就是域名的解析，也就是域名-&gt;ip的解析，依次查看了浏览器缓存，系统缓存，hosts文件，路由器缓存，递归搜索根域名服务器，直到找到最终的ip地址。</p>
+<p>然后就是TCP协议的三次握手建立连接，过程我们已经阐述了。由浏览器发送一个HTTP请求；经过路由器的转发，通过服务器的防火墙，该HTTP请求到达了服务器；服务器处理该HTTP请求，返回一个HTML文件；浏览器解析该HTML文件，并且渲染显示在浏览器端。</p>
+<p>这里，我们可以来具体阐述下HTTP协议和TCP协议的关系与区别。</p>
 
             </div>
             <hr/>
@@ -1397,7 +1400,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">73.6k</span>&nbsp;字
+                class="white-color">73.8k</span>&nbsp;字
             
             
             
