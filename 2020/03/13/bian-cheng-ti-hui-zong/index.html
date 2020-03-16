@@ -459,7 +459,7 @@ public int binarySearch(int[] nums,int target){
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        139
+                        183
                     </div>
                     
 
@@ -519,6 +519,21 @@ public int binarySearch(int[] nums,int target){
     <span class="token punctuation">}</span>
     <span class="token keyword">return</span> newHead<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
+<h2 id="迷宫传送门"><a href="#迷宫传送门" class="headerlink" title="迷宫传送门"></a>迷宫传送门</h2><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/*
+1 0 -1 1
+-2 0 -1 -3
+2 2 0 0
+
+-2:起点
+-3:终点
+-1:障碍物不能走
+
+1和2 任意门，可以用也可以不用
+*/</span>
+
+<span class="token comment" spellcheck="true">//bfs</span>
+
+</code></pre>
 
             </div>
             <hr/>
@@ -1008,36 +1023,44 @@ public int binarySearch(int[] nums,int target){
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/13/bian-cheng-ti-hui-zong/">
+                <a href="/2020/03/16/jvm-mian-shi-zong-jie/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="编程题汇总">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="JVM面试总结">
                         
-                        <span class="card-title">编程题汇总</span>
+                        <span class="card-title">JVM面试总结</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            二分查找/*
-@nums 排序好的数组
-@target
-@return f返回目标下标 如果没有 返回-1
-*/
-public int binarySearch(int[] nums,int target){
-    if(nums==nu
+                            JVM GC收集器特点参考文章
+
+新生代收集器
+
+
+
+
+收集器名称
+垃圾回收算法
+特点
+
+
+
+Serial
+复制算法
++ HotSpot虚拟机运行在Client模式下的默认的新生代收集器 + 会暂停所有用户线程(stop the world
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-13
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-16
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1049,15 +1072,6 @@ public int binarySearch(int[] nums,int target){
                             
                         </span>
                     </div>
-                </div>
-
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Java/">
-                        <span class="chip bg-color">Java</span>
-                    </a>
-                    
                 </div>
                 
             </div>
@@ -1258,7 +1272,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">65.9k</span>&nbsp;字
+                class="white-color">66.2k</span>&nbsp;字
             
             
             

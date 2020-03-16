@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://eternalhorizon.cn/"/>
-  <updated>2020-03-13T13:05:53.111Z</updated>
+  <updated>2020-03-16T01:22:36.400Z</updated>
   <id>http://eternalhorizon.cn/</id>
   
   <author>
@@ -17,11 +17,86 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Spring面试总结</title>
+    <link href="http://eternalhorizon.cn/2020/03/16/spring-mian-shi-zong-jie/"/>
+    <id>http://eternalhorizon.cn/2020/03/16/spring-mian-shi-zong-jie/</id>
+    <published>2020-03-16T01:08:26.000Z</published>
+    <updated>2020-03-16T01:22:36.400Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;Spring-Aop实现方式，还有其他的什么方式实现&quot;&gt;&lt;a href=&quot;#Spring-Aop实现方式，还有其他的什么方式实现&quot; class=&quot;headerlink&quot; title=&quot;Spring Aop实现方式，还有其他的什么方式实现&quot;&gt;&lt;/a&gt;Spring
+        
+      
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>并发编程面试总结</title>
+    <link href="http://eternalhorizon.cn/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/"/>
+    <id>http://eternalhorizon.cn/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/</id>
+    <published>2020-03-16T01:08:10.000Z</published>
+    <updated>2020-03-16T01:16:29.759Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;Synchronized实现原理，原子操作实现原理&quot;&gt;&lt;a href=&quot;#Synchronized实现原理，原子操作实现原理&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JVM面试总结</title>
+    <link href="http://eternalhorizon.cn/2020/03/16/jvm-mian-shi-zong-jie/"/>
+    <id>http://eternalhorizon.cn/2020/03/16/jvm-mian-shi-zong-jie/</id>
+    <published>2020-03-16T01:07:38.000Z</published>
+    <updated>2020-03-16T01:24:27.336Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;JVM-GC收集器特点&quot;&gt;&lt;a href=&quot;#JVM-GC收集器特点&quot; class=&quot;headerlink&quot; title=&quot;JVM GC收集器特点&quot;&gt;&lt;/a&gt;JVM GC收集器特点&lt;/h2&gt;&lt;p&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>编程题汇总</title>
     <link href="http://eternalhorizon.cn/2020/03/13/bian-cheng-ti-hui-zong/"/>
     <id>http://eternalhorizon.cn/2020/03/13/bian-cheng-ti-hui-zong/</id>
     <published>2020-03-13T13:05:04.000Z</published>
-    <updated>2020-03-13T13:05:53.111Z</updated>
+    <updated>2020-03-15T12:07:04.482Z</updated>
     
     <summary type="html">
     
@@ -48,7 +123,7 @@
     <link href="http://eternalhorizon.cn/2020/03/13/mysql-mian-shi-hui-zong/"/>
     <id>http://eternalhorizon.cn/2020/03/13/mysql-mian-shi-hui-zong/</id>
     <published>2020-03-13T12:59:55.000Z</published>
-    <updated>2020-03-13T16:34:06.995Z</updated>
+    <updated>2020-03-15T03:16:22.138Z</updated>
     
     <summary type="html">
     
@@ -102,7 +177,7 @@
     <link href="http://eternalhorizon.cn/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/"/>
     <id>http://eternalhorizon.cn/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/</id>
     <published>2020-03-13T12:53:35.000Z</published>
-    <updated>2020-03-13T16:27:21.396Z</updated>
+    <updated>2020-03-15T02:04:49.782Z</updated>
     
     <summary type="html">
     
@@ -158,7 +233,7 @@
     <link href="http://eternalhorizon.cn/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/"/>
     <id>http://eternalhorizon.cn/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/</id>
     <published>2020-03-13T12:32:50.000Z</published>
-    <updated>2020-03-15T01:55:34.994Z</updated>
+    <updated>2020-03-16T01:18:02.352Z</updated>
     
     <summary type="html">
     
@@ -166,7 +241,7 @@
       
         
         
-          &lt;h2 id=&quot;Java基础&quot;&gt;&lt;a href=&quot;#Java基础&quot; class=&quot;headerlink&quot; title=&quot;Java基础&quot;&gt;&lt;/a&gt;Java基础&lt;/h2&gt;&lt;h3 id=&quot;线程间同步方式&quot;&gt;&lt;a href=&quot;#线程间同步方式&quot; class=&quot;headerlink&quot;
+          &lt;h2 id=&quot;Java基础&quot;&gt;&lt;a href=&quot;#Java基础&quot; class=&quot;headerlink&quot; title=&quot;Java基础&quot;&gt;&lt;/a&gt;Java基础&lt;/h2&gt;&lt;h3 id=&quot;为什么要重写hashCode和equals方法&quot;&gt;&lt;a
         
       
     
@@ -531,106 +606,6 @@
       <category term="docker" scheme="http://eternalhorizon.cn/tags/docker/"/>
     
       <category term="elasticsearch" scheme="http://eternalhorizon.cn/tags/elasticsearch/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java并发编程实战:秒杀系统实现</title>
-    <link href="http://eternalhorizon.cn/2019/11/13/java-bing-fa-bian-cheng-shi-zhan-miao-sha-xi-tong-shi-xian/"/>
-    <id>http://eternalhorizon.cn/2019/11/13/java-bing-fa-bian-cheng-shi-zhan-miao-sha-xi-tong-shi-xian/</id>
-    <published>2019-11-13T08:16:18.000Z</published>
-    <updated>2019-11-22T06:36:50.374Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;&lt;a href=&quot;https://github.com/njustwh2014/seckill&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;源码地址&lt;/a&gt; refer to &lt;a
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Concurrent" scheme="http://eternalhorizon.cn/categories/Concurrent/"/>
-    
-    
-      <category term="redis" scheme="http://eternalhorizon.cn/tags/redis/"/>
-    
-      <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
-    
-      <category term="Concurrent" scheme="http://eternalhorizon.cn/tags/Concurrent/"/>
-    
-      <category term="mysql" scheme="http://eternalhorizon.cn/tags/mysql/"/>
-    
-      <category term="springboot" scheme="http://eternalhorizon.cn/tags/springboot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Centos安装Redis</title>
-    <link href="http://eternalhorizon.cn/2019/11/13/centos-an-zhuang-redis/"/>
-    <id>http://eternalhorizon.cn/2019/11/13/centos-an-zhuang-redis/</id>
-    <published>2019-11-13T08:07:23.000Z</published>
-    <updated>2019-11-22T06:36:50.313Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;在CentOS和Red Hat系统中，首先添加EPEL仓库，然后更新yum源：&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;pre class=&quot; language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Centos" scheme="http://eternalhorizon.cn/categories/Centos/"/>
-    
-    
-      <category term="redis" scheme="http://eternalhorizon.cn/tags/redis/"/>
-    
-      <category term="Centos" scheme="http://eternalhorizon.cn/tags/Centos/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>centos7安装mysql</title>
-    <link href="http://eternalhorizon.cn/2019/11/11/centos7-an-zhuang-mysql/"/>
-    <id>http://eternalhorizon.cn/2019/11/11/centos7-an-zhuang-mysql/</id>
-    <published>2019-11-11T07:36:25.000Z</published>
-    <updated>2019-11-22T06:36:50.377Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;系统环境&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;pre class=&quot; language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;Centos 7.6 64位&lt;/code&gt;&lt;/pre&gt;
-&lt;h2
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Centos" scheme="http://eternalhorizon.cn/categories/Centos/"/>
-    
-    
-      <category term="Centos" scheme="http://eternalhorizon.cn/tags/Centos/"/>
-    
-      <category term="mysql" scheme="http://eternalhorizon.cn/tags/mysql/"/>
     
   </entry>
   

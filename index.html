@@ -683,6 +683,146 @@ $(function () {
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
+                    <a href="/2020/03/16/spring-mian-shi-zong-jie/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Spring面试总结">
+                            
+                            <span class="card-title">Spring面试总结</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                Spring Aop实现方式，还有其他的什么方式实现AOP 面向切面编程，是对面向对象的补充，处理系统中各个模块的横切关注点，常用于事务管理、日志模块、缓存等。
+AOP实现的关键在于AOP框架自动创建AOP代理，常有以AspectJ为代表的
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-16
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/%E6%B1%82%E8%81%8C/" class="post-category">
+                                    求职
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="并发编程面试总结">
+                            
+                            <span class="card-title">并发编程面试总结</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                Synchronized实现原理，原子操作实现原理参考文章
+jdk对synchronized做了哪些优化：
+
+适应性自旋锁：为了减少线程状态的改变带来的消耗，不停地执行当前线程
+
+锁消除：对于不可能存在共享资源竞争的锁进行消除
+
+锁粗化：对
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-16
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/%E6%B1%82%E8%81%8C/" class="post-category">
+                                    求职
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2020/03/16/jvm-mian-shi-zong-jie/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="JVM面试总结">
+                            
+                            <span class="card-title">JVM面试总结</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                JVM GC收集器特点参考文章
+
+新生代收集器
+
+
+
+
+收集器名称
+垃圾回收算法
+特点
+
+
+
+Serial
+复制算法
++ HotSpot虚拟机运行在Client模式下的默认的新生代收集器 + 会暂停所有用户线程(stop the world
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-16
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/%E6%B1%82%E8%81%8C/" class="post-category">
+                                    求职
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
                     <a href="/2020/03/13/bian-cheng-ti-hui-zong/">
                         <div class="card-image">
                             
@@ -857,9 +997,8 @@ public int binarySearch(int[] nums,int target){
                                 Http协议Get和Post比较看这篇装逼文章
 
 Get发送一次数据包 Post发送两次数据包
-GET在浏览器回退时是无害的，而POST会再次提交请求。
-GET产生的URL地址可以被Bookmark，而POST不可以。
-GET请求会被浏览器
+对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；
+对于POST，浏览器先发送head
                             
                         </div>
                         <div class="publish-info">
@@ -964,14 +1103,7 @@ GET请求会被浏览器
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                Java基础线程间同步方式看看看看
-
-1.synchronized修饰方法和方法块
-
-2.使用特殊域变量volatile
-
-volatile关键字为域变量的访问提供了一种免锁机制，
-使用volatile修饰域相当于告诉虚拟机该域可能会被其他
+                                Java基础为什么要重写hashCode和equals方法如果不重写，则会默认调用Object类的hashCode和equals方法，Object类的hashCode方法是根据对象内存首地址计算得到，equals方法也同样是根据对象内存首地
                             
                         </div>
                         <div class="publish-info">
@@ -1011,218 +1143,6 @@ volatile关键字为域变量的访问提供了一种免锁机制，
                 </div>
             </div>
             
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/02/27/mian-shi-wen-ti-hui-zong/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="面试问题汇总">
-                            
-                            <span class="card-title">面试问题汇总</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                博学笃志，切问近思
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-02-27
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E6%B1%82%E8%81%8C/" class="post-category">
-                                    求职
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Java/">
-                            <span class="chip bg-color">Java</span>
-                        </a>
-                        
-                        <a href="/tags/Redis/">
-                            <span class="chip bg-color">Redis</span>
-                        </a>
-                        
-                        <a href="/tags/Mysql/">
-                            <span class="chip bg-color">Mysql</span>
-                        </a>
-                        
-                        <a href="/tags/Vue/">
-                            <span class="chip bg-color">Vue</span>
-                        </a>
-                        
-                        <a href="/tags/Springboot/">
-                            <span class="chip bg-color">Springboot</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/02/02/2020-yi-ding-yao-na-dao-offer-a/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="2020一定要拿到offer啊">
-                            
-                            <span class="card-title">2020一定要拿到offer啊</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                学习计划
-将之前博客系统重启
-
-
-redis、mysql部署在130虚拟机
-
-前端部署在129机器上(nginx代理)
-
-后端部署在131虚拟机
-
-
-
-leetcode刷题
-
-网站重新部署和优化工作
-docker-compose.yml详解
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-02-02
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E6%B1%82%E8%81%8C/" class="post-category">
-                                    求职
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Java/">
-                            <span class="chip bg-color">Java</span>
-                        </a>
-                        
-                        <a href="/tags/Redis/">
-                            <span class="chip bg-color">Redis</span>
-                        </a>
-                        
-                        <a href="/tags/Mysql/">
-                            <span class="chip bg-color">Mysql</span>
-                        </a>
-                        
-                        <a href="/tags/Vue/">
-                            <span class="chip bg-color">Vue</span>
-                        </a>
-                        
-                        <a href="/tags/Springboot/">
-                            <span class="chip bg-color">Springboot</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/01/02/shu-yu-zha-huan-he-gou-ting-de-yi-bai/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="属于渣欢和狗婷的一百">
-                            
-                            <span class="card-title">属于渣欢和狗婷的一百</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                
- 接吻
-
- 一起吃火锅
-
- 互相写信
-
- 一起健身
-
- 一起看场电影
-  我们一起去电影院看过的电影：
-  + 被光抓走的人
-  + 只有芸知道
-  + 宠爱 
- 一起学python
-
- 一起手牵手走南师和东南
-
- 一起去西藏
-
- 一起去
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-01-02
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E6%81%8B%E7%88%B1/" class="post-category">
-                                    恋爱
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/%E7%BA%AA%E5%BF%B5/">
-                            <span class="chip bg-color">纪念</span>
-                        </a>
-                        
-                        <a href="/tags/%E4%B8%80%E7%99%BE%E4%BB%B6%E4%BA%8B/">
-                            <span class="chip bg-color">一百件事</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
         </div>
     </article>
 
@@ -1239,7 +1159,7 @@ docker-compose.yml详解
             
         </div>
         <div class="page-info col m4 l4 hide-on-small-only">
-            <div class="center-align b-text-gray">1 / 4</div>
+            <div class="center-align b-text-gray">1 / 5</div>
         </div>
         <div class="col s6 m4 l4">
             
@@ -1266,7 +1186,7 @@ docker-compose.yml详解
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">65.9k</span>&nbsp;字
+                class="white-color">66.2k</span>&nbsp;字
             
             
             
