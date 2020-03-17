@@ -486,12 +486,13 @@
 <li>第三范式确保主键列之间没有传递函数依赖关系，也就是消除传递依赖。</li>
 </ul>
 <h2 id="Mysql索引"><a href="#Mysql索引" class="headerlink" title="Mysql索引"></a>Mysql索引</h2><h3 id="Mysql索引目的"><a href="#Mysql索引目的" class="headerlink" title="Mysql索引目的"></a>Mysql索引目的</h3><p>索引的目的在于<strong>提高查询效率</strong>，可以类比字典，如果要查“mysql”这个单词，我们肯定需要定位到m字母，然后从下往下找到y字母，再找到剩下的sql。如果没有索引，那么你可能需要把所有单词看一遍才能找到你想要的，如果我想找到m开头的单词呢？或者ze开头的单词呢？是不是觉得如果没有索引，这个事情根本无法完成？</p>
-<h3 id="索引有哪几种"><a href="#索引有哪几种" class="headerlink" title="索引有哪几种"></a>索引有哪几种</h3><h3 id="索引的底层实现-B-树和红黑树、B树比较"><a href="#索引的底层实现-B-树和红黑树、B树比较" class="headerlink" title="索引的底层实现 B+树和红黑树、B树比较"></a>索引的底层实现 B+树和红黑树、B树比较</h3><h3 id="索引失效"><a href="#索引失效" class="headerlink" title="索引失效"></a>索引失效</h3><h3 id="索引优化策略"><a href="#索引优化策略" class="headerlink" title="索引优化策略"></a>索引优化策略</h3><h3 id="explain慢查询优化"><a href="#explain慢查询优化" class="headerlink" title="explain慢查询优化"></a><code>explain</code>慢查询优化</h3><h2 id="Mysql事务"><a href="#Mysql事务" class="headerlink" title="Mysql事务"></a>Mysql事务</h2><h3 id="事务特性-ACID"><a href="#事务特性-ACID" class="headerlink" title="事务特性(ACID)"></a>事务特性(ACID)</h3><ul>
+<h3 id="索引有哪几种"><a href="#索引有哪几种" class="headerlink" title="索引有哪几种"></a>索引有哪几种</h3><h3 id="索引的底层实现-B-树和红黑树、B树比较"><a href="#索引的底层实现-B-树和红黑树、B树比较" class="headerlink" title="索引的底层实现 B+树和红黑树、B树比较"></a>索引的底层实现 B+树和红黑树、B树比较</h3><h3 id="索引失效"><a href="#索引失效" class="headerlink" title="索引失效"></a>索引失效</h3><h3 id="索引优化策略"><a href="#索引优化策略" class="headerlink" title="索引优化策略"></a>索引优化策略</h3><h3 id="explain慢查询优化"><a href="#explain慢查询优化" class="headerlink" title="explain慢查询优化"></a><code>explain</code>慢查询优化</h3><h2 id="Mysql事务"><a href="#Mysql事务" class="headerlink" title="Mysql事务"></a>Mysql事务</h2><h3 id="事务特性-ACID-及其实现"><a href="#事务特性-ACID-及其实现" class="headerlink" title="事务特性(ACID)及其实现"></a>事务特性(ACID)及其实现</h3><ul>
 <li>原子性（atomicity，或稱不可分割性）</li>
 <li>一致性（consistency）</li>
 <li>隔离性（isolation，又称独立性）</li>
 <li>持久性（durability）</li>
 </ul>
+<p><a href="https://www.cnblogs.com/kismetv/p/10331633.html" target="_blank" rel="noopener">https://www.cnblogs.com/kismetv/p/10331633.html</a></p>
 <h3 id="事务的隔离级别-读未提交、读已提交、重复读、序列化"><a href="#事务的隔离级别-读未提交、读已提交、重复读、序列化" class="headerlink" title="事务的隔离级别(读未提交、读已提交、重复读、序列化)"></a>事务的隔离级别(读未提交、读已提交、重复读、序列化)</h3><p><a href="https://blog.csdn.net/JIESA/article/details/51317164" target="_blank" rel="noopener">参考文章</a></p>
 <ul>
 <li>读未提交：可以读到另外事务未提交的写，会造成脏读</li>
@@ -1306,7 +1307,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">81.1k</span>&nbsp;字
+                class="white-color">81.3k</span>&nbsp;字
             
             
             
