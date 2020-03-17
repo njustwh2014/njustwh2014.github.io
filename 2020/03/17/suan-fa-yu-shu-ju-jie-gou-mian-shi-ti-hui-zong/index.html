@@ -6,11 +6,10 @@
     <meta charset="utf-8">
     <meta name="keywords" content="算法与数据结构面试题汇总, Java, 中间件, Spring, Redis">
     <meta name="description" content="堆排序算法的时间复杂度堆排序与快速排序、归并排序一样都是时间复杂度为O(N*logN)的几种常见排序方法。
-堆和堆排序v
-/**
+堆和堆排序/**
  * @program:datastructureimpl
  * @description:堆接口
- * @a">
+ * @aut">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -454,14 +453,14 @@
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        817
+                        945
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        4 分
+                        5 分
                     </div>
                     
                 
@@ -478,8 +477,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="堆排序算法的时间复杂度"><a href="#堆排序算法的时间复杂度" class="headerlink" title="堆排序算法的时间复杂度"></a>堆排序算法的时间复杂度</h2><p><strong>堆排序与快速排序、归并排序一样都是时间复杂度为O(N*logN)的几种常见排序方法。</strong></p>
-<h3 id="堆和堆排序"><a href="#堆和堆排序" class="headerlink" title="堆和堆排序"></a><a href="https://blog.csdn.net/MoreWindows/article/details/6709644" target="_blank" rel="noopener">堆和堆排序</a></h3><p>v</p>
-<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+<h3 id="堆和堆排序"><a href="#堆和堆排序" class="headerlink" title="堆和堆排序"></a><a href="https://blog.csdn.net/MoreWindows/article/details/6709644" target="_blank" rel="noopener">堆和堆排序</a></h3><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
  * @program:datastructureimpl
  * @description:堆接口
  * @author: Huan Wang(https://github.com/njustwh2014)
@@ -684,6 +682,60 @@
         <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
+<h2 id="Iterator实现"><a href="#Iterator实现" class="headerlink" title="Iterator实现"></a>Iterator实现</h2><h3 id="Iterator接口"><a href="#Iterator接口" class="headerlink" title="Iterator接口"></a>Iterator接口</h3><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+ * @program:datastructure
+ * @description:
+ * @author: Huan Wang(https://github.com/njustwh2014)
+ * @create:2019-12-17 15:35
+ **/</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Iterator</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> Object <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/**
+ * @program:datastructure
+ * @description:
+ * @author: Huan Wang(https://github.com/njustwh2014)
+ * @create:2019-12-17 15:36
+ **/</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Container</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> Iterator <span class="token function">getIterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+ * @program:datastructure
+ * @description:
+ * @author: Huan Wang(https://github.com/njustwh2014)
+ * @create:2019-12-17 15:37
+ **/</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">NameRepository</span> <span class="token keyword">implements</span> <span class="token class-name">Container</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> String<span class="token punctuation">[</span><span class="token punctuation">]</span> name<span class="token operator">=</span><span class="token punctuation">{</span><span class="token string">"tingting"</span><span class="token punctuation">,</span><span class="token string">"huanhuan"</span><span class="token punctuation">,</span><span class="token string">"dog"</span><span class="token punctuation">,</span><span class="token string">"cat"</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> Iterator <span class="token function">getIterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">NameIterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">class</span> <span class="token class-name">NameIterator</span> <span class="token keyword">implements</span> <span class="token class-name">Iterator</span><span class="token punctuation">{</span>
+        <span class="token keyword">private</span> <span class="token keyword">int</span> index<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>index<span class="token operator">&lt;</span>name<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">public</span> Object <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+<span class="token comment" spellcheck="true">//                String ret= name[index];</span>
+<span class="token comment" spellcheck="true">////                index++;</span>
+<span class="token comment" spellcheck="true">////                return ret;</span>
+                <span class="token keyword">return</span> name<span class="token punctuation">[</span>index<span class="token operator">++</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 
             </div>
             <hr/>
@@ -1187,11 +1239,10 @@
                     <div class="summary block-with-text">
                         
                             堆排序算法的时间复杂度堆排序与快速排序、归并排序一样都是时间复杂度为O(N*logN)的几种常见排序方法。
-堆和堆排序v
-/**
+堆和堆排序/**
  * @program:datastructureimpl
  * @description:堆接口
- * @a
+ * @aut
                         
                     </div>
                     <div class="publish-info">
@@ -1409,7 +1460,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">80.5k</span>&nbsp;字
+                class="white-color">80.6k</span>&nbsp;字
             
             
             
