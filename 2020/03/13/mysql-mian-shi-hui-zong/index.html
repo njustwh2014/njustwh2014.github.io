@@ -458,7 +458,7 @@ id mediumint  auto_increment com">
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        5.2k
+                        5.3k
                     </div>
                     
 
@@ -655,7 +655,42 @@ sex <span class="token keyword">enum</span><span class="token punctuation">(</sp
 <p>实现一致性的措施包括：</p>
 <p>保证原子性、持久性和隔离性，如果这些特性无法保证，事务的一致性也无法保证<br>数据库本身提供保障，例如不允许向整形列插入字符串值、字符串长度不能超过列的限制等<br>应用层面进行保障，例如如果转账操作只扣除转账者的余额，而没有增加接收者的余额，无论数据库实现的多么完美，也无法保证状态的一致</p>
 <p><a href="https://www.cnblogs.com/kismetv/p/10331633.html" target="_blank" rel="noopener">https://www.cnblogs.com/kismetv/p/10331633.html</a></p>
-<h3 id="事务的隔离级别分别解决哪些问题-脏读、不可重复读、幻读丢失修改"><a href="#事务的隔离级别分别解决哪些问题-脏读、不可重复读、幻读丢失修改" class="headerlink" title="事务的隔离级别分别解决哪些问题(脏读、不可重复读、幻读丢失修改)"></a>事务的隔离级别分别解决哪些问题(脏读、不可重复读、幻读丢失修改)</h3><h3 id="事务的回滚-undo、redo日志"><a href="#事务的回滚-undo、redo日志" class="headerlink" title="事务的回滚(undo、redo日志)"></a>事务的回滚(undo、redo日志)</h3><p><a href="https://blog.csdn.net/u012732259/article/details/39524405" target="_blank" rel="noopener">MYSQL 之DDL、DML、DCL、TCL的区别</a></p>
+<h3 id="事务的隔离级别分别解决哪些问题-脏读、不可重复读、幻读丢失修改"><a href="#事务的隔离级别分别解决哪些问题-脏读、不可重复读、幻读丢失修改" class="headerlink" title="事务的隔离级别分别解决哪些问题(脏读、不可重复读、幻读丢失修改)"></a>事务的隔离级别分别解决哪些问题(脏读、不可重复读、幻读丢失修改)</h3><table>
+<thead>
+<tr>
+<th>隔离级别</th>
+<th>脏读</th>
+<th>不可重复读</th>
+<th>幻读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RU读为提交</td>
+<td>可能</td>
+<td>可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>RC读已提交</td>
+<td>不可能</td>
+<td>可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>RR可重复读</td>
+<td>不可能</td>
+<td>不可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>序列化</td>
+<td>不可能</td>
+<td>不可能</td>
+<td>不可能</td>
+</tr>
+</tbody></table>
+<p>Innodb在RR级别解决幻读采用Next-Key锁(GAP锁和行锁)方法</p>
+<h3 id="事务的回滚-undo、redo日志"><a href="#事务的回滚-undo、redo日志" class="headerlink" title="事务的回滚(undo、redo日志)"></a>事务的回滚(undo、redo日志)</h3><p><a href="https://blog.csdn.net/u012732259/article/details/39524405" target="_blank" rel="noopener">MYSQL 之DDL、DML、DCL、TCL的区别</a></p>
 <ul>
 <li>DDL:操作表结构的命令 如: CREATE、ALTER、DROP</li>
 <li>DML：操作数据的命令 如select update delete insert</li>
