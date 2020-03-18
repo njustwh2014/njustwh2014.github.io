@@ -458,14 +458,14 @@ id mediumint  auto_increment com">
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        5.3k
+                        7.3k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        18 分
+                        25 分
                     </div>
                     
                 
@@ -543,7 +543,71 @@ sex <span class="token keyword">enum</span><span class="token punctuation">(</sp
 </li>
 </ul>
 <h2 id="Mysql索引"><a href="#Mysql索引" class="headerlink" title="Mysql索引"></a>Mysql索引</h2><h3 id="Mysql索引目的"><a href="#Mysql索引目的" class="headerlink" title="Mysql索引目的"></a>Mysql索引目的</h3><p>索引的目的在于<strong>提高查询效率</strong>，可以类比字典，如果要查“mysql”这个单词，我们肯定需要定位到m字母，然后从下往下找到y字母，再找到剩下的sql。如果没有索引，那么你可能需要把所有单词看一遍才能找到你想要的，如果我想找到m开头的单词呢？或者ze开头的单词呢？是不是觉得如果没有索引，这个事情根本无法完成？</p>
-<h3 id="索引有哪几种"><a href="#索引有哪几种" class="headerlink" title="索引有哪几种"></a>索引有哪几种</h3><h3 id="索引的底层实现-B-树和红黑树、B树比较"><a href="#索引的底层实现-B-树和红黑树、B树比较" class="headerlink" title="索引的底层实现 B+树和红黑树、B树比较"></a>索引的底层实现 B+树和红黑树、B树比较</h3><h3 id="索引失效"><a href="#索引失效" class="headerlink" title="索引失效"></a>索引失效</h3><h3 id="索引优化策略"><a href="#索引优化策略" class="headerlink" title="索引优化策略"></a>索引优化策略</h3><h3 id="explain慢查询优化"><a href="#explain慢查询优化" class="headerlink" title="explain慢查询优化"></a><code>explain</code>慢查询优化</h3><h2 id="Mysql事务"><a href="#Mysql事务" class="headerlink" title="Mysql事务"></a>Mysql事务</h2><h3 id="事务特性-ACID-及其实现"><a href="#事务特性-ACID-及其实现" class="headerlink" title="事务特性(ACID)及其实现"></a>事务特性(ACID)及其实现</h3><p><a href="https://www.cnblogs.com/kismetv/p/10331633.html" target="_blank" rel="noopener">参考</a></p>
+<h3 id="索引有哪几种"><a href="#索引有哪几种" class="headerlink" title="索引有哪几种"></a>索引有哪几种</h3><ul>
+<li>hash：可以快速精确查询，但不能范围查询</li>
+<li>平衡二叉树：完全平衡二叉树是有序的，所以也是支持范围查找的。</li>
+<li>B树：一个节点可以存储多个元素，相对于完全平衡二叉树所以整棵树的高度就降低了，磁盘IO效率提高了。</li>
+<li>B+树：</li>
+</ul>
+<h3 id="“为什么底层数据结构使用B-树，而不是B树？”"><a href="#“为什么底层数据结构使用B-树，而不是B树？”" class="headerlink" title="“为什么底层数据结构使用B+树，而不是B树？”"></a>“为什么底层数据结构使用B+树，而不是B树？”</h3><ul>
+<li>B+树是B树的变种，B+树的非叶子节点只用来保存索引，不存储数据，所有的数据都保存在叶子节点；而B树的非叶子节点也会保存数据。这样就使得B+树的查询效率更加稳定，均为从根节点到叶子节点的路径。</li>
+<li>B+树的内部结点并没有指向关键字具体信息的指针，因此其内部结点相对B 树更小，同样空间可以读入更多的节点，所以B+树的磁盘读写代价更低。</li>
+</ul>
+<h3 id="聚簇索引与非聚簇索引"><a href="#聚簇索引与非聚簇索引" class="headerlink" title="聚簇索引与非聚簇索引"></a>聚簇索引与非聚簇索引</h3><p>聚簇索引也称为主键索引，其索引树的叶子节点中存的是整行数据，表中行的物理顺序与键值的逻辑（索引）顺序相同。一个表只能包含一个聚集索引。因为索引（目录）只能按照一种方法进行排序。</p>
+<p>非聚簇索引（普通索引）的叶子节点内容是主键的值。在InnoDB里，非主键索引也被称为二级索引（secondary index）。</p>
+<blockquote>
+<p>MySQL回表：</p>
+</blockquote>
+<ul>
+<li>如果语句是 <code>select * from User where id=3</code>，即主键查询方式，则只需要搜索 主键索引树。</li>
+<li>如果语句是 <code>select * from User where uid=23</code>，即普通索引查询方式，则需要先搜索 普通索引树，得到其对应的主键值为 3，再到主键索引树搜索一次。这个过程称为回表。</li>
+</ul>
+<h3 id="索引的底层实现-B-树和红黑树、B树比较"><a href="#索引的底层实现-B-树和红黑树、B树比较" class="headerlink" title="索引的底层实现 B+树和红黑树、B树比较"></a>索引的底层实现 B+树和红黑树、B树比较</h3><h3 id="索引失效"><a href="#索引失效" class="headerlink" title="索引失效"></a>索引失效</h3><h4 id="1-索引不存储null值"><a href="#1-索引不存储null值" class="headerlink" title="1.索引不存储null值"></a>1.索引不存储null值</h4><p>更准确的说，单列索引不存储null值，复合索引不存储全为null的值。索引不能存储Null，所以对这列采用is null条件时，因为索引上根本</p>
+<p>没Null值，不能利用到索引，只能全表扫描。</p>
+<p>为什么索引列不能存Null值？</p>
+<p>将索引列值进行建树，其中必然涉及到诸多的比较操作。Null值的特殊性就在于参与的运算大多取值为null。</p>
+<p>这样的话，null值实际上是不能参与进建索引的过程。也就是说，null值不会像其他取值一样出现在索引树的叶子节点上。</p>
+<h4 id="2-不适合键值较少的列（重复数据较多的列）"><a href="#2-不适合键值较少的列（重复数据较多的列）" class="headerlink" title="2.不适合键值较少的列（重复数据较多的列）"></a>2.不适合键值较少的列（重复数据较多的列）</h4><p>假如索引列TYPE有5个键值，如果有1万条数据，那么 WHERE TYPE = 1将访问表中的2000个数据块。</p>
+<p>再加上访问索引块，一共要访问大于2000个的数据块。</p>
+<p>如果全表扫描，假设10条数据一个数据块，那么只需访问1000个数据块，既然全表扫描访问的数据块</p>
+<p>少一些，肯定就不会利用索引了。</p>
+<h4 id="3-前导模糊查询不能利用索引-like-‘-XX’或者like-‘-XX-’"><a href="#3-前导模糊查询不能利用索引-like-‘-XX’或者like-‘-XX-’" class="headerlink" title="3.前导模糊查询不能利用索引(like ‘%XX’或者like ‘%XX%’)"></a>3.前导模糊查询不能利用索引(like ‘%XX’或者like ‘%XX%’)</h4><p>假如有这样一列code的值为’AAA’,’AAB’,’BAA’,’BAB’ ,如果where code like ‘%AB’条件，由于前面是模糊的，所以不能利用索引的顺序，必须一个个去找，看是否满足条件。这样会导致全索引扫描或者全表扫描。如果是这样的条件where code like ‘A % ‘，就可以查找CODE中A开头的CODE的位置，当碰到B开头的数据时，就可以停止查找了，因为后面的数据一定不满足要求。这样就可以利用索引了。</p>
+<h4 id="4-索引失效的几种情况"><a href="#4-索引失效的几种情况" class="headerlink" title="4.索引失效的几种情况"></a>4.索引失效的几种情况</h4><ul>
+<li>1.如果条件中有or，即使其中有条件带索引也不会使用(这也是为什么尽量少用or的原因)<br>要想使用or，又想让索引生效，只能将or条件中的每个列都加上索引</li>
+<li>2.对于多列索引，不是使用的第一部分，则不会使用索引</li>
+<li>3.like查询以%开头</li>
+<li>4.如果列类型是字符串，那一定要在条件中将数据使用引号引用起来,否则不使用索引</li>
+<li>5.如果mysql估计使用全表扫描要比使用索引快,则不使用索引</li>
+</ul>
+<h4 id="5-MySQL主要提供2种方式的索引：B-Tree索引，Hash索引"><a href="#5-MySQL主要提供2种方式的索引：B-Tree索引，Hash索引" class="headerlink" title="5.MySQL主要提供2种方式的索引：B-Tree索引，Hash索引"></a>5.MySQL主要提供2种方式的索引：B-Tree索引，Hash索引</h4><p>B树索引具有范围查找和前缀查找的能力，对于有N节点的B树，检索一条记录的复杂度为O(LogN)。相当于二分查找。</p>
+<p>哈希索引只能做等于查找，但是无论多大的Hash表，查找复杂度都是O(1)。</p>
+<p>显然，如果值的差异性大，并且以等值查找（=、 &lt;、&gt;、in）为主，Hash索引是更高效的选择，它有O(1)的查找复杂度。</p>
+<p>如果值的差异性相对较差，并且以范围查找为主，B树是更好的选择，它支持范围查找。</p>
+<p>此外，查看索引的使用情况</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">show</span> <span class="token keyword">status</span> <span class="token operator">like</span> ‘Handler_read<span class="token operator">%</span>'<span class="token punctuation">;</span></code></pre>
+<p>大家可以注意：</p>
+<ul>
+<li>handler_read_key:这个值越高越好，越高表示使用索引查询到的次数</li>
+<li>handler_read_rnd_next:这个值越高，说明查询低效</li>
+</ul>
+<h3 id="建索引的几大原则"><a href="#建索引的几大原则" class="headerlink" title="建索引的几大原则"></a>建索引的几大原则</h3><ul>
+<li>1.最左前缀匹配原则，非常重要的原则，mysql会一直向右匹配直到遇到范围查询(&gt;、&lt;、between、like)就停止匹配，比如a = 1 and b = 2 and c &gt; 3 and d = 4 如果建立(a,b,c,d)顺序的索引，d是用不到索引的，如果建立(a,b,d,c)的索引则都可以用到，a,b,d的顺序可以任意调整。</li>
+<li>2.=和in可以乱序，比如a = 1 and b = 2 and c = 3 建立(a,b,c)索引可以任意顺序，mysql的查询优化器会帮你优化成索引可以识别的形式。</li>
+<li>3.尽量选择区分度高的列作为索引，区分度的公式是count(distinct col)/count(*)，表示字段不重复的比例，比例越大我们扫描的记录数越少，唯一键的区分度是1，而一些状态、性别字段可能在大数据面前区分度就是0，那可能有人会问，这个比例有什么经验值吗？使用场景不同，这个值也很难确定，一般需要join的字段我们都要求是0.1以上，即平均1条扫描10条记录。</li>
+<li>4.索引列不能参与计算，保持列“干净”，比如from_unixtime(create_time) = ’2014-05-29’就不能使用到索引，原因很简单，b+树中存的都是数据表中的字段值，但进行检索时，需要把所有元素都应用函数才能比较，显然成本太大。所以语句应该写成create_time = unix_timestamp(’2014-05-29’)。</li>
+<li>5.尽量的扩展索引，不要新建索引。比如表中已经有a的索引，现在要加(a,b)的索引，那么只需要修改原来的索引即可。</li>
+</ul>
+<h3 id="索引优化策略"><a href="#索引优化策略" class="headerlink" title="索引优化策略"></a>索引优化策略</h3><h3 id="explain慢查询优化"><a href="#explain慢查询优化" class="headerlink" title="explain慢查询优化"></a><code>explain</code>慢查询优化</h3><p>步骤：</p>
+<ul>
+<li>0.先运行看看是否真的很慢，注意设置SQL_NO_CACHE</li>
+<li>1.where条件单表查，锁定最小返回记录表。这句话的意思是把查询语句的where都应用到表中返回的记录数最小的表开始查起，单表每个字段分别查询，看哪个字段的区分度最高</li>
+<li>2.explain查看执行计划，是否与1预期一致（从锁定记录较少的表开始查询）</li>
+<li>3.order by limit 形式的sql语句让排序的表优先查</li>
+<li>4.了解业务方使用场景</li>
+<li>5.加索引时参照建索引的几大原则</li>
+<li>6.观察结果，不符合预期继续从0分析</li>
+</ul>
+<h2 id="Mysql事务"><a href="#Mysql事务" class="headerlink" title="Mysql事务"></a>Mysql事务</h2><h3 id="事务特性-ACID-及其实现"><a href="#事务特性-ACID-及其实现" class="headerlink" title="事务特性(ACID)及其实现"></a>事务特性(ACID)及其实现</h3><p><a href="https://www.cnblogs.com/kismetv/p/10331633.html" target="_blank" rel="noopener">参考</a></p>
 <ul>
 <li>原子性（atomicity，或稱不可分割性）</li>
 <li>一致性（consistency）</li>
@@ -578,7 +642,8 @@ sex <span class="token keyword">enum</span><span class="token punctuation">(</sp
 <p>除了事务提交时，还有其他刷盘时机：如master thread每秒刷盘一次redo log等，这样的好处是不一定要等到commit时刷盘，commit速度大大加快。</p>
 </li>
 </ul>
-<h3 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h3><h4 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h4><p><strong>与原子性、持久性侧重于研究事务本身不同，隔离性研究的是不同事务之间的相互影响</strong>。<strong>隔离性是指，事务内部的操作与其他事务是隔离的，并发执行的各个事务之间不能互相干扰</strong>。严格的隔离性，对应了事务隔离级别中的Serializable (可串行化)，但实际应用中出于性能方面的考虑很少会使用可串行化。</p>
+<h3 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h3><p><strong>乐观锁在数据库中就是MVCC，悲观锁就是行锁和表锁。</strong></p>
+<h4 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h4><p><strong>与原子性、持久性侧重于研究事务本身不同，隔离性研究的是不同事务之间的相互影响</strong>。<strong>隔离性是指，事务内部的操作与其他事务是隔离的，并发执行的各个事务之间不能互相干扰</strong>。严格的隔离性，对应了事务隔离级别中的Serializable (可串行化)，但实际应用中出于性能方面的考虑很少会使用可串行化。</p>
 <p>隔离性追求的是并发情形下事务之间互不干扰。简单起见，我们仅考虑最简单的读操作和写操作(暂时不考虑带锁读等特殊操作)，那么隔离性的探讨，主要可以分为两个方面：</p>
 <ul>
 <li>(一个事务)写操作对(另一个事务)写操作的影响：锁机制保证隔离性</li>
@@ -1493,7 +1558,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">85k</span>&nbsp;字
+                class="white-color">87k</span>&nbsp;字
             
             
             
