@@ -458,14 +458,14 @@ id mediumint  auto_increment com">
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        3.5k
+                        5.2k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        12 分
+                        18 分
                     </div>
                     
                 
@@ -558,27 +558,98 @@ sex <span class="token keyword">enum</span><span class="token punctuation">(</sp
 <h4 id="持久性"><a href="#持久性" class="headerlink" title="持久性"></a>持久性</h4><h5 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h5><p>持久性是指事务一旦提交，它对数据库的改变就应该是永久性的。接下来的其他操作或故障不应该对其有任何影响。</p>
 <h5 id="实现原理：redo-log"><a href="#实现原理：redo-log" class="headerlink" title="实现原理：redo log"></a>实现原理：redo log</h5><p>redo log和undo log都属于InnoDB的事务日志。下面先聊一下redo log存在的背景。</p>
 <p><strong>InnoDB作为MySQL的存储引擎，数据是存放在磁盘中的，但如果每次读写数据都需要磁盘IO，效率会很低。</strong>为此，InnoDB提供了缓存(Buffer Pool)，Buffer Pool中包含了磁盘中部分数据页的映射，作为访问数据库的缓冲：当从数据库读取数据时，会首先从Buffer Pool中读取，如果Buffer Pool中没有，则从磁盘读取后放入Buffer Pool；当向数据库写入数据时，会首先写入Buffer Pool，Buffer Pool中修改的数据会定期刷新到磁盘中（这一过程称为<strong>刷脏</strong>）。</p>
-<p>Buffer Pool的使用大大提高了读写数据的效率，但是也带了新的问题：如果MySQL宕机，而此时Buffer Pool中修改的数据还没有刷新到磁盘，就会导致数据的丢失，事务的持久性无法保证。</p>
-<p>于是，redo log被引入来解决这个问题：当数据修改时，除了修改Buffer Pool中的数据，还会在redo log记录这次操作；当事务提交时，会调用fsync接口对redo log进行刷盘。如果MySQL宕机，重启时可以读取redo log中的数据，对数据库进行恢复。redo log采用的是WAL（Write-ahead logging，预写式日志），所有修改先写入日志，再更新到Buffer Pool，保证了数据不会因MySQL宕机而丢失，从而满足了持久性要求。</p>
-<p>既然redo log也需要在事务提交时将日志写入磁盘，为什么它比直接将Buffer Pool中修改的数据写入磁盘(即刷脏)要快呢？主要有以下两方面的原因：</p>
-<p>（1）刷脏是随机IO，因为每次修改的数据位置随机，但写redo log是追加操作，属于顺序IO。</p>
-<p>（2）刷脏是以数据页（Page）为单位的，MySQL默认页大小是16KB，一个Page上一个小修改都要整页写入；而redo log中只包含真正需要写入的部分，无效IO大大减少。</p>
-<ol>
-<li>redo log与binlog<br>我们知道，在MySQL中还存在binlog(二进制日志)也可以记录写操作并用于数据的恢复，但二者是有着根本的不同的：</li>
-</ol>
-<p>（1）作用不同：redo log是用于crash recovery的，保证MySQL宕机也不会影响持久性；binlog是用于point-in-time recovery的，保证服务器可以基于时间点恢复数据，此外binlog还用于主从复制。</p>
-<p>（2）层次不同：redo log是InnoDB存储引擎实现的，而binlog是MySQL的服务器层(可以参考文章前面对MySQL逻辑架构的介绍)实现的，同时支持InnoDB和其他存储引擎。</p>
-<p>（3）内容不同：redo log是物理日志，内容基于磁盘的Page；binlog的内容是二进制的，根据binlog_format参数的不同，可能基于sql语句、基于数据本身或者二者的混合。</p>
-<p>（4）写入时机不同：binlog在事务提交时写入；redo log的写入时机相对多元：</p>
-<p>前面曾提到：当事务提交时会调用fsync对redo log进行刷盘；这是默认情况下的策略，修改innodb_flush_log_at_trx_commit参数可以改变该策略，但事务的持久性将无法保证。<br>除了事务提交时，还有其他刷盘时机：如master thread每秒刷盘一次redo log等，这样的好处是不一定要等到commit时刷盘，commit速度大大加快。</p>
-<p><a href="https://www.cnblogs.com/kismetv/p/10331633.html" target="_blank" rel="noopener">https://www.cnblogs.com/kismetv/p/10331633.html</a></p>
-<h3 id="事务的隔离级别-读未提交、读已提交、重复读、序列化"><a href="#事务的隔离级别-读未提交、读已提交、重复读、序列化" class="headerlink" title="事务的隔离级别(读未提交、读已提交、重复读、序列化)"></a>事务的隔离级别(读未提交、读已提交、重复读、序列化)</h3><p><a href="https://blog.csdn.net/JIESA/article/details/51317164" target="_blank" rel="noopener">参考文章</a></p>
+<p><strong>Buffer Pool的使用大大提高了读写数据的效率，但是也带了新的问题：如果MySQL宕机，而此时Buffer Pool中修改的数据还没有刷新到磁盘，就会导致数据的丢失，事务的持久性无法保证。</strong></p>
+<p>于是，<strong>redo log被引入来解决这个问题：当数据修改时，除了修改Buffer Pool中的数据，还会在redo log记录这次操作；</strong>当事务提交时，会调用fsync接口对redo log进行刷盘。如果MySQL宕机，重启时可以读取redo log中的数据，对数据库进行恢复。redo log采用的是WAL（Write-ahead logging，预写式日志），<strong>所有修改先写入日志，再更新到Buffer Pool</strong>，保证了数据不会因MySQL宕机而丢失，从而满足了持久性要求。</p>
+<p><strong>既然redo log也需要在事务提交时将日志写入磁盘，为什么它比直接将Buffer Pool中修改的数据写入磁盘(即刷脏)要快呢？主要有以下两方面的原因：</strong></p>
+<ul>
+<li>（1）刷脏是随机IO，因为每次修改的数据位置随机，但写redo log是追加操作，属于顺序IO。</li>
+<li>（2）刷脏是以数据页（Page）为单位的，MySQL默认页大小是16KB，一个Page上一个小修改都要整页写入；而redo log中只包含真正需要写入的部分，无效IO大大减少。</li>
+</ul>
+<h5 id="redo-log与binlog"><a href="#redo-log与binlog" class="headerlink" title="redo log与binlog"></a>redo log与binlog</h5><p>我们知道，在MySQL中还存在binlog(二进制日志)也可以记录写操作并用于数据的恢复，但二者是有着根本的不同的：</p>
+<ul>
+<li><p>（1）作用不同：redo log是用于crash recovery的，保证MySQL宕机也不会影响持久性；binlog是用于point-in-time recovery的，保证服务器可以基于时间点恢复数据，此外binlog还用于主从复制。</p>
+</li>
+<li><p>（2）层次不同：<strong>redo log是InnoDB存储引擎实现的</strong>，而<strong>binlog是MySQL的服务器层实现的</strong>，同时支持InnoDB和其他存储引擎。</p>
+</li>
+<li><p>（3）内容不同：redo log是物理日志，内容基于磁盘的Page；binlog的内容是二进制的，根据binlog_format参数的不同，可能基于sql语句、基于数据本身或者二者的混合。</p>
+</li>
+<li><p>（4）写入时机不同：binlog在事务提交时写入；redo log的写入时机相对多元：<br>前面曾提到：当事务提交时会调用fsync对redo log进行刷盘；这是默认情况下的策略，修改innodb_flush_log_at_trx_commit参数可以改变该策略，但事务的持久性将无法保证。</p>
+<p>除了事务提交时，还有其他刷盘时机：如master thread每秒刷盘一次redo log等，这样的好处是不一定要等到commit时刷盘，commit速度大大加快。</p>
+</li>
+</ul>
+<h4 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h4><h5 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h5><p><strong>与原子性、持久性侧重于研究事务本身不同，隔离性研究的是不同事务之间的相互影响</strong>。<strong>隔离性是指，事务内部的操作与其他事务是隔离的，并发执行的各个事务之间不能互相干扰</strong>。严格的隔离性，对应了事务隔离级别中的Serializable (可串行化)，但实际应用中出于性能方面的考虑很少会使用可串行化。</p>
+<p>隔离性追求的是并发情形下事务之间互不干扰。简单起见，我们仅考虑最简单的读操作和写操作(暂时不考虑带锁读等特殊操作)，那么隔离性的探讨，主要可以分为两个方面：</p>
+<ul>
+<li>(一个事务)写操作对(另一个事务)写操作的影响：锁机制保证隔离性</li>
+<li>(一个事务)写操作对(另一个事务)读操作的影响：MVCC保证隔离性</li>
+</ul>
+<h5 id="事务的隔离级别-读未提交、读已提交、重复读、序列化"><a href="#事务的隔离级别-读未提交、读已提交、重复读、序列化" class="headerlink" title="事务的隔离级别(读未提交、读已提交、重复读、序列化)"></a>事务的隔离级别(读未提交、读已提交、重复读、序列化)</h5><p><a href="https://blog.csdn.net/JIESA/article/details/51317164" target="_blank" rel="noopener">参考文章</a></p>
 <ul>
 <li>读未提交：可以读到另外事务未提交的写，会造成脏读</li>
 <li>读已提交：可以读到另外事务已提交的写，但可能造成不可重复读</li>
-<li>重复读：在事务写的时候，别的事务不可写。可能造成幻读。Mysql默认隔离级别，MVCC解决幻读</li>
+<li>重复读：在事务写的时候，别的事务不可写。可能造成幻读。Mysql默认隔离级别，通过Next-Key锁(行锁与GAP锁结合)解决幻读</li>
 <li>序列化：事务顺序执行，不仅可以避免脏读、不可重复读，还避免了幻像读，通过加X锁，开销太大。(<a href="https://blog.csdn.net/yuwei19840916/article/details/3245107" target="_blank" rel="noopener">X锁-排他锁，S锁-共享锁</a>)</li>
 </ul>
+<h5 id="通过锁的方式实现隔离性"><a href="#通过锁的方式实现隔离性" class="headerlink" title="通过锁的方式实现隔离性"></a>通过锁的方式实现隔离性</h5><ul>
+<li><p>读写锁：<br>读写锁的概念很平常，当你在读取数据的时候，应该先加读锁，读取完之后的某个时间再解开读锁，那么加了读锁的数据，应该需要有什么特性呢，应该只能读，不能写，因为加了读锁，说明有事务准备读取这个数据，如果被别的事务重写这个事务，那数据就不准确了。所以一个事务给这个数据加了读锁，别的事务也可以对这个数据加读锁，因为大家都是只读不写。</p>
+<p><strong>写锁则具有排他性</strong>（exclusive lock），当一个事务准备对一个数据进行写操作的时候，先要对数据加写锁，那么数据就是可变的，这时候，其他事务就无法对这个数据加读锁了，除非这个写锁释放。</p>
+</li>
+<li><p>两端式提交锁（Two-phase locking）<br>两段式提交分为两步：</p>
+<ul>
+<li>加锁阶段：在该阶段可以进行加锁操作。在对任何数据进行读操作之前要申请并获得S锁（共享锁，其它事务可以继续加共享锁，但不能加排它锁），在进行写操作之前要申请并获得X锁（排它锁，其它事务不能再获得任何锁）。加锁不成功，则事务进入等待状态，直到加锁成功才继续执行。</li>
+<li>解锁阶段：当事务释放了一个封锁以后，事务进入解锁阶段，在该阶段只能进行解锁操作不能再进行加锁操作。</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>事务</th>
+<th>加锁/解锁处理</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>begin;</td>
+<td></td>
+</tr>
+<tr>
+<td>insert into test…</td>
+<td>加insert对应的锁</td>
+</tr>
+<tr>
+<td>update test set…</td>
+<td>加update对应的锁</td>
+</tr>
+<tr>
+<td>delete from test…</td>
+<td>加delete对应的锁</td>
+</tr>
+<tr>
+<td>commit;</td>
+<td>事务提交时，同时释放insert、update、delete对应的锁</td>
+</tr>
+</tbody></table>
+<h4 id="MVCC在MySQL的InnoDB中的实现"><a href="#MVCC在MySQL的InnoDB中的实现" class="headerlink" title="MVCC在MySQL的InnoDB中的实现"></a>MVCC在MySQL的InnoDB中的实现</h4><p>在InnoDB中，会在每行数据后添加两个额外的隐藏的值来实现MVCC，这两个值<strong>一个记录这行数据何时被创建，另外一个记录这行数据何时过期（或者被删除）</strong>。 在实际操作中，存储的并不是时间，而是事务的版本号，每开启一个新事务，事务的版本号就会递增。 在可重读Repeatable reads事务隔离级别下：</p>
+<ul>
+<li>SELECT时，读取创建版本号&lt;=当前事务版本号，删除版本号为空或&gt;当前事务版本号。</li>
+<li>INSERT时，保存当前事务版本号为行的创建版本号</li>
+<li>DELETE时，保存当前事务版本号为行的删除版本号</li>
+<li>UPDATE时，插入一条新纪录，保存当前事务版本号为行创建版本号，同时保存当前事务版本号到原来删除的行</li>
+</ul>
+<p>通过MVCC，虽然每行记录都需要额外的存储空间，更多的行检查工作以及一些额外的维护工作，但可以减少锁的使用，大多数读操作都不用加锁，读数据操作很简单，性能很好，并且也能保证只会读取到符合标准的行，也只锁住必要行。</p>
+<h4 id="Innodb的RR级别如何解决幻读问题"><a href="#Innodb的RR级别如何解决幻读问题" class="headerlink" title="Innodb的RR级别如何解决幻读问题"></a>Innodb的RR级别如何解决幻读问题</h4><p><a href="https://tech.meituan.com/2014/08/20/innodb-lock.html" target="_blank" rel="noopener">参考</a></p>
+<p>在RC级别中，事务A修改了所有teacher_id=30的数据，但是当事务B insert进新数据后，事务A发现莫名其妙多了一行teacher_id=30的数据，而且没有被之前的update语句所修改，这就是“当前读”的幻读。</p>
+<p>RR级别中，事务A在update后加锁，事务B无法插入新数据，这样事务A在update前后读的数据保持一致，避免了幻读。这个锁，就是<strong>Gap锁。</strong></p>
+<p>MySQL是这么实现的：</p>
+<p>在class_teacher这张表中，teacher_id是个索引，那么它就会维护一套B+树的数据关系，为了简化，我们用链表结构来表达（实际上是个树形结构，但原理相同）</p>
+<p><img src="/2020/03/13/mysql-mian-shi-hui-zong/GAP.png" alt></p>
+<p>如果使用的是没有索引的字段，比如<code>update class_teacher set teacher_id=7 where class_name=‘初三八班（即使没有匹配到任何数据）’</code>,那么会给全表加入gap锁。同时，它不能像上文中行锁一样经过MySQL Server过滤自动解除不满足条件的锁，因为没有索引，则这些字段也就没有排序，也就没有区间。除非该事务提交，否则其它事务无法插入任何数据。</p>
+<p><strong>行锁防止别的事务修改或删除，GAP锁防止别的事务新增，行锁和GAP锁结合形成的的Next-Key锁共同解决了RR级别在写数据时的幻读问题。</strong></p>
+<h4 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h4><h5 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h5><p>一致性是指事务执行结束后，数据库的完整性约束没有被破坏，事务执行的前后都是合法的数据状态。数据库的完整性约束包括但不限于：实体完整性（如行的主键存在且唯一）、列完整性（如字段的类型、大小、长度要符合要求）、外键约束、用户自定义完整性（如转账前后，两个账户余额的和应该不变）。</p>
+<h5 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h5><p>可以说，一致性是事务追求的最终目标：前面提到的原子性、持久性和隔离性，都是为了保证数据库状态的一致性。此外，除了数据库层面的保障，一致性的实现也需要应用层面进行保障。</p>
+<p>实现一致性的措施包括：</p>
+<p>保证原子性、持久性和隔离性，如果这些特性无法保证，事务的一致性也无法保证<br>数据库本身提供保障，例如不允许向整形列插入字符串值、字符串长度不能超过列的限制等<br>应用层面进行保障，例如如果转账操作只扣除转账者的余额，而没有增加接收者的余额，无论数据库实现的多么完美，也无法保证状态的一致</p>
+<p><a href="https://www.cnblogs.com/kismetv/p/10331633.html" target="_blank" rel="noopener">https://www.cnblogs.com/kismetv/p/10331633.html</a></p>
 <h3 id="事务的隔离级别分别解决哪些问题-脏读、不可重复读、幻读丢失修改"><a href="#事务的隔离级别分别解决哪些问题-脏读、不可重复读、幻读丢失修改" class="headerlink" title="事务的隔离级别分别解决哪些问题(脏读、不可重复读、幻读丢失修改)"></a>事务的隔离级别分别解决哪些问题(脏读、不可重复读、幻读丢失修改)</h3><h3 id="MVCC-多版本并发控制"><a href="#MVCC-多版本并发控制" class="headerlink" title="MVCC(多版本并发控制)"></a>MVCC(多版本并发控制)</h3><p><a href="https://www.jianshu.com/p/f692d4f8a53e" target="_blank" rel="noopener">参考文章</a></p>
 <ul>
 <li>数据行版本号</li>
@@ -1386,7 +1457,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">83.2k</span>&nbsp;字
+                class="white-color">85k</span>&nbsp;字
             
             
             
