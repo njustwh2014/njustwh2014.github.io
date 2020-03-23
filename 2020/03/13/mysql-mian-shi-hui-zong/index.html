@@ -458,14 +458,14 @@ id mediumint  auto_increment com">
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        8.1k
+                        8.3k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        28 分
+                        29 分
                     </div>
                     
                 
@@ -550,9 +550,10 @@ sex <span class="token keyword">enum</span><span class="token punctuation">(</sp
 <li>B+树：</li>
 </ul>
 <h3 id="“为什么底层数据结构使用B-树，而不是B树？”"><a href="#“为什么底层数据结构使用B-树，而不是B树？”" class="headerlink" title="“为什么底层数据结构使用B+树，而不是B树？”"></a>“为什么底层数据结构使用B+树，而不是B树？”</h3><ul>
-<li>B+树是B树的变种，B+树的非叶子节点只用来保存索引，不存储数据，所有的数据都保存在叶子节点；而B树的非叶子节点也会保存数据。这样就使得B+树的查询效率更加稳定，均为从根节点到叶子节点的路径。</li>
-<li>B+树的内部结点并没有指向关键字具体信息的指针，因此其内部结点相对B 树更小，同样空间可以读入更多的节点，所以B+树的磁盘读写代价更低。</li>
+<li>B-树（B类树）的特定就是每层节点数目非常多，层数很少，目的就是为了就少磁盘IO次数，当查询数据的时候，最好的情况就是很快找到目标索引，然后读取数据，使用B+树就能很好的完成这个目的，但是B-树的每个节点都有data域（指针），这无疑增大了节点大小，说白了增加了磁盘IO次数（<strong>磁盘IO一次读出的数据量大小是固定的，单个数据变大，每次读出的就少，IO次数增多，一次IO多耗时啊！</strong>），而B+树除了叶子节点其它节点并不存储数据，节点小，磁盘IO次数就少。这是优点之一。</li>
+<li>B+树所有的Data域在叶子节点，一般来说都会进行一个优化，就是将所有的叶子节点用指针串起来。这样遍历叶子节点就能获得全部数据，这样就能进行区间访问啦。</li>
 </ul>
+<p><strong>数据库索引采用B+树的主要原因是 B树在提高了磁盘IO性能的同时并没有解决元素遍历的效率低下的问题。正是为了解决这个问题，B+树应运而生。B+树只要遍历叶子节点就可以实现整棵树的遍历。而且在数据库中基于范围的查询是非常频繁的，而B树不支持这样的操作（或者说效率太低）</strong></p>
 <h3 id="聚簇索引与非聚簇索引"><a href="#聚簇索引与非聚簇索引" class="headerlink" title="聚簇索引与非聚簇索引"></a>聚簇索引与非聚簇索引</h3><p>聚簇索引也称为主键索引，其索引树的叶子节点中存的是整行数据，表中行的物理顺序与键值的逻辑（索引）顺序相同。一个表只能包含一个聚集索引。因为索引（目录）只能按照一种方法进行排序。</p>
 <p>非聚簇索引（普通索引）的叶子节点内容是主键的值。在InnoDB里，非主键索引也被称为二级索引（secondary index）。</p>
 <blockquote>
@@ -1577,7 +1578,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">94.2k</span>&nbsp;字
+                class="white-color">94.9k</span>&nbsp;字
             
             
             

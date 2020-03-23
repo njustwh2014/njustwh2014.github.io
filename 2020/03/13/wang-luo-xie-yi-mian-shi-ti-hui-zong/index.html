@@ -461,7 +461,7 @@ Get发送一次数据包 Post发送两次数据包
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        3.4k
+                        3.6k
                     </div>
                     
 
@@ -654,7 +654,17 @@ Get发送一次数据包 Post发送两次数据包
 <h2 id="url到获取页面过程"><a href="#url到获取页面过程" class="headerlink" title="url到获取页面过程"></a>url到获取页面过程</h2><p>在浏览器中输入一个网址，首先要做的就是域名的解析，也就是域名-&gt;ip的解析，依次查看了浏览器缓存，系统缓存，hosts文件，路由器缓存，递归搜索根域名服务器，直到找到最终的ip地址。</p>
 <p>然后就是TCP协议的三次握手建立连接，过程我们已经阐述了。由浏览器发送一个HTTP请求；经过路由器的转发，通过服务器的防火墙，该HTTP请求到达了服务器；服务器处理该HTTP请求，返回一个HTML文件；浏览器解析该HTML文件，并且渲染显示在浏览器端。</p>
 <p>这里，我们可以来具体阐述下HTTP协议和TCP协议的关系与区别。</p>
-<h2 id="介绍TCP-IP头，其中哪些首部涉及滑动窗口，以及拥塞控制"><a href="#介绍TCP-IP头，其中哪些首部涉及滑动窗口，以及拥塞控制" class="headerlink" title="介绍TCP/IP头，其中哪些首部涉及滑动窗口，以及拥塞控制"></a>介绍TCP/IP头，其中哪些首部涉及滑动窗口，以及拥塞控制</h2><h2 id="http与https的区别"><a href="#http与https的区别" class="headerlink" title="http与https的区别"></a>http与https的区别</h2>
+<h2 id="介绍TCP-IP头，其中哪些首部涉及滑动窗口，以及拥塞控制"><a href="#介绍TCP-IP头，其中哪些首部涉及滑动窗口，以及拥塞控制" class="headerlink" title="介绍TCP/IP头，其中哪些首部涉及滑动窗口，以及拥塞控制"></a>介绍TCP/IP头，其中哪些首部涉及滑动窗口，以及拥塞控制</h2><h2 id="http与https的区别"><a href="#http与https的区别" class="headerlink" title="http与https的区别"></a>http与https的区别</h2><h2 id="CDN的关键技术"><a href="#CDN的关键技术" class="headerlink" title="CDN的关键技术"></a>CDN的关键技术</h2><p><a href="https://blog.csdn.net/moakun/article/details/80690536" target="_blank" rel="noopener">参考连接</a></p>
+<p>CDN网络是在用户和服务器之间增加Cache层，如何将用户的请求引导到Cache上获得源服务器的数据，主要是通过接管DNS实现，这就是CDN的最基本的原理。</p>
+<ul>
+<li>1.用户向浏览器输入<a href="http://www.web.com这个域名，浏览器第一次发现本地没有dns缓存，则向网站的DNS服务器请求；" target="_blank" rel="noopener">www.web.com这个域名，浏览器第一次发现本地没有dns缓存，则向网站的DNS服务器请求；</a></li>
+<li>2.网站的DNS域名解析器设置了CNAME，指向了<a href="http://www.web.51cdn.com,请求指向了CDN网络中的智能DNS负载均衡系统；" target="_blank" rel="noopener">www.web.51cdn.com,请求指向了CDN网络中的智能DNS负载均衡系统；</a></li>
+<li>3.智能DNS负载均衡系统解析域名，把对用户响应速度最快的IP节点返回给用户；</li>
+<li>4.用户向该IP节点（CDN服务器）发出请求；</li>
+<li>5.由于是第一次访问，CDN服务器会向原web站点请求，并缓存内容；</li>
+<li>6.请求结果发给用户。</li>
+</ul>
+
             </div>
             <hr/>
 
@@ -1401,7 +1411,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">94.2k</span>&nbsp;字
+                class="white-color">94.9k</span>&nbsp;字
             
             
             

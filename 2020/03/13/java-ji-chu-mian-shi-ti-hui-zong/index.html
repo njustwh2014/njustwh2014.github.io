@@ -5,7 +5,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="Java基础面试题汇总, Java, 中间件, Spring, Redis">
-    <meta name="description" content="为什么要重写hashCode和equals方法如果不重写，则会默认调用Object类的hashCode和equals方法，Object类的hashCode方法是根据对象内存首地址计算得到，equals方法也同样是根据对象内存首地址进行判断。">
+    <meta name="description" content="PriorityQueue实现原理
+数组
+扩容
+堆排序如何实现？
+
+参考连接
+为什么要重写hashCode和equals方法如果不重写，则会默认调用Object类的hashCode和equals方法，Object类的hashCode方法是根">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -461,7 +467,7 @@
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        2.7k
+                        2.9k
                     </div>
                     
 
@@ -484,7 +490,13 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="为什么要重写hashCode和equals方法"><a href="#为什么要重写hashCode和equals方法" class="headerlink" title="为什么要重写hashCode和equals方法"></a>为什么要重写hashCode和equals方法</h2><p>如果不重写，则会默认调用Object类的hashCode和equals方法，Object类的hashCode方法是根据对象内存首地址计算得到，equals方法也同样是根据对象内存首地址进行判断。这在很多场景下是不可用的。</p>
+                <h2 id="PriorityQueue实现原理"><a href="#PriorityQueue实现原理" class="headerlink" title="PriorityQueue实现原理"></a>PriorityQueue实现原理</h2><ul>
+<li>数组</li>
+<li>扩容</li>
+<li>堆排序如何实现？</li>
+</ul>
+<p><a href="https://blog.csdn.net/u013309870/article/details/71189189" target="_blank" rel="noopener">参考连接</a></p>
+<h2 id="为什么要重写hashCode和equals方法"><a href="#为什么要重写hashCode和equals方法" class="headerlink" title="为什么要重写hashCode和equals方法"></a>为什么要重写hashCode和equals方法</h2><p>如果不重写，则会默认调用Object类的hashCode和equals方法，Object类的hashCode方法是根据对象内存首地址计算得到，equals方法也同样是根据对象内存首地址进行判断。这在很多场景下是不可用的。</p>
 <h2 id="hashCode与equals区别"><a href="#hashCode与equals区别" class="headerlink" title="hashCode与equals区别"></a>hashCode与equals区别</h2><ul>
 <li>规范1：若重写equals(Object obj)方法，有必要重写hashcode()方法，确保通过equals(Object obj)方法判断结果为true的两个对象具备相等的hashcode()返回值。说得简单点就是：“如果两个对象相同，那么他们的hashcode应该 相等”。不过请注意：这个只是规范，如果你非要写一个类让equals(Object obj)返回true而hashcode()返回两个不相等的值，编译和运行都是不会报错的。不过这样违反了Java规范，程序也就埋下了BUG。 </li>
 <li>规范2：如果equals(Object obj)返回false，即两个对象“不相同”，并不要求对这两个对象调用hashcode()方法得到两个不相同的数。说的简单点就是：“如果两个对象不相同，他们的hashcode可能相同”。<br>根据这两个规范，可以得到如下推论： <ul>
@@ -642,6 +654,17 @@
 <li>同步非阻塞(NIO)</li>
 <li>多路复用  IO多路复用模型，就是通过一种新的系统调用，一个进程可以监视多个文件描述符，一旦某个描述符就绪（一般是内核缓冲区可读/可写），内核kernel能够通知程序进行相应的IO系统调用。</li>
 <li>异步IO模型</li>
+</ul>
+<h2 id="Java序列化"><a href="#Java序列化" class="headerlink" title="Java序列化"></a>Java序列化</h2><h2 id="数组内存分配"><a href="#数组内存分配" class="headerlink" title="数组内存分配"></a>数组内存分配</h2><p><a href="https://blog.csdn.net/pange1991/article/details/80898344" target="_blank" rel="noopener">参考文档</a></p>
+<p><strong>对于64位操作系统，引用类型指针压缩前8字节，压缩后斩4字节</strong></p>
+<ul>
+<li>指针压缩前：数组对象的对象头占用24个字节（8字节MarkWord+8字节类型指针+8字节数组长度）</li>
+<li>指针压缩后：启用压缩之后占用16个字节（8字节MarkWord+4字节类型指针+4字节数组长度）</li>
+</ul>
+<p>拿new Integer[3]来具体解释下：</p>
+<ul>
+<li>未开启压缩：24（对象头）+ 8*3 = 48，不需要padding；</li>
+<li>开启压缩：16（对象头）+ 4*3 = 28，需要对齐填充 28 + 4(padding) = 32，其他依次类推。</li>
 </ul>
 
             </div>
@@ -1402,7 +1425,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">94.2k</span>&nbsp;字
+                class="white-color">94.9k</span>&nbsp;字
             
             
             
