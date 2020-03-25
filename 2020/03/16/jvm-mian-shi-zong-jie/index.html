@@ -451,14 +451,14 @@
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        11k
+                        11.3k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        38 分
+                        39 分
                     </div>
                     
                 
@@ -607,6 +607,17 @@
 <p>JNDI服务：JNDI的目的就是对资源进行集中管理和查找，它需要调用独立厂商实现部部署在应用程序的classpath下的JNDI接口提供者(SPI, Service Provider Interface)的代码。</p>
 <p>因此，为了破坏这种双亲委派机制，在<strong>启动类里也能够使用系统类加载器对类进行加载</strong>，Java设计了<strong>线程上下文加载器</strong>。在核心类进行类加载时，可以读取当前线程的线程上下文加载器，使用该加载器加载实现了SPI接口的类。</p>
 <p>Java中所有涉及SPI的加载动作基本上都采用这种方式，例如JNDI,JDBC,JCE,JAXB和JBI等</p>
+<h2 id="对象实例化过程："><a href="#对象实例化过程：" class="headerlink" title="对象实例化过程："></a>对象实例化过程：</h2><p>以<code>Person p = new Person()</code>为例</p>
+<ul>
+<li>1，JVM会读取指定的路径下的Person.class文件，并加载进内存，并会先加载Person的父类(如果有直接的父类的情况下).</li>
+<li>2，在堆内存中开辟空间，分配地址。</li>
+<li>3，并在对象空间中，对对象中的属性进行默认初始化。</li>
+<li>4，调用(Person类)对应的构造函数进行初始化。</li>
+<li>5，在构造函数中，第一行会先到调用父类中构造函数进行初始化。</li>
+<li>6，父类的属性初始化完毕后，再对子类的属性进行显示初始化。</li>
+<li>7，再进行子类构造函数的特定初始化(即Person类构造函数后面的初始化)。</li>
+<li>8，初始化完毕后，将地址值赋值给引用变量.</li>
+</ul>
 <h2 id="JVM-运行时数据区"><a href="#JVM-运行时数据区" class="headerlink" title="JVM 运行时数据区"></a>JVM 运行时数据区</h2><p>JVM = 类加载器(classloader) + 执行引擎(execution engine) + 运行时数据区域(runtime data area)</p>
 <p><img src="/2020/03/16/jvm-mian-shi-zong-jie/JVM_RUNTIME_DATA_AREA.png" alt></p>
 <h3 id="栈区：栈区需要内存连续，线程私有，可以避免GC"><a href="#栈区：栈区需要内存连续，线程私有，可以避免GC" class="headerlink" title="栈区：栈区需要内存连续，线程私有，可以避免GC"></a>栈区：栈区需要内存连续，线程私有，可以避免GC</h3><ul>
@@ -1686,7 +1697,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">94.9k</span>&nbsp;字
+                class="white-color">95.1k</span>&nbsp;字
             
             
             

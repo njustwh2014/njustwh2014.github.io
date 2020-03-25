@@ -516,8 +516,8 @@
 <span class="token punctuation">}</span></code></pre>
 <h3 id="抽象工厂"><a href="#抽象工厂" class="headerlink" title="抽象工厂"></a><a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%20-%20%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82.md" target="_blank" rel="noopener"><strong>抽象工厂</strong></a></h3><p>提供一个接口，用于创建<strong>相关的对象家族</strong>。</p>
 <p>抽象工厂模式创建的是对象家族，也就是很多对象而不是一个对象，并且这些对象是相关的，也就是说必须一起创建出来。而工厂方法模式只是用于创建一个对象，这和抽象工厂模式有很大不同。</p>
-<p>抽象工厂模式用到了工厂方法模式来创建单一对象，AbstractFactory 中的 createProductA() 和 createProductB() 方法都是让子类来实现，这两个方法单独来看就是在创建一个对象，这符合工厂方法模式的定义。</p>
-<p>至于创建对象的家族这一概念是在 Client 体现，Client 要通过 AbstractFactory 同时调用两个方法来创建出两个对象，在这里这两个对象就有很大的相关性，Client 需要同时创建出这两个对象。</p>
+<p>抽象工厂模式用到了工厂方法模式来创建单一对象，AbstractFactory中的createProductA()和createProductB()方法都是让子类来实现，这两个方法单独来看就是在创建一个对象，这符合工厂方法模式的定义。</p>
+<p>至于创建对象的家族这一概念是在Client体现，Client要通过AbstractFactory同时调用两个方法来创建出两个对象，在这里这两个对象就有很大的相关性，Client需要同时创建出这两个对象。</p>
 <p>从高层次来看，抽象工厂使用了组合，即 Cilent 组合了 AbstractFactory，而工厂方法模式使用了继承。</p>
 <h3 id="生成器（Builder）"><a href="#生成器（Builder）" class="headerlink" title="生成器（Builder）"></a><a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%20-%20%E7%94%9F%E6%88%90%E5%99%A8.md" target="_blank" rel="noopener"><strong>生成器（Builder）</strong></a></h3><p>封装一个对象的构造过程，并允许按步骤构造。</p>
 <p><code>java.lang.StringBuilder</code></p>
@@ -1308,7 +1308,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">94.9k</span>&nbsp;字
+                class="white-color">95.1k</span>&nbsp;字
             
             
             
