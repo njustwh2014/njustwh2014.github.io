@@ -458,14 +458,14 @@ id mediumint  auto_increment com">
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        8.3k
+                        9.9k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        29 分
+                        35 分
                     </div>
                     
                 
@@ -784,7 +784,29 @@ sex <span class="token keyword">enum</span><span class="token punctuation">(</sp
 <p>事务的回滚适用于DML，不适用于DDL</p>
 <p>那么DDL事务回滚</p>
 <p>先DCL 再 DDL 最后将DML放入事务中</p>
-<h2 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h2><h3 id="MyISAM与InnoDB的区别"><a href="#MyISAM与InnoDB的区别" class="headerlink" title="MyISAM与InnoDB的区别"></a>MyISAM与InnoDB的区别</h3><h3 id="上述存储引擎在索引结构方面的区别"><a href="#上述存储引擎在索引结构方面的区别" class="headerlink" title="上述存储引擎在索引结构方面的区别"></a>上述存储引擎在索引结构方面的区别</h3><h3 id="各自的使用场景"><a href="#各自的使用场景" class="headerlink" title="各自的使用场景"></a>各自的使用场景</h3><h2 id="锁-共享锁、排他锁、行锁、表锁、间隙锁"><a href="#锁-共享锁、排他锁、行锁、表锁、间隙锁" class="headerlink" title="锁(共享锁、排他锁、行锁、表锁、间隙锁)"></a>锁(共享锁、排他锁、行锁、表锁、间隙锁)</h2><p><a href="https://zhuanlan.zhihu.com/p/29150809" target="_blank" rel="noopener">总结的很好</a></p>
+<h2 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h2><h3 id="MyISAM与InnoDB的区别"><a href="#MyISAM与InnoDB的区别" class="headerlink" title="MyISAM与InnoDB的区别"></a>MyISAM与InnoDB的区别</h3><p>两种类型最主要的差别就是<strong>Innodb支持事务处理与外键和行级锁</strong>。而MyISAM不支持.所以MyISAM往往就容易被人认为只适合在小项目中使用。<strong>MyISAM类型的表强调的是性能，其执行数度比InnoDB类型更快</strong>。</p>
+<p>以下是一些细节和具体实现的差别：</p>
+<ul>
+<li>1.InnoDB不支持FULLTEXT类型的索引。</li>
+<li>2.InnoDB中不保存表的具体行数，也就是说，执行<code>select count(*) from table</code>时，InnoDB要扫描一遍整个表来计算有多少行，但是MyISAM只要简单的读出保存好的行数即可。注意的是，当count(*)语句包含 where条件时，两种表的操作是一样的。</li>
+<li>3.对于AUTO_INCREMENT类型的字段，InnoDB中必须包含只有该字段的索引，但是在MyISAM表中，可以和其他字段一起建立联合索引。</li>
+<li>4.<code>DELETE FROM table</code>时，InnoDB不会重新建立表，而是一行一行的删除。</li>
+<li>5.<code>LOAD TABLE FROM MASTER</code>操作对InnoDB是不起作用的，解决方法是首先把InnoDB表改成MyISAM表，导入数据后再改成InnoDB表，但是对于使用的额外的InnoDB特性(例如外键)的表不适用。</li>
+<li>另外，InnoDB表的行锁也不是绝对的，假如在执行一个SQL语句时MySQL不能确定要扫描的范围，InnoDB表同样会锁全表，例如<code>update table set num=1 where name like “%aaa%”</code></li>
+</ul>
+<p>作为使用MySQL的用户角度出发，Innodb和MyISAM都是比较喜欢的，<strong>如果数据库平台要达到需求：99.9%的稳定性，方便的扩展性和高可用性来说的话，MyISAM绝对是首选。</strong></p>
+<p>原因如下：</p>
+<ul>
+<li>1、平台上承载的大部分项目是读多写少的项目，而MyISAM的读性能是比Innodb强不少的。</li>
+<li>2、MyISAM的索引和数据是分开的，并且索引是有压缩的，内存使用率就对应提高了不少。能加载更多索引，而Innodb是索引和数据是紧密捆绑的，没有使用压缩从而会造成Innodb比MyISAM体积庞大不小。</li>
+<li>3、经常隔1，2个月就会发生应用开发人员不小心update一个表where写的范围不对，导致这个表没法正常用了，这个时候MyISAM的优越性就体现出来了，随便从当天拷贝的压缩包取出对应表的文件，随便放到一个数据库目录下，然后dump成sql再导回到主库，并把对应的binlog补上。如果是Innodb，恐怕不可能有这么快速度，别和我说让Innodb定期用导出xxx.sql机制备份，因为最小的一个数据库实例的数据量基本都是几十G大小。</li>
+<li>4、从接触的应用逻辑来说，select count(*) 和order by 是最频繁的，大概能占了整个sql总语句的60%以上的操作，而这种操作Innodb其实也是会锁表的，很多人以为Innodb是行级锁，那个只是where对它主键是有效，非主键的都会锁全表的。</li>
+<li>5、还有就是经常有很多应用部门需要我给他们定期某些表的数据，MyISAM的话很方便，只要发给他们对应那表的frm.MYD,MYI的文件，让他们自己在对应版本的数据库启动就行，而Innodb就需要导出xxx.sql了，因为光给别人文件，受字典数据文件的影响，对方是无法使用的。</li>
+<li>6、如果和MyISAM比insert写操作的话，Innodb还达不到MyISAM的写性能，如果是针对基于索引的update操作，虽然MyISAM可能会逊色Innodb,但是那么高并发的写，从库能否追的上也是一个问题，还不如通过多实例分库分表架构来解决。</li>
+<li>7、如果是用MyISAM的话，merge引擎可以大大加快应用部门的开发速度，他们只要对这个merge表做一些select count(*)操作，非常适合大项目总量约几亿的rows某一类型(如日志，调查统计)的业务表。</li>
+<li>当然Innodb也不是绝对不用，用事务的项目就用Innodb的。另外，可能有人会说你MyISAM无法抗太多写操作，但是可以通过架构来弥补。</li>
+</ul>
+<h3 id="上述存储引擎在索引结构方面的区别"><a href="#上述存储引擎在索引结构方面的区别" class="headerlink" title="上述存储引擎在索引结构方面的区别"></a>上述存储引擎在索引结构方面的区别</h3><h3 id="各自的使用场景"><a href="#各自的使用场景" class="headerlink" title="各自的使用场景"></a>各自的使用场景</h3><h2 id="锁-共享锁、排他锁、行锁、表锁、间隙锁"><a href="#锁-共享锁、排他锁、行锁、表锁、间隙锁" class="headerlink" title="锁(共享锁、排他锁、行锁、表锁、间隙锁)"></a>锁(共享锁、排他锁、行锁、表锁、间隙锁)</h2><p><a href="https://zhuanlan.zhihu.com/p/29150809" target="_blank" rel="noopener">总结的很好</a></p>
 <h3 id="如何避免死锁"><a href="#如何避免死锁" class="headerlink" title="如何避免死锁"></a>如何避免死锁</h3><h2 id="SQL语句-常见为聚类函数的使用、表连接查询"><a href="#SQL语句-常见为聚类函数的使用、表连接查询" class="headerlink" title="SQL语句(常见为聚类函数的使用、表连接查询)"></a>SQL语句(常见为聚类函数的使用、表连接查询)</h2><h2 id="分库分表策略"><a href="#分库分表策略" class="headerlink" title="分库分表策略"></a>分库分表策略</h2><h2 id="SQL注入原理-常用SQL防注入框架"><a href="#SQL注入原理-常用SQL防注入框架" class="headerlink" title="SQL注入原理(常用SQL防注入框架)"></a>SQL注入原理(常用SQL防注入框架)</h2><h2 id="Mysql的sql处理过程"><a href="#Mysql的sql处理过程" class="headerlink" title="Mysql的sql处理过程"></a>Mysql的sql处理过程</h2><h3 id="Mysql逻辑分层"><a href="#Mysql逻辑分层" class="headerlink" title="Mysql逻辑分层"></a>Mysql逻辑分层</h3><ul>
 <li><strong>第一层：Connect层</strong></li>
 </ul>
@@ -836,6 +858,7 @@ sex <span class="token keyword">enum</span><span class="token punctuation">(</sp
 </ol>
 </li>
 </ul>
+<h2 id="待回答问题"><a href="#待回答问题" class="headerlink" title="待回答问题"></a>待回答问题</h2><p>MySQL存储与索引有关问题<br>MySQL 有哪些存储引擎啊？都有什么区别？<br>Float、Decimal 存储金额的区别？<br>Datetime、Timestamp 存储时间的区别？<br>Char、Varchar、Varbinary 存储字符的区别？<br>什么是索引？<br>对比一下B+树索引和 Hash索引？<br>MySQL索引类型有？<br>如何管理 MySQL索引？<br>对Explain参数及重要参数的理解？<br>索引利弊是什么及索引分类？<br>二叉树的转置是什么？<br>聚簇索引和非聚簇索引的区别？<br>B+tree 如何进行优化？索引遵循哪些原则？存储引擎会进行哪些自动优化？到底何时索引会失效？<br>索引与锁有什么关系？<br>还有什么其他的索引类型，各自索引有哪些优缺点？<br>MySQL事务和锁有关问题<br>谈谈对Innodb事务的理解？<br>说说数据库事务特点及潜在问题？<br>什么是MySQL隔离级别？<br>有多少种事务失效的场景，如何解决？<br>一致性非锁定读和一致性锁定读是什么？<br>Innodb如何解决幻读？<br>讲讲Innodb行锁？<br>死锁及监控是什么？<br>自增长与锁 ，锁的算法，锁问题，锁升级是什么？<br>乐观锁的线程如何做失败补偿？<br>高并发场景（领红包）如何防止死锁，保证数据一致性？<br>谈谈MySQL的锁并发？<br>MySQL性能优化有关问题<br>回表和集群因子是什么？<br>讲讲表与表之间的关系？<br>了解查询优化器模块；<br>查询优化的基本思路是什么？<br>说说MySQL读写分离、分库分表？<br>Query语句对数据库性能有什么影响？<br>Schema设计对系统性能有什么影响？<br>硬件环境对数据库的性能有什么影响？<br>表结构对性能有什么影响?<br>浅谈索引优化？<br>JOIN的原理是什么？<br>说说Sql优化的几点原则？<br>MySQL表设计及规范？<br>说说MySQL几种存储引擎应用场景？<br>MySQL常用优化方式有哪些？<br>MySQL常用监控？<br>MySQL瓶颈分析？<br>MySQL的系统学习方法</p>
 
             </div>
             <hr/>
@@ -1578,7 +1601,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">95.3k</span>&nbsp;字
+                class="white-color">96.9k</span>&nbsp;字
             
             
             
