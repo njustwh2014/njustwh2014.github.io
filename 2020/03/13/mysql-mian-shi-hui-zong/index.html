@@ -458,7 +458,7 @@ id mediumint  auto_increment com">
                     
                     <div class="info-break-policy">
                         <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        9.9k
+                        10.1k
                     </div>
                     
 
@@ -554,7 +554,8 @@ sex <span class="token keyword">enum</span><span class="token punctuation">(</sp
 <li>B+树所有的Data域在叶子节点，一般来说都会进行一个优化，就是将所有的叶子节点用指针串起来。这样遍历叶子节点就能获得全部数据，这样就能进行区间访问啦。</li>
 </ul>
 <p><strong>数据库索引采用B+树的主要原因是 B树在提高了磁盘IO性能的同时并没有解决元素遍历的效率低下的问题。正是为了解决这个问题，B+树应运而生。B+树只要遍历叶子节点就可以实现整棵树的遍历。而且在数据库中基于范围的查询是非常频繁的，而B树不支持这样的操作（或者说效率太低）</strong></p>
-<h3 id="聚簇索引与非聚簇索引"><a href="#聚簇索引与非聚簇索引" class="headerlink" title="聚簇索引与非聚簇索引"></a>聚簇索引与非聚簇索引</h3><p>聚簇索引也称为主键索引，其索引树的叶子节点中存的是整行数据，表中行的物理顺序与键值的逻辑（索引）顺序相同。一个表只能包含一个聚集索引。因为索引（目录）只能按照一种方法进行排序。</p>
+<h3 id="聚簇索引与非聚簇索引"><a href="#聚簇索引与非聚簇索引" class="headerlink" title="聚簇索引与非聚簇索引"></a>聚簇索引与非聚簇索引</h3><p><a href="https://www.jianshu.com/p/54c6d5db4fe6" target="_blank" rel="noopener"><strong>参考文章</strong></a></p>
+<p>聚簇索引也称为主键索引，其索引树的叶子节点中存的是整行数据，表中行的物理顺序与键值的逻辑（索引）顺序相同。一个表只能包含一个聚集索引。因为索引（目录）只能按照一种方法进行排序。</p>
 <p>非聚簇索引（普通索引）的叶子节点内容是主键的值。在InnoDB里，非主键索引也被称为二级索引（secondary index）。</p>
 <blockquote>
 <p>MySQL回表：</p>
@@ -858,7 +859,19 @@ sex <span class="token keyword">enum</span><span class="token punctuation">(</sp
 </ol>
 </li>
 </ul>
-<h2 id="待回答问题"><a href="#待回答问题" class="headerlink" title="待回答问题"></a>待回答问题</h2><p>MySQL存储与索引有关问题<br>MySQL 有哪些存储引擎啊？都有什么区别？<br>Float、Decimal 存储金额的区别？<br>Datetime、Timestamp 存储时间的区别？<br>Char、Varchar、Varbinary 存储字符的区别？<br>什么是索引？<br>对比一下B+树索引和 Hash索引？<br>MySQL索引类型有？<br>如何管理 MySQL索引？<br>对Explain参数及重要参数的理解？<br>索引利弊是什么及索引分类？<br>二叉树的转置是什么？<br>聚簇索引和非聚簇索引的区别？<br>B+tree 如何进行优化？索引遵循哪些原则？存储引擎会进行哪些自动优化？到底何时索引会失效？<br>索引与锁有什么关系？<br>还有什么其他的索引类型，各自索引有哪些优缺点？<br>MySQL事务和锁有关问题<br>谈谈对Innodb事务的理解？<br>说说数据库事务特点及潜在问题？<br>什么是MySQL隔离级别？<br>有多少种事务失效的场景，如何解决？<br>一致性非锁定读和一致性锁定读是什么？<br>Innodb如何解决幻读？<br>讲讲Innodb行锁？<br>死锁及监控是什么？<br>自增长与锁 ，锁的算法，锁问题，锁升级是什么？<br>乐观锁的线程如何做失败补偿？<br>高并发场景（领红包）如何防止死锁，保证数据一致性？<br>谈谈MySQL的锁并发？<br>MySQL性能优化有关问题<br>回表和集群因子是什么？<br>讲讲表与表之间的关系？<br>了解查询优化器模块；<br>查询优化的基本思路是什么？<br>说说MySQL读写分离、分库分表？<br>Query语句对数据库性能有什么影响？<br>Schema设计对系统性能有什么影响？<br>硬件环境对数据库的性能有什么影响？<br>表结构对性能有什么影响?<br>浅谈索引优化？<br>JOIN的原理是什么？<br>说说Sql优化的几点原则？<br>MySQL表设计及规范？<br>说说MySQL几种存储引擎应用场景？<br>MySQL常用优化方式有哪些？<br>MySQL常用监控？<br>MySQL瓶颈分析？<br>MySQL的系统学习方法</p>
+<h2 id="sql查询慢的原因"><a href="#sql查询慢的原因" class="headerlink" title="sql查询慢的原因"></a>sql查询慢的原因</h2><ul>
+<li>1、没有索引或者没有用到索引（这是查询慢最常见的问题，是程序设计的缺陷）</li>
+<li>2、I/O 吞吐量小，形成了瓶颈效应。</li>
+<li>3、没有创建计算列导致查询不优化。</li>
+<li>4、内存不足</li>
+<li>5、网络速度慢</li>
+<li>6、查询出的数据量过大（可采用多次查询，其他的方法降低数据量）</li>
+<li>7、锁或者死锁（这是查询慢最常见的问题，是程序设计的缺陷）</li>
+<li>8、sp_lock,sp_who,活动的用户查看,原因是读写竞争资源。</li>
+<li>9、返回了不必要的行和列</li>
+<li>10、查询语句不好，没有优化</li>
+</ul>
+<h2 id="待回答问题"><a href="#待回答问题" class="headerlink" title="待回答问题"></a>待回答问题</h2><p>MySQL存储与索引有关问题<br>Float、Decimal 存储金额的区别？<br>Datetime、Timestamp 存储时间的区别？<br>Char、Varchar、Varbinary 存储字符的区别？<br>什么是索引？<br>对比一下B+树索引和 Hash索引？<br>MySQL索引类型有？<br>如何管理 MySQL索引？<br>对Explain参数及重要参数的理解？<br>索引利弊是什么及索引分类？<br>二叉树的转置是什么？<br>聚簇索引和非聚簇索引的区别？<br>B+tree 如何进行优化？索引遵循哪些原则？存储引擎会进行哪些自动优化？到底何时索引会失效？<br>索引与锁有什么关系？<br>还有什么其他的索引类型，各自索引有哪些优缺点？<br>MySQL事务和锁有关问题<br>谈谈对Innodb事务的理解？<br>说说数据库事务特点及潜在问题？<br>什么是MySQL隔离级别？<br>有多少种事务失效的场景，如何解决？<br>一致性非锁定读和一致性锁定读是什么？<br>Innodb如何解决幻读？<br>讲讲Innodb行锁？<br>死锁及监控是什么？<br>自增长与锁 ，锁的算法，锁问题，锁升级是什么？<br>乐观锁的线程如何做失败补偿？<br>高并发场景（领红包）如何防止死锁，保证数据一致性？<br>谈谈MySQL的锁并发？<br>MySQL性能优化有关问题<br>回表和集群因子是什么？<br>讲讲表与表之间的关系？<br>了解查询优化器模块；<br>查询优化的基本思路是什么？<br>说说MySQL读写分离、分库分表？<br>Query语句对数据库性能有什么影响？<br>Schema设计对系统性能有什么影响？<br>硬件环境对数据库的性能有什么影响？<br>表结构对性能有什么影响?<br>浅谈索引优化？<br>JOIN的原理是什么？<br>说说Sql优化的几点原则？<br>MySQL表设计及规范？<br>说说MySQL几种存储引擎应用场景？<br>MySQL常用优化方式有哪些？<br>MySQL常用监控？<br>MySQL瓶颈分析？<br>MySQL的系统学习方法</p>
 
             </div>
             <hr/>
@@ -1601,7 +1614,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">96.9k</span>&nbsp;字
+                class="white-color">97.1k</span>&nbsp;字
             
             
             
