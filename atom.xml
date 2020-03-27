@@ -591,11 +591,11 @@
     
       <category term="docker" scheme="http://eternalhorizon.cn/tags/docker/"/>
     
-      <category term="elasticsearch" scheme="http://eternalhorizon.cn/tags/elasticsearch/"/>
-    
       <category term="java" scheme="http://eternalhorizon.cn/tags/java/"/>
     
       <category term="nginx" scheme="http://eternalhorizon.cn/tags/nginx/"/>
+    
+      <category term="elasticsearch" scheme="http://eternalhorizon.cn/tags/elasticsearch/"/>
     
       <category term="vue" scheme="http://eternalhorizon.cn/tags/vue/"/>
     

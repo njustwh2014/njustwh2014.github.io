@@ -505,11 +505,11 @@
             
             <tag> docker </tag>
             
-            <tag> elasticsearch </tag>
-            
             <tag> java </tag>
             
             <tag> nginx </tag>
+            
+            <tag> elasticsearch </tag>
             
             <tag> vue </tag>
             
@@ -617,9 +617,9 @@
       
         <tags>
             
-            <tag> Java </tag>
-            
             <tag> redis </tag>
+            
+            <tag> Java </tag>
             
             <tag> Concurrent </tag>
             
@@ -797,11 +797,11 @@
       
         <tags>
             
+            <tag> java </tag>
+            
             <tag> elasticsearch </tag>
             
             <tag> grafana </tag>
-            
-            <tag> java </tag>
             
             <tag> kibana </tag>
             
@@ -997,11 +997,11 @@
       
         <tags>
             
+            <tag> java </tag>
+            
             <tag> elasticsearch </tag>
             
             <tag> grafana </tag>
-            
-            <tag> java </tag>
             
         </tags>
       
@@ -1053,11 +1053,11 @@
       
         <tags>
             
+            <tag> redis </tag>
+            
             <tag> Java </tag>
             
             <tag> Vue </tag>
-            
-            <tag> redis </tag>
             
             <tag> mysql </tag>
             
