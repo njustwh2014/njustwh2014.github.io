@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"eternalhorizon.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="什么是SSLH一种不同的multiplexing在相同端口处理多种协议，sslh就是这样可以处理ssl和ssh。sslh可以分辨进入端口的是哪种协议，并转发到相应的服务。这样就可以在同一个端口同时处理http和ssh。注意，这个方法并不是掩藏实际的ssh服务，扫描监听端口的工具scanssh依然可以监听到ssh。sslh方法可以在防火墙开放较少的端口情况下提供更多的服务。">
+  <meta name="description" content="什么是SSLH一种不同的multiplexing在相同端口处理多种协议，sslh就是这样可以处理ssl和ssh。sslh可以分辨进入端口的是哪种协议，并转发到相应的服务。这样就可以在同一个端口同时处理http和ssh。注意，这个方法并不是掩藏实际的ssh服务，扫描监听端口的工具scanssh依然可以监听到ssh。sslh方法可以在防火墙开放较少的端口情况下提供更多的服务。  基本步骤： 首先安装w">
 <meta name="keywords" content="Java, 中间件, Spring, Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="应用sslh实现多协议访问同一端口">
 <meta property="og:url" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2019&#x2F;10&#x2F;22&#x2F;ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou&#x2F;index.html">
 <meta property="og:site_name" content="Eternal Horizon">
-<meta property="og:description" content="什么是SSLH一种不同的multiplexing在相同端口处理多种协议，sslh就是这样可以处理ssl和ssh。sslh可以分辨进入端口的是哪种协议，并转发到相应的服务。这样就可以在同一个端口同时处理http和ssh。注意，这个方法并不是掩藏实际的ssh服务，扫描监听端口的工具scanssh依然可以监听到ssh。sslh方法可以在防火墙开放较少的端口情况下提供更多的服务。">
+<meta property="og:description" content="什么是SSLH一种不同的multiplexing在相同端口处理多种协议，sslh就是这样可以处理ssl和ssh。sslh可以分辨进入端口的是哪种协议，并转发到相应的服务。这样就可以在同一个端口同时处理http和ssh。注意，这个方法并不是掩藏实际的ssh服务，扫描监听端口的工具scanssh依然可以监听到ssh。sslh方法可以在防火墙开放较少的端口情况下提供更多的服务。  基本步骤： 首先安装w">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http:&#x2F;&#x2F;pzpoejx7j.bkt.clouddn.com&#x2F;sslh.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2019&#x2F;10&#x2F;22&#x2F;ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou&#x2F;1.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2019&#x2F;10&#x2F;22&#x2F;ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou&#x2F;2.png">
-<meta property="og:updated_time" content="2020-04-28T04:16:00.901Z">
+<meta property="og:updated_time" content="2020-04-28T04:49:37.932Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;pzpoejx7j.bkt.clouddn.com&#x2F;sslh.png">
 
@@ -224,7 +224,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:16:00" itemprop="dateModified" datetime="2020-04-28T12:16:00+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 12:49:37" itemprop="dateModified" datetime="2020-04-28T12:49:37+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -276,7 +276,6 @@
 
       
         <h2 id="什么是SSLH"><a href="#什么是SSLH" class="headerlink" title="什么是SSLH"></a>什么是SSLH</h2><p>一种不同的multiplexing在相同端口处理多种协议，sslh就是这样可以处理ssl和ssh。sslh可以分辨进入端口的是哪种协议，并转发到相应的服务。这样就可以在同一个端口同时处理http和ssh。注意，这个方法并不是掩藏实际的ssh服务，扫描监听端口的工具scanssh依然可以监听到ssh。<strong>sslh方法可以在防火墙开放较少的端口情况下提供更多的服务。</strong></p>
-<a id="more"></a>
 <p><img src="http://pzpoejx7j.bkt.clouddn.com/sslh.png" alt="sslh"></p>
 <h2 id="基本步骤："><a href="#基本步骤：" class="headerlink" title="基本步骤："></a>基本步骤：</h2><ul>
 <li>首先安装web服务器(tomcat, nginx etc.)，使之监听在localhost(default port 80), 当然也可以监听在非标准端口如8088</li>

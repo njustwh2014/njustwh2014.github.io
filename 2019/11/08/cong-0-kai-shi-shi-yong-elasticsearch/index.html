@@ -20,13 +20,13 @@
     var CONFIG = {"hostname":"eternalhorizon.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="整体框架">
+  <meta name="description" content="整体框架  首先监测Backup文件夹，由于公司lab环境和office环境ping不通，我利用我在公司个人文件夹，监测Backup文件夹，当有新的文件传入，会复制到我的个人文件夹data内。     同样原理，这时就可以进入lab环境开发，由于我一开始在windows上写的Java代码，所以是在windows上进行解压缩，解析，以及发送解析后的json文件到elasticsearch所在的cen">
 <meta name="keywords" content="elasticsearch,kibana,grafana,java,python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从0开始使用ElasticSearch">
 <meta property="og:url" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2019&#x2F;11&#x2F;08&#x2F;cong-0-kai-shi-shi-yong-elasticsearch&#x2F;index.html">
 <meta property="og:site_name" content="Eternal Horizon">
-<meta property="og:description" content="整体框架">
+<meta property="og:description" content="整体框架  首先监测Backup文件夹，由于公司lab环境和office环境ping不通，我利用我在公司个人文件夹，监测Backup文件夹，当有新的文件传入，会复制到我的个人文件夹data内。     同样原理，这时就可以进入lab环境开发，由于我一开始在windows上写的Java代码，所以是在windows上进行解压缩，解析，以及发送解析后的json文件到elasticsearch所在的cen">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http:&#x2F;&#x2F;pzpoejx7j.bkt.clouddn.com&#x2F;systemstructure.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2019&#x2F;11&#x2F;08&#x2F;cong-0-kai-shi-shi-yong-elasticsearch&#x2F;backup%E6%88%AA%E5%9B%BE.png">
@@ -48,7 +48,7 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2019&#x2F;11&#x2F;08&#x2F;cong-0-kai-shi-shi-yong-elasticsearch&#x2F;grafanatable2.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2019&#x2F;11&#x2F;08&#x2F;cong-0-kai-shi-shi-yong-elasticsearch&#x2F;grafanagraph1.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2019&#x2F;11&#x2F;08&#x2F;cong-0-kai-shi-shi-yong-elasticsearch&#x2F;grafanagraph2.png">
-<meta property="og:updated_time" content="2020-04-28T04:12:13.859Z">
+<meta property="og:updated_time" content="2020-04-28T04:48:27.322Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;pzpoejx7j.bkt.clouddn.com&#x2F;systemstructure.png">
 
@@ -241,7 +241,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:12:13" itemprop="dateModified" datetime="2020-04-28T12:12:13+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 12:48:27" itemprop="dateModified" datetime="2020-04-28T12:48:27+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -293,7 +293,6 @@
 
       
         <h2 id="整体框架"><a href="#整体框架" class="headerlink" title="整体框架"></a>整体框架</h2><p><img src="http://pzpoejx7j.bkt.clouddn.com/systemstructure.png" alt="System structure"></p>
-<a id="more"></a>
 <ul>
 <li>首先监测Backup文件夹，由于公司lab环境和office环境ping不通，我利用我在公司个人文件夹，监测Backup文件夹，当有新的文件传入，会复制到我的个人文件夹data内。</li>
 </ul>

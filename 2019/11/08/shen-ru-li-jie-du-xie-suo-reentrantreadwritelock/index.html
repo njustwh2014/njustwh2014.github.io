@@ -29,7 +29,7 @@
 <meta property="og:description" content="我的github项目，有一些代码示例 forked from https:&#x2F;&#x2F;github.com&#x2F;CL0610&#x2F;Java-concurrency 1.读写锁的介绍在并发场景中用于解决线程安全的问题，我们几乎会高频率的使用到独占式锁，通常使用java提供的关键字synchronized或者concurrents包中实现了Lock接口的ReentrantLock。它们都是独占式获取锁，也就是在同一时">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2019&#x2F;11&#x2F;08&#x2F;shen-ru-li-jie-du-xie-suo-reentrantreadwritelock&#x2F;%E8%AF%BB%E5%86%99%E9%94%81%E7%9A%84%E8%AF%BB%E5%86%99%E7%8A%B6%E6%80%81%E8%AE%BE%E8%AE%A1.png">
-<meta property="og:updated_time" content="2020-04-28T04:14:05.603Z">
+<meta property="og:updated_time" content="2020-04-28T04:48:57.682Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2019&#x2F;11&#x2F;08&#x2F;shen-ru-li-jie-du-xie-suo-reentrantreadwritelock&#x2F;%E8%AF%BB%E5%86%99%E9%94%81%E7%9A%84%E8%AF%BB%E5%86%99%E7%8A%B6%E6%80%81%E8%AE%BE%E8%AE%A1.png">
 
@@ -222,7 +222,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:14:05" itemprop="dateModified" datetime="2020-04-28T12:14:05+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 12:48:57" itemprop="dateModified" datetime="2020-04-28T12:48:57+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -278,8 +278,10 @@
 <ol>
 <li><strong>公平性选择</strong>：支持非公平性（默认）和公平的锁获取方式，吞吐量还是非公平优于公平；</li>
 <li><strong>重入性</strong>：支持重入，读锁获取后能再次获取，写锁获取之后能够再次获取写锁，同时也能够获取读锁；</li>
-<li><strong>锁降级</strong>：遵循获取写锁，获取读锁再释放写锁的次序，写锁能够降级成为读锁<a id="more"></a>
-要想能够彻底的理解读写锁必须能够理解这样几个问题：</li>
+<li><strong>锁降级</strong>：遵循获取写锁，获取读锁再释放写锁的次序，写锁能够降级成为读锁</li>
+</ol>
+<p>要想能够彻底的理解读写锁必须能够理解这样几个问题：</p>
+<ol>
 <li>读写锁是怎样实现分别记录读写状态的？</li>
 <li>写锁是怎样获取和释放的？</li>
 <li>读锁是怎样获取和释放的？</li>

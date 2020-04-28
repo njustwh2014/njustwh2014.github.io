@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="Eternal Horizon">
 <meta property="og:description" content="进程、线程和协程进程进程是系统资源分配的最小单位, 系统由一个个进程(程序)组成。一般情况下，包括文本区域（text region）、数据区域（data region）和堆栈（stack region）。  文本区域存储处理器执行的代码 数据区域存储变量和进程执行期间使用的动态分配的内存； 堆栈区域存储着活动过程调用的指令和本地变量。  因此进程的创建和销毁都是相对于系统资源,所以是一种比较昂贵的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-04-28T04:10:10.423Z">
+<meta property="og:updated_time" content="2020-04-28T04:47:58.934Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://eternalhorizon.cn/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/">
@@ -220,7 +220,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:10:10" itemprop="dateModified" datetime="2020-04-28T12:10:10+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 12:47:58" itemprop="dateModified" datetime="2020-04-28T12:47:58+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -286,7 +286,6 @@
 </ul>
 <p>进程是抢占式的争夺CPU运行自身,而CPU单核的情况下同一时间只能执行一个进程的代码,但是多进程的实现则是通过CPU飞快的切换不同进程,因此使得看上去就像是多个进程在同时进行.</p>
 <p><strong>通信问题:</strong>由于进程间是隔离的,各自拥有自己的内存内存资源, 因此相对于线程比较安全, 所以不同进程之间的数据只能通过 IPC(Inter-Process Communication) 进行通信共享.</p>
-<a id="more"></a>
 <h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><ul>
 <li><strong>线程属于进程</strong></li>
 <li><strong>线程共享进程的内存地址空间</strong></li>

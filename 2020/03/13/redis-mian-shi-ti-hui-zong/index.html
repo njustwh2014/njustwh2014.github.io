@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"eternalhorizon.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="常见应用参考连接 这一题要结合着Redis特性来回答，首先得明确Redis有哪些特性。">
+  <meta name="description" content="常见应用参考连接 这一题要结合着Redis特性来回答，首先得明确Redis有哪些特性。  应用1：读写性能优异可以当作缓存  缓存是Redis最常见的应用场景。 这里面试官可能会问，Redis和memcached比较以及如何保证缓存一致。 缓存可能会问到Redis缓存实现方式,主要有两种  方案1：读取前会先查询Redis，如果没有命中数据则会去查询数据库比如Mysql，然后拉取数据进Redis">
 <meta name="keywords" content="Java, 中间件, Spring, Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="redis面试题汇总">
 <meta property="og:url" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;13&#x2F;redis-mian-shi-ti-hui-zong&#x2F;index.html">
 <meta property="og:site_name" content="Eternal Horizon">
-<meta property="og:description" content="常见应用参考连接 这一题要结合着Redis特性来回答，首先得明确Redis有哪些特性。">
+<meta property="og:description" content="常见应用参考连接 这一题要结合着Redis特性来回答，首先得明确Redis有哪些特性。  应用1：读写性能优异可以当作缓存  缓存是Redis最常见的应用场景。 这里面试官可能会问，Redis和memcached比较以及如何保证缓存一致。 缓存可能会问到Redis缓存实现方式,主要有两种  方案1：读取前会先查询Redis，如果没有命中数据则会去查询数据库比如Mysql，然后拉取数据进Redis">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-04-28T04:17:24.125Z">
+<meta property="og:updated_time" content="2020-04-28T04:50:45.077Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://eternalhorizon.cn/2020/03/13/redis-mian-shi-ti-hui-zong/">
@@ -220,7 +220,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:17:24" itemprop="dateModified" datetime="2020-04-28T12:17:24+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 12:50:45" itemprop="dateModified" datetime="2020-04-28T12:50:45+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -273,7 +273,6 @@
       
         <h2 id="常见应用"><a href="#常见应用" class="headerlink" title="常见应用"></a>常见应用</h2><p><a href="https://zhuanlan.zhihu.com/p/29665317" target="_blank" rel="noopener">参考连接</a></p>
 <p>这一题要结合着Redis特性来回答，首先得明确Redis有哪些特性。</p>
-<a id="more"></a>
 <blockquote>
 <p>应用1：读写性能优异可以当作缓存</p>
 </blockquote>

@@ -20,16 +20,16 @@
     var CONFIG = {"hostname":"eternalhorizon.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="设计原则有哪些？ 单一职责原则：让类或接口职责单一 里氏替换原则：子类去替换父类，做到通用编程 依赖倒置原则：面向接口编程 接口隔离原则：接口的设计要精简单一 迪米特法则：最少知识原则，降低依赖间的耦合 开闭原则：对扩展开放，对修改关闭">
+  <meta name="description" content="设计原则有哪些？ 单一职责原则：让类或接口职责单一 里氏替换原则：子类去替换父类，做到通用编程 依赖倒置原则：面向接口编程 接口隔离原则：接口的设计要精简单一 迪米特法则：最少知识原则，降低依赖间的耦合 开闭原则：对扩展开放，对修改关闭  创建型单例模式 懒汉式（线程安全问题） 饿汉式  简单工厂模式工厂方法定义一个创建对象的接口，但由子类决定实例化哪个类。工厂方法把实例化推迟到子类。 publi">
 <meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式题汇总">
 <meta property="og:url" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;13&#x2F;she-ji-mo-shi-ti-hui-zong&#x2F;index.html">
 <meta property="og:site_name" content="Eternal Horizon">
-<meta property="og:description" content="设计原则有哪些？ 单一职责原则：让类或接口职责单一 里氏替换原则：子类去替换父类，做到通用编程 依赖倒置原则：面向接口编程 接口隔离原则：接口的设计要精简单一 迪米特法则：最少知识原则，降低依赖间的耦合 开闭原则：对扩展开放，对修改关闭">
+<meta property="og:description" content="设计原则有哪些？ 单一职责原则：让类或接口职责单一 里氏替换原则：子类去替换父类，做到通用编程 依赖倒置原则：面向接口编程 接口隔离原则：接口的设计要精简单一 迪米特法则：最少知识原则，降低依赖间的耦合 开闭原则：对扩展开放，对修改关闭  创建型单例模式 懒汉式（线程安全问题） 饿汉式  简单工厂模式工厂方法定义一个创建对象的接口，但由子类决定实例化哪个类。工厂方法把实例化推迟到子类。 publi">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;13&#x2F;she-ji-mo-shi-ti-hui-zong&#x2F;%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F%E4%B8%8E%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F%E7%B1%BB%E5%9B%BE%E5%AF%B9%E6%AF%94.png">
-<meta property="og:updated_time" content="2020-04-28T04:13:36.368Z">
+<meta property="og:updated_time" content="2020-04-28T04:48:52.833Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;13&#x2F;she-ji-mo-shi-ti-hui-zong&#x2F;%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F%E4%B8%8E%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F%E7%B1%BB%E5%9B%BE%E5%AF%B9%E6%AF%94.png">
 
@@ -222,7 +222,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:13:36" itemprop="dateModified" datetime="2020-04-28T12:13:36+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 12:48:52" itemprop="dateModified" datetime="2020-04-28T12:48:52+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -279,10 +279,9 @@
 <li>依赖倒置原则：面向接口编程</li>
 <li>接口隔离原则：接口的设计要精简单一</li>
 <li>迪米特法则：最少知识原则，降低依赖间的耦合</li>
-<li>开闭原则：对扩展开放，对修改关闭<a id="more"></a>
-<h2 id="创建型"><a href="#创建型" class="headerlink" title="创建型"></a>创建型</h2></li>
+<li>开闭原则：对扩展开放，对修改关闭</li>
 </ul>
-<h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><ul>
+<h2 id="创建型"><a href="#创建型" class="headerlink" title="创建型"></a>创建型</h2><h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><ul>
 <li>懒汉式（线程安全问题）</li>
 <li>饿汉式</li>
 </ul>

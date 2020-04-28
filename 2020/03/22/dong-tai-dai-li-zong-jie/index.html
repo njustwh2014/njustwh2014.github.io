@@ -20,16 +20,16 @@
     var CONFIG = {"hostname":"eternalhorizon.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="动态代理有什么作用以及使用场景？ 日志集中打印  事务  权限管理  AOP">
+  <meta name="description" content="动态代理有什么作用以及使用场景？ 日志集中打印 事务 权限管理 AOP  Spring AOP的实现方式 java动态代理 cglib AspectJ：在程序编译时，修改目标类的字节，织入代理的字节 instrumentation：基于javaagent，在类装载时，动态拦截去修改目标类的字节码">
 <meta name="keywords" content="动态代理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="动态代理总结">
 <meta property="og:url" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;22&#x2F;dong-tai-dai-li-zong-jie&#x2F;index.html">
 <meta property="og:site_name" content="Eternal Horizon">
-<meta property="og:description" content="动态代理有什么作用以及使用场景？ 日志集中打印  事务  权限管理  AOP">
+<meta property="og:description" content="动态代理有什么作用以及使用场景？ 日志集中打印 事务 权限管理 AOP  Spring AOP的实现方式 java动态代理 cglib AspectJ：在程序编译时，修改目标类的字节，织入代理的字节 instrumentation：基于javaagent，在类装载时，动态拦截去修改目标类的字节码">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;22&#x2F;dong-tai-dai-li-zong-jie&#x2F;%E5%90%84%E7%A7%8D%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E6%A1%86%E6%9E%B6.png">
-<meta property="og:updated_time" content="2020-04-28T04:12:26.147Z">
+<meta property="og:updated_time" content="2020-04-28T04:48:31.703Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;22&#x2F;dong-tai-dai-li-zong-jie&#x2F;%E5%90%84%E7%A7%8D%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E6%A1%86%E6%9E%B6.png">
 
@@ -222,7 +222,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:12:26" itemprop="dateModified" datetime="2020-04-28T12:12:26+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 12:48:31" itemprop="dateModified" datetime="2020-04-28T12:48:31+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -274,23 +274,16 @@
 
       
         <h2 id="动态代理有什么作用以及使用场景？"><a href="#动态代理有什么作用以及使用场景？" class="headerlink" title="动态代理有什么作用以及使用场景？"></a>动态代理有什么作用以及使用场景？</h2><ul>
-<li><p>日志集中打印</p>
-</li>
-<li><p>事务</p>
-</li>
-<li><p>权限管理</p>
-</li>
-<li><p>AOP</p>
-<a id="more"></a>
-<h2 id="Spring-AOP的实现方式"><a href="#Spring-AOP的实现方式" class="headerlink" title="Spring AOP的实现方式"></a>Spring AOP的实现方式</h2></li>
-<li><p>java动态代理</p>
-</li>
-<li><p>cglib</p>
-</li>
-<li><p>AspectJ：在程序编译时，修改目标类的字节，织入代理的字节</p>
-</li>
-<li><p>instrumentation：基于javaagent，在类装载时，动态拦截去修改目标类的字节码</p>
-</li>
+<li>日志集中打印</li>
+<li>事务</li>
+<li>权限管理</li>
+<li>AOP</li>
+</ul>
+<h2 id="Spring-AOP的实现方式"><a href="#Spring-AOP的实现方式" class="headerlink" title="Spring AOP的实现方式"></a>Spring AOP的实现方式</h2><ul>
+<li>java动态代理</li>
+<li>cglib</li>
+<li>AspectJ：在程序编译时，修改目标类的字节，织入代理的字节</li>
+<li>instrumentation：基于javaagent，在类装载时，动态拦截去修改目标类的字节码</li>
 </ul>
 <p><img src="/2020/03/22/dong-tai-dai-li-zong-jie/%E5%90%84%E7%A7%8D%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E6%A1%86%E6%9E%B6.png" alt></p>
 

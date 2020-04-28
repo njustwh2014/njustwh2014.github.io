@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"eternalhorizon.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="系统环境  Centos 7.6 64位">
+  <meta name="description" content="系统环境  Centos 7.6 64位  添加mysql yum源在centOS上直接使用yum install mysql安装，最后安装上的会是MariaDB，所以要先添加mysql yum源。 rpm -Uvh https:&#x2F;&#x2F;repo.mysql.com&#x2F;&#x2F;mysql80-community-release-el7-2.noarch.rpm  安装 查看yum源中mysql版本  yum">
 <meta name="keywords" content="Java, 中间件, Spring, Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="centos7安装mysql">
 <meta property="og:url" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2019&#x2F;11&#x2F;11&#x2F;centos7-an-zhuang-mysql&#x2F;index.html">
 <meta property="og:site_name" content="Eternal Horizon">
-<meta property="og:description" content="系统环境  Centos 7.6 64位">
+<meta property="og:description" content="系统环境  Centos 7.6 64位  添加mysql yum源在centOS上直接使用yum install mysql安装，最后安装上的会是MariaDB，所以要先添加mysql yum源。 rpm -Uvh https:&#x2F;&#x2F;repo.mysql.com&#x2F;&#x2F;mysql80-community-release-el7-2.noarch.rpm  安装 查看yum源中mysql版本  yum">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-04-28T04:16:10.977Z">
+<meta property="og:updated_time" content="2020-04-28T04:49:45.899Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://eternalhorizon.cn/2019/11/11/centos7-an-zhuang-mysql/">
@@ -220,7 +220,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:16:10" itemprop="dateModified" datetime="2020-04-28T12:16:10+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 12:49:45" itemprop="dateModified" datetime="2020-04-28T12:49:45+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -275,7 +275,7 @@
 <p>系统环境</p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Centos 7.6 64位</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
+
 <h2 id="添加mysql-yum源"><a href="#添加mysql-yum源" class="headerlink" title="添加mysql yum源"></a>添加mysql yum源</h2><p>在centOS上直接使用yum install mysql安装，最后安装上的会是MariaDB，所以要先添加mysql yum源。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">rpm -Uvh https://repo.mysql.com//mysql80-community-release-el7-2.noarch.rpm</span><br></pre></td></tr></table></figure>
 

@@ -40,7 +40,7 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;upload-images.jianshu.io&#x2F;upload_images&#x2F;2615789-70b0af25bced807a.png?imageMogr2&#x2F;auto-orient&#x2F;strip%7CimageView2&#x2F;2&#x2F;w&#x2F;1240">
 <meta property="og:image" content="http:&#x2F;&#x2F;upload-images.jianshu.io&#x2F;upload_images&#x2F;2615789-cf872ba6fdd99099.png?imageMogr2&#x2F;auto-orient&#x2F;strip%7CimageView2&#x2F;2&#x2F;w&#x2F;1240">
 <meta property="og:image" content="http:&#x2F;&#x2F;upload-images.jianshu.io&#x2F;upload_images&#x2F;2615789-d0d2d16b16c11802.png?imageMogr2&#x2F;auto-orient&#x2F;strip%7CimageView2&#x2F;2&#x2F;w&#x2F;1240">
-<meta property="og:updated_time" content="2020-04-28T04:10:45.827Z">
+<meta property="og:updated_time" content="2020-04-28T04:50:54.931Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;upload-images.jianshu.io&#x2F;upload_images&#x2F;2615789-a3dbf8f54bb3452e.png?imageMogr2&#x2F;auto-orient&#x2F;strip%7CimageView2&#x2F;2&#x2F;w&#x2F;1240">
 
@@ -233,7 +233,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:10:45" itemprop="dateModified" datetime="2020-04-28T12:10:45+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 12:50:54" itemprop="dateModified" datetime="2020-04-28T12:50:54+08:00">2020-04-28</time>
               </span>
 
           
@@ -276,7 +276,6 @@
 
       
         <h2 id="1-ConcurrentLinkedQueue简介"><a href="#1-ConcurrentLinkedQueue简介" class="headerlink" title="1.ConcurrentLinkedQueue简介"></a>1.ConcurrentLinkedQueue简介</h2><p>在单线程编程中我们会经常用到一些集合类，比如ArrayList,HashMap等，但是这些类都不是线程安全的类。在面试中也经常会有一些考点，比如ArrayList不是线程安全的，Vector是线程安全。而保障Vector线程安全的方式，是非常粗暴的在方法上用synchronized独占锁，将多线程执行变成串行化。要想将ArrayList变成线程安全的也可以使用<code>Collections.synchronizedList(List&lt;T&gt; list)</code>方法ArrayList转换成线程安全的，但这种转换方式依然是通过synchronized修饰方法实现的，很显然这不是一种高效的方式，同时，队列也是我们常用的一种数据结构，为了解决线程安全的问题，Doug Lea大师为我们准备了ConcurrentLinkedQueue这个线程安全的队列。从类名就可以看的出来实现队列的数据结构是链式。</p>
-<a id="more"></a>
 <h3 id="1-1-Node"><a href="#1-1-Node" class="headerlink" title="1.1 Node"></a>1.1 Node</h3><p>要想先学习ConcurrentLinkedQueue自然而然得先从它的节点类看起，明白它的底层数据结构。Node类的源码为：</p>
 <pre><code>private static class Node&lt;E&gt; {
         volatile E item;

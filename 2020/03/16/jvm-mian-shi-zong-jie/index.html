@@ -20,17 +20,17 @@
     var CONFIG = {"hostname":"eternalhorizon.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="JVM: 类加载机制Java虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是虚拟机的加载机制。">
+  <meta name="description" content="JVM: 类加载机制Java虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是虚拟机的加载机制。 要看看哦 类加载时机类从被虚拟机加载到内存中开始，到卸载出内存为止，它的生命周期经历了加载（Loading）、验证（Verification）、准备（Preparation）、解析（Resolution）、初始化（In">
 <meta name="keywords" content="Java, 中间件, Spring, Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM面试总结">
 <meta property="og:url" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;16&#x2F;jvm-mian-shi-zong-jie&#x2F;index.html">
 <meta property="og:site_name" content="Eternal Horizon">
-<meta property="og:description" content="JVM: 类加载机制Java虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是虚拟机的加载机制。">
+<meta property="og:description" content="JVM: 类加载机制Java虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是虚拟机的加载机制。 要看看哦 类加载时机类从被虚拟机加载到内存中开始，到卸载出内存为止，它的生命周期经历了加载（Loading）、验证（Verification）、准备（Preparation）、解析（Resolution）、初始化（In">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;16&#x2F;jvm-mian-shi-zong-jie&#x2F;JVM_RUNTIME_DATA_AREA.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;16&#x2F;jvm-mian-shi-zong-jie&#x2F;JVM_RUNTIME_DATA.png">
-<meta property="og:updated_time" content="2020-04-28T04:17:07.741Z">
+<meta property="og:updated_time" content="2020-04-28T04:50:31.733Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;16&#x2F;jvm-mian-shi-zong-jie&#x2F;JVM_RUNTIME_DATA_AREA.png">
 
@@ -223,7 +223,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:17:07" itemprop="dateModified" datetime="2020-04-28T12:17:07+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 12:50:31" itemprop="dateModified" datetime="2020-04-28T12:50:31+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -275,7 +275,6 @@
 
       
         <h2 id="JVM-类加载机制"><a href="#JVM-类加载机制" class="headerlink" title="JVM: 类加载机制"></a>JVM: 类加载机制</h2><p>Java虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是<strong>虚拟机的加载机制</strong>。</p>
-<a id="more"></a>
 <p><a href="https://juejin.im/post/5a810b0e5188257a5c606a85#heading-1" target="_blank" rel="noopener">要看看哦</a></p>
 <h3 id="类加载时机"><a href="#类加载时机" class="headerlink" title="类加载时机"></a>类加载时机</h3><p>类从被虚拟机加载到内存中开始，到卸载出内存为止，它的生命周期经历了<strong>加载（Loading）、验证（Verification）、准备（Preparation）、解析（Resolution）、初始化（Initialization）、使用（Using）和卸载（Unloading）</strong>，一共七个阶段，其中验证、准备、解析部分统称为连接。</p>
 <p><strong>加载、验证、准备、初始化这个5个阶段的顺序是固定的</strong>，也就是说类的加载过程必须按照这种顺序按部就班开始；<strong>解析阶段则不一定，解析阶段的工作完全可能在初始化之后才开始</strong>，之所以这么设计，就是为了<strong>支持Java语言的动态绑定</strong>。还有一点需要注意的是，虽然上述的5个阶段可能按照顺序开始，但是并不是说一个接一个阶段完成后才开始，一个阶段的进行完全可能激活另一个阶段的进行，<strong>交叉混合式</strong>的进行。</p>

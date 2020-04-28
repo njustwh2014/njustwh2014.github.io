@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"eternalhorizon.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="PriorityQueue实现原理 数组 扩容 堆排序如何实现？  参考连接 为什么要重写hashCode和equals方法如果不重写，则会默认调用Object类的hashCode和equals方法，Object类的hashCode方法是根据对象内存首地址计算得到，equals方法也同样是根据对象内存首地址进行判断。这在很多场景下是不可用的。">
+  <meta name="description" content="PriorityQueue实现原理 数组 扩容 堆排序如何实现？  参考连接 为什么要重写hashCode和equals方法如果不重写，则会默认调用Object类的hashCode和equals方法，Object类的hashCode方法是根据对象内存首地址计算得到，equals方法也同样是根据对象内存首地址进行判断。这在很多场景下是不可用的。 hashCode与equals区别 规范1：若重写eq">
 <meta name="keywords" content="Java, 中间件, Spring, Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java基础面试题汇总">
 <meta property="og:url" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;13&#x2F;java-ji-chu-mian-shi-ti-hui-zong&#x2F;index.html">
 <meta property="og:site_name" content="Eternal Horizon">
-<meta property="og:description" content="PriorityQueue实现原理 数组 扩容 堆排序如何实现？  参考连接 为什么要重写hashCode和equals方法如果不重写，则会默认调用Object类的hashCode和equals方法，Object类的hashCode方法是根据对象内存首地址计算得到，equals方法也同样是根据对象内存首地址进行判断。这在很多场景下是不可用的。">
+<meta property="og:description" content="PriorityQueue实现原理 数组 扩容 堆排序如何实现？  参考连接 为什么要重写hashCode和equals方法如果不重写，则会默认调用Object类的hashCode和equals方法，Object类的hashCode方法是根据对象内存首地址计算得到，equals方法也同样是根据对象内存首地址进行判断。这在很多场景下是不可用的。 hashCode与equals区别 规范1：若重写eq">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;13&#x2F;java-ji-chu-mian-shi-ti-hui-zong&#x2F;map.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;13&#x2F;java-ji-chu-mian-shi-ti-hui-zong&#x2F;hashmapstruct.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;13&#x2F;java-ji-chu-mian-shi-ti-hui-zong&#x2F;Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%9B%BE.jpg">
-<meta property="og:updated_time" content="2020-04-28T04:16:52.101Z">
+<meta property="og:updated_time" content="2020-04-28T04:50:20.419Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;13&#x2F;java-ji-chu-mian-shi-ti-hui-zong&#x2F;map.png">
 
@@ -224,7 +224,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:16:52" itemprop="dateModified" datetime="2020-04-28T12:16:52+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 12:50:20" itemprop="dateModified" datetime="2020-04-28T12:50:20+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -282,7 +282,6 @@
 </ul>
 <p><a href="https://blog.csdn.net/u013309870/article/details/71189189" target="_blank" rel="noopener">参考连接</a></p>
 <h2 id="为什么要重写hashCode和equals方法"><a href="#为什么要重写hashCode和equals方法" class="headerlink" title="为什么要重写hashCode和equals方法"></a>为什么要重写hashCode和equals方法</h2><p>如果不重写，则会默认调用Object类的hashCode和equals方法，Object类的hashCode方法是根据对象内存首地址计算得到，equals方法也同样是根据对象内存首地址进行判断。这在很多场景下是不可用的。</p>
-<a id="more"></a>
 <h2 id="hashCode与equals区别"><a href="#hashCode与equals区别" class="headerlink" title="hashCode与equals区别"></a>hashCode与equals区别</h2><ul>
 <li>规范1：若重写equals(Object obj)方法，有必要重写hashcode()方法，确保通过equals(Object obj)方法判断结果为true的两个对象具备相等的hashcode()返回值。说得简单点就是：“如果两个对象相同，那么他们的hashcode应该 相等”。不过请注意：这个只是规范，如果你非要写一个类让equals(Object obj)返回true而hashcode()返回两个不相等的值，编译和运行都是不会报错的。不过这样违反了Java规范，程序也就埋下了BUG。 </li>
 <li>规范2：如果equals(Object obj)返回false，即两个对象“不相同”，并不要求对这两个对象调用hashcode()方法得到两个不相同的数。说的简单点就是：“如果两个对象不相同，他们的hashcode可能相同”。<br>根据这两个规范，可以得到如下推论： <ul>
