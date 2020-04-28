@@ -219,7 +219,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:48:17" itemprop="dateModified" datetime="2020-04-28T12:48:17+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 13:20:40" itemprop="dateModified" datetime="2020-04-28T13:20:40+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -274,34 +274,14 @@
 <p><a href="https://github.com/njustwh2014/MyJavaRepo" target="_blank" rel="noopener">我的github项目，有一些代码示例</a> forked from <a href="https://github.com/CL0610/Java-concurrency" target="_blank" rel="noopener">https://github.com/CL0610/Java-concurrency</a></p>
 </blockquote>
 <h2 id="1-ReentrantLock的介绍"><a href="#1-ReentrantLock的介绍" class="headerlink" title="1. ReentrantLock的介绍"></a>1. ReentrantLock的介绍</h2><p>ReentrantLock重入锁，是实现Lock接口的一个类，也是在实际编程中使用频率很高的一个锁，<strong>支持重入性，表示能够对共享资源能够重复加锁，即当前线程获取该锁再次获取不会被阻塞</strong>。在java关键字synchronized隐式支持重入性，synchronized通过获取自增，释放自减的方式实现重入。与此同时，ReentrantLock还支持<strong>公平锁和非公平锁</strong>两种方式。那么，要想完完全全的弄懂ReentrantLock的话，主要也就是ReentrantLock同步语义的学习：1. 重入性的实现原理；2. 公平锁和非公平锁。</p>
-<h2 id="2-重入性的实现原理"><a href="#2-重入性的实现原理" class="headerlink" title="2. 重入性的实现原理"></a>2. 重入性的实现原理</h2><p>要想支持重入性，就要解决两个问题：<strong>1. 在线程获取锁的时候，如果已经获取锁的线程是当前线程的话则直接再次获取成功；2. 由于锁会被获取n次，那么只有锁在被释放同样的n次之后，该锁才算是完全释放成功</strong>。通过<a href="http://eternalhorizon.cn/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/">这篇文章</a>，我们知道，同步组件主要是通过重写AQS的几个protected方法来表达自己的同步语义。针对第一个问题，我们来看看ReentrantLock是怎样实现的，以非公平锁为例，判断当前线程能否获得锁为例，核心方法为nonfairTryAcquire：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">nonfairTryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> Thread current = Thread.currentThread();</span><br><span class="line">    <span class="keyword">int</span> c = getState();</span><br><span class="line">    <span class="comment">//1. 如果该锁未被任何线程占有，该锁能被当前线程获取</span></span><br><span class="line">    <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (compareAndSetState(<span class="number">0</span>, acquires)) &#123;</span><br><span class="line">            setExclusiveOwnerThread(current);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//2.若被占有，检查占有线程是否是当前线程</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</span><br><span class="line">        <span class="comment">// 3. 再次获取，计数加一</span></span><br><span class="line">        <span class="keyword">int</span> nextc = c + acquires;</span><br><span class="line">        <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>) <span class="comment">// overflow</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</span><br><span class="line">        setState(nextc);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这段代码的逻辑也很简单，具体请看注释。为了支持重入性，在第二步增加了处理逻辑，如果该锁已经被线程所占有了，会继续检查占有线程是否为当前线程，如果是的话，同步状态加1返回true，表示可以再次获取成功。每次重新获取都会对同步状态进行加一的操作，那么释放的时候处理思路是怎样的了？（依然还是以非公平锁为例）核心方法为tryRelease：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryRelease</span><span class="params">(<span class="keyword">int</span> releases)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//1. 同步状态减1</span></span><br><span class="line">    <span class="keyword">int</span> c = getState() - releases;</span><br><span class="line">    <span class="keyword">if</span> (Thread.currentThread() != getExclusiveOwnerThread())</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalMonitorStateException();</span><br><span class="line">    <span class="keyword">boolean</span> free = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">//2. 只有当同步状态为0时，锁成功被释放，返回true</span></span><br><span class="line">        free = <span class="keyword">true</span>;</span><br><span class="line">        setExclusiveOwnerThread(<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 3. 锁未被完全释放，返回false</span></span><br><span class="line">    setState(c);</span><br><span class="line">    <span class="keyword">return</span> free;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>代码的逻辑请看注释，需要注意的是，重入锁的释放必须得等到同步状态为0时锁才算成功释放，否则锁仍未释放。如果锁被获取n次，释放了n-1次，该锁未完全释放返回false，只有被释放n次才算成功释放，返回true。到现在我们可以理清ReentrantLock重入性的实现了，也就是理解了同步语义的第一条。</p>
-<h2 id="3-公平锁与非公平锁"><a href="#3-公平锁与非公平锁" class="headerlink" title="3. 公平锁与非公平锁"></a>3. 公平锁与非公平锁</h2><p>ReentrantLock支持两种锁：<strong>公平锁</strong>和<strong>非公平锁</strong>。<strong>何谓公平性，是针对获取锁而言的，如果一个锁是公平的，那么锁的获取顺序就应该符合请求上的绝对时间顺序，满足FIFO</strong>。ReentrantLock的构造方法无参时是构造非公平锁，源码为：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ReentrantLock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    sync = <span class="keyword">new</span> NonfairSync();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>另外还提供了另外一种方式，可传入一个boolean值，true时为公平锁，false时为非公平锁，源码为：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ReentrantLock</span><span class="params">(<span class="keyword">boolean</span> fair)</span> </span>&#123;</span><br><span class="line">    sync = fair ? <span class="keyword">new</span> FairSync() : <span class="keyword">new</span> NonfairSync();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面非公平锁获取时（nonfairTryAcquire方法）只是简单的获取了一下当前状态做了一些逻辑处理，并没有考虑到当前同步队列中线程等待的情况。我们来看看公平锁的处理逻辑是怎样的，核心方法为：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> Thread current = Thread.currentThread();</span><br><span class="line">    <span class="keyword">int</span> c = getState();</span><br><span class="line">    <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!hasQueuedPredecessors() &amp;&amp;</span><br><span class="line">            compareAndSetState(<span class="number">0</span>, acquires)) &#123;</span><br><span class="line">            setExclusiveOwnerThread(current);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</span><br><span class="line">        <span class="keyword">int</span> nextc = c + acquires;</span><br><span class="line">        <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</span><br><span class="line">        setState(nextc);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这段代码的逻辑与nonfairTryAcquire基本上一直，唯一的不同在于增加了hasQueuedPredecessors的逻辑判断，方法名就可知道该方法用来判断当前节点在同步队列中是否有前驱节点的判断，如果有前驱节点说明有线程比当前线程更早的请求资源，根据公平性，当前线程请求资源失败。如果当前节点没有前驱节点的话，再才有做后面的逻辑判断的必要性。<strong>公平锁每次都是从同步队列中的第一个节点获取到锁，而非公平性锁则不一定，有可能刚释放锁的线程能再次获取到锁</strong>。</p>
-<blockquote>
-<p><strong>公平锁  VS  非公平锁</strong></p>
-</blockquote>
-<ol>
-<li><p>公平锁每次获取到锁为同步队列中的第一个节点，<strong>保证请求资源时间上的绝对顺序</strong>，而非公平锁有可能刚释放锁的线程下次继续获取该锁，则有可能导致其他线程永远无法获取到锁，<strong>造成“饥饿”现象</strong>。</p>
-</li>
-<li><p>公平锁为了保证时间上的绝对顺序，需要频繁的上下文切换，而非公平锁会降低一定的上下文切换，降低性能开销。因此，ReentrantLock默认选择的是非公平锁，则是为了减少一部分上下文切换，<strong>保证了系统更大的吞吐量</strong>。</p>
-</li>
-</ol>
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><blockquote>
-<p>《java并发编程的艺术》</p>
-</blockquote>
-<blockquote>
-<p><a href="https://github.com/njustwh2014/MyJavaRepo" target="_blank" rel="noopener">我的github项目，有一些代码示例</a> forked from <a href="https://github.com/CL0610/Java-concurrency" target="_blank" rel="noopener">https://github.com/CL0610/Java-concurrency</a></p>
-</blockquote>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/05/che-di-li-jie-reentrantlock/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -351,7 +331,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:49:01" itemprop="dateModified" datetime="2020-04-28T12:49:01+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 13:20:40" itemprop="dateModified" datetime="2020-04-28T13:20:40+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -404,129 +384,14 @@
       
           <p><a href="https://github.com/njustwh2014/MyJavaRepo" target="_blank" rel="noopener">我的github项目，有一些代码示例</a> forked from <a href="https://github.com/CL0610/Java-concurrency" target="_blank" rel="noopener">https://github.com/CL0610/Java-concurrency</a></p>
 <h2 id="1-AQS简介"><a href="#1-AQS简介" class="headerlink" title="1. AQS简介"></a>1. AQS简介</h2><p>在<a href="http://eternalhorizon.cn/2019/11/04/chu-shi-lock-he-abstractqueuedsynchronizer-aqs/">上一篇文章</a>中我们对lock和AbstractQueuedSynchronizer(AQS)有了初步的认识。在同步组件的实现中，AQS是核心部分，同步组件的实现者通过使用AQS提供的模板方法实现同步组件语义，AQS则实现了对<strong>同步状态的管理，以及对阻塞线程进行排队，等待通知</strong>等等一些底层的实现处理。AQS的核心也包括了这些方面:<strong>同步队列，独占式锁的获取和释放，共享锁的获取和释放以及可中断锁，超时等待锁获取这些特性的实现</strong>，而这些实际上则是AQS提供出来的模板方法，归纳整理如下：</p>
-<p><strong>独占式锁：</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">acquire</span><span class="params">(<span class="keyword">int</span> arg)</span><span class="comment">//独占式获取同步状态，如果获取失败则插入同步队列进行等待；</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">acquireInterruptibly</span><span class="params">(<span class="keyword">int</span> arg)</span><span class="comment">//与acquire方法相同，但在同步队列中进行等待的时候可以检测中断；</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">tryAcquireNanos</span><span class="params">(<span class="keyword">int</span> arg, <span class="keyword">long</span> nanosTimeout)</span><span class="comment">//在acquireInterruptibly基础上增加了超时等待功能，在超时时间内没有获得同步状态返回false;</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">release</span><span class="params">(<span class="keyword">int</span> arg)</span><span class="comment">//释放同步状态，该方法会唤醒在同步队列中的下一个节点</span></span></span><br></pre></td></tr></table></figure>
-<p><strong>共享式锁：</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">acquireShared</span><span class="params">(<span class="keyword">int</span> arg)</span><span class="comment">//共享式获取同步状态，与独占式的区别在于同一时刻有多个线程获取同步状态；</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">acquireSharedInterruptibly</span><span class="params">(<span class="keyword">int</span> arg)</span><span class="comment">//在acquireShared方法基础上增加了能响应中断的功能；</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">tryAcquireSharedNanos</span><span class="params">(<span class="keyword">int</span> arg, <span class="keyword">long</span> nanosTimeout)</span><span class="comment">//在acquireSharedInterruptibly基础上增加了超时等待的功能；</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">releaseShared</span><span class="params">(<span class="keyword">int</span> arg)</span><span class="comment">//共享式释放同步状态</span></span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>tips: <a href="https://blog.csdn.net/wojiushiwo945you/article/details/42292999" target="_blank" rel="noopener">共享式锁与独占式锁</a></p>
-</blockquote>
-<p>要想掌握AQS的底层实现，其实也就是对这些模板方法的逻辑进行学习。在学习这些模板方法之前，我们得首先了解下AQS中的同步队列是一种什么样的数据结构，因为同步队列是AQS对同步状态的管理的基石。</p>
-<h2 id="2-同步队列"><a href="#2-同步队列" class="headerlink" title="2. 同步队列"></a>2. 同步队列</h2><p>当共享资源被某个线程占有，其他请求该资源的线程将会阻塞，从而进入同步队列。就数据结构而言，队列的实现方式无外乎两者一是通过数组的形式，另外一种则是链表的形式。AQS中的同步队列则是<strong>通过链式方式</strong>进行实现。接下来，很显然我们至少会抱有这样的疑问：<strong>1. 节点的数据结构是什么样的？2. 是单向还是双向？3. 是带头结点的还是不带头节点的</strong>?我们依旧先是通过看源码的方式。</p>
-<p>在AQS有一个静态内部类Node，其中有这样一些属性：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">volatile</span> <span class="keyword">int</span> waitStatus <span class="comment">//节点状态</span></span><br><span class="line"><span class="keyword">volatile</span> Node prev <span class="comment">//当前节点/线程的前驱节点</span></span><br><span class="line"><span class="keyword">volatile</span> Node next; <span class="comment">//当前节点/线程的后继节点</span></span><br><span class="line"><span class="keyword">volatile</span> Thread thread;<span class="comment">//加入同步队列的线程引用</span></span><br><span class="line">Node nextWaiter;<span class="comment">//等待队列中的下一个节点</span></span><br></pre></td></tr></table></figure>
-<p>节点的状态有以下这些：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> CANCELLED =  <span class="number">1</span><span class="comment">//节点从同步队列中取消</span></span><br><span class="line"><span class="keyword">int</span> SIGNAL    = -<span class="number">1</span><span class="comment">//后继节点的线程处于等待状态，如果当前节点释放同步状态会通知后继节点，使得后继节点的线程能够运行；</span></span><br><span class="line"><span class="keyword">int</span> CONDITION = -<span class="number">2</span><span class="comment">//当前节点进入等待队列中</span></span><br><span class="line"><span class="keyword">int</span> PROPAGATE = -<span class="number">3</span><span class="comment">//表示下一次共享式同步状态获取将会无条件传播下去</span></span><br><span class="line"><span class="keyword">int</span> INITIAL = <span class="number">0</span>;<span class="comment">//初始状态</span></span><br></pre></td></tr></table></figure>
-<p>现在我们知道了节点的数据结构类型，并且每个节点拥有其前驱和后继节点，很显然这是<strong>一个双向队列</strong>。同样的我们可以用一段demo看一下。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LockDemo</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> ReentrantLock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">			Thread thread = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">				lock.lock();</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					Thread.sleep(<span class="number">10000</span>);</span><br><span class="line">				&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">					lock.unlock();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;);</span><br><span class="line">			thread.start();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>实例代码中开启了5个线程，先获取锁之后再睡眠10S中，实际上这里让线程睡眠是想模拟出当线程无法获取锁时进入同步队列的情况。通过debug，当Thread-4（在本例中最后一个线程）获取锁失败后进入同步时，AQS时现在的同步队列如图所示：</p>
-<p><img src="/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/LockDemo-debug.png" alt="LockDemo debug"></p>
-<p>Thread-0先获得锁后进行睡眠，其他线程（Thread-1,Thread-2,Thread-3,Thread-4）获取锁失败进入同步队列，同时也可以很清楚的看出来每个节点有两个域：prev(前驱)和next(后继)，并且每个节点用来保存获取同步状态失败的线程引用以及等待状态等信息。另外AQS中有两个重要的成员变量：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> Node head;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> Node tail;</span><br></pre></td></tr></table></figure>
-<p>也就是说AQS实际上通过头尾指针来管理同步队列，同时实现包括获取锁失败的线程进行入队，释放锁时对同步队列中的线程进行通知等核心方法。其示意图如下：</p>
-<p><img src="/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/%E9%98%9F%E5%88%97%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="队列示意图.png"></p>
-<p>通过对源码的理解以及做实验的方式，现在我们可以清楚的知道这样几点：</p>
-<ol>
-<li><strong>节点的数据结构，即AQS的静态内部类Node,节点的等待状态等信息</strong>；</li>
-<li><strong>同步队列是一个双向队列，AQS通过持有头尾指针管理同步队列</strong>；</li>
-</ol>
-<p>那么，节点如何进行入队和出队是怎样做的了？实际上这对应着锁的获取和释放两个操作：获取锁失败进行入队操作，获取锁成功进行出队操作。</p>
-<h2 id="3-独占锁"><a href="#3-独占锁" class="headerlink" title="3. 独占锁"></a>3. 独占锁</h2><h3 id="3-1-独占锁的获取（acquire方法）"><a href="#3-1-独占锁的获取（acquire方法）" class="headerlink" title="3.1 独占锁的获取（acquire方法）"></a>3.1 独占锁的获取（acquire方法）</h3><p>我们继续通过看源码和debug的方式来看，还是以上面的demo为例，调用lock()方法是获取独占式锁，获取失败就将当前线程加入同步队列，成功则线程执行。而lock()方法实际上会调用AQS的<strong>acquire()</strong>方法，源码如下</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquire</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//先看同步状态是否获取成功，如果成功则方法结束返回</span></span><br><span class="line">        <span class="comment">//若失败则先调用addWaiter()方法再调用acquireQueued()方法</span></span><br><span class="line">        <span class="keyword">if</span> (!tryAcquire(arg) &amp;&amp;</span><br><span class="line">            acquireQueued(addWaiter(Node.EXCLUSIVE), arg))</span><br><span class="line">            selfInterrupt();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>关键信息请看注释，acquire根据当前获得同步状态成功与否做了两件事情：1. 成功，则方法结束返回，2. 失败，则先调用addWaiter()然后在调用acquireQueued()方法。</p>
-<blockquote>
-<p><strong>获取同步状态失败，入队操作</strong></p>
-</blockquote>
-<p>当线程获取独占式锁失败后就会将当前线程加入同步队列，那么加入队列的方式是怎样的了？我们接下来就应该去研究一下addWaiter()和acquireQueued()。addWaiter()源码如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">addWaiter</span><span class="params">(Node mode)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 1. 将当前线程构建成Node类型</span></span><br><span class="line">        Node node = <span class="keyword">new</span> Node(Thread.currentThread(), mode);</span><br><span class="line">        <span class="comment">// Try the fast path of enq; backup to full enq on failure</span></span><br><span class="line">        <span class="comment">// 2. 当前尾节点是否为null？</span></span><br><span class="line">        Node pred = tail;</span><br><span class="line">        <span class="keyword">if</span> (pred != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 2.2 将当前节点尾插入的方式插入同步队列中</span></span><br><span class="line">            node.prev = pred;</span><br><span class="line">            <span class="keyword">if</span> (compareAndSetTail(pred, node)) &#123;</span><br><span class="line">                pred.next = node;</span><br><span class="line">                <span class="keyword">return</span> node;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 2.1. 当前同步队列尾节点为null，说明当前线程是第一个加入同步队列进行等待的线程</span></span><br><span class="line">        <span class="comment">// 或者存在并发，导致CAS失败，自旋尝试CAS</span></span><br><span class="line">        enq(node);</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>分析可以看上面的注释。程序的逻辑主要分为两个部分：<strong>1. 当前同步队列的尾节点为null，调用方法enq()插入;2. 当前队列的尾节点不为null，则采用尾插入（compareAndSetTail（）方法）的方式入队。</strong>另外还会有另外一个问题：如果 <code>if (compareAndSetTail(pred, node))</code>为false怎么办？会继续执行到enq()方法，同时很明显compareAndSetTail是一个CAS操作，通常来说如果CAS操作失败会继续自旋（死循环）进行重试。因此，经过我们这样的分析，enq()方法可能承担两个任务：<strong>1. 处理当前同步队列尾节点为null时进行入队操作；2. 如果CAS尾插入节点失败后负责自旋进行尝试。</strong>那么是不是真的就像我们分析的一样了？只有源码会告诉我们答案:),enq()源码如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">enq</span><span class="params">(<span class="keyword">final</span> Node node)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            Node t = tail;</span><br><span class="line">            <span class="keyword">if</span> (t == <span class="keyword">null</span>) &#123; <span class="comment">// Must initialize</span></span><br><span class="line">                <span class="comment">//1. 构造头结点</span></span><br><span class="line">                <span class="keyword">if</span> (compareAndSetHead(<span class="keyword">new</span> Node()))</span><br><span class="line">                    tail = head;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// 2. 尾插入，CAS操作失败自旋尝试</span></span><br><span class="line">                node.prev = t;</span><br><span class="line">                <span class="keyword">if</span> (compareAndSetTail(t, node)) &#123;</span><br><span class="line">                    t.next = node;</span><br><span class="line">                    <span class="keyword">return</span> t;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的分析中我们可以看出在第1步中会先创建头结点，说明同步队列是<strong>带头结点的链式存储结构</strong>。带头结点与不带头结点相比，会在入队和出队的操作中获得更大的便捷性，因此同步队列选择了带头结点的链式存储结构。那么带头节点的队列初始化时机是什么？自然而然是在<strong>tail为null时，即当前线程是第一次插入同步队列</strong>。compareAndSetTail(t, node)方法会利用CAS操作设置尾节点，如果CAS操作失败会在<code>for (;;)</code>for死循环中不断尝试，直至成功return返回为止。因此，对enq()方法可以做这样的总结：</p>
-<ol>
-<li><strong>在当前线程是第一个加入同步队列时，调用compareAndSetHead(new Node())方法，完成链式队列的头结点的初始化</strong>；</li>
-<li><strong>自旋不断尝试CAS尾插入节点直至成功为止</strong>。</li>
-</ol>
-<p>现在我们已经很清楚获取独占式锁失败的线程包装成Node然后插入同步队列的过程了？那么紧接着会有下一个问题？在同步队列中的节点（线程）会做什么事情了来保证自己能够有机会获得独占式锁了？带着这样的问题我们就来看看acquireQueued()方法，从方法名就可以很清楚，这个方法的作用就是排队获取锁的过程，源码如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">acquireQueued</span><span class="params">(<span class="keyword">final</span> Node node, <span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> failed = <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">boolean</span> interrupted = <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">                <span class="comment">// 1. 获得当前节点的先驱节点</span></span><br><span class="line">                <span class="keyword">final</span> Node p = node.predecessor();</span><br><span class="line">                <span class="comment">// 2. 当前节点能否获取独占式锁					</span></span><br><span class="line">                <span class="comment">// 2.1 如果当前节点的先驱节点是头结点并且成功获取同步状态，即可以获得独占式锁</span></span><br><span class="line">                <span class="keyword">if</span> (p == head &amp;&amp; tryAcquire(arg)) &#123;</span><br><span class="line">                    <span class="comment">//队列头指针用指向当前节点</span></span><br><span class="line">                    setHead(node);</span><br><span class="line">                    <span class="comment">//释放前驱节点</span></span><br><span class="line">                    p.next = <span class="keyword">null</span>; <span class="comment">// help GC</span></span><br><span class="line">                    failed = <span class="keyword">false</span>;</span><br><span class="line">                    <span class="keyword">return</span> interrupted;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 2.2 获取锁失败，线程进入等待状态等待获取独占式锁</span></span><br><span class="line">                <span class="comment">/*当前节点不是第二个节点 或者 再次获取锁失败*/</span></span><br><span class="line">                <span class="comment">/*判断是否需要挂起，在挂起后，判断线程是否中断*/</span></span><br><span class="line">                <span class="keyword">if</span> (shouldParkAfterFailedAcquire(p, node) &amp;&amp;</span><br><span class="line">                    parkAndCheckInterrupt())</span><br><span class="line">                    interrupted = <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (failed)</span><br><span class="line">                cancelAcquire(node);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>程序逻辑通过注释已经标出，整体来看这又是一个<strong>自旋</strong>的过程（for (;;)），代码首先获取当前节点的先驱节点，<strong>如果先驱节点是头结点的并且成功获得同步状态的时候（if (p == head &amp;&amp; tryAcquire(arg))），当前节点所指向的线程能够获取锁</strong>。反之，获取锁失败进入等待状态。整体示意图为下图：</p>
-<p><img src="/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/%E8%87%AA%E6%97%8B%E8%8E%B7%E5%8F%96%E9%94%81%E6%95%B4%E4%BD%93%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="自旋获取锁整体示意图.png"></p>
-<blockquote>
-<p><strong>获取锁成功，出队操作</strong></p>
-</blockquote>
-<p>获取锁的节点出队的逻辑是：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//队列头结点引用指向当前节点</span></span><br><span class="line">setHead(node);</span><br><span class="line"><span class="comment">//释放前驱节点</span></span><br><span class="line">p.next = <span class="keyword">null</span>; <span class="comment">// help GC</span></span><br><span class="line">failed = <span class="keyword">false</span>;</span><br><span class="line"><span class="keyword">return</span> interrupted;</span><br></pre></td></tr></table></figure>
-<p>setHead()方法为：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setHead</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">        head = node;</span><br><span class="line">        node.thread = <span class="keyword">null</span>;</span><br><span class="line">        node.prev = <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>将当前节点通过setHead()方法设置为队列的头结点，然后将之前的头结点的next域设置为null并且pre域也为null，即与队列断开，无任何引用方便GC时能够将内存进行回收。示意图如下：</p>
-<p><img src="/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/%E5%BD%93%E5%89%8D%E8%8A%82%E7%82%B9%E5%BC%95%E7%94%A8%E7%BA%BF%E7%A8%8B%E8%8E%B7%E5%8F%96%E9%94%81%EF%BC%8C%E5%BD%93%E5%89%8D%E8%8A%82%E7%82%B9%E8%AE%BE%E7%BD%AE%E4%B8%BA%E9%98%9F%E5%88%97%E5%A4%B4%E7%BB%93%E7%82%B9.png" alt="当前节点引用线程获取锁，当前节点设置为队列头结点.png"></p>
-<p>那么当获取锁失败的时候会调用shouldParkAfterFailedAcquire()方法和parkAndCheckInterrupt()方法，判断此时是否能够安全的挂起。shouldParkAfterFailedAcquire()方法源码为：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">shouldParkAfterFailedAcquire</span><span class="params">(Node pred, Node node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ws = pred.waitStatus;</span><br><span class="line">    <span class="keyword">if</span> (ws == Node.SIGNAL)</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * 当前节点已经被设置为等待唤醒的状态，可以安全的挂起了</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (ws &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * 当前节点node的前任节点被取消，那么【跳过】这些取消的节点，</span></span><br><span class="line"><span class="comment">         * 当跳过之后，重新尝试获取锁</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            node.prev = pred = pred.prev;</span><br><span class="line">        &#125; <span class="keyword">while</span> (pred.waitStatus &gt; <span class="number">0</span>);</span><br><span class="line">        pred.next = node;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * 通过前面的判断，waitStatus一定不是 SIGNAL 或 CANCELLED。</span></span><br><span class="line"><span class="comment">         * 推断出一定是 0 or PROPAGATE</span></span><br><span class="line"><span class="comment">         * 调用者需要再次尝试，在挂起之前能不能获取到锁，</span></span><br><span class="line"><span class="comment">         * 因此，将当前pred的状态设为SIGNAL，再次尝试获取锁之后，如果还没有得到锁那么挂起</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        compareAndSetWaitStatus(pred, ws, Node.SIGNAL);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>shouldParkAfterFailedAcquire()方法主要逻辑是使用<code>compareAndSetWaitStatus(pred, ws, Node.SIGNAL)</code>使用CAS将节点状态由INITIAL设置成SIGNAL，表示当前线程阻塞。当compareAndSetWaitStatus设置失败则说明shouldParkAfterFailedAcquire方法返回false，然后会在acquireQueued()方法中for (;;)死循环中会继续重试，直至compareAndSetWaitStatus设置节点状态位为SIGNAL时shouldParkAfterFailedAcquire返回true时才会执行方法parkAndCheckInterrupt()方法，该方法的源码为：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">parkAndCheckInterrupt</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//使得该线程阻塞</span></span><br><span class="line">        LockSupport.park(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">return</span> Thread.interrupted();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>该方法的关键是会调用LookSupport.park()方法（关于LookSupport会在以后的文章进行讨论），该方法是用来阻塞当前线程的。因此到这里就应该清楚了，acquireQueued()在自旋过程中主要完成了两件事情：</p>
-<ol>
-<li><strong>如果当前节点的前驱节点是头节点，并且能够获得同步状态的话，当前线程能够获得锁该方法执行结束退出</strong>；</li>
-<li><strong>获取锁失败的话，先将节点状态设置成SIGNAL，然后调用LookSupport.park方法使得当前线程阻塞</strong>。</li>
-</ol>
-<p>经过上面的分析，独占式锁的获取过程也就是acquire()方法的执行流程如下图所示：</p>
-<p><img src="/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/%E7%8B%AC%E5%8D%A0%E5%BC%8F%E9%94%81%E8%8E%B7%E5%8F%96%EF%BC%88acquire()%E6%96%B9%E6%B3%95%EF%BC%89%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="独占式锁获取（acquire()方法）流程图.png"></p>
-<h3 id="3-2-独占锁的释放（release-方法）"><a href="#3-2-独占锁的释放（release-方法）" class="headerlink" title="3.2 独占锁的释放（release()方法）"></a>3.2 独占锁的释放（release()方法）</h3><p>独占锁的释放就相对来说比较容易理解了，废话不多说先来看下源码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">release</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (tryRelease(arg)) &#123;</span><br><span class="line">            Node h = head;</span><br><span class="line">            <span class="keyword">if</span> (h != <span class="keyword">null</span> &amp;&amp; h.waitStatus != <span class="number">0</span>)</span><br><span class="line">                unparkSuccessor(h);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryRelease</span><span class="params">(<span class="keyword">int</span> releases)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> c = getState() - releases;</span><br><span class="line">    <span class="comment">//如果【释放的线程】和【获取锁的线程】不是同一个，抛出非法监视器状态异常。</span></span><br><span class="line">    <span class="keyword">if</span> (Thread.currentThread() != getExclusiveOwnerThread())</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalMonitorStateException();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">boolean</span> free = <span class="keyword">false</span>;</span><br><span class="line">    <span class="comment">// 因为是重入的关系，不是每次释放锁c都等于0，</span></span><br><span class="line">    <span class="comment">// 直到最后一次释放锁时，才通知AQS不需要再记录哪个线程正在获取锁。</span></span><br><span class="line">    <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</span><br><span class="line">        free = <span class="keyword">true</span>;</span><br><span class="line">        setExclusiveOwnerThread(<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    setState(c);</span><br><span class="line">    <span class="keyword">return</span> free;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这段代码逻辑就比较容易理解了，如果同步状态释放成功（tryRelease返回true）则会执行if块中的代码，当head指向的头结点不为null，并且该节点的状态值不为0的话才会执行unparkSuccessor()方法。unparkSuccessor方法源码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">unparkSuccessor</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        * If status is negative (i.e., possibly needing signal) try</span></span><br><span class="line"><span class="comment">        * to clear in anticipation of signalling.  It is OK if this</span></span><br><span class="line"><span class="comment">        * fails or if status is changed by waiting thread.</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">         <span class="comment">/*如果状态为负（SIGNAL、PROPAGATE），那么清除其状态</span></span><br><span class="line"><span class="comment">        * 如果失败，或者状态被其他等待线程改变，也没有关系</span></span><br><span class="line"><span class="comment">        * */</span></span><br><span class="line">    <span class="keyword">int</span> ws = node.waitStatus;</span><br><span class="line">    <span class="keyword">if</span> (ws &lt; <span class="number">0</span>)</span><br><span class="line">        compareAndSetWaitStatus(node, ws, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        * Thread to unpark is held in successor, which is normally</span></span><br><span class="line"><span class="comment">        * just the next node.  But if cancelled or apparently null,</span></span><br><span class="line"><span class="comment">        * traverse backwards from tail to find the actual</span></span><br><span class="line"><span class="comment">        * non-cancelled successor.</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">     <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 一般情况下唤醒的线程是【头结点】的【下一个节点】</span></span><br><span class="line"><span class="comment">     * 但是如果该节点被取消或者为null，</span></span><br><span class="line"><span class="comment">     * 那么需要【从后往前遍历】寻找一个【最早的】并且【没有被取消】的节点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="comment">//头节点的后继节点</span></span><br><span class="line">    Node s = node.next;</span><br><span class="line">    <span class="keyword">if</span> (s == <span class="keyword">null</span> || s.waitStatus &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        s = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">for</span> (Node t = tail; t != <span class="keyword">null</span> &amp;&amp; t != node; t = t.prev)</span><br><span class="line">            <span class="keyword">if</span> (t.waitStatus &lt;= <span class="number">0</span>)</span><br><span class="line">                s = t;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (s != <span class="keyword">null</span>)</span><br><span class="line">        <span class="comment">//后继节点不为null时唤醒该线程</span></span><br><span class="line">        LockSupport.unpark(s.thread);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>源码的关键信息请看注释，首先获取头节点的后继节点，当后继节点的时候会调用LookSupport.unpark()方法，该方法会唤醒该节点的后继节点所包装的线程。因此，<strong>每一次锁释放后就会唤醒队列中该节点的后继节点所引用的线程，从而进一步可以佐证获得锁的过程是一个FIFO（先进先出）的过程。</strong></p>
-<p>到现在我们终于啃下了一块硬骨头了，通过学习源码的方式非常深刻的学习到了独占式锁的获取和释放的过程以及同步队列。可以做一下总结：</p>
-<ol>
-<li><strong>线程获取锁失败，线程被封装成Node进行入队操作，核心方法在于addWaiter()和enq()，同时enq()完成对同步队列的头结点初始化工作以及CAS操作失败的重试</strong>;</li>
-<li><strong>线程获取锁是一个自旋的过程，当且仅当 当前节点的前驱节点是头结点并且成功获得同步状态时，节点出队即该节点引用的线程获得锁，否则，当不满足条件时就会调用LookSupport.park()方法使得线程阻塞</strong>；</li>
-<li><strong>释放锁的时候会唤醒后继节点；</strong></li>
-</ol>
-<p>总体来说：<strong>在获取同步状态时，AQS维护一个同步队列，获取同步状态失败的线程会加入到队列中进行自旋；移除队列（或停止自旋）的条件是前驱节点是头结点并且成功获得了同步状态。在释放同步状态时，同步器会调用unparkSuccessor()方法唤醒后继节点。</strong></p>
-<blockquote>
-<p><strong>独占锁特性学习</strong></p>
-</blockquote>
-<h3 id="3-3-可中断式获取锁（acquireInterruptibly方法）"><a href="#3-3-可中断式获取锁（acquireInterruptibly方法）" class="headerlink" title="3.3 可中断式获取锁（acquireInterruptibly方法）"></a>3.3 可中断式获取锁（acquireInterruptibly方法）</h3><p>我们知道lock相较于synchronized有一些更方便的特性，比如<strong>能响应中断以及超时等待等特性</strong>，现在我们依旧采用通过学习源码的方式来看看能够响应中断是怎么实现的。可响应中断式锁可调用方法lock.lockInterruptibly();而该方法其底层会调用AQS的acquireInterruptibly方法，源码为：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquireInterruptibly</span><span class="params">(<span class="keyword">int</span> arg)</span></span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (Thread.interrupted())</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</span><br><span class="line">    <span class="keyword">if</span> (!tryAcquire(arg))</span><br><span class="line">        <span class="comment">//线程获取锁失败</span></span><br><span class="line">        doAcquireInterruptibly(arg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在获取同步状态失败后就会调用doAcquireInterruptibly方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doAcquireInterruptibly</span><span class="params">(<span class="keyword">int</span> arg)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="comment">//将节点插入到同步队列中</span></span><br><span class="line">    <span class="keyword">final</span> Node node = addWaiter(Node.EXCLUSIVE);</span><br><span class="line">    <span class="keyword">boolean</span> failed = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            <span class="keyword">final</span> Node p = node.predecessor();</span><br><span class="line">            <span class="comment">//获取锁出队</span></span><br><span class="line">            <span class="keyword">if</span> (p == head &amp;&amp; tryAcquire(arg)) &#123;</span><br><span class="line">                setHead(node);</span><br><span class="line">                p.next = <span class="keyword">null</span>; <span class="comment">// help GC</span></span><br><span class="line">                failed = <span class="keyword">false</span>;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (shouldParkAfterFailedAcquire(p, node) &amp;&amp;</span><br><span class="line">                parkAndCheckInterrupt())</span><br><span class="line">                <span class="comment">//线程中断抛异常</span></span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (failed)</span><br><span class="line">            cancelAcquire(node);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>关键信息请看注释，现在看这段代码就很轻松了吧:),与acquire方法逻辑几乎一致，唯一的区别是当<strong>parkAndCheckInterrupt</strong>返回true时即线程阻塞时该线程被中断，代码抛出被中断异常。</p>
-<h3 id="3-4-超时等待式获取锁（tryAcquireNanos-方法）"><a href="#3-4-超时等待式获取锁（tryAcquireNanos-方法）" class="headerlink" title="3.4 超时等待式获取锁（tryAcquireNanos()方法）"></a>3.4 超时等待式获取锁（tryAcquireNanos()方法）</h3><p>通过调用lock.tryLock(timeout,TimeUnit)方式达到超时等待获取锁的效果，该方法会在三种情况下才会返回：</p>
-<ol>
-<li>在超时时间内，当前线程成功获取了锁；</li>
-<li>当前线程在超时时间内被中断；</li>
-<li>超时时间结束，仍未获得锁返回false。</li>
-</ol>
-<p>我们仍然通过采取阅读源码的方式来学习底层具体是怎么实现的，该方法会调用AQS的方法tryAcquireNanos(),源码为：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquireNanos</span><span class="params">(<span class="keyword">int</span> arg, <span class="keyword">long</span> nanosTimeout)</span></span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (Thread.interrupted())</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</span><br><span class="line">    <span class="keyword">return</span> tryAcquire(arg) ||</span><br><span class="line">        <span class="comment">//实现超时等待的效果</span></span><br><span class="line">        doAcquireNanos(arg, nanosTimeout);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>很显然这段源码最终是靠doAcquireNanos方法实现超时等待的效果，该方法源码如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">doAcquireNanos</span><span class="params">(<span class="keyword">int</span> arg, <span class="keyword">long</span> nanosTimeout)</span></span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nanosTimeout &lt;= <span class="number">0L</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="comment">//1. 根据超时时间和当前时间计算出截止时间</span></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">long</span> deadline = System.nanoTime() + nanosTimeout;</span><br><span class="line">    <span class="keyword">final</span> Node node = addWaiter(Node.EXCLUSIVE);</span><br><span class="line">    <span class="keyword">boolean</span> failed = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            <span class="keyword">final</span> Node p = node.predecessor();</span><br><span class="line">            <span class="comment">//2. 当前线程获得锁出队列</span></span><br><span class="line">            <span class="keyword">if</span> (p == head &amp;&amp; tryAcquire(arg)) &#123;</span><br><span class="line">                setHead(node);</span><br><span class="line">                p.next = <span class="keyword">null</span>; <span class="comment">// help GC</span></span><br><span class="line">                failed = <span class="keyword">false</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 3.1 重新计算超时时间</span></span><br><span class="line">            nanosTimeout = deadline - System.nanoTime();</span><br><span class="line">            <span class="comment">// 3.2 已经超时返回false</span></span><br><span class="line">            <span class="keyword">if</span> (nanosTimeout &lt;= <span class="number">0L</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            <span class="comment">// 3.3 线程阻塞等待 </span></span><br><span class="line">            <span class="keyword">if</span> (shouldParkAfterFailedAcquire(p, node) &amp;&amp;</span><br><span class="line">                nanosTimeout &gt; spinForTimeoutThreshold)</span><br><span class="line">                LockSupport.parkNanos(<span class="keyword">this</span>, nanosTimeout);</span><br><span class="line">            <span class="comment">// 3.4 线程被中断抛出被中断异常</span></span><br><span class="line">            <span class="keyword">if</span> (Thread.interrupted())</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (failed)</span><br><span class="line">            cancelAcquire(node);</span><br><span class="line">    &#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-<p>程序逻辑如图所示：</p>
-<p><img src="/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/%E8%B6%85%E6%97%B6%E7%AD%89%E5%BE%85%E5%BC%8F%E8%8E%B7%E5%8F%96%E9%94%81%EF%BC%88doAcquireNanos()%E6%96%B9%E6%B3%95%EF%BC%89.png" alt="超时等待式获取锁（doAcquireNanos()方法）"></p>
-<p>程序逻辑同独占锁可响应中断式获取基本一致，唯一的不同在于获取锁失败后，对超时时间的处理上，在第1步会先计算出按照现在时间和超时时间计算出理论上的截止时间，比如当前时间是8h10min,超时时间是10min，那么根据<code>deadline = System.nanoTime() + nanosTimeout</code>计算出刚好达到超时时间时的系统时间就是8h 10min+10min = 8h 20min。然后根据<code>deadline - System.nanoTime()</code>就可以判断是否已经超时了，比如，当前系统时间是8h 30min很明显已经超过了理论上的系统时间8h 20min，<code>deadline - System.nanoTime()</code>计算出来就是一个负数，自然而然会在3.2步中的If判断之间返回false。如果还没有超时即3.2步中的if判断为true时就会继续执行3.3步通过<strong>LockSupport.parkNanos</strong>使得当前线程阻塞，同时在3.4步增加了对中断的检测，若检测出被中断直接抛出被中断异常。</p>
-<h2 id="4-共享锁"><a href="#4-共享锁" class="headerlink" title="4. 共享锁"></a>4. 共享锁</h2><h3 id="4-1-共享锁的获取（acquireShared-方法）"><a href="#4-1-共享锁的获取（acquireShared-方法）" class="headerlink" title="4.1 共享锁的获取（acquireShared()方法）"></a>4.1 共享锁的获取（acquireShared()方法）</h3><p>在聊完AQS对独占锁的实现后，我们继续一鼓作气的来看看共享锁是怎样实现的？共享锁的获取方法为acquireShared，源码为：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquireShared</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (tryAcquireShared(arg) &lt; <span class="number">0</span>)</span><br><span class="line">        doAcquireShared(arg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这段源码的逻辑很容易理解，在该方法中会首先调用tryAcquireShared方法，tryAcquireShared返回值是一个int类型，当返回值为大于等于0的时候方法结束说明获得成功获取锁，否则，表明获取同步状态失败即所引用的线程获取锁失败，会执行doAcquireShared方法，该方法的源码为：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doAcquireShared</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> Node node = addWaiter(Node.SHARED);</span><br><span class="line">    <span class="keyword">boolean</span> failed = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">boolean</span> interrupted = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            <span class="keyword">final</span> Node p = node.predecessor();</span><br><span class="line">            <span class="keyword">if</span> (p == head) &#123;</span><br><span class="line">                <span class="keyword">int</span> r = tryAcquireShared(arg);</span><br><span class="line">                <span class="keyword">if</span> (r &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="comment">// 当该节点的前驱节点是头结点且成功获取同步状态</span></span><br><span class="line">                    setHeadAndPropagate(node, r);</span><br><span class="line">                    p.next = <span class="keyword">null</span>; <span class="comment">// help GC</span></span><br><span class="line">                    <span class="keyword">if</span> (interrupted)</span><br><span class="line">                        selfInterrupt();</span><br><span class="line">                    failed = <span class="keyword">false</span>;</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (shouldParkAfterFailedAcquire(p, node) &amp;&amp;</span><br><span class="line">                parkAndCheckInterrupt())</span><br><span class="line">                interrupted = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (failed)</span><br><span class="line">            cancelAcquire(node);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>现在来看这段代码会不会很容易了？逻辑几乎和独占式锁的获取一模一样，这里的自旋过程中能够退出的条件<strong>是当前节点的前驱节点是头结点并且tryAcquireShared(arg)返回值大于等于0即能成功获得同步状态</strong>。</p>
-<h3 id="4-2-共享锁的释放（releaseShared-方法）"><a href="#4-2-共享锁的释放（releaseShared-方法）" class="headerlink" title="4.2 共享锁的释放（releaseShared()方法）"></a>4.2 共享锁的释放（releaseShared()方法）</h3><p>共享锁的释放在AQS中会调用方法releaseShared：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">releaseShared</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (tryReleaseShared(arg)) &#123;</span><br><span class="line">        doReleaseShared();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当成功释放同步状态之后即tryReleaseShared会继续执行doReleaseShared方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doReleaseShared</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        * Ensure that a release propagates, even if there are other</span></span><br><span class="line"><span class="comment">        * in-progress acquires/releases.  This proceeds in the usual</span></span><br><span class="line"><span class="comment">        * way of trying to unparkSuccessor of head if it needs</span></span><br><span class="line"><span class="comment">        * signal. But if it does not, status is set to PROPAGATE to</span></span><br><span class="line"><span class="comment">        * ensure that upon release, propagation continues.</span></span><br><span class="line"><span class="comment">        * Additionally, we must loop in case a new node is added</span></span><br><span class="line"><span class="comment">        * while we are doing this. Also, unlike other uses of</span></span><br><span class="line"><span class="comment">        * unparkSuccessor, we need to know if CAS to reset status</span></span><br><span class="line"><span class="comment">        * fails, if so rechecking.</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">        Node h = head;</span><br><span class="line">        <span class="keyword">if</span> (h != <span class="keyword">null</span> &amp;&amp; h != tail) &#123;</span><br><span class="line">            <span class="keyword">int</span> ws = h.waitStatus;</span><br><span class="line">            <span class="keyword">if</span> (ws == Node.SIGNAL) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!compareAndSetWaitStatus(h, Node.SIGNAL, <span class="number">0</span>))</span><br><span class="line">                    <span class="keyword">continue</span>;            <span class="comment">// loop to recheck cases</span></span><br><span class="line">                unparkSuccessor(h);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (ws == <span class="number">0</span> &amp;&amp;</span><br><span class="line">                        !compareAndSetWaitStatus(h, <span class="number">0</span>, Node.PROPAGATE))</span><br><span class="line">                <span class="keyword">continue</span>;                <span class="comment">// loop on failed CAS</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (h == head)                   <span class="comment">// loop if head changed</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这段方法跟独占式锁释放过程有点点不同，在共享式锁的释放过程中，对于能够支持多个线程同时访问的并发组件，必须保证多个线程能够安全的释放同步状态，这里采用的CAS保证，当CAS操作失败continue，在下一次循环中进行重试。</p>
-<h3 id="4-3-可中断（acquireSharedInterruptibly-方法），超时等待（tryAcquireSharedNanos-方法）"><a href="#4-3-可中断（acquireSharedInterruptibly-方法），超时等待（tryAcquireSharedNanos-方法）" class="headerlink" title="4.3 可中断（acquireSharedInterruptibly()方法），超时等待（tryAcquireSharedNanos()方法）"></a>4.3 可中断（acquireSharedInterruptibly()方法），超时等待（tryAcquireSharedNanos()方法）</h3><p>关于可中断锁以及超时等待的特性其实现和独占式锁可中断获取锁以及超时等待的实现几乎一致，具体的就不再说了，如果理解了上面的内容对这部分的理解也是水到渠成的。</p>
-<p>通过这篇，加深了对AQS的底层实现更加清楚了，也对了解并发组件的实现原理打下了基础，学无止境，继续加油:);如果觉得不错，请给赞，嘿嘿。</p>
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><blockquote>
-<p>《java并发编程的艺术》</p>
-</blockquote>
-<blockquote>
-<p><a href="https://github.com/njustwh2014/MyJavaRepo" target="_blank" rel="noopener">我的github项目，有一些代码示例</a> forked from <a href="https://github.com/CL0610/Java-concurrency" target="_blank" rel="noopener">https://github.com/CL0610/Java-concurrency</a></p>
-</blockquote>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -576,7 +441,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:48:21" itemprop="dateModified" datetime="2020-04-28T12:48:21+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 13:20:40" itemprop="dateModified" datetime="2020-04-28T13:20:40+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -629,74 +494,14 @@
       
           <p><a href="https://github.com/njustwh2014/MyJavaRepo" target="_blank" rel="noopener">我的github项目，有一些代码示例</a> forked from <a href="https://github.com/CL0610/Java-concurrency" target="_blank" rel="noopener">https://github.com/CL0610/Java-concurrency</a></p>
 <h2 id="1-concurrent包的结构层次"><a href="#1-concurrent包的结构层次" class="headerlink" title="1. concurrent包的结构层次"></a>1. concurrent包的结构层次</h2><p>在针对并发编程中，Doug Lea大师为我们提供了大量实用，高性能的工具类，针对这些代码进行研究会让我们对并发编程的掌握更加透彻也会大大提升我们对并发编程技术的热爱。这些代码在java.util.concurrent包下。如下图，即为concurrent包的目录结构图。</p>
-<p><img src="/2019/11/04/chu-shi-lock-he-abstractqueuedsynchronizer-aqs/concurrent%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png" alt="concurrent目录结构.png"></p>
-<p>其中包含了两个子包：atomic以及lock，另外在concurrent下的阻塞队列以及executors,这些就是concurrent包中的精华，之后会一一进行学习。而这些类的实现主要是依赖于volatile以及CAS（关于volatile可以看<a href="https://juejin.im/post/5ae9b41b518825670b33e6c4" target="_blank" rel="noopener">这篇文章</a>，关于CAS可以看<a href="https://juejin.im/post/5ae6dc04f265da0ba351d3ff" target="_blank" rel="noopener">这篇文章的3.1节</a>），从整体上来看concurrent包的整体实现图如下图所示：</p>
-<p><img src="/2019/11/04/chu-shi-lock-he-abstractqueuedsynchronizer-aqs/concurrent%E5%8C%85%E5%AE%9E%E7%8E%B0%E6%95%B4%E4%BD%93%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="concurrent包实现整体示意图.png"></p>
-<h2 id="2-lock简介"><a href="#2-lock简介" class="headerlink" title="2. lock简介"></a>2. lock简介</h2><p>我们下来看concurent包下的lock子包。锁是用来控制多个线程访问共享资源的方式，一般来说，一个锁能够防止多个线程同时访问共享资源。在Lock接口出现之前，java程序主要是靠synchronized关键字实现锁功能的，而java SE5之后，并发包中增加了lock接口，它提供了与synchronized一样的锁功能。<strong>虽然它失去了像synchronize关键字隐式加锁解锁的便捷性，但是却拥有了锁获取和释放的可操作性，可中断的获取锁以及超时获取锁等多种synchronized关键字所不具备的同步特性</strong>。通常使用显示使用lock的形式如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">lock.lock();</span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">	.......</span><br><span class="line">&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">	lock.unlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>需要注意的是<strong>synchronized同步块执行完成或者遇到异常是锁会自动释放，而lock必须调用unlock()方法释放锁，因此在finally块中释放锁</strong>。</p>
-<h3 id="2-1-Lock接口API"><a href="#2-1-Lock接口API" class="headerlink" title="2.1 Lock接口API"></a>2.1 Lock接口API</h3><p>我们现在就来看看lock接口定义了哪些方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span></span>; <span class="comment">//获取锁</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lockInterruptibly</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException；<span class="comment">//获取锁的过程能够响应中断</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">tryLock</span><span class="params">()</span></span>;<span class="comment">//非阻塞式响应中断能立即返回，获取锁放回true反之返回fasle</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">tryLock</span><span class="params">(<span class="keyword">long</span> time, TimeUnit unit)</span> <span class="keyword">throws</span> InterruptedException</span>;<span class="comment">//超时获取锁，在超时内或者未中断的情况下能够获取锁</span></span><br><span class="line"><span class="function">Condition <span class="title">newCondition</span><span class="params">()</span></span>;<span class="comment">//获取与lock绑定的等待通知组件，当前线程必须获得了锁才能进行等待，进行等待时会先释放锁，当再次获取锁时才能从等待中返回</span></span><br></pre></td></tr></table></figure>
-<p>上面是lock接口下的五个方法，也只是从源码中英译中翻译了一遍，感兴趣的可以自己的去看看。那么在locks包下有哪些类实现了该接口了？先从最熟悉的ReentrantLock说起。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReentrantLock</span> <span class="keyword">implements</span> <span class="title">Lock</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
-<p>很显然ReentrantLock实现了lock接口，接下来我们来仔细研究一下它是怎样实现的。当你查看源码时你会惊讶的发现ReentrantLock并没有多少代码，另外有一个很明显的特点是：<strong>基本上所有的方法的实现实际上都是调用了其静态内部类<code>Sync</code>中的方法，而Sync类继承了<code>AbstractQueuedSynchronizer（AQS）</code></strong>。可以看出要想理解ReentrantLock关键核心在于对队列同步器AbstractQueuedSynchronizer（简称同步器）的理解。</p>
-<h3 id="2-2-初识AQS-AbstractQueuedSynchronizer"><a href="#2-2-初识AQS-AbstractQueuedSynchronizer" class="headerlink" title="2.2 初识AQS(AbstractQueuedSynchronizer)"></a>2.2 初识AQS(AbstractQueuedSynchronizer)</h3><p>关于AQS在源码中有十分具体的解释：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Provides a framework <span class="keyword">for</span> implementing blocking locks and related</span><br><span class="line">synchronizers (semaphores, events, etc) that rely on</span><br><span class="line">first-in-first-out (FIFO) wait queues.  This <span class="class"><span class="keyword">class</span> <span class="title">is</span> <span class="title">designed</span> <span class="title">to</span></span></span><br><span class="line"><span class="class"><span class="title">be</span> <span class="title">a</span> <span class="title">useful</span> <span class="title">basis</span> <span class="title">for</span> <span class="title">most</span> <span class="title">kinds</span> <span class="title">of</span> <span class="title">synchronizers</span> <span class="title">that</span> <span class="title">rely</span> <span class="title">on</span> <span class="title">a</span></span></span><br><span class="line"><span class="class"><span class="title">single</span> <span class="title">atomic</span> </span>&#123;<span class="meta">@code</span> <span class="keyword">int</span>&#125; value to represent state. Subclasses</span><br><span class="line">must define the <span class="keyword">protected</span> methods that change <span class="keyword">this</span> state, and which</span><br><span class="line">define what that state means in terms of <span class="keyword">this</span> object being acquired</span><br><span class="line">or released.  Given these, the other methods in <span class="keyword">this</span> <span class="class"><span class="keyword">class</span> <span class="title">carry</span></span></span><br><span class="line"><span class="class"><span class="title">out</span> <span class="title">all</span> <span class="title">queuing</span> <span class="title">and</span> <span class="title">blocking</span> <span class="title">mechanics</span>. <span class="title">Subclasses</span> <span class="title">can</span> <span class="title">maintain</span></span></span><br><span class="line"><span class="class"><span class="title">other</span> <span class="title">state</span> <span class="title">fields</span>, <span class="title">but</span> <span class="title">only</span> <span class="title">the</span> <span class="title">atomically</span> <span class="title">updated</span> </span>&#123;<span class="meta">@code</span> <span class="keyword">int</span>&#125;</span><br><span class="line">value manipulated using methods &#123;@link #getState&#125;, &#123;@link</span><br><span class="line">#setState&#125; and &#123;@link #compareAndSetState&#125; is tracked with respect</span><br><span class="line">to synchronization.</span><br><span class="line"></span><br><span class="line">&lt;p&gt;Subclasses should be defined as non-<span class="keyword">public</span> internal helper</span><br><span class="line">classes that are used to implement the synchronization properties</span><br><span class="line">of their enclosing <span class="class"><span class="keyword">class</span>.  <span class="title">Class</span></span></span><br><span class="line"><span class="class"></span>&#123;<span class="meta">@code</span> AbstractQueuedSynchronizer&#125; does not implement any</span><br><span class="line">synchronization <span class="class"><span class="keyword">interface</span>.  <span class="title">Instead</span> <span class="title">it</span> <span class="title">defines</span> <span class="title">methods</span> <span class="title">such</span> <span class="title">as</span></span></span><br><span class="line">&#123;@link #acquireInterruptibly&#125; that can be invoked as</span><br><span class="line">appropriate by concrete locks and related synchronizers to</span><br><span class="line">implement their <span class="keyword">public</span> methods.</span><br></pre></td></tr></table></figure>
-<p>同步器是用来构建锁和其他同步组件的基础框架，它的实现主要依赖一个int成员变量来表示同步状态以及通过一个FIFO队列构成等待队列。它的<strong>子类必须重写AQS的几个protected修饰的用来改变同步状态的方法</strong>，其他方法主要是实现了排队和阻塞机制。<strong>状态的更新使用getState,setState以及compareAndSetState这三个方法</strong>。</p>
-<p>子类被<strong>推荐定义为自定义同步组件的静态内部类</strong>，同步器自身没有实现任何同步接口，它仅仅是定义了若干同步状态的获取和释放方法来供自定义同步组件的使用，同步器既支持独占式获取同步状态，也可以支持共享式获取同步状态，这样就可以方便的实现不同类型的同步组件。</p>
-<p><strong>同步器是实现锁（也可以是任意同步组件）的关键</strong>，在锁的实现中聚合同步器，利用同步器实现锁的语义。可以这样理解二者的关系：<strong>锁是面向使用者，它定义了使用者与锁交互的接口，隐藏了实现细节；同步器是面向锁的实现者，它简化了锁的实现方式，屏蔽了同步状态的管理，线程的排队，等待和唤醒等底层操作</strong>。锁和同步器很好的隔离了使用者和实现者所需关注的领域。</p>
-<h3 id="2-3-AQS的模板方法设计模式"><a href="#2-3-AQS的模板方法设计模式" class="headerlink" title="2.3 AQS的模板方法设计模式"></a>2.3 AQS的模板方法设计模式</h3><p>AQS的设计是使用模板方法设计模式，它将<strong>一些方法开放给子类进行重写，而同步器给同步组件所提供模板方法又会重新调用被子类所重写的方法</strong>。举个例子，AQS中需要重写的方法tryAcquire：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>ReentrantLock中NonfairSync（继承AQS）会重写该方法为：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> nonfairTryAcquire(acquires);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>而AQS中的模板方法acquire():</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquire</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (!tryAcquire(arg) &amp;&amp;</span><br><span class="line">		acquireQueued(addWaiter(Node.EXCLUSIVE), arg))</span><br><span class="line">		selfInterrupt();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>会调用tryAcquire方法，而此时当继承AQS的NonfairSync调用模板方法acquire时就会调用已经被NonfairSync重写的tryAcquire方法。这就是使用AQS的方式，在弄懂这点后会lock的实现理解有很大的提升。可以归纳总结为这么几点：</p>
-<ol>
-<li>同步组件（这里不仅仅指锁，还包括CountDownLatch等）的实现依赖于同步器AQS，在同步组件实现中，使用AQS的方式被推荐定义继承AQS的静态内部类；</li>
-<li>AQS采用模板方法进行设计，AQS的protected修饰的方法需要由继承AQS的子类进行重写实现，当调用AQS的子类的方法时就会调用被重写的方法；</li>
-<li><strong>AQS负责同步状态的管理，线程的排队，等待和唤醒这些底层操作，而Lock等同步组件主要专注于实现同步语义</strong>；</li>
-<li>在重写AQS的方式时，使用AQS提供的<code>getState(),setState(),compareAndSetState()</code>方法进行修改同步状态</li>
-</ol>
-<p>AQS可重写的方法如下图（摘自《java并发编程的艺术》一书）：</p>
-<p><img src="/2019/11/04/chu-shi-lock-he-abstractqueuedsynchronizer-aqs/AQS%E5%8F%AF%E9%87%8D%E5%86%99%E7%9A%84%E6%96%B9%E6%B3%95.png" alt="AQS可重写的方法.png"></p>
-<p>在实现同步组件时AQS提供的模板方法如下图：</p>
-<p><img src="/2019/11/04/chu-shi-lock-he-abstractqueuedsynchronizer-aqs/AQS%E6%8F%90%E4%BE%9B%E7%9A%84%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95.png" alt="AQS提供的模板方法.png"></p>
-<p>AQS提供的模板方法可以分为3类：</p>
-<ol>
-<li>独占式获取与释放同步状态；</li>
-<li>共享式获取与释放同步状态；</li>
-<li>查询同步队列中等待线程情况；</li>
-</ol>
-<p>同步组件通过AQS提供的模板方法实现自己的同步语义。</p>
-<h2 id="3-一个例子"><a href="#3-一个例子" class="headerlink" title="3. 一个例子"></a>3. 一个例子</h2><p>下面使用一个例子来进一步理解下AQS的使用。这个例子也是来源于AQS源码中的example。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Mutex</span> <span class="keyword">implements</span> <span class="title">Lock</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span> </span>&#123;</span><br><span class="line">	<span class="comment">// Our internal helper class</span></span><br><span class="line">	<span class="comment">// 继承AQS的静态内部类</span></span><br><span class="line">	<span class="comment">// 重写方法</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Sync</span> <span class="keyword">extends</span> <span class="title">AbstractQueuedSynchronizer</span> </span>&#123;</span><br><span class="line">		<span class="comment">// Reports whether in locked state</span></span><br><span class="line">		<span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">isHeldExclusively</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="keyword">return</span> getState() == <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Acquires the lock if state is zero</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">assert</span> acquires == <span class="number">1</span>; <span class="comment">// Otherwise unused</span></span><br><span class="line">			<span class="keyword">if</span> (compareAndSetState(<span class="number">0</span>, <span class="number">1</span>)) &#123;</span><br><span class="line">				setExclusiveOwnerThread(Thread.currentThread());</span><br><span class="line">				<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Releases the lock by setting state to zero</span></span><br><span class="line">		<span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">tryRelease</span><span class="params">(<span class="keyword">int</span> releases)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">assert</span> releases == <span class="number">1</span>; <span class="comment">// Otherwise unused</span></span><br><span class="line">			<span class="keyword">if</span> (getState() == <span class="number">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> IllegalMonitorStateException();</span><br><span class="line">			setExclusiveOwnerThread(<span class="keyword">null</span>);</span><br><span class="line">			setState(<span class="number">0</span>);</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Provides a Condition</span></span><br><span class="line">		<span class="function">Condition <span class="title">newCondition</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">new</span> ConditionObject();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Deserializes properly</span></span><br><span class="line">		<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readObject</span><span class="params">(ObjectInputStream s)</span></span></span><br><span class="line"><span class="function">				<span class="keyword">throws</span> IOException, ClassNotFoundException </span>&#123;</span><br><span class="line">			s.defaultReadObject();</span><br><span class="line">			setState(<span class="number">0</span>); <span class="comment">// reset to unlocked state</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// The sync object does all the hard work. We just forward to it.</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> Sync sync = <span class="keyword">new</span> Sync();</span><br><span class="line">	<span class="comment">//使用同步器的模板方法实现自己的同步语义</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		sync.acquire(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">tryLock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> sync.tryAcquire(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unlock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		sync.release(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Condition <span class="title">newCondition</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> sync.newCondition();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isLocked</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> sync.isHeldExclusively();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasQueuedThreads</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> sync.hasQueuedThreads();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lockInterruptibly</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		sync.acquireInterruptibly(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">tryLock</span><span class="params">(<span class="keyword">long</span> timeout, TimeUnit unit)</span></span></span><br><span class="line"><span class="function">			<span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> sync.tryAcquireNanos(<span class="number">1</span>, unit.toNanos(timeout));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>MutexDemo：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MutextDemo</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Mutex mutex = <span class="keyword">new</span> Mutex();</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">			Thread thread = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">				mutex.lock();</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">				&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">					mutex.unlock();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;);</span><br><span class="line">			thread.start();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>执行情况：</p>
-<p><img src="/2019/11/04/chu-shi-lock-he-abstractqueuedsynchronizer-aqs/mutex%E7%9A%84%E6%89%A7%E8%A1%8C%E6%83%85%E5%86%B5.png" alt="mutex的执行情况.png"></p>
-<blockquote>
-<p>tips: <a href="https://www.jianshu.com/p/52089c4eefdd" target="_blank" rel="noopener">关于Condition可以参考这篇文章</a></p>
-</blockquote>
-<p>上面的这个例子实现了独占锁的语义，在同一个时刻只允许一个线程占有锁。MutexDemo新建了10个线程，分别睡眠3s。从执行情况也可以看出来当前Thread-6正在执行占有锁而其他Thread-7,Thread-8等线程处于WAIT状态。按照推荐的方式，Mutex定义了一个<strong>继承AQS的静态内部类Sync</strong>,并且重写了AQS的tryAcquire等等方法，而对state的更新也是利用了setState(),getState()，compareAndSetState()这三个方法。在实现实现lock接口中的方法也只是调用了AQS提供的模板方法（因为Sync继承AQS）。从这个例子就可以很清楚的看出来，<strong>在同步组件的实现上主要是利用了AQS，而AQS“屏蔽”了同步状态的修改，线程排队等底层实现，通过AQS的模板方法可以很方便的给同步组件的实现者进行调用。而针对用户来说，只需要调用同步组件提供的方法来实现并发编程即可</strong>。同时在新建一个同步组件时需要把握的两个关键点是：</p>
-<ol>
-<li>实现同步组件时推荐定义继承AQS的静态内部类，并重写需要的protected修饰的方法；</li>
-<li>同步组件语义的实现依赖于AQS的模板方法，而AQS模板方法又依赖于被AQS的子类所重写的方法。</li>
-</ol>
-<p>通俗点说，因为AQS整体设计思路采用模板方法设计模式，同步组件以及AQS的功能实际上别切分成各自的两部分：</p>
-<p><strong>同步组件实现者的角度：</strong></p>
-<p>通过可重写的方法：<strong>独占式</strong>： tryAcquire()(独占式获取同步状态），tryRelease()（独占式释放同步状态）；<strong>共享式</strong> ：tryAcquireShared()(共享式获取同步状态)，tryReleaseShared()(共享式释放同步状态)；<strong>告诉AQS怎样判断当前同步状态是否成功获取或者是否成功释放</strong>。同步组件专注于对当前同步状态的逻辑判断，从而实现自己的同步语义。这句话比较抽象，举例来说，上面的Mutex例子中通过tryAcquire方法实现自己的同步语义，在该方法中如果当前同步状态为0（即该同步组件没被任何线程获取），当前线程可以获取同时将状态更改为1返回true，否则，该组件已经被线程占用返回false。很显然，该同步组件只能在同一时刻被线程占用，Mutex专注于获取释放的逻辑来实现自己想要表达的同步语义。</p>
-<p><strong>AQS的角度</strong></p>
-<p>而对AQS来说，只需要同步组件返回的true和false即可，因为AQS会对true和false会有不同的操作，true会认为当前线程获取同步组件成功直接返回，而false的话AQS也会将当前线程插入同步队列等一系列的方法。</p>
-<p>总的来说，同步组件通过重写AQS的方法实现自己想要表达的同步语义，而AQS只需要同步组件表达的true和false即可，AQS会针对true和false不同的情况做不同的处理，至于底层实现，可以<a href="http://www.jianshu.com/p/cc308d82cc71" target="_blank" rel="noopener">看这篇文章</a>。</p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><blockquote>
-<p>《java并发编程的艺术》</p>
-</blockquote>
-<blockquote>
-<p> <a href="https://github.com/njustwh2014/MyJavaRepo" target="_blank" rel="noopener">我的github项目，有一些代码示例</a> forked from <a href="https://github.com/CL0610/Java-concurrency" target="_blank" rel="noopener">https://github.com/CL0610/Java-concurrency</a></p>
-</blockquote>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/04/chu-shi-lock-he-abstractqueuedsynchronizer-aqs/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -746,7 +551,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:49:33" itemprop="dateModified" datetime="2020-04-28T12:49:33+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 13:20:40" itemprop="dateModified" datetime="2020-04-28T13:20:40+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -805,26 +610,14 @@
 <li>Visualize data of elasticsearch by Grafana.</li>
 </ul>
 <h2 id="Monitor-the-folder"><a href="#Monitor-the-folder" class="headerlink" title="Monitor the folder"></a>Monitor the folder</h2><p>Use Java class: <strong>WatchService</strong></p>
-<p>This class allows you to monitor changes to files in the operating system in real time, including creating, updating, and deleting events.</p>
-<p>the core code:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> micro.trend.wh.customerinsightsystem.service.MyWatchService;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.*;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileWatchTask</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String fileDirectory;</span><br><span class="line">    <span class="keyword">private</span> MyWatchService myWatchService;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FileWatchTask</span><span class="params">(String fileDirectory,MyWatchService myWatchService)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.fileDirectory = fileDirectory;</span><br><span class="line">        <span class="keyword">this</span>.myWatchService=myWatchService;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        WatchService watchService = <span class="keyword">null</span>;</span><br><span class="line">        ExecutorService executorService=Executors.newFixedThreadPool(<span class="number">20</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//获取当前文件系统的WatchService监控对象</span></span><br><span class="line">            watchService = FileSystems.getDefault().newWatchService();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            log.error(e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//获取文件目录下的Path对象注册到 watchService中。</span></span><br><span class="line">            <span class="comment">//监听的事件类型，有创建，删除，以及修改</span></span><br><span class="line">            Paths.get(fileDirectory)</span><br><span class="line">                    .register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_DELETE,</span><br><span class="line">                            StandardWatchEventKinds.ENTRY_MODIFY);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            log.error(e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            WatchKey key = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">//获取可用key.没有可用的就wait</span></span><br><span class="line">                key = watchService.take();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                log.error(e.getMessage());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (WatchEvent&lt;?&gt; event : key.pollEvents()) &#123;</span><br><span class="line">                <span class="comment">//todo</span></span><br><span class="line">                System.out.println(<span class="string">"the folder is updated!"</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//重置，这一步很重要，否则当前的key就不再会获取将来发生的事件</span></span><br><span class="line">            <span class="keyword">boolean</span> valid = key.reset();</span><br><span class="line">            <span class="comment">//失效状态，退出监听</span></span><br><span class="line">            <span class="keyword">if</span> (!valid) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Unzip-File"><a href="#Unzip-File" class="headerlink" title="Unzip File"></a>Unzip File</h2><p>core code:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.nio.charset.Charset;</span><br><span class="line"><span class="keyword">import</span> java.util.Enumeration;</span><br><span class="line"><span class="keyword">import</span> java.util.zip.ZipEntry;</span><br><span class="line"><span class="keyword">import</span> java.util.zip.ZipFile;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UnZip</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">unZipFiles</span><span class="params">(String zipPath,String dstPath)</span> <span class="keyword">throws</span> IOException</span>&#123;</span><br><span class="line">        unZipFiles(<span class="keyword">new</span> File(zipPath),dstPath);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    * unzip file to specified path</span></span><br><span class="line"><span class="comment">    * @param zipFile: the file that is need to unzip</span></span><br><span class="line"><span class="comment">    * @param dstPath: destination of unzipping</span></span><br><span class="line"><span class="comment">    * */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">unZipFiles</span><span class="params">(File zipFile,String dstPath)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        ZipFile zip=<span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            zip=<span class="keyword">new</span> ZipFile(zipFile, Charset.forName(<span class="string">"GBK"</span>));<span class="comment">// solving for chinese grabled</span></span><br><span class="line">        &#125;<span class="keyword">catch</span> (FileNotFoundException e)&#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                Thread.currentThread().sleep(<span class="number">10000</span>);</span><br><span class="line">            &#125;<span class="keyword">catch</span> (InterruptedException sleepErr)&#123;</span><br><span class="line">                sleepErr.printStackTrace();</span><br><span class="line">                log.error(sleepErr.getMessage());</span><br><span class="line">            &#125;</span><br><span class="line">            zip=<span class="keyword">new</span> ZipFile(zipFile, Charset.forName(<span class="string">"GBK"</span>));<span class="comment">// solving for chinese grabled</span></span><br><span class="line">        &#125;</span><br><span class="line">        String name=zip.getName().substring(zip.getName().lastIndexOf(<span class="string">'\\'</span>)+<span class="number">1</span>,zip.getName().lastIndexOf(<span class="string">'.'</span>));</span><br><span class="line"></span><br><span class="line">        File pathFile=<span class="keyword">new</span> File(dstPath+name);</span><br><span class="line">        <span class="keyword">if</span>(!pathFile.exists())&#123;</span><br><span class="line">            pathFile.mkdirs();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(Enumeration&lt;? extends ZipEntry&gt; entries=zip.entries();entries.hasMoreElements();)&#123;</span><br><span class="line">            ZipEntry entry=(ZipEntry) entries.nextElement();</span><br><span class="line">            String zipEntryName=entry.getName();</span><br><span class="line">            InputStream in=zip.getInputStream(entry);</span><br><span class="line">            String outPath=(dstPath+name+<span class="string">"/"</span>+zipEntryName).replaceAll(<span class="string">"\\*"</span>,<span class="string">"/"</span>);</span><br><span class="line">            <span class="comment">// Judge whether the path exist</span></span><br><span class="line">            File file=<span class="keyword">new</span> File(outPath.substring(<span class="number">0</span>,outPath.lastIndexOf(<span class="string">'/'</span>)));</span><br><span class="line">            <span class="keyword">if</span>(!file.exists())&#123;</span><br><span class="line">                file.mkdirs();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//judge whether the full path is directory</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">new</span> File(outPath).isDirectory())&#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            FileOutputStream out=<span class="keyword">new</span> FileOutputStream(outPath);</span><br><span class="line">            <span class="keyword">byte</span>[] buf1=<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">            <span class="keyword">int</span> len;</span><br><span class="line">            <span class="keyword">while</span>((len=in.read(buf1))&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                out.write(buf1,<span class="number">0</span>,len);</span><br><span class="line">            &#125;</span><br><span class="line">            in.close();</span><br><span class="line">            out.close();</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(zipFile.getName()+<span class="string">"unzipped finished!"</span>);</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="Resolve-XML-file-to-Json-file"><a href="#Resolve-XML-file-to-Json-file" class="headerlink" title="Resolve XML file to Json file"></a>Resolve XML file to Json file</h2><p>core code:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSON;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSONArray;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSONObject;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.TypeReference;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> org.dom4j.Document;</span><br><span class="line"><span class="keyword">import</span> org.dom4j.DocumentException;</span><br><span class="line"><span class="keyword">import</span> org.dom4j.Element;</span><br><span class="line"><span class="keyword">import</span> org.dom4j.io.SAXReader;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.math.BigInteger;</span><br><span class="line"><span class="keyword">import</span> java.util.LinkedHashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dom4jResolveXml</span> </span>&#123;</span><br><span class="line">    String xmlDir=<span class="keyword">null</span>;</span><br><span class="line">    String jsonFileDir=<span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Dom4jResolveXml</span><span class="params">(String xmlDir, String jsonFileDir)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.xmlDir = xmlDir;</span><br><span class="line">        <span class="keyword">this</span>.jsonFileDir=jsonFileDir;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">resolveXML</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line"></span><br><span class="line">            InputStream inputStream=<span class="keyword">new</span> FileInputStream(xmlDir);</span><br><span class="line">            SAXReader saxReader=<span class="keyword">new</span> SAXReader();</span><br><span class="line">            Document document=saxReader.read(xmlDir);</span><br><span class="line">            Element bifElement=document.getRootElement();</span><br><span class="line"><span class="comment">//            System.out.println("root name:"+bifElement.getName());</span></span><br><span class="line"><span class="comment">//            System.out.println("root element attribute count:"+bifElement.attributeCount());</span></span><br><span class="line"><span class="comment">//            System.out.println("root element value:"+bifElement.attributeValue("bif"));</span></span><br><span class="line">            Element productElement=bifElement.element(<span class="string">"Product"</span>);</span><br><span class="line">            Element trafficMatrixElement=productElement.element(<span class="string">"TrafficMatrix"</span>);</span><br><span class="line">            <span class="keyword">if</span>(trafficMatrixElement==<span class="keyword">null</span>)&#123;</span><br><span class="line">                log.info(<span class="string">"the xml file: "</span>+xmlDir+<span class="string">" has no traffixMatrix node."</span>);</span><br><span class="line">                <span class="keyword">return</span> ;</span><br><span class="line">            &#125;</span><br><span class="line">            String trafficMatrixText=trafficMatrixElement.getTextTrim();</span><br><span class="line">            Element acElement=productElement.element(<span class="string">"AC"</span>);</span><br><span class="line">            String acText=acElement.getTextTrim();</span><br><span class="line">            Element guidElement=productElement.element(<span class="string">"GUID"</span>);</span><br><span class="line">            String guidText=guidElement.getText();</span><br><span class="line"><span class="comment">//            System.out.println(trafficMatrixText);</span></span><br><span class="line"><span class="comment">//            System.out.println("*************************");</span></span><br><span class="line"></span><br><span class="line">            StringBuilder jsonSB=<span class="keyword">new</span> StringBuilder(trafficMatrixText);</span><br><span class="line"></span><br><span class="line"><span class="comment">//            jsonSB.insert(1,"\"AC\":"+"\""+acText+"\","+"\"GUID\":\""+guidText+"\",\"cpuinfo\":&#123;");</span></span><br><span class="line"><span class="comment">//            jsonSB.append("&#125;");</span></span><br><span class="line"></span><br><span class="line">            trafficMatrixText=jsonSB.toString();</span><br><span class="line">            <span class="keyword">synchronized</span> (<span class="keyword">this</span>.getClass())&#123;</span><br><span class="line">                jsonResolve(trafficMatrixText,acText,guidText);</span><br><span class="line">            &#125;</span><br><span class="line"><span class="comment">//            System.out.println(trafficMatrixText.substring(0,1));</span></span><br><span class="line"><span class="comment">//            outJsonToFile(trafficMatrixText);</span></span><br><span class="line">        &#125;<span class="keyword">catch</span> (FileNotFoundException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;<span class="keyword">catch</span> (DocumentException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">jsonResolve</span><span class="params">(String jsonOrigin,String acInfo,String guidInfo)</span></span>&#123;</span><br><span class="line">        String idTxtFileName=PropertiesUtils.getValueByKey(<span class="string">"config.properties"</span>,<span class="string">"idTxtFileName"</span>);</span><br><span class="line">        String idStr=ReadAndWriteFile.readFile(idTxtFileName);</span><br><span class="line">        BigInteger bigInteger=<span class="keyword">new</span> BigInteger(idStr);</span><br><span class="line"></span><br><span class="line"><span class="comment">//        JSONObject jsonObject= JSON.parseObject(jsonOrigin);//disorder</span></span><br><span class="line">        LinkedHashMap&lt;String, String&gt; jsonMap = JSON.parseObject(jsonOrigin, <span class="keyword">new</span> TypeReference&lt;LinkedHashMap&lt;String, String&gt;&gt;() &#123;</span><br><span class="line">        &#125;);</span><br><span class="line">        StringBuilder sb=<span class="keyword">new</span> StringBuilder();</span><br><span class="line">        JSONObject cpuObject=<span class="keyword">null</span>;</span><br><span class="line">        String jsonFileNameNOTDir=<span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">for</span>(Map.Entry&lt;String,String&gt; entry:jsonMap.entrySet())&#123;</span><br><span class="line"><span class="comment">//            System.out.println("key:"+entry.getKey()+" value:"+entry.getValue().toString());</span></span><br><span class="line"><span class="comment">//            &#123;"index":&#123;"_index":"acinfoindex","_id":5&#125;&#125;</span></span><br><span class="line">            sb.append(<span class="string">"&#123;\"index\":&#123;\"_index\":\"acinfoindex\",\"_id\":"</span>+bigInteger+<span class="string">"&#125;&#125;\n"</span>);</span><br><span class="line">            bigInteger=bigInteger.add(BigInteger.valueOf(<span class="number">1</span>));</span><br><span class="line">            sb.append(<span class="string">"&#123;"</span>);</span><br><span class="line">            sb.append(<span class="string">"\"AC\":\""</span>+acInfo+<span class="string">"\","</span>);</span><br><span class="line">            sb.append(<span class="string">"\"GUID\":\""</span>+guidInfo+<span class="string">"\","</span>);</span><br><span class="line">            sb.append(<span class="string">"\"TIME\":\""</span>+entry.getKey()+<span class="string">"\","</span>);</span><br><span class="line">            sb.append(<span class="string">"\"CPUINFO\":"</span>);</span><br><span class="line">            sb.append(<span class="string">"&#123;"</span>);</span><br><span class="line">            LinkedHashMap&lt;String,String&gt; cpuMap=JSON.parseObject(entry.getValue(),<span class="keyword">new</span> TypeReference&lt;LinkedHashMap&lt;String, String&gt;&gt;()&#123;&#125;);</span><br><span class="line">            <span class="keyword">for</span>(Map.Entry&lt;String,String&gt; cpuEntry:cpuMap.entrySet())&#123;</span><br><span class="line"><span class="comment">//                System.out.println(cpuEntry.getKey()+"*******"+cpuEntry.getValue());</span></span><br><span class="line">                <span class="keyword">if</span>(cpuEntry.getValue()==<span class="keyword">null</span>||cpuEntry.getValue().equals(<span class="string">""</span>))&#123;</span><br><span class="line">                    cpuEntry.setValue(<span class="string">"0"</span>);</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    sb.append(<span class="string">"\""</span>+cpuEntry.getKey()+<span class="string">"\":"</span>+cpuEntry.getValue()+<span class="string">","</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            sb.deleteCharAt(sb.length()-<span class="number">1</span>);</span><br><span class="line">            sb.append(<span class="string">"&#125;"</span>);</span><br><span class="line"><span class="comment">//            sb.append(entry.getValue());</span></span><br><span class="line">            sb.append(<span class="string">"&#125;"</span>);</span><br><span class="line">            sb.append(<span class="string">"\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        jsonFileNameNOTDir=acInfo+<span class="string">"_"</span>+guidInfo+bigInteger+<span class="string">".json"</span>;</span><br><span class="line">        ReadAndWriteFile.writeFile(idTxtFileName,bigInteger.toString());</span><br><span class="line">        outJsonToFile(sb.toString(),jsonFileNameNOTDir);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * output json string to file</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">outJsonToFile</span><span class="params">(String jsonStr,String jsonFileNameNeNOTDir)</span></span>&#123;</span><br><span class="line">        <span class="keyword">byte</span>[] buff=<span class="keyword">new</span> <span class="keyword">byte</span>[]&#123;&#125;;</span><br><span class="line"></span><br><span class="line">        FileOutputStream fileOutputStream=<span class="keyword">null</span>;</span><br><span class="line">        File file=<span class="keyword">new</span> File(jsonFileDir+jsonFileNameNeNOTDir);</span><br><span class="line">        <span class="keyword">if</span>(!file.getParentFile().exists())&#123;</span><br><span class="line">            file.getParentFile().mkdirs();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            buff=jsonStr.getBytes();</span><br><span class="line">            fileOutputStream=<span class="keyword">new</span> FileOutputStream(file);</span><br><span class="line">            log.info(<span class="string">"output file path:"</span>+jsonFileDir);</span><br><span class="line">            fileOutputStream.write(buff,<span class="number">0</span>,buff.length);</span><br><span class="line">            log.info(<span class="string">"output json data to file success!"</span>);</span><br><span class="line">            SSH2Util ssh2Util = <span class="keyword">new</span> SSH2Util(PropertiesUtils.getValueByKey(<span class="string">"config.properties"</span>,<span class="string">"ip"</span>), PropertiesUtils.getValueByKey(<span class="string">"config.properties"</span>,<span class="string">"usrName"</span>),PropertiesUtils.getValueByKey(<span class="string">"config.properties"</span>,<span class="string">"pwd"</span>), <span class="number">22</span>);</span><br><span class="line">            ssh2Util.putFile(jsonFileDir, jsonFileNameNeNOTDir,PropertiesUtils.getValueByKey(<span class="string">"config.properties"</span>,<span class="string">"serverDir"</span>));</span><br><span class="line">        &#125;<span class="keyword">catch</span> (IOException e)&#123;</span><br><span class="line">            log.error(e.getMessage());</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">            log.error(e.getMessage());</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span>(fileOutputStream!=<span class="keyword">null</span>)&#123;</span><br><span class="line">                <span class="keyword">try</span>&#123;</span><br><span class="line">                    fileOutputStream.close();</span><br><span class="line">                &#125;<span class="keyword">catch</span> (IOException eS)&#123;</span><br><span class="line">                    log.error(eS.getMessage());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Beacuse the program need to record the index id, so I just write the id to the txt, so when build each json need to read the txt and increase the id. In order to speed up, multi-threaded data is used. We need to use lock avoiding open txt file failed.</p>
-<h2 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h2><p>install guid:<a href="https://www.howtoing.com/how-to-install-elasticsearch-logstash-and-kibana-elastic-stack-on-centos-7" target="_blank" rel="noopener">https://www.howtoing.com/how-to-install-elasticsearch-logstash-and-kibana-elastic-stack-on-centos-7</a></p>
-<p>index:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -X PUT <span class="string">"localhost:9200/acinfoindex?pretty"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">  "mappings":&#123;</span></span><br><span class="line"><span class="string">    "info":&#123;</span></span><br><span class="line"><span class="string">      "properties":&#123;</span></span><br><span class="line"><span class="string">        "AC":&#123;"type":"keyword"&#125;,</span></span><br><span class="line"><span class="string">        "GUID":&#123;"type":"keyword"&#125;,</span></span><br><span class="line"><span class="string">        "TIME":&#123;"type":"date",</span></span><br><span class="line"><span class="string">          "format": "epoch_second"</span></span><br><span class="line"><span class="string">          &#125;,</span></span><br><span class="line"><span class="string">        "CPUINFO":&#123;</span></span><br><span class="line"><span class="string">            "properties":&#123;</span></span><br><span class="line"><span class="string">                "auth_simp_n":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "auth_ntlm_n":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "th_inc":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "th_net_in_traffic":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "auth_krb5_n":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "usg_mem":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "th_net_out_traffic":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "auth_succ_n":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "usg_disk_io":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "th_inc_http2":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "th_inc_https":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "th_inc_http":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "auth_n":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "usg_cpu":&#123;"type": "integer"&#125;</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">            </span></span><br><span class="line"><span class="string">        &#125; </span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    &#125;   </span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">'</span></span><br></pre></td></tr></table></figure>
-
-<p>and then put data to elasticsearch</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> pyinotify</span><br><span class="line"></span><br><span class="line">multi_event=pyinotify.IN_CREATE|pyinotify.IN_ACCESS|pyinotify.IN_CLOSE_WRITE</span><br><span class="line">wm=pyinotify.WatchManager()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyEventHandler</span><span class="params">(pyinotify.ProcessEvent)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_IN_CREATE</span><span class="params">(self,event)</span>:</span></span><br><span class="line">        print(<span class="string">'CREATE'</span>,event.pathname)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">precess_IN_ACCESS</span><span class="params">(self,event)</span>:</span></span><br><span class="line">        print(<span class="string">'ACCESS'</span>,event.pathname)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_IN_CLOSE_WRITE</span><span class="params">(self,event)</span>:</span></span><br><span class="line">        print(<span class="string">'CLOSE_WRITE'</span>,event.pathname)</span><br><span class="line">        output = os.popen(<span class="string">"curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/acinfoindex/info/_bulk?pretty' --data-binary @"</span>+event.pathname)</span><br><span class="line"></span><br><span class="line">handler=MyEventHandler()</span><br><span class="line"></span><br><span class="line">notifier=pyinotify.Notifier(wm,handler)</span><br><span class="line"></span><br><span class="line">wm.add_watch(<span class="string">'/home/huanhuan/data'</span>,multi_event)</span><br><span class="line">notifier.loop()</span><br></pre></td></tr></table></figure>
-
-<h2 id="Grafana"><a href="#Grafana" class="headerlink" title="Grafana"></a>Grafana</h2><p> refer to:</p>
-<p><a href="http://docs.flycloud.me/docs/ELKStack/elasticsearch/other/grafana.html" target="_blank" rel="noopener">http://docs.flycloud.me/docs/ELKStack/elasticsearch/other/grafana.html</a></p>
-<p><a href="https://www.aiprose.com/blog/26" target="_blank" rel="noopener">https://www.aiprose.com/blog/26</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/30/yi-ci-jian-dan-de-elasticsearch-shi-yong/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -874,7 +667,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:50:28" itemprop="dateModified" datetime="2020-04-28T12:50:28+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 13:20:40" itemprop="dateModified" datetime="2020-04-28T13:20:40+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -926,252 +719,15 @@
 
       
           <h2 id="什么是正则表达式"><a href="#什么是正则表达式" class="headerlink" title="什么是正则表达式"></a>什么是正则表达式</h2><p>正则表达式是一个定义<strong>搜索模式</strong>的字符串。</p>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><table>
-<thead>
-<tr>
-<th align="left">正则表达式</th>
-<th align="left">匹配</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">this is text</td>
-<td align="left">精确匹配到字符串this is text</td>
-</tr>
-<tr>
-<td align="left">this\s+is\s+text</td>
-<td align="left">匹配单词this和is后跟一个或多个空格</td>
-</tr>
-<tr>
-<td align="left">^\d+(.\d+)?</td>
-<td align="left">^ 定义模式必须匹配字符串的开始，d+ 匹配一个或多个数字，? 表明小括号内的语句是可选的，. 匹配 “.”，小括号表示分组。例如匹配：”5”、”1.5” 和 “2.21”</td>
-</tr>
-</tbody></table>
-<h2 id="正则表达式编写规则"><a href="#正则表达式编写规则" class="headerlink" title="正则表达式编写规则"></a>正则表达式编写规则</h2><h3 id="常见匹配符号"><a href="#常见匹配符号" class="headerlink" title="常见匹配符号"></a>常见匹配符号</h3><table>
-<thead>
-<tr>
-<th align="left">正则表达式</th>
-<th align="left">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">.</td>
-<td align="left">匹配所有单个字符，除了换行(Linux换行符\n, Windows换行符\r\n)</td>
-</tr>
-<tr>
-<td align="left">^regex</td>
-<td align="left">正则必须匹配字符串开头</td>
-</tr>
-<tr>
-<td align="left">regex$</td>
-<td align="left">正则必须匹配字符串结尾</td>
-</tr>
-<tr>
-<td align="left">[abc]</td>
-<td align="left">复选集定义，匹配a或b或c</td>
-</tr>
-<tr>
-<td align="left">[abc][vz]</td>
-<td align="left">复选集定义，匹配字母 a 或 b 或 c，后面跟着 v 或 z</td>
-</tr>
-<tr>
-<td align="left">[^abc]</td>
-<td align="left">当插入符 ^ 在中括号中以第一个字符开始显示，则表示否定模式。此模式匹配所有字符，除了 a 或 b 或 c</td>
-</tr>
-<tr>
-<td align="left">[a-d1-7]</td>
-<td align="left">范围匹配，匹配字母 a 到 d 和数字从 1 到 7 之间，但不匹配 d1</td>
-</tr>
-<tr>
-<td align="left">XZ</td>
-<td align="left">X后直接跟着Z</td>
-</tr>
-<tr>
-<td align="left">X|Z</td>
-<td align="left">匹配X或Z</td>
-</tr>
-</tbody></table>
-<h3 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h3><p>元字符是一个预定义的字符。</p>
-<table>
-<thead>
-<tr>
-<th align="left">正则表达式</th>
-<th align="left">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">\d</td>
-<td align="left">匹配一个数字，是 [0-9] 的简写</td>
-</tr>
-<tr>
-<td align="left">\D</td>
-<td align="left">匹配一个非数字，是 [^0-9] 的简写</td>
-</tr>
-<tr>
-<td align="left">\s</td>
-<td align="left">匹配一个空格，是 [ \t\n\x0b\r\f] 的简写</td>
-</tr>
-<tr>
-<td align="left">\S</td>
-<td align="left">匹配一个非空格</td>
-</tr>
-<tr>
-<td align="left">\w</td>
-<td align="left">匹配一个单词字符（大小写字母、数字、下划线），是 [a-zA-Z_0-9] 的简写</td>
-</tr>
-<tr>
-<td align="left">\W</td>
-<td align="left">匹配一个非单词字符（除了大小写字母、数字、下划线之外的字符），等同于 [^\w]</td>
-</tr>
-</tbody></table>
-<h3 id="限制符"><a href="#限制符" class="headerlink" title="限制符"></a>限制符</h3><p>限定符定义了一个元素可以发生的频率。</p>
-<table>
-<thead>
-<tr>
-<th align="left">正则表达式</th>
-<th align="left">描述</th>
-<th align="left">举例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">*</td>
-<td align="left">匹配 &gt;=0 个，是 {0,} 的简写</td>
-<td align="left">X* 表示匹配零个或多个字母 X，.* 表示匹配任何字符串</td>
-</tr>
-<tr>
-<td align="left">+</td>
-<td align="left">匹配 &gt;=1 个，是 {1,} 的简写</td>
-<td align="left">X+ 表示匹配一个或多个字母 X</td>
-</tr>
-<tr>
-<td align="left">?</td>
-<td align="left">匹配 1 个或 0 个，是 {0,1} 的简写</td>
-<td align="left">X? 表示匹配 0 个或 1 个字母 X</td>
-</tr>
-<tr>
-<td align="left">{X}</td>
-<td align="left">只匹配 X 个字符</td>
-<td align="left">\d{3} 表示匹配 3 个数字，.{10} 表示匹配任何长度是 10 的字符串</td>
-</tr>
-<tr>
-<td align="left">{X,Y}</td>
-<td align="left">匹配 &gt;=X 且 &lt;=Y 个</td>
-<td align="left">\d{1,4} 表示匹配至少 1 个最多 4 个数字</td>
-</tr>
-<tr>
-<td align="left">*?</td>
-<td align="left">如果 ? 是限定符 * 或 + 或 ? 或 {} 后面的第一个字符，那么表示非贪婪模式（尽可能少的匹配字符），而不是默认的贪婪模式</td>
-<td align="left"></td>
-</tr>
-</tbody></table>
-<h3 id="分组与反向应用"><a href="#分组与反向应用" class="headerlink" title="分组与反向应用"></a>分组与反向应用</h3><p>小括号()可以达到对正则表达式分组的效果。</p>
-<p>模式分组后会在正则表达式中创建反向引用。反向引用会保存匹配模式分组的字符串片断，这使得我们可以获取并使用这个字符串片断。</p>
-<p>Java中，在以正则表达式替换字符串的语法中，是通过 $ 来引用分组的反向引用，$0 是匹配完整模式的字符串（注意在 JavaScript 中是用 $&amp; 表示）；$1 是第一个分组的反向引用；$2 是第二个分组的反向引用，以此类推。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    String str=<span class="string">"Hello ,world ."</span>;</span><br><span class="line">    String pattern=<span class="string">"(\\w)(\\s+)([.,])"</span>;</span><br><span class="line">    System.out.println(str.replaceAll(pattern,<span class="string">"$1$3"</span>));<span class="comment">//Hello,World.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面的例子中，我们使用了 [.] 来匹配普通字符 . 而不需要使用 [\.]。因为正则对于 [] 中的 .，会自动处理为 [.]，即普通字符 . 进行匹配。</p>
-<h3 id="仅分组但无反向引用"><a href="#仅分组但无反向引用" class="headerlink" title="仅分组但无反向引用"></a>仅分组但无反向引用</h3><p>当我们在小括号 () 内的模式开头加入 ?:，那么表示这个模式仅分组，但不创建反向引用。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String str = <span class="string">"img.jpg"</span>;</span><br><span class="line"><span class="comment">// 分组且创建反向引用</span></span><br><span class="line"><span class="comment">//        Pattern pattern = Pattern.compile("(jpg|png)");</span></span><br><span class="line"><span class="comment">//        Matcher matcher = pattern.matcher(str);</span></span><br><span class="line"><span class="comment">//        while (matcher.find()) &#123;</span></span><br><span class="line"><span class="comment">//            System.out.println(matcher.group());//jpg</span></span><br><span class="line"><span class="comment">//            System.out.println(matcher.group(1));//jpg</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 分组但不创建反向引用</span></span><br><span class="line">Pattern pattern = Pattern.compile(<span class="string">"(?:jpg|png)"</span>);</span><br><span class="line">Matcher matcher = pattern.matcher(str);</span><br><span class="line"><span class="keyword">while</span> (matcher.find()) &#123;</span><br><span class="line">    System.out.println(matcher.group());<span class="comment">//jpg</span></span><br><span class="line">    System.out.println(matcher.group(<span class="number">1</span>));<span class="comment">//Exception in thread "main" java.lang.IndexOutOfBoundsException: No group 1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="分组的反向引用副本"><a href="#分组的反向引用副本" class="headerlink" title="分组的反向引用副本"></a>分组的反向引用副本</h3><p>Java 中可以在小括号中使用 ?<name> 将小括号中匹配的内容保存为一个名字为 name 的副本。</name></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String str=<span class="string">"@wanghuan is a cool boy."</span>;</span><br><span class="line">Pattern pattern=Pattern.compile(<span class="string">"@(?&lt;first&gt;\\w+\\s)"</span>);</span><br><span class="line">Matcher matcher=pattern.matcher(str);</span><br><span class="line"><span class="keyword">while</span>(matcher.find())&#123;</span><br><span class="line">    System.out.println(matcher.group());<span class="comment">//@wanghuan</span></span><br><span class="line">    System.out.println(matcher.group(<span class="number">1</span>));<span class="comment">//wanghuan</span></span><br><span class="line">    System.out.println(matcher.group(<span class="string">"first"</span>));<span class="comment">//wanghuan</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="否对先行断言"><a href="#否对先行断言" class="headerlink" title="否对先行断言"></a>否对先行断言</h3><p>我们可以创建否定先行断言模式的匹配，即某个字符串后面不包含另一个字符串的匹配模式。</p>
-<p>否定先行断言模式通过 (?!pattern) 定义。比如，我们匹配后面不是跟着 “b” 的 “a”：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Pattern pattern=Pattern.compile(<span class="string">"a(?!a)"</span>);</span><br></pre></td></tr></table></figure>
-
-<h3 id="指定正则表达式的模式"><a href="#指定正则表达式的模式" class="headerlink" title="指定正则表达式的模式"></a>指定正则表达式的模式</h3><p>可以在正则开头指定模式修饰符。</p>
-<blockquote>
-<p>(?i) 使正则忽略大小写。</p>
-</blockquote>
-<blockquote>
-<p>(?s) 表示单行模式（”single line mode”）使正则的 . 匹配所有字符，包括换行符。</p>
-</blockquote>
-<blockquote>
-<p>(?m) 表示多行模式（”multi-line mode”），使正则的 ^ 和 $ 匹配字符串中每行的开始和结束。</p>
-</blockquote>
-<h3 id="java中反斜杠"><a href="#java中反斜杠" class="headerlink" title="java中反斜杠"></a>java中反斜杠</h3><p>反斜杠 \ 在 Java 中表示转义字符，这意味着 \ 在 Java 拥有预定义的含义。</p>
-<p>这里例举两个特别重要的用法：</p>
-<ul>
-<li>在匹配 . 或 { 或 [ 或 ( 或 ? 或 $ 或 ^ 或 * 这些特殊字符时，需要在前面加上 \，比如匹配 . 时，Java 中要写为 \.，但对于正则表达式来说就是 .。</li>
-</ul>
-<ul>
-<li>在匹配 \ 时，Java 中要写为 \\，但对于正则表达式来说就是 \。</li>
-</ul>
-<p><strong>注意：</strong> Java 中的正则表达式字符串有两层含义，首先 Java 字符串转义出符合正则表达式语法的字符串，然后再由转义后的正则表达式进行模式匹配。</p>
-<h3 id="易错示例"><a href="#易错示例" class="headerlink" title="易错示例"></a>易错示例</h3><blockquote>
-<p>[jpg|png] 表示匹配字符j或p或g或p或n或g中的任意一个字符</p>
-</blockquote>
-<blockquote>
-<p>(jpg|png) 表示匹配jpg或png</p>
-</blockquote>
-<h2 id="在字符串中使用正则表达式"><a href="#在字符串中使用正则表达式" class="headerlink" title="在字符串中使用正则表达式"></a>在字符串中使用正则表达式</h2><h3 id="内置的字符串正则处理方法"><a href="#内置的字符串正则处理方法" class="headerlink" title="内置的字符串正则处理方法"></a>内置的字符串正则处理方法</h3><p>在 Java 中有四个内置的运行正则表达式的方法，分别是 matches()、split())、replaceFirst()、replaceAll()。注意 replace() 方法不支持正则表达式。</p>
-<table>
-<thead>
-<tr>
-<th align="left">方法</th>
-<th align="left">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">s.matches(“regex”)</td>
-<td align="left">当仅且当正则匹配整个字符串时返回 true</td>
-</tr>
-<tr>
-<td align="left">s.split(“regex”)</td>
-<td align="left">按匹配的正则表达式切片字符串</td>
-</tr>
-<tr>
-<td align="left">s.replaceFirst(“regex”, “replacement”)</td>
-<td align="left">替换首次匹配的字符串片段</td>
-</tr>
-<tr>
-<td align="left">s.replaceAll(“regex”, “replacement”)</td>
-<td align="left">替换所有匹配的字符</td>
-</tr>
-</tbody></table>
-<h3 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">System.out.println(<span class="string">"wxj"</span>.matches(<span class="string">"wxj"</span>));</span><br><span class="line">System.out.println(<span class="string">"----------"</span>);</span><br><span class="line"></span><br><span class="line">String[] array = <span class="string">"w x j"</span>.split(<span class="string">"\\s"</span>);</span><br><span class="line"><span class="keyword">for</span> (String item : array) &#123;</span><br><span class="line">    System.out.println(item);</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(<span class="string">"----------"</span>);</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"w x j"</span>.replaceFirst(<span class="string">"\\s"</span>, <span class="string">"-"</span>));</span><br><span class="line">System.out.println(<span class="string">"----------"</span>);</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"w x j"</span>.replaceAll(<span class="string">"\\s"</span>, <span class="string">"-"</span>));</span><br></pre></td></tr></table></figure>
-
-<p>result:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="literal">true</span></span><br><span class="line">----------</span><br><span class="line">w</span><br><span class="line">x</span><br><span class="line">j</span><br><span class="line">----------</span><br><span class="line">w-x j</span><br><span class="line">----------</span><br><span class="line">w-x-j</span><br></pre></td></tr></table></figure>
-
-<h2 id="模式与匹配"><a href="#模式与匹配" class="headerlink" title="模式与匹配"></a>模式与匹配</h2><p>Java 中使用正则表达式需要用到两个类，分别为 java.util.regex.Pattern 和 java.util.regex.Matcher。</p>
-<ul>
-<li><p>第一步，通过正则表达式创建模式对象 Pattern。</p>
-</li>
-<li><p>第二步，通过模式对象 Pattern，根据指定字符串创建匹配对象 Matcher。</p>
-</li>
-<li><p>第三步，通过匹配对象 Matcher，根据正则表达式操作字符串。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String str=<span class="string">"Wanghuan is a cool boy!"</span>;</span><br><span class="line">Pattern pattern=Pattern.compile(<span class="string">"\\w+"</span>);</span><br><span class="line"><span class="comment">// Java 中忽略大小写，有两种写法：</span></span><br><span class="line"><span class="comment">// Pattern pattern = Pattern.compile("\\w+", Pattern.CASE_INSENSITIVE);</span></span><br><span class="line"><span class="comment">// Pattern pattern = Pattern.compile("(?i)\\w+"); // 推荐写法</span></span><br><span class="line">Matcher matcher=pattern.matcher(str);</span><br><span class="line"><span class="keyword">while</span>(matcher.find())&#123;</span><br><span class="line">    System.out.print(<span class="string">"Start index: "</span> + matcher.start());</span><br><span class="line">    System.out.print(<span class="string">" End index: "</span> + matcher.end() + <span class="string">" "</span>);</span><br><span class="line">    System.out.println(matcher.group());</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 创建第两个模式，将空格替换为 -</span></span><br><span class="line">Pattern replace = Pattern.compile(<span class="string">"\\s+"</span>);</span><br><span class="line">Matcher matcher2 = replace.matcher(str);</span><br><span class="line">System.out.println(matcher2.replaceAll(<span class="string">"-"</span>));</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<p>result:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Start index: 0 End index: 8 Wanghuan</span><br><span class="line">Start index: 9 End index: 11 is</span><br><span class="line">Start index: 12 End index: 13 a</span><br><span class="line">Start index: 14 End index: 18 cool</span><br><span class="line">Start index: 19 End index: 22 boy</span><br><span class="line">Wanghuan-is<span class="_">-a</span>-cool-boy!</span><br></pre></td></tr></table></figure>
-
-<h2 id="常用例子"><a href="#常用例子" class="headerlink" title="常用例子"></a>常用例子</h2><blockquote>
-<p>请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如，字符串”+100”,”5e2”,”-123”,”3.1416”和”-1E-16”都表示数值。 但是”12e”,”1a3.14”,”1.2.3”,”+-5”和”12e+4.3”都不是。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isNumeric</span><span class="params">(<span class="keyword">char</span>[] str)</span> </span>&#123;</span><br><span class="line">    String pattern=<span class="string">"[+-]?\\d*(?:\\.\\d*)?(?:[Ee][+-]?\\d+)?$"</span>;</span><br><span class="line">    String s=<span class="keyword">new</span> String(str);</span><br><span class="line">    <span class="keyword">return</span> Pattern.matches(pattern,s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>更多例子参考文章<a href="https://segmentfault.com/a/1190000009162306" target="_blank" rel="noopener">Java 正则表达式详解</a></p>
-<h2 id="正则表达式检验网站"><a href="#正则表达式检验网站" class="headerlink" title="正则表达式检验网站"></a>正则表达式检验网站</h2><p>推荐一个网站，这个网站可以检查你写的正则表达式和对应的字符串匹配时会不会有问题。<br><a href="https://regex101.com/" target="_blank" rel="noopener">Online regex tester and debugger: PHP, PCRE, Python, Golang and JavaScript</a></p>
-<h2 id="对于量词匹配的三种模式"><a href="#对于量词匹配的三种模式" class="headerlink" title="对于量词匹配的三种模式"></a>对于量词匹配的三种模式</h2><p>使用正则表达式时要注意对于量词匹配的三种模式使用，从而优化正则表达式的效率。</p>
-<blockquote>
-<p>贪婪模式</p>
-</blockquote>
-<blockquote>
-<p>懒惰模式</p>
-</blockquote>
-<blockquote>
-<p>独占模式</p>
-</blockquote>
-<p>具体细节可以参考文章<a href="https://www.cnblogs.com/study-everyday/p/7426862.html" target="_blank" rel="noopener">一个由正则表达式引发的血案</a></p>
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><blockquote>
-<p><a href="https://segmentfault.com/a/1190000009162306" target="_blank" rel="noopener">Java 正则表达式详解</a></p>
-</blockquote>
-<blockquote>
-<p><a href="https://www.cnblogs.com/study-everyday/p/7426862.html" target="_blank" rel="noopener">一个由正则表达式引发的血案</a></p>
-</blockquote>
-
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/28/java-zhong-zheng-ze-biao-da-shi-shi-yong/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1221,7 +777,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:49:23" itemprop="dateModified" datetime="2020-04-28T12:49:23+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 13:20:40" itemprop="dateModified" datetime="2020-04-28T13:20:40+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1274,115 +830,14 @@
       
           <h2 id="网站介绍"><a href="#网站介绍" class="headerlink" title="网站介绍"></a>网站介绍</h2><h3 id="功能介绍"><a href="#功能介绍" class="headerlink" title="功能介绍"></a>功能介绍</h3><p><a href="http://www.seumstc.top:8090/index.html" target="_blank" rel="noopener">http://www.seumstc.top:8090/index.html</a></p>
 <h3 id="什么是前后端分离的开发模式"><a href="#什么是前后端分离的开发模式" class="headerlink" title="什么是前后端分离的开发模式"></a>什么是前后端分离的开发模式</h3><p><strong>Web研发模式演变：</strong><a href="https://github.com/lifesinger/blog/issues/184" target="_blank" rel="noopener">https://github.com/lifesinger/blog/issues/184</a></p>
-<h3 id="开发这样一个网站我们需要的技术栈"><a href="#开发这样一个网站我们需要的技术栈" class="headerlink" title="开发这样一个网站我们需要的技术栈"></a>开发这样一个网站我们需要的技术栈</h3><h2 id="Java学习历程"><a href="#Java学习历程" class="headerlink" title="Java学习历程"></a>Java学习历程</h2><p><img src="/2019/10/22/wo-de-wang-zhan-kai-fa-jing-li-yu-java-xue-xi-xin-lu-li-cheng/javaweblearningroute.png" alt="Java后端学习路线"></p>
-<p>学习资源：</p>
-<blockquote>
-<p><a href="https://github.com/Snailclimb/JavaGuide" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide</a></p>
-<p><a href="https://github.com/CL0610/Java-concurrency" target="_blank" rel="noopener">https://github.com/CL0610/Java-concurrency</a></p>
-</blockquote>
-<h3 id="Java基础"><a href="#Java基础" class="headerlink" title="Java基础"></a>Java基础</h3><p><img src="/2019/10/22/wo-de-wang-zhan-kai-fa-jing-li-yu-java-xue-xi-xin-lu-li-cheng/JavaBase.jpg" alt="Java基础思维导图"></p>
-<p><strong>书本推荐：</strong>《Java核心技术》《Java编程思想》 建议先看核心技术</p>
-<p>Java作为一门强类型语言，我们学习Java需要首先明确<strong>面向对象</strong>的概念，可以理解以下几个概念：<strong>封装、继承、多态</strong>等，并学会灵活运用。此外还可以学习一些Java语言特性，如泛型、反射等。这些特性广泛运用于一些框架中，如Spring的Aop和Ioc均使用了Java的反射特性，然而我们知道，原生Java反射效率不高，具体原因我们后面专门写博客分析。</p>
-<p>其次，就是要学习一些Java的标准库，如集合、IO、String等等.</p>
-<p>学习中可以采用这样一个模式：</p>
-<ul>
-<li>理解概念</li>
-<li>找相关demo学习</li>
-<li>动手复现</li>
-<li>总结：效率、扩展性等方面</li>
-</ul>
-<h3 id="数据结构、基础算法与设计模式"><a href="#数据结构、基础算法与设计模式" class="headerlink" title="数据结构、基础算法与设计模式"></a>数据结构、基础算法与设计模式</h3><p><strong>推荐书籍：</strong>《剑指Offer》《修炼Java开发技术》《Effective Java》</p>
-<p>数据结构的学习是学任何一门编程语言的基础，在学完基础语法以后就需要深入学习数据结构。只要掌握好数据结构才能结合算法写出效率与鲁棒性俱佳的代码。</p>
-<p>对于这部分的学习，没有更多方法就是多刷题，多总结。我后续会在博客网站写相关内容。</p>
-<h3 id="JVM以及操作系统"><a href="#JVM以及操作系统" class="headerlink" title="JVM以及操作系统"></a>JVM以及操作系统</h3><p><strong>推荐书籍：</strong> 《深入理解Java虚拟机》</p>
-<p><strong>一定要看</strong>，重点关注JMM(Java内存模型)，GC，还需要了解一些Java虚拟机指令，方便调试。</p>
-<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><p>这部分我没有书籍推荐，我个人觉得是要自己安装并使用才是最重要的。</p>
-<p>对于数据库你需要理解</p>
-<blockquote>
-<p>什么是关系型数据库(Mysql, Orcal sql etc.)及其优缺点</p>
-</blockquote>
-<blockquote>
-<p>什么是非关系型数据库(Redis, MongoDB etc.)及其优缺点</p>
-</blockquote>
-<blockquote>
-<p>Sql与NoSql的应用场景</p>
-</blockquote>
-<blockquote>
-<p>数据库运维基础</p>
-</blockquote>
-<blockquote>
-<p>对于关系型数据库，怎么提升其性能</p>
-</blockquote>
-<blockquote>
-<p>非关系数据库的备份与同步问题</p>
-</blockquote>
-<blockquote>
-<p>Java操作数据库的API(如对于Mysql的Mybatis，对于Redis的Jedis)</p>
-</blockquote>
-<h3 id="框架学习"><a href="#框架学习" class="headerlink" title="框架学习"></a>框架学习</h3><p><strong>推荐书籍：</strong> 《Spring实战》《Springboot 实战》<br>Java的一大优势就是拥有很多优秀的开源与非开源的框架。</p>
-<p><img src="http://pzpoejx7j.bkt.clouddn.com/JustCopyIt.jpg" alt></p>
-<p>但是首推自然是Spring全家桶。</p>
-<p><img src="http://pzpoejx7j.bkt.clouddn.com/springframe.png" alt="Spring框架"></p>
-<p>同样，对于一个框架学习，需要抓住切入点，可以从以下方面展开学习：</p>
-<blockquote>
-<p>Spring是什么？它有什么优点？</p>
-</blockquote>
-<blockquote>
-<p>什么IOC(依赖注入或者控制反转)？</p>
-</blockquote>
-<blockquote>
-<p>什么是AOP(面向切片编程)？</p>
-</blockquote>
-<blockquote>
-<p>Spring的结构是怎样的？</p>
-</blockquote>
-<blockquote>
-<p>Spring中涉及的设计模式</p>
-</blockquote>
-<h3 id="计算机网络与Web基础"><a href="#计算机网络与Web基础" class="headerlink" title="计算机网络与Web基础"></a>计算机网络与Web基础</h3><p><strong>推荐书籍：</strong>《深入理解计算机网络》</p>
-<p>参考连接：<a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/network/%E5%B9%B2%E8%B4%A7%EF%BC%9A%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93.md" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide/blob/master/docs/network/%E5%B9%B2%E8%B4%A7%EF%BC%9A%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93.md</a></p>
-<p>这部分的学习，需要系统性的学习，从网络基础的TCP协议到HTTP协议或SSH服务协议等，理解网络分层模型。</p>
-<h3 id="一些工具"><a href="#一些工具" class="headerlink" title="一些工具"></a>一些工具</h3><ul>
-<li>git</li>
-<li>docker</li>
-<li>nginx</li>
-<li>…</li>
-</ul>
-<h3 id="前端基础"><a href="#前端基础" class="headerlink" title="前端基础"></a>前端基础</h3><blockquote>
-<p>三件套HTML、JavaScript、CSS基础</p>
-</blockquote>
-<blockquote>
-<p>利用一些框架如React、Angular、Vue等实现一些简单的前端交互界面。</p>
-</blockquote>
-<h3 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h3><blockquote>
-<p>什么是中间件</p>
-</blockquote>
-<p><img src="http://pzpoejx7j.bkt.clouddn.com/alimiddleware.png" alt="阿里中间件"></p>
-<p>目前，它并没有很严格的定义，但是普遍接受IDC的定义：中间件是一种独立的系统软件服务程序，分布式应用软件借助这种软件在不同的技术之间共享资源，中间件位于客户机服务器的操作系统之上，管理计算资源和网络通信。从这个意义上可以用一个等式来表示中间件：中间件=平台+通信，这也就限定了只有用于分布式系统中才能叫中间件，同时也把它与支撑软件和实用软件区分开来。</p>
-<blockquote>
-<p>中间件分类</p>
-</blockquote>
-<ul>
-<li>底层中间件: 用于支撑单个应用系统或解决单一类问题<ul>
-<li>事务处理中间件(TPM)</li>
-<li>应用服务器(WAS)</li>
-<li>消息中间件(MOM)</li>
-<li>数据访问中间件(UDA)</li>
-<li>…</li>
-</ul>
-</li>
-<li>高层中间件: 用于系统整合<ul>
-<li>企业应用集成中间件(EAI Suites)</li>
-<li>工作流中间件(Workflow)</li>
-<li>门户中间件(Portal)</li>
-<li>…</li>
-</ul>
-</li>
-</ul>
-<h3 id="一些测试框架"><a href="#一些测试框架" class="headerlink" title="一些测试框架"></a>一些测试框架</h3><p><strong>不懂测试的开发不是好的开发</strong></p>
-<h3 id="学无止境，寻找Java替代品"><a href="#学无止境，寻找Java替代品" class="headerlink" title="学无止境，寻找Java替代品"></a>学无止境，寻找Java替代品</h3><p>大家在学习一门语言要想想这门语言的短处在哪？</p>
-<p>建议大家在学习之余，不管你是做算法还是开发，都要努力提升自己的编程能力，推荐学习Nodejs和Golang。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/22/wo-de-wang-zhan-kai-fa-jing-li-yu-java-xue-xi-xin-lu-li-cheng/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1432,7 +887,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:49:37" itemprop="dateModified" datetime="2020-04-28T12:49:37+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 13:20:40" itemprop="dateModified" datetime="2020-04-28T13:20:40+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1485,62 +940,15 @@
       
           <h2 id="什么是SSLH"><a href="#什么是SSLH" class="headerlink" title="什么是SSLH"></a>什么是SSLH</h2><p>一种不同的multiplexing在相同端口处理多种协议，sslh就是这样可以处理ssl和ssh。sslh可以分辨进入端口的是哪种协议，并转发到相应的服务。这样就可以在同一个端口同时处理http和ssh。注意，这个方法并不是掩藏实际的ssh服务，扫描监听端口的工具scanssh依然可以监听到ssh。<strong>sslh方法可以在防火墙开放较少的端口情况下提供更多的服务。</strong></p>
 <p><img src="http://pzpoejx7j.bkt.clouddn.com/sslh.png" alt="sslh"></p>
-<h2 id="基本步骤："><a href="#基本步骤：" class="headerlink" title="基本步骤："></a>基本步骤：</h2><ul>
-<li>首先安装web服务器(tomcat, nginx etc.)，使之监听在localhost(default port 80), 当然也可以监听在非标准端口如8088</li>
-<li>设置ssh服务端口22的连接，这个端口也可以是任意的，但标准的是22</li>
-<li>(optional)创建一个非特权用户 如sslh</li>
-<li>安装和启动sslh服务，并监听在端口443，并转发到localhost的http和ssh <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/usr/<span class="built_in">local</span>/sbin/sslh-fork -u sslh -p xx.yy.zz.aa:443 --tls 127.0.0.1:2443 --ssh 127.0.0.1:22</span><br></pre></td></tr></table></figure>
- 这个ip xx.yy.zz.aa是该服务器的外网ip，如我的10.206.210.235</li>
-</ul>
-<h2 id="Centos上配置全过程"><a href="#Centos上配置全过程" class="headerlink" title="Centos上配置全过程"></a>Centos上配置全过程</h2><p><strong>在一切开始前请确认服务器的443端口是否对外开放</strong></p>
-<h3 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum install nginx</span><br></pre></td></tr></table></figure>
-<p>或者使用 <a href="https://openresty.org/cn/" target="_blank" rel="noopener">OpenResty(定制的nginx)</a></p>
-<p>创建证书：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/nginx</span><br><span class="line">openssl genrsa -out cert.key 2048</span><br><span class="line">openssl req -new -x509 -key cert.key -out cert.pem -days 3650</span><br></pre></td></tr></table></figure>
-<p>配置nginx:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/nginx/conf.d</span><br><span class="line">ls</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>修改default.conf localhost:80<br><img src="/2019/10/22/ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou/1.png" alt="default.conf"></p>
-</li>
-<li><p>新建sslh.conf</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"> vim sslh.conf</span><br><span class="line"> server &#123;</span><br><span class="line">    listen       localhost:443 ssl;</span><br><span class="line">    server_name  localhost;</span><br><span class="line"></span><br><span class="line">    ssl_certificate      cert.pem;</span><br><span class="line">    ssl_certificate_key  cert.key;</span><br><span class="line"></span><br><span class="line">    ssl_session_cache    shared:SSL:1m;</span><br><span class="line">    ssl_session_timeout  5m;</span><br><span class="line"></span><br><span class="line">    ssl_ciphers  HIGH:!aNULL:!MD5;</span><br><span class="line">    ssl_prefer_server_ciphers  on;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        root   html;</span><br><span class="line">        index  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>启动nginx, 并监听端口443</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">netstat -an | grep 443</span><br></pre></td></tr></table></figure>
-<p>会看到</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tcp        0      0 127.0.0.1:443           0.0.0.0:*               LISTEN</span><br></pre></td></tr></table></figure>
-<p>表明nginx启动成功，当然你也可以用下面命令查看nginx启动状态</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl status nginx -l</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装sslh"><a href="#安装sslh" class="headerlink" title="安装sslh"></a>安装sslh</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo yum install epel-release</span><br><span class="line">sudo yum install sslh</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这个安装包位于EPEL，所以需要先安装EPEL软件仓库</p>
-</blockquote>
-</li>
-</ul>
-<blockquote>
-<p>EPEL中，这个sslh配置已经非常完善，配置文件 /etc/sslh.cfg</p>
-</blockquote>
-<p>修改/etc/sslh.cfg，只需要修改 { host: “SERVER_NAME”; port: “443”; }，这个SERVER_NAME对应的是/etc/hosts中服务器外网的IP地址解析</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># This is a basic configuration file that should provide</span><br><span class="line"># sensible values for &quot;standard&quot; setup.</span><br><span class="line"></span><br><span class="line">verbose: false;</span><br><span class="line">foreground: true;</span><br><span class="line">inetd: false;</span><br><span class="line">numeric: false;</span><br><span class="line">transparent: false;</span><br><span class="line">timeout: &quot;2&quot;;</span><br><span class="line">user: &quot;sslh&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># Change hostname with your external address name.</span><br><span class="line">listen:</span><br><span class="line">(</span><br><span class="line">    &#123; host: &quot;10.206.210.235&quot;; port: &quot;443&quot;; &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">protocols:</span><br><span class="line">(</span><br><span class="line">     &#123; name: &quot;ssh&quot;; service: &quot;ssh&quot;; host: &quot;localhost&quot;; port: &quot;22&quot;; probe: &quot;builtin&quot;; &#125;,</span><br><span class="line">     &#123; name: &quot;openvpn&quot;; host: &quot;localhost&quot;; port: &quot;1194&quot;; probe: &quot;builtin&quot;; &#125;,</span><br><span class="line">     &#123; name: &quot;xmpp&quot;; host: &quot;localhost&quot;; port: &quot;5222&quot;; probe: &quot;builtin&quot;; &#125;,</span><br><span class="line">     &#123; name: &quot;http&quot;; host: &quot;localhost&quot;; port: &quot;80&quot;; probe: &quot;builtin&quot;; &#125;,</span><br><span class="line">     &#123; name: &quot;ssl&quot;; host: &quot;localhost&quot;; port: &quot;443&quot;; probe: &quot;builtin&quot;; &#125;,</span><br><span class="line">     &#123; name: &quot;anyprot&quot;; host: &quot;localhost&quot;; port: &quot;443&quot;; probe: &quot;builtin&quot;; &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-<p>现在我们准备在443端口上启动sslh，提供HTTPS和SSH的协议转发</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl start sslh</span><br><span class="line">systemctl status sslh -l</span><br></pre></td></tr></table></figure>
-<p><img src="/2019/10/22/ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou/2.png" alt="sslh启动状态"></p>
-<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>在另一台可以ping到该服务器的机器上</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh 10.206.210.235 -p 443</span><br></pre></td></tr></table></figure>
-
-<p>浏览器访问：</p>
-<blockquote>
-<p><a href="https://10.206.210.235加密通道" target="_blank" rel="noopener">https://10.206.210.235加密通道</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://10.206.210.235:443非加密通道" target="_blank" rel="noopener">http://10.206.210.235:443非加密通道</a></p>
-</blockquote>
-<p>验证了sslh确实在443端口提供了多种服务。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://huataihuang.gitbooks.io/cloud-atlas/service/ssh/sslh_multi_service_in_one_port.html" target="_blank" rel="noopener">https://huataihuang.gitbooks.io/cloud-atlas/service/ssh/sslh_multi_service_in_one_port.html</a></li>
-</ul>
-
+<h2 id="基本步骤："><a href="#基本步骤：" class="headerlink" title="基本步骤："></a>基本步骤：</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/22/ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1590,7 +998,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:48:48" itemprop="dateModified" datetime="2020-04-28T12:48:48+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 13:20:40" itemprop="dateModified" datetime="2020-04-28T13:20:40+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1644,11 +1052,14 @@
           <p>在hexo博客中插入图片有好几种方法，但本着markdown语言所见即所得的原则，本文选择一种插件方式来显示图片。由于hexo在生成页面时会对文件路径前加入时间，所以直接使用markdown插入图片的方式是不可行的。</p>
 <p>参考大佬的插件：<a href="https://github.com/CodeFalling/hexo-asset-image" target="_blank" rel="noopener">https://github.com/CodeFalling/hexo-asset-image</a>, 可以使用markdown插入图片的方式，这样可以本地预览也可以在网页浏览。</p>
 <h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install  https://github.com/CodeFalling/hexo-asset-image --save</span><br></pre></td></tr></table></figure>
-
-<h2 id="设置-config-yml"><a href="#设置-config-yml" class="headerlink" title="设置_config.yml"></a>设置_config.yml</h2><figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="在文章中插入图片"><a href="#在文章中插入图片" class="headerlink" title="在文章中插入图片"></a>在文章中插入图片</h2><p><strong>注意</strong>：<br><img src="/2019/10/21/ru-he-zai-hexo-bo-ke-zhong-cha-ru-tu-pian/1.png" alt="格式要求"></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/21/ru-he-zai-hexo-bo-ke-zhong-cha-ru-tu-pian/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1698,7 +1109,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:50:53" itemprop="dateModified" datetime="2020-04-28T12:50:53+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 13:20:28" itemprop="dateModified" datetime="2020-04-28T13:20:28+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1750,9 +1161,14 @@
 
       
           <h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Install leancloud's js-sdk</span></span><br><span class="line">npm install leancloud-storage --save</span><br><span class="line"><span class="comment"># Install valine</span></span><br><span class="line">npm install valine --save</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考官方教程：https-valine-js-org-quickstart-html"><a href="#参考官方教程：https-valine-js-org-quickstart-html" class="headerlink" title="参考官方教程：https://valine.js.org/quickstart.html"></a>参考官方教程：<a href="https://valine.js.org/quickstart.html" target="_blank" rel="noopener">https://valine.js.org/quickstart.html</a></h2><p><img src="/2019/10/20/valine-ping-lun-zu-jian-shi-yong/1.png" alt="配置文件图"></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/20/valine-ping-lun-zu-jian-shi-yong/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1802,7 +1218,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:48:37" itemprop="dateModified" datetime="2020-04-28T12:48:37+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 13:20:40" itemprop="dateModified" datetime="2020-04-28T13:20:40+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1853,14 +1269,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="1-注册github账号"><a href="#1-注册github账号" class="headerlink" title="1. 注册github账号"></a>1. 注册github账号</h2><h2 id="2-创建仓库：github用户名-github-io"><a href="#2-创建仓库：github用户名-github-io" class="headerlink" title="2. 创建仓库：github用户名.github.io"></a>2. 创建仓库：github用户名.github.io</h2><h2 id="3-本地安装node-js、npm"><a href="#3-本地安装node-js、npm" class="headerlink" title="3.本地安装node.js、npm"></a>3.本地安装node.js、npm</h2><h2 id="4-安装git-并配置git-ssh-key"><a href="#4-安装git-并配置git-ssh-key" class="headerlink" title="4.安装git 并配置git ssh key"></a>4.安装git 并配置git ssh key</h2><h2 id="5-绑定域名"><a href="#5-绑定域名" class="headerlink" title="5.绑定域名"></a>5.绑定域名</h2><h2 id="6-how-use"><a href="#6-how-use" class="headerlink" title="6. how use:"></a>6. how use:</h2><p><strong>refer to:</strong> <a href="https://github.com/blinkfox/hexo-theme-matery/blob/develop/README_CN.md" target="_blank" rel="noopener">https://github.com/blinkfox/hexo-theme-matery/blob/develop/README_CN.md</a></p>
-<p><strong>change the file _config.xml:</strong><br>first create the reposity: your_github_usrname.github.io</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repository:</span> <span class="attr">https://github.com/your_github_usrname/your_github_usrname.github.io</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
-<p>then run the following command in terminal(git bash or cmder  etc. on windows or other os)</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git@github.com:njustwh2014/whblogsource.git</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> whblogsource</span><br><span class="line"></span><br><span class="line">npm install -g hexo</span><br><span class="line"></span><br><span class="line">npm install</span><br><span class="line"></span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line"></span><br><span class="line">npm install hexo-generator-feed --save</span><br><span class="line"></span><br><span class="line">npm install hexo-generator-sitemap --save</span><br><span class="line"></span><br><span class="line">hexo g</span><br><span class="line"></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
-
-
+          <h2 id="1-注册github账号"><a href="#1-注册github账号" class="headerlink" title="1. 注册github账号"></a>1. 注册github账号</h2><h2 id="2-创建仓库：github用户名-github-io"><a href="#2-创建仓库：github用户名-github-io" class="headerlink" title="2. 创建仓库：github用户名.github.io"></a>2. 创建仓库：github用户名.github.io</h2><h2 id="3-本地安装node-js、npm"><a href="#3-本地安装node-js、npm" class="headerlink" title="3.本地安装node.js、npm"></a>3.本地安装node.js、npm</h2><h2 id="4-安装git-并配置git-ssh-key"><a href="#4-安装git-并配置git-ssh-key" class="headerlink" title="4.安装git 并配置git ssh key"></a>4.安装git 并配置git ssh key</h2><h2 id="5-绑定域名"><a href="#5-绑定域名" class="headerlink" title="5.绑定域名"></a>5.绑定域名</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/20/guan-yu-bo-ke-wang-zhan-de-da-jian-bei-wang/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1962,6 +1379,14 @@
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/njustwh2014" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;njustwh2014" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:seuwh2018@foxmail.com" title="E-Mail → mailto:seuwh2018@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
 
 
 

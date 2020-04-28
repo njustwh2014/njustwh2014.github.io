@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://eternalhorizon.cn/"/>
-  <updated>2020-04-28T04:48:31.703Z</updated>
+  <updated>2020-04-28T05:20:40.653Z</updated>
   <id>http://eternalhorizon.cn/</id>
   
   <author>
@@ -21,17 +21,17 @@
     <link href="http://eternalhorizon.cn/2020/03/22/dong-tai-dai-li-zong-jie/"/>
     <id>http://eternalhorizon.cn/2020/03/22/dong-tai-dai-li-zong-jie/</id>
     <published>2020-03-22T02:03:45.000Z</published>
-    <updated>2020-04-28T04:48:31.703Z</updated>
+    <updated>2020-04-28T05:20:40.653Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;动态代理有什么作用以及使用场景？&quot;&gt;&lt;a href=&quot;#动态代理有什么作用以及使用场景？&quot; class=&quot;headerlink&quot;
-        
-      
+      &lt;h2 id=&quot;动态代理有什么作用以及使用场景？&quot;&gt;&lt;a href=&quot;#动态代理有什么作用以及使用场景？&quot; class=&quot;headerlink&quot; title=&quot;动态代理有什么作用以及使用场景？&quot;&gt;&lt;/a&gt;动态代理有什么作用以及使用场景？&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;日志集中打印&lt;/li&gt;
+&lt;li&gt;事务&lt;/li&gt;
+&lt;li&gt;权限管理&lt;/li&gt;
+&lt;li&gt;AOP&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;Spring-AOP的实现方式&quot;&gt;&lt;a href=&quot;#Spring-AOP的实现方式&quot; class=&quot;headerlink&quot; title=&quot;Spring AOP的实现方式&quot;&gt;&lt;/a&gt;Spring AOP的实现方式&lt;/h2&gt;
     
     </summary>
     
@@ -48,17 +48,12 @@
     <link href="http://eternalhorizon.cn/2020/03/17/suan-fa-yu-shu-ju-jie-gou-mian-shi-ti-hui-zong/"/>
     <id>http://eternalhorizon.cn/2020/03/17/suan-fa-yu-shu-ju-jie-gou-mian-shi-ti-hui-zong/</id>
     <published>2020-03-17T08:27:49.000Z</published>
-    <updated>2020-04-28T04:49:10.110Z</updated>
+    <updated>2020-04-28T05:20:40.653Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;堆排序算法的时间复杂度&quot;&gt;&lt;a href=&quot;#堆排序算法的时间复杂度&quot; class=&quot;headerlink&quot;
-        
-      
+      &lt;h2 id=&quot;堆排序算法的时间复杂度&quot;&gt;&lt;a href=&quot;#堆排序算法的时间复杂度&quot; class=&quot;headerlink&quot; title=&quot;堆排序算法的时间复杂度&quot;&gt;&lt;/a&gt;堆排序算法的时间复杂度&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;堆排序与快速排序、归并排序一样都是时间复杂度为O(N*logN)的几种常见排序方法。&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&quot;堆和堆排序&quot;&gt;&lt;a href=&quot;#堆和堆排序&quot; class=&quot;headerlink&quot; title=&quot;堆和堆排序&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://blog.csdn.net/MoreWindows/article/details/6709644&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;堆和堆排序&lt;/a&gt;&lt;/h3&gt;
     
     </summary>
     
@@ -73,17 +68,16 @@
     <link href="http://eternalhorizon.cn/2020/03/16/docker-mian-shi-zong-jie/"/>
     <id>http://eternalhorizon.cn/2020/03/16/docker-mian-shi-zong-jie/</id>
     <published>2020-03-16T02:03:43.000Z</published>
-    <updated>2020-04-28T04:49:57.636Z</updated>
+    <updated>2020-04-28T05:20:40.652Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;什么是Docker&quot;&gt;&lt;a href=&quot;#什么是Docker&quot; class=&quot;headerlink&quot;
-        
-      
+      &lt;h2 id=&quot;什么是Docker&quot;&gt;&lt;a href=&quot;#什么是Docker&quot; class=&quot;headerlink&quot; title=&quot;什么是Docker&quot;&gt;&lt;/a&gt;什么是Docker&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Docker是一个容器化平台，它以容器的形式将您的应用程序及其所有依赖项打包在一起，以确保您的应用程序在开发，测试或生产的任何环境中无缝运行。&lt;/li&gt;
+&lt;li&gt;Docker容器，将一个软件包装在一个完整的文件系统中，该文件系统包含运行所需的一切：代码，运行时，系统工具，系统库等可以安装在服务器上的任何东西。&lt;/li&gt;
+&lt;li&gt;这可以保证软件始终运行相同，无论其环境如何。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;为什么要用Docker&quot;&gt;&lt;a href=&quot;#为什么要用Docker&quot; class=&quot;headerlink&quot; title=&quot;为什么要用Docker&quot;&gt;&lt;/a&gt;为什么要用Docker&lt;/h2&gt;
     
     </summary>
     
@@ -98,17 +92,13 @@
     <link href="http://eternalhorizon.cn/2020/03/16/spring-mian-shi-zong-jie/"/>
     <id>http://eternalhorizon.cn/2020/03/16/spring-mian-shi-zong-jie/</id>
     <published>2020-03-16T01:08:26.000Z</published>
-    <updated>2020-04-28T04:50:48.807Z</updated>
+    <updated>2020-04-28T05:20:40.651Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;Spring-Aop实现方式，还有其他的什么方式实现&quot;&gt;&lt;a href=&quot;#Spring-Aop实现方式，还有其他的什么方式实现&quot; class=&quot;headerlink&quot; title=&quot;Spring Aop实现方式，还有其他的什么方式实现&quot;&gt;&lt;/a&gt;Spring
-        
-      
+      &lt;h2 id=&quot;Spring-Aop实现方式，还有其他的什么方式实现&quot;&gt;&lt;a href=&quot;#Spring-Aop实现方式，还有其他的什么方式实现&quot; class=&quot;headerlink&quot; title=&quot;Spring Aop实现方式，还有其他的什么方式实现&quot;&gt;&lt;/a&gt;Spring Aop实现方式，还有其他的什么方式实现&lt;/h2&gt;&lt;p&gt;AOP 面向切面编程，是对面向对象的补充，处理系统中各个模块的横切关注点，常用于事务管理、日志模块、缓存等。&lt;/p&gt;
+&lt;p&gt;AOP实现的关键在于AOP框架自动创建AOP代理，常有以AspectJ为代表的静态代理，和以SpringAop为代表的动态代理&lt;/p&gt;
+&lt;p&gt;SpringAop的实现方式主要有通过反射的JDK动态代理和CGLIB(Code Generation Library).&lt;/p&gt;
     
     </summary>
     
@@ -123,17 +113,15 @@
     <link href="http://eternalhorizon.cn/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/"/>
     <id>http://eternalhorizon.cn/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/</id>
     <published>2020-03-16T01:08:10.000Z</published>
-    <updated>2020-04-28T04:47:58.934Z</updated>
+    <updated>2020-04-28T05:20:41.347Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;进程、线程和协程&quot;&gt;&lt;a href=&quot;#进程、线程和协程&quot; class=&quot;headerlink&quot; title=&quot;进程、线程和协程&quot;&gt;&lt;/a&gt;进程、线程和协程&lt;/h2&gt;&lt;h3 id=&quot;进程&quot;&gt;&lt;a href=&quot;#进程&quot; class=&quot;headerlink&quot;
-        
-      
+      &lt;h2 id=&quot;进程、线程和协程&quot;&gt;&lt;a href=&quot;#进程、线程和协程&quot; class=&quot;headerlink&quot; title=&quot;进程、线程和协程&quot;&gt;&lt;/a&gt;进程、线程和协程&lt;/h2&gt;&lt;h3 id=&quot;进程&quot;&gt;&lt;a href=&quot;#进程&quot; class=&quot;headerlink&quot; title=&quot;进程&quot;&gt;&lt;/a&gt;进程&lt;/h3&gt;&lt;p&gt;进程是系统资源分配的最小单位, 系统由一个个进程(程序)组成。一般情况下，包括文本区域（text region）、数据区域（data region）和堆栈（stack region）。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;文本区域存储处理器执行的代码&lt;/li&gt;
+&lt;li&gt;数据区域存储变量和进程执行期间使用的动态分配的内存；&lt;/li&gt;
+&lt;li&gt;堆栈区域存储着活动过程调用的指令和本地变量。&lt;/li&gt;&lt;/ul&gt;
     
     </summary>
     
@@ -148,17 +136,12 @@
     <link href="http://eternalhorizon.cn/2020/03/16/jvm-mian-shi-zong-jie/"/>
     <id>http://eternalhorizon.cn/2020/03/16/jvm-mian-shi-zong-jie/</id>
     <published>2020-03-16T01:07:38.000Z</published>
-    <updated>2020-04-28T04:50:31.733Z</updated>
+    <updated>2020-04-28T05:20:40.651Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;JVM-类加载机制&quot;&gt;&lt;a href=&quot;#JVM-类加载机制&quot; class=&quot;headerlink&quot; title=&quot;JVM: 类加载机制&quot;&gt;&lt;/a&gt;JVM:
-        
-      
+      &lt;h2 id=&quot;JVM-类加载机制&quot;&gt;&lt;a href=&quot;#JVM-类加载机制&quot; class=&quot;headerlink&quot; title=&quot;JVM: 类加载机制&quot;&gt;&lt;/a&gt;JVM: 类加载机制&lt;/h2&gt;&lt;p&gt;Java虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是&lt;strong&gt;虚拟机的加载机制&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://juejin.im/post/5a810b0e5188257a5c606a85#heading-1&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;要看看哦&lt;/a&gt;&lt;/p&gt;
     
     </summary>
     
@@ -173,17 +156,12 @@
     <link href="http://eternalhorizon.cn/2020/03/13/mysql-mian-shi-hui-zong/"/>
     <id>http://eternalhorizon.cn/2020/03/13/mysql-mian-shi-hui-zong/</id>
     <published>2020-03-13T12:59:55.000Z</published>
-    <updated>2020-04-28T04:50:40.696Z</updated>
+    <updated>2020-04-28T05:20:40.651Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;相关概念理解&quot;&gt;&lt;a href=&quot;#相关概念理解&quot; class=&quot;headerlink&quot; title=&quot;相关概念理解&quot;&gt;&lt;/a&gt;相关概念理解&lt;/h2&gt;&lt;h3 id=&quot;联合主键和复合主键&quot;&gt;&lt;a href=&quot;#联合主键和复合主键&quot;
-        
-      
+      &lt;h2 id=&quot;相关概念理解&quot;&gt;&lt;a href=&quot;#相关概念理解&quot; class=&quot;headerlink&quot; title=&quot;相关概念理解&quot;&gt;&lt;/a&gt;相关概念理解&lt;/h2&gt;&lt;h3 id=&quot;联合主键和复合主键&quot;&gt;&lt;a href=&quot;#联合主键和复合主键&quot; class=&quot;headerlink&quot; title=&quot;联合主键和复合主键&quot;&gt;&lt;/a&gt;联合主键和复合主键&lt;/h3&gt;&lt;p&gt;联合主键体现在多个表上，复合主键体现在一个表中的多个字段&lt;/p&gt;
+&lt;p&gt;联合主键：&lt;/p&gt;
     
     </summary>
     
@@ -198,17 +176,19 @@
     <link href="http://eternalhorizon.cn/2020/03/13/she-ji-mo-shi-ti-hui-zong/"/>
     <id>http://eternalhorizon.cn/2020/03/13/she-ji-mo-shi-ti-hui-zong/</id>
     <published>2020-03-13T12:56:00.000Z</published>
-    <updated>2020-04-28T04:48:52.833Z</updated>
+    <updated>2020-04-28T05:20:40.653Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;设计原则有哪些？&quot;&gt;&lt;a href=&quot;#设计原则有哪些？&quot; class=&quot;headerlink&quot;
-        
-      
+      &lt;h2 id=&quot;设计原则有哪些？&quot;&gt;&lt;a href=&quot;#设计原则有哪些？&quot; class=&quot;headerlink&quot; title=&quot;设计原则有哪些？&quot;&gt;&lt;/a&gt;设计原则有哪些？&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;单一职责原则：让类或接口职责单一&lt;/li&gt;
+&lt;li&gt;里氏替换原则：子类去替换父类，做到通用编程&lt;/li&gt;
+&lt;li&gt;依赖倒置原则：面向接口编程&lt;/li&gt;
+&lt;li&gt;接口隔离原则：接口的设计要精简单一&lt;/li&gt;
+&lt;li&gt;迪米特法则：最少知识原则，降低依赖间的耦合&lt;/li&gt;
+&lt;li&gt;开闭原则：对扩展开放，对修改关闭&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;创建型&quot;&gt;&lt;a href=&quot;#创建型&quot; class=&quot;headerlink&quot; title=&quot;创建型&quot;&gt;&lt;/a&gt;创建型&lt;/h2&gt;
     
     </summary>
     
@@ -225,17 +205,26 @@
     <link href="http://eternalhorizon.cn/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/"/>
     <id>http://eternalhorizon.cn/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/</id>
     <published>2020-03-13T12:53:35.000Z</published>
-    <updated>2020-04-28T04:49:14.635Z</updated>
+    <updated>2020-04-28T05:20:40.653Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;Http协议&quot;&gt;&lt;a href=&quot;#Http协议&quot; class=&quot;headerlink&quot; title=&quot;Http协议&quot;&gt;&lt;/a&gt;Http协议&lt;/h2&gt;&lt;h3 id=&quot;Get和Post比较&quot;&gt;&lt;a href=&quot;#Get和Post比较&quot;
-        
-      
+      &lt;h2 id=&quot;Http协议&quot;&gt;&lt;a href=&quot;#Http协议&quot; class=&quot;headerlink&quot; title=&quot;Http协议&quot;&gt;&lt;/a&gt;Http协议&lt;/h2&gt;&lt;h3 id=&quot;Get和Post比较&quot;&gt;&lt;a href=&quot;#Get和Post比较&quot; class=&quot;headerlink&quot; title=&quot;Get和Post比较&quot;&gt;&lt;/a&gt;Get和Post比较&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://learnku.com/articles/25881&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;看这篇装逼文章&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Get发送一次数据包 Post发送两次数据包&lt;ul&gt;
+&lt;li&gt;对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；&lt;/li&gt;
+&lt;li&gt;对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;GET在浏览器回退时是无害的，而POST会再次提交请求。&lt;/li&gt;
+&lt;li&gt;GET产生的URL地址可以被Bookmark，而POST不可以。&lt;/li&gt;
+&lt;li&gt;GET请求会被浏览器主动cache，而POST不会，除非手动设置。&lt;/li&gt;
+&lt;li&gt;GET请求只能进行url编码，而POST支持多种编码方式。&lt;/li&gt;
+&lt;li&gt;GET请求参数会被完整保留在浏览器历史记录里，而POST中的参数不会被保留。&lt;/li&gt;
+&lt;li&gt;GET请求在URL中传送的参数是有长度限制的，而POST么有。&lt;/li&gt;
+&lt;li&gt;对参数的数据类型，GET只接受ASCII字符，而POST没有限制。&lt;/li&gt;
+&lt;li&gt;GET比POST更不安全，因为参数直接暴露在URL上，所以不能用来传递敏感信息。&lt;/li&gt;
+&lt;li&gt;GET参数通过URL传递，POST放在Request body中。&lt;/li&gt;&lt;/ul&gt;
     
     </summary>
     
@@ -254,17 +243,17 @@
     <link href="http://eternalhorizon.cn/2020/03/13/redis-mian-shi-ti-hui-zong/"/>
     <id>http://eternalhorizon.cn/2020/03/13/redis-mian-shi-ti-hui-zong/</id>
     <published>2020-03-13T12:49:29.000Z</published>
-    <updated>2020-04-28T04:50:45.077Z</updated>
+    <updated>2020-04-28T05:20:40.651Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;常见应用&quot;&gt;&lt;a href=&quot;#常见应用&quot; class=&quot;headerlink&quot; title=&quot;常见应用&quot;&gt;&lt;/a&gt;常见应用&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/29665317&quot;
-        
-      
+      &lt;h2 id=&quot;常见应用&quot;&gt;&lt;a href=&quot;#常见应用&quot; class=&quot;headerlink&quot; title=&quot;常见应用&quot;&gt;&lt;/a&gt;常见应用&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/29665317&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;参考连接&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;这一题要结合着Redis特性来回答，首先得明确Redis有哪些特性。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;应用1：读写性能优异可以当作缓存&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;缓存是Redis最常见的应用场景。&lt;/p&gt;
+&lt;p&gt;这里面试官可能会问，Redis和memcached比较以及如何保证缓存一致。&lt;/p&gt;
     
     </summary>
     
@@ -279,17 +268,16 @@
     <link href="http://eternalhorizon.cn/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/"/>
     <id>http://eternalhorizon.cn/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/</id>
     <published>2020-03-13T12:32:50.000Z</published>
-    <updated>2020-04-28T04:50:20.419Z</updated>
+    <updated>2020-04-28T05:20:40.652Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;PriorityQueue实现原理&quot;&gt;&lt;a href=&quot;#PriorityQueue实现原理&quot; class=&quot;headerlink&quot;
-        
-      
+      &lt;h2 id=&quot;PriorityQueue实现原理&quot;&gt;&lt;a href=&quot;#PriorityQueue实现原理&quot; class=&quot;headerlink&quot; title=&quot;PriorityQueue实现原理&quot;&gt;&lt;/a&gt;PriorityQueue实现原理&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;数组&lt;/li&gt;
+&lt;li&gt;扩容&lt;/li&gt;
+&lt;li&gt;堆排序如何实现？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/u013309870/article/details/71189189&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;参考连接&lt;/a&gt;&lt;/p&gt;
     
     </summary>
     
@@ -304,18 +292,13 @@
     <link href="http://eternalhorizon.cn/2020/02/27/mian-shi-wen-ti-hui-zong/"/>
     <id>http://eternalhorizon.cn/2020/02/27/mian-shi-wen-ti-hui-zong/</id>
     <published>2020-02-27T02:20:25.000Z</published>
-    <updated>2020-04-28T04:48:43.383Z</updated>
+    <updated>2020-04-28T05:20:40.653Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;p&gt;&lt;a href=&quot;https://www.bilibili.com/read/cv4150256/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.bilibili.com/read/cv4150256/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a
-        
-      
+      &lt;p&gt;&lt;a href=&quot;https://www.bilibili.com/read/cv4150256/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.bilibili.com/read/cv4150256/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.processon.com/view/link/5db53025e4b0893e9a654cda#map&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;学习大纲&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;Java基础&quot;&gt;&lt;a href=&quot;#Java基础&quot; class=&quot;headerlink&quot; title=&quot;Java基础&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/&quot;&gt;Java基础&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;Java并发&quot;&gt;&lt;a href=&quot;#Java并发&quot; class=&quot;headerlink&quot; title=&quot;Java并发&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/&quot;&gt;Java并发&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;JVM&quot;&gt;&lt;a href=&quot;#JVM&quot; class=&quot;headerlink&quot; title=&quot;JVM&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/16/jvm-mian-shi-zong-jie/&quot;&gt;JVM&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;Spring&quot;&gt;&lt;a href=&quot;#Spring&quot; class=&quot;headerlink&quot; title=&quot;Spring&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/16/spring-mian-shi-zong-jie/&quot;&gt;Spring&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;redis&quot;&gt;&lt;a href=&quot;#redis&quot; class=&quot;headerlink&quot; title=&quot;redis&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/13/redis-mian-shi-ti-hui-zong/&quot;&gt;redis&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;网络协议&quot;&gt;&lt;a href=&quot;#网络协议&quot; class=&quot;headerlink&quot; title=&quot;网络协议&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/&quot;&gt;网络协议&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;Mysql&quot;&gt;&lt;a href=&quot;#Mysql&quot; class=&quot;headerlink&quot; title=&quot;Mysql&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/13/mysql-mian-shi-hui-zong/&quot;&gt;Mysql&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;设计模式&quot;&gt;&lt;a href=&quot;#设计模式&quot; class=&quot;headerlink&quot; title=&quot;设计模式&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/13/she-ji-mo-shi-ti-hui-zong/&quot;&gt;设计模式&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;算法与数据结构&quot;&gt;&lt;a href=&quot;#算法与数据结构&quot; class=&quot;headerlink&quot; title=&quot;算法与数据结构&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/17/suan-fa-yu-shu-ju-jie-gou-mian-shi-ti-hui-zong/&quot;&gt;算法与数据结构&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;Docker&quot;&gt;&lt;a href=&quot;#Docker&quot; class=&quot;headerlink&quot; title=&quot;Docker&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/16/docker-mian-shi-zong-jie/&quot;&gt;Docker&lt;/a&gt;&lt;/h2&gt;
     
     </summary>
     
@@ -330,17 +313,24 @@
     <link href="http://eternalhorizon.cn/2020/02/02/2020-yi-ding-yao-na-dao-offer-a/"/>
     <id>http://eternalhorizon.cn/2020/02/02/2020-yi-ding-yao-na-dao-offer-a/</id>
     <published>2020-02-02T03:06:02.000Z</published>
-    <updated>2020-04-28T04:47:54.923Z</updated>
+    <updated>2020-04-28T05:20:41.347Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h1 id=&quot;学习计划&quot;&gt;&lt;a href=&quot;#学习计划&quot; class=&quot;headerlink&quot;
-        
-      
+      &lt;h1 id=&quot;学习计划&quot;&gt;&lt;a href=&quot;#学习计划&quot; class=&quot;headerlink&quot; title=&quot;学习计划&quot;&gt;&lt;/a&gt;学习计划&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;将之前博客系统重启&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;redis、mysql部署在130虚拟机&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;前端部署在129机器上(nginx代理)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;后端部署在131虚拟机&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;leetcode刷题&lt;/p&gt;
+&lt;/blockquote&gt;
     
     </summary>
     
@@ -365,20 +355,24 @@
     <link href="http://eternalhorizon.cn/2020/01/02/shu-yu-zha-huan-he-gou-ting-de-yi-bai/"/>
     <id>http://eternalhorizon.cn/2020/01/02/shu-yu-zha-huan-he-gou-ting-de-yi-bai/</id>
     <published>2020-01-02T01:35:50.000Z</published>
-    <updated>2020-04-28T04:49:06.357Z</updated>
+    <updated>2020-04-28T05:20:40.653Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;ul&gt;
+      &lt;ul&gt;
 &lt;li&gt;&lt;input checked disabled type=&quot;checkbox&quot;&gt; &lt;p&gt;接吻&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;input checked disabled type=&quot;checkbox&quot;&gt; &lt;p&gt;一起吃火锅&lt;br&gt;&lt;img
-        
-      
+&lt;li&gt;&lt;input checked disabled type=&quot;checkbox&quot;&gt; &lt;p&gt;一起吃火锅&lt;br&gt;&lt;img src=&quot;/2020/01/02/shu-yu-zha-huan-he-gou-ting-de-yi-bai/%E7%8B%97%E5%A9%B7%E5%90%83.jpg&quot; alt=&quot;属于渣欢和狗婷的一百&quot;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;input checked disabled type=&quot;checkbox&quot;&gt; &lt;p&gt;互相写信&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;input checked disabled type=&quot;checkbox&quot;&gt; &lt;p&gt;一起健身&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;input checked disabled type=&quot;checkbox&quot;&gt; &lt;p&gt;一起看场电影&lt;/p&gt;
+&lt;p&gt;  我们一起去电影院看过的电影：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;+ 被光抓走的人
++ 只有芸知道
++ 宠爱 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;&lt;/ul&gt;
     
     </summary>
     
@@ -393,17 +387,11 @@
     <link href="http://eternalhorizon.cn/2019/12/08/bing-fa-rong-qi-zhi-concurrentlinkedqueue/"/>
     <id>http://eternalhorizon.cn/2019/12/08/bing-fa-rong-qi-zhi-concurrentlinkedqueue/</id>
     <published>2019-12-08T05:47:45.000Z</published>
-    <updated>2020-04-28T04:50:54.931Z</updated>
+    <updated>2020-04-28T05:20:40.653Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;1-ConcurrentLinkedQueue简介&quot;&gt;&lt;a href=&quot;#1-ConcurrentLinkedQueue简介&quot; class=&quot;headerlink&quot;
-        
-      
+      &lt;h2 id=&quot;1-ConcurrentLinkedQueue简介&quot;&gt;&lt;a href=&quot;#1-ConcurrentLinkedQueue简介&quot; class=&quot;headerlink&quot; title=&quot;1.ConcurrentLinkedQueue简介&quot;&gt;&lt;/a&gt;1.ConcurrentLinkedQueue简介&lt;/h2&gt;&lt;p&gt;在单线程编程中我们会经常用到一些集合类，比如ArrayList,HashMap等，但是这些类都不是线程安全的类。在面试中也经常会有一些考点，比如ArrayList不是线程安全的，Vector是线程安全。而保障Vector线程安全的方式，是非常粗暴的在方法上用synchronized独占锁，将多线程执行变成串行化。要想将ArrayList变成线程安全的也可以使用&lt;code&gt;Collections.synchronizedList(List&amp;lt;T&amp;gt; list)&lt;/code&gt;方法ArrayList转换成线程安全的，但这种转换方式依然是通过synchronized修饰方法实现的，很显然这不是一种高效的方式，同时，队列也是我们常用的一种数据结构，为了解决线程安全的问题，Doug Lea大师为我们准备了ConcurrentLinkedQueue这个线程安全的队列。从类名就可以看的出来实现队列的数据结构是链式。&lt;/p&gt;
     
     </summary>
     
@@ -416,18 +404,14 @@
     <link href="http://eternalhorizon.cn/2019/12/06/bing-fa-rong-qi-zhi-concurrenthashmap-jdk-1-8-ban-ben/"/>
     <id>http://eternalhorizon.cn/2019/12/06/bing-fa-rong-qi-zhi-concurrenthashmap-jdk-1-8-ban-ben/</id>
     <published>2019-12-06T05:57:43.000Z</published>
-    <updated>2020-04-28T04:50:54.930Z</updated>
+    <updated>2020-04-28T05:20:41.350Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/njustwh2014/MyJavaRepo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;我的github项目，有一些代码示例&lt;/a&gt; forked from &lt;a
-        
-      
+      &lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/njustwh2014/MyJavaRepo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;我的github项目，有一些代码示例&lt;/a&gt; forked from &lt;a href=&quot;https://github.com/CL0610/Java-concurrency&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/CL0610/Java-concurrency&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;1-ConcurrentHashmap简介&quot;&gt;&lt;a href=&quot;#1-ConcurrentHashmap简介&quot; class=&quot;headerlink&quot; title=&quot;1.ConcurrentHashmap简介&quot;&gt;&lt;/a&gt;1.ConcurrentHashmap简介&lt;/h2&gt;&lt;p&gt;在使用HashMap时在多线程情况下扩容会出现CPU接近100%的情况，因为&lt;strong&gt;Hashmap并不是线程安全的&lt;/strong&gt;，通常我们可以使用在java体系中古老的Hashtable类，该类基本上所有的方法都采用synchronized进行线程安全的控制，可想而知，在高并发的情况下，每次只有一个线程能够获取对象监视器锁，这样的并发性能的确不令人满意。另外一种方式通过Collections的&lt;code&gt;Map&amp;lt;K,V&amp;gt; synchronizedMap(Map&amp;lt;K,V&amp;gt; m)&lt;/code&gt;将Hashmap包装成一个线程安全的map。比如SynchronzedMap的put方法源码为：&lt;/p&gt;
     
     </summary>
     
@@ -450,17 +434,15 @@
     <link href="http://eternalhorizon.cn/2019/12/06/java-zhong-de-cloneable-he-serializable-jie-kou-si-kao/"/>
     <id>http://eternalhorizon.cn/2019/12/06/java-zhong-de-cloneable-he-serializable-jie-kou-si-kao/</id>
     <published>2019-12-06T01:57:06.000Z</published>
-    <updated>2020-04-28T04:50:24.201Z</updated>
+    <updated>2020-04-28T05:20:40.652Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;Cloneable接口&quot;&gt;&lt;a href=&quot;#Cloneable接口&quot; class=&quot;headerlink&quot;
-        
-      
+      &lt;h2 id=&quot;Cloneable接口&quot;&gt;&lt;a href=&quot;#Cloneable接口&quot; class=&quot;headerlink&quot; title=&quot;Cloneable接口&quot;&gt;&lt;/a&gt;Cloneable接口&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;clone()方法&lt;/strong&gt;：允许在&lt;strong&gt;堆&lt;/strong&gt;中克隆出一块与原对象一样的对象，并将这个对象的地址赋予新的引用。&lt;/p&gt;
+&lt;p&gt;Java中一个类要实现clone()方法，必须实现Cloneable接口，否则在调用clone()方法时会报CloneNotSupportException异常。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;需要说明：&lt;/p&gt;
+&lt;/blockquote&gt;
     
     </summary>
     
@@ -475,17 +457,12 @@
     <link href="http://eternalhorizon.cn/2019/12/05/locksupport-gong-ju/"/>
     <id>http://eternalhorizon.cn/2019/12/05/locksupport-gong-ju/</id>
     <published>2019-12-05T08:50:12.000Z</published>
-    <updated>2020-04-28T04:50:36.459Z</updated>
+    <updated>2020-04-28T05:20:40.651Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;p&gt;&lt;a href=&quot;https://github.com/njustwh2014/MyJavaRepo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;我的github项目，有一些代码示例&lt;/a&gt; forked from &lt;a
-        
-      
+      &lt;p&gt;&lt;a href=&quot;https://github.com/njustwh2014/MyJavaRepo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;我的github项目，有一些代码示例&lt;/a&gt; forked from &lt;a href=&quot;https://github.com/CL0610/Java-concurrency&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/CL0610/Java-concurrency&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;1-LockSupport简介&quot;&gt;&lt;a href=&quot;#1-LockSupport简介&quot; class=&quot;headerlink&quot; title=&quot;1. LockSupport简介&quot;&gt;&lt;/a&gt;1. LockSupport简介&lt;/h2&gt;&lt;p&gt;在之前介绍&lt;a href=&quot;http://eternalhorizon.cn/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/&quot;&gt;AQS的底层实现&lt;/a&gt;，已经在介绍java中的Lock时，比如&lt;a href=&quot;http://eternalhorizon.cn/2019/11/05/che-di-li-jie-reentrantlock/&quot;&gt;ReentrantLock&lt;/a&gt;,&lt;a href=&quot;http://eternalhorizon.cn/2019/11/08/shen-ru-li-jie-du-xie-suo-reentrantreadwritelock/&quot;&gt;ReentReadWriteLocks&lt;/a&gt;,已经在介绍线程间等待/通知机制使用的&lt;a href=&quot;http://eternalhorizon.cn/2019/11/08/xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi/&quot;&gt;Condition&lt;/a&gt;时都会调用LockSupport.park()方法和LockSupport.unpark()方法。而这个在同步组件的实现中被频繁使用的LockSupport到底是何方神圣，现在就来看看。LockSupport位于java.util.concurrent.locks包下，有兴趣的可以直接去看源码，该类的方法并不是很多。LockSupprot是线程的阻塞原语，用来阻塞线程和唤醒线程。每个使用LockSupport的线程都会与一个许可关联，如果该许可可用，并且可在线程中使用，则调用park()将会立即返回，否则可能阻塞。如果许可尚不可用，则可以调用 unpark 使其可用。但是注意许可&lt;strong&gt;不可重入&lt;/strong&gt;，也就是说只能调用一次park()方法，否则会一直阻塞。&lt;/p&gt;
     
     </summary>
     
@@ -510,17 +487,15 @@
     <link href="http://eternalhorizon.cn/2019/12/05/centos-shang-bu-shu-docker-java-nginx-elasticsearch/"/>
     <id>http://eternalhorizon.cn/2019/12/05/centos-shang-bu-shu-docker-java-nginx-elasticsearch/</id>
     <published>2019-12-05T02:00:46.000Z</published>
-    <updated>2020-04-28T04:49:53.512Z</updated>
+    <updated>2020-04-28T05:20:40.652Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;安装centos6&quot;&gt;&lt;a href=&quot;#安装centos6&quot; class=&quot;headerlink&quot; title=&quot;安装centos6&quot;&gt;&lt;/a&gt;安装centos6&lt;/h2&gt;&lt;figure class=&quot;highlight
-        
-      
+      &lt;h2 id=&quot;安装centos6&quot;&gt;&lt;a href=&quot;#安装centos6&quot; class=&quot;headerlink&quot; title=&quot;安装centos6&quot;&gt;&lt;/a&gt;安装centos6&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#查看版本信息&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cat /etc/redhat-release&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/shuaigexiaobo/article/details/78030008&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;版本信息参考链接&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;开启相应端口&lt;/strong&gt;&lt;/p&gt;
     
     </summary>
     
@@ -535,17 +510,11 @@
     <link href="http://eternalhorizon.cn/2019/11/28/docker-zhong-shi-yong-grafana/"/>
     <id>http://eternalhorizon.cn/2019/11/28/docker-zhong-shi-yong-grafana/</id>
     <published>2019-11-28T05:54:07.000Z</published>
-    <updated>2020-04-28T04:50:08.114Z</updated>
+    <updated>2020-04-28T05:20:40.652Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;查看grafana镜像&quot;&gt;&lt;a href=&quot;#查看grafana镜像&quot; class=&quot;headerlink&quot; title=&quot;查看grafana镜像&quot;&gt;&lt;/a&gt;查看grafana镜像&lt;/h2&gt;&lt;figure class=&quot;highlight
-        
-      
+      &lt;h2 id=&quot;查看grafana镜像&quot;&gt;&lt;a href=&quot;#查看grafana镜像&quot; class=&quot;headerlink&quot; title=&quot;查看grafana镜像&quot;&gt;&lt;/a&gt;查看grafana镜像&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;docker search grafana&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     

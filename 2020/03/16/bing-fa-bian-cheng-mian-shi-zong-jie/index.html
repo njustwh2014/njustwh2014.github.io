@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"eternalhorizon.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="进程、线程和协程进程进程是系统资源分配的最小单位, 系统由一个个进程(程序)组成。一般情况下，包括文本区域（text region）、数据区域（data region）和堆栈（stack region）。  文本区域存储处理器执行的代码 数据区域存储变量和进程执行期间使用的动态分配的内存； 堆栈区域存储着活动过程调用的指令和本地变量。  因此进程的创建和销毁都是相对于系统资源,所以是一种比较昂贵的">
+  <meta name="description" content="进程、线程和协程进程进程是系统资源分配的最小单位, 系统由一个个进程(程序)组成。一般情况下，包括文本区域（text region）、数据区域（data region）和堆栈（stack region）。  文本区域存储处理器执行的代码 数据区域存储变量和进程执行期间使用的动态分配的内存； 堆栈区域存储着活动过程调用的指令和本地变量。">
 <meta name="keywords" content="Java, 中间件, Spring, Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="并发编程面试总结">
 <meta property="og:url" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;16&#x2F;bing-fa-bian-cheng-mian-shi-zong-jie&#x2F;index.html">
 <meta property="og:site_name" content="Eternal Horizon">
-<meta property="og:description" content="进程、线程和协程进程进程是系统资源分配的最小单位, 系统由一个个进程(程序)组成。一般情况下，包括文本区域（text region）、数据区域（data region）和堆栈（stack region）。  文本区域存储处理器执行的代码 数据区域存储变量和进程执行期间使用的动态分配的内存； 堆栈区域存储着活动过程调用的指令和本地变量。  因此进程的创建和销毁都是相对于系统资源,所以是一种比较昂贵的">
+<meta property="og:description" content="进程、线程和协程进程进程是系统资源分配的最小单位, 系统由一个个进程(程序)组成。一般情况下，包括文本区域（text region）、数据区域（data region）和堆栈（stack region）。  文本区域存储处理器执行的代码 数据区域存储变量和进程执行期间使用的动态分配的内存； 堆栈区域存储着活动过程调用的指令和本地变量。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-04-28T04:47:58.934Z">
+<meta property="og:updated_time" content="2020-04-28T05:20:41.347Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://eternalhorizon.cn/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/">
@@ -220,7 +220,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:47:58" itemprop="dateModified" datetime="2020-04-28T12:47:58+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 13:20:41" itemprop="dateModified" datetime="2020-04-28T13:20:41+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -275,9 +275,9 @@
 <ul>
 <li>文本区域存储处理器执行的代码</li>
 <li>数据区域存储变量和进程执行期间使用的动态分配的内存；</li>
-<li>堆栈区域存储着活动过程调用的指令和本地变量。</li>
+<li>堆栈区域存储着活动过程调用的指令和本地变量。<a id="more"></a>
+因此进程的创建和销毁都是相对于系统资源,所以是一种比较昂贵的操作。</li>
 </ul>
-<p>因此进程的创建和销毁都是相对于系统资源,所以是一种比较昂贵的操作。</p>
 <p>进程有三个状态:</p>
 <ul>
 <li>等待态：等待某个事件的完成；</li>
@@ -606,6 +606,14 @@
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/njustwh2014" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;njustwh2014" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:seuwh2018@foxmail.com" title="E-Mail → mailto:seuwh2018@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
 
 
 

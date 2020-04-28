@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"eternalhorizon.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="安装centos6#查看版本信息cat &#x2F;etc&#x2F;redhat-release  版本信息参考链接  开启相应端口 centos中安装docker#查看你当前的内核版本uname -r#更新yum源yum update#安装 Dockeryum -y install docker#启动 Docker 后台服务service docker start#测试运行 hello-world,由于本地没有h">
+  <meta name="description" content="安装centos6#查看版本信息cat &#x2F;etc&#x2F;redhat-release  版本信息参考链接  开启相应端口">
 <meta name="keywords" content="Java, 中间件, Spring, Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="centos上部署docker、java、nginx、elasticsearch">
 <meta property="og:url" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2019&#x2F;12&#x2F;05&#x2F;centos-shang-bu-shu-docker-java-nginx-elasticsearch&#x2F;index.html">
 <meta property="og:site_name" content="Eternal Horizon">
-<meta property="og:description" content="安装centos6#查看版本信息cat &#x2F;etc&#x2F;redhat-release  版本信息参考链接  开启相应端口 centos中安装docker#查看你当前的内核版本uname -r#更新yum源yum update#安装 Dockeryum -y install docker#启动 Docker 后台服务service docker start#测试运行 hello-world,由于本地没有h">
+<meta property="og:description" content="安装centos6#查看版本信息cat &#x2F;etc&#x2F;redhat-release  版本信息参考链接  开启相应端口">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-04-28T04:49:53.512Z">
+<meta property="og:updated_time" content="2020-04-28T05:20:40.652Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://eternalhorizon.cn/2019/12/05/centos-shang-bu-shu-docker-java-nginx-elasticsearch/">
@@ -220,7 +220,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:49:53" itemprop="dateModified" datetime="2020-04-28T12:49:53+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 13:20:40" itemprop="dateModified" datetime="2020-04-28T13:20:40+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -276,6 +276,7 @@
 <p><a href="https://blog.csdn.net/shuaigexiaobo/article/details/78030008" target="_blank" rel="noopener">版本信息参考链接</a></p>
 </blockquote>
 <p><strong>开启相应端口</strong></p>
+<a id="more"></a>
 <h2 id="centos中安装docker"><a href="#centos中安装docker" class="headerlink" title="centos中安装docker"></a>centos中安装docker</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看你当前的内核版本</span></span><br><span class="line">uname -r</span><br><span class="line"></span><br><span class="line"><span class="comment">#更新yum源</span></span><br><span class="line">yum update</span><br><span class="line"></span><br><span class="line"><span class="comment">#安装 Docker</span></span><br><span class="line">yum -y install docker</span><br><span class="line"></span><br><span class="line"><span class="comment">#启动 Docker 后台服务</span></span><br><span class="line">service docker start</span><br><span class="line"></span><br><span class="line"><span class="comment">#测试运行 hello-world,由于本地没有hello-world这个镜像，所以会下载一个hello-world的镜像，并在容器内运行z</span></span><br><span class="line">docker run hello-world</span><br></pre></td></tr></table></figure>
 
 <blockquote>
@@ -417,6 +418,14 @@
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/njustwh2014" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;njustwh2014" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:seuwh2018@foxmail.com" title="E-Mail → mailto:seuwh2018@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
 
 
 

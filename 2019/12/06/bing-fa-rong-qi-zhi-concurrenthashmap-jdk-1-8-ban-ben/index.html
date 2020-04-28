@@ -30,7 +30,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2019&#x2F;12&#x2F;06&#x2F;bing-fa-rong-qi-zhi-concurrenthashmap-jdk-1-8-ban-ben&#x2F;ConcurrentHashMap%E6%95%A3%E5%88%97%E6%A1%B6%E6%95%B0%E7%BB%84%E7%BB%93%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2019&#x2F;12&#x2F;06&#x2F;bing-fa-rong-qi-zhi-concurrenthashmap-jdk-1-8-ban-ben&#x2F;ConcurrentHashMap%E6%89%A9%E5%AE%B9%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
-<meta property="og:updated_time" content="2020-04-28T04:50:54.930Z">
+<meta property="og:updated_time" content="2020-04-28T05:20:41.350Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2019&#x2F;12&#x2F;06&#x2F;bing-fa-rong-qi-zhi-concurrenthashmap-jdk-1-8-ban-ben&#x2F;ConcurrentHashMap%E6%95%A3%E5%88%97%E6%A1%B6%E6%95%B0%E7%BB%84%E7%BB%93%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
 
@@ -223,7 +223,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 12:50:54" itemprop="dateModified" datetime="2020-04-28T12:50:54+08:00">2020-04-28</time>
+                <time title="修改时间：2020-04-28 13:20:41" itemprop="dateModified" datetime="2020-04-28T13:20:41+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -278,6 +278,7 @@
 <p><a href="https://github.com/njustwh2014/MyJavaRepo" target="_blank" rel="noopener">我的github项目，有一些代码示例</a> forked from <a href="https://github.com/CL0610/Java-concurrency" target="_blank" rel="noopener">https://github.com/CL0610/Java-concurrency</a></p>
 </blockquote>
 <h2 id="1-ConcurrentHashmap简介"><a href="#1-ConcurrentHashmap简介" class="headerlink" title="1.ConcurrentHashmap简介"></a>1.ConcurrentHashmap简介</h2><p>在使用HashMap时在多线程情况下扩容会出现CPU接近100%的情况，因为<strong>Hashmap并不是线程安全的</strong>，通常我们可以使用在java体系中古老的Hashtable类，该类基本上所有的方法都采用synchronized进行线程安全的控制，可想而知，在高并发的情况下，每次只有一个线程能够获取对象监视器锁，这样的并发性能的确不令人满意。另外一种方式通过Collections的<code>Map&lt;K,V&gt; synchronizedMap(Map&lt;K,V&gt; m)</code>将Hashmap包装成一个线程安全的map。比如SynchronzedMap的put方法源码为：</p>
+<a id="more"></a>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">put</span><span class="params">(K key, V value)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (mutex) &#123;<span class="keyword">return</span> m.put(key, value);&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>实际上SynchronizedMap实现依然是采用synchronized独占式锁进行线程安全的并发控制的。同样，这种方案的性能也是令人不太满意的。针对这种境况，Doug Lea大师不遗余力的为我们创造了一些线程安全的并发容器，让每一个java开发人员倍感幸福。相对于Hashmap来说，ConcurrentHashMap就是线程安全的map，其中<strong>利用了锁分段的思想提高了并发度</strong>。</p>
 <p>ConcurrentHashMap在JDK1.6的版本网上资料很多，有兴趣的可以去看看。<br>JDK 1.6版本关键要素：</p>
@@ -608,6 +609,14 @@
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/njustwh2014" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;njustwh2014" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:seuwh2018@foxmail.com" title="E-Mail → mailto:seuwh2018@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
 
 
 
