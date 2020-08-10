@@ -5,9 +5,9 @@
   <subtitle>每天进步一点点</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://eternalhorizon.cn/"/>
-  <updated>2020-04-28T05:20:40.653Z</updated>
-  <id>http://eternalhorizon.cn/</id>
+  <link href="http://wanghuan.tech/"/>
+  <updated>2020-08-10T05:06:44.977Z</updated>
+  <id>http://wanghuan.tech/</id>
   
   <author>
     <name>Wang Huan</name>
@@ -17,9 +17,103 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>网上冲浪记录</title>
+    <link href="http://wanghuan.tech/2020/06/11/wang-shang-chong-lang-ji-lu/"/>
+    <id>http://wanghuan.tech/2020/06/11/wang-shang-chong-lang-ji-lu/</id>
+    <published>2020-06-11T02:16:10.000Z</published>
+    <updated>2020-08-10T05:06:44.977Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;依旧相信聚沙成塔，切勿浅尝辄止。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="冲浪" scheme="http://wanghuan.tech/categories/%E5%86%B2%E6%B5%AA/"/>
+    
+    
+      <category term="冲冲冲" scheme="http://wanghuan.tech/tags/%E5%86%B2%E5%86%B2%E5%86%B2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>db与缓存数据一致性</title>
+    <link href="http://wanghuan.tech/2020/06/09/db-yu-huan-cun-shu-ju-yi-zhi-xing/"/>
+    <id>http://wanghuan.tech/2020/06/09/db-yu-huan-cun-shu-ju-yi-zhi-xing/</id>
+    <published>2020-06-09T03:29:33.000Z</published>
+    <updated>2020-08-10T05:06:44.855Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://www.cnblogs.com/rjzheng/p/9041659.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;参考文章&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;四种处理时序：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;先更新缓存，再更新数据库&lt;/li&gt;
+&lt;li&gt;先更新数据库，再更新缓存&lt;/li&gt;
+&lt;li&gt;先删除缓存，再更新数据库&lt;/li&gt;
+&lt;li&gt;先更新数据库，再删除缓存&lt;/li&gt;&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="面试" scheme="http://wanghuan.tech/categories/%E9%9D%A2%E8%AF%95/"/>
+    
+    
+      <category term="数据一致性" scheme="http://wanghuan.tech/tags/%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>开源规则引擎Drools</title>
+    <link href="http://wanghuan.tech/2020/06/04/kai-yuan-gui-ze-yin-qing-drools/"/>
+    <id>http://wanghuan.tech/2020/06/04/kai-yuan-gui-ze-yin-qing-drools/</id>
+    <published>2020-06-04T11:19:46.000Z</published>
+    <updated>2020-08-10T05:06:44.885Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://github.com/njustwh2014/drools-demo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;demo地址&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;为什么需要规则引擎&quot;&gt;&lt;a href=&quot;#为什么需要规则引擎&quot; class=&quot;headerlink&quot; title=&quot;为什么需要规则引擎&quot;&gt;&lt;/a&gt;为什么需要&lt;a href=&quot;https://www.ibm.com/developerworks/cn/opensource/os-drools/index.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;规则引擎&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;规则引擎起源于基于规则的专家系统。利用规则引擎可以将商业决策者的商业运营决策逻辑和应用开发者的技术决策分离。我们可以把商业决策放在中心数据库或其他统一地方，从而能够在运行时动态的管理和修改，改善了开发和运营效率。&lt;/p&gt;
+&lt;p&gt;目前Java开源的规则引擎主要有：Drools、Easy Rules、Mandarax、IBM ILOG。使用最广泛并且开源的是Drools。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Drools" scheme="http://wanghuan.tech/categories/Drools/"/>
+    
+    
+      <category term="Drools" scheme="http://wanghuan.tech/tags/Drools/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mybatis自动生成的Example类用法</title>
+    <link href="http://wanghuan.tech/2020/05/11/mybatis-zi-dong-sheng-cheng-de-example-lei-yong-fa/"/>
+    <id>http://wanghuan.tech/2020/05/11/mybatis-zi-dong-sheng-cheng-de-example-lei-yong-fa/</id>
+    <published>2020-05-11T07:42:00.000Z</published>
+    <updated>2020-08-10T05:06:44.839Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;什么是Example类&quot;&gt;&lt;a href=&quot;#什么是Example类&quot; class=&quot;headerlink&quot; title=&quot;什么是Example类&quot;&gt;&lt;/a&gt;什么是Example类&lt;/h2&gt;&lt;p&gt;mybatis-generator会为每个字段产生Criterion，为底层的mapper.xml创建动态sql。理论上通过Example类可以构造出任何筛选条件。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Mysql" scheme="http://wanghuan.tech/categories/Mysql/"/>
+    
+    
+      <category term="Mysql" scheme="http://wanghuan.tech/tags/Mysql/"/>
+    
+      <category term="Mybatis" scheme="http://wanghuan.tech/tags/Mybatis/"/>
+    
+  </entry>
+  
+  <entry>
     <title>动态代理总结</title>
-    <link href="http://eternalhorizon.cn/2020/03/22/dong-tai-dai-li-zong-jie/"/>
-    <id>http://eternalhorizon.cn/2020/03/22/dong-tai-dai-li-zong-jie/</id>
+    <link href="http://wanghuan.tech/2020/03/22/dong-tai-dai-li-zong-jie/"/>
+    <id>http://wanghuan.tech/2020/03/22/dong-tai-dai-li-zong-jie/</id>
     <published>2020-03-22T02:03:45.000Z</published>
     <updated>2020-04-28T05:20:40.653Z</updated>
     
@@ -36,17 +130,17 @@
     </summary>
     
     
-      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+      <category term="求职" scheme="http://wanghuan.tech/categories/%E6%B1%82%E8%81%8C/"/>
     
     
-      <category term="动态代理" scheme="http://eternalhorizon.cn/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/"/>
+      <category term="动态代理" scheme="http://wanghuan.tech/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/"/>
     
   </entry>
   
   <entry>
     <title>算法与数据结构面试题汇总</title>
-    <link href="http://eternalhorizon.cn/2020/03/17/suan-fa-yu-shu-ju-jie-gou-mian-shi-ti-hui-zong/"/>
-    <id>http://eternalhorizon.cn/2020/03/17/suan-fa-yu-shu-ju-jie-gou-mian-shi-ti-hui-zong/</id>
+    <link href="http://wanghuan.tech/2020/03/17/suan-fa-yu-shu-ju-jie-gou-mian-shi-ti-hui-zong/"/>
+    <id>http://wanghuan.tech/2020/03/17/suan-fa-yu-shu-ju-jie-gou-mian-shi-ti-hui-zong/</id>
     <published>2020-03-17T08:27:49.000Z</published>
     <updated>2020-04-28T05:20:40.653Z</updated>
     
@@ -58,15 +152,15 @@
     </summary>
     
     
-      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+      <category term="求职" scheme="http://wanghuan.tech/categories/%E6%B1%82%E8%81%8C/"/>
     
     
   </entry>
   
   <entry>
     <title>Docker面试总结</title>
-    <link href="http://eternalhorizon.cn/2020/03/16/docker-mian-shi-zong-jie/"/>
-    <id>http://eternalhorizon.cn/2020/03/16/docker-mian-shi-zong-jie/</id>
+    <link href="http://wanghuan.tech/2020/03/16/docker-mian-shi-zong-jie/"/>
+    <id>http://wanghuan.tech/2020/03/16/docker-mian-shi-zong-jie/</id>
     <published>2020-03-16T02:03:43.000Z</published>
     <updated>2020-04-28T05:20:40.652Z</updated>
     
@@ -82,15 +176,15 @@
     </summary>
     
     
-      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+      <category term="求职" scheme="http://wanghuan.tech/categories/%E6%B1%82%E8%81%8C/"/>
     
     
   </entry>
   
   <entry>
     <title>Spring面试总结</title>
-    <link href="http://eternalhorizon.cn/2020/03/16/spring-mian-shi-zong-jie/"/>
-    <id>http://eternalhorizon.cn/2020/03/16/spring-mian-shi-zong-jie/</id>
+    <link href="http://wanghuan.tech/2020/03/16/spring-mian-shi-zong-jie/"/>
+    <id>http://wanghuan.tech/2020/03/16/spring-mian-shi-zong-jie/</id>
     <published>2020-03-16T01:08:26.000Z</published>
     <updated>2020-04-28T05:20:40.651Z</updated>
     
@@ -103,58 +197,74 @@
     </summary>
     
     
-      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+      <category term="求职" scheme="http://wanghuan.tech/categories/%E6%B1%82%E8%81%8C/"/>
     
     
   </entry>
   
   <entry>
     <title>并发编程面试总结</title>
-    <link href="http://eternalhorizon.cn/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/"/>
-    <id>http://eternalhorizon.cn/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/</id>
+    <link href="http://wanghuan.tech/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/"/>
+    <id>http://wanghuan.tech/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/</id>
     <published>2020-03-16T01:08:10.000Z</published>
-    <updated>2020-04-28T05:20:41.347Z</updated>
+    <updated>2020-08-10T05:06:44.870Z</updated>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;进程、线程和协程&quot;&gt;&lt;a href=&quot;#进程、线程和协程&quot; class=&quot;headerlink&quot; title=&quot;进程、线程和协程&quot;&gt;&lt;/a&gt;进程、线程和协程&lt;/h2&gt;&lt;h3 id=&quot;进程&quot;&gt;&lt;a href=&quot;#进程&quot; class=&quot;headerlink&quot; title=&quot;进程&quot;&gt;&lt;/a&gt;进程&lt;/h3&gt;&lt;p&gt;进程是系统资源分配的最小单位, 系统由一个个进程(程序)组成。一般情况下，包括文本区域（text region）、数据区域（data region）和堆栈（stack region）。&lt;/p&gt;
+      &lt;h2 id=&quot;什么是指令重排序？&quot;&gt;&lt;a href=&quot;#什么是指令重排序？&quot; class=&quot;headerlink&quot; title=&quot;什么是指令重排序？&quot;&gt;&lt;/a&gt;什么是指令重排序？&lt;/h2&gt;&lt;p&gt;为了提高性能，编译器和处理器通常会对指令进行重排序，重排序指从源代码到指令序列的重排序，分为三种：① 编译器优化的重排序，编译器在不改变单线程程序语义的前提下可以重排语句的执行顺序。② 指令级并行的重排序，如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。③ 内存系统的重排序。&lt;/p&gt;
+&lt;h2 id=&quot;as-if-serial-是什么？&quot;&gt;&lt;a href=&quot;#as-if-serial-是什么？&quot; class=&quot;headerlink&quot; title=&quot;as-if-serial 是什么？&quot;&gt;&lt;/a&gt;as-if-serial 是什么？&lt;/h2&gt;&lt;p&gt;不管怎么重排序，单线程程序的执行结果不能改变，编译器和处理器必须遵循as-if-serial语义。&lt;/p&gt;
+&lt;p&gt;为了遵循 as-if-serial，编译器和处理器不会对存在数据依赖关系的操作重排序，因为这种重排序会改变执行结果。但是如果操作之间不存在数据依赖关系，这些操作就可能被编译器和处理器重排序。&lt;/p&gt;
+&lt;p&gt;as-if-serial 把单线程程序保护起来，给程序员一种幻觉：单线程程序是按程序的顺序执行的。&lt;/p&gt;
+&lt;h2 id=&quot;happens-before-是什么？&quot;&gt;&lt;a href=&quot;#happens-before-是什么？&quot; class=&quot;headerlink&quot; title=&quot;happens-before 是什么？&quot;&gt;&lt;/a&gt;happens-before 是什么？&lt;/h2&gt;&lt;p&gt;先行发生原则，JMM定义的两项操作间的偏序关系，是判断数据是否存在竞争的重要手段。&lt;/p&gt;
+&lt;p&gt;JMM 将 happens-before 要求禁止的重排序按是否会改变程序执行结果分为两类。对于会改变结果的重排序 JMM 要求编译器和处理器必须禁止，对于不会改变结果的重排序，JMM 不做要求。&lt;/p&gt;
+&lt;p&gt;JMM 存在一些天然的 happens-before 关系，无需任何同步器协助就已经存在。如果两个操作的关系不在此列，并且无法从这些规则推导出来，它们就没有顺序性保障，虚拟机可以对它们随意进行重排序。&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;文本区域存储处理器执行的代码&lt;/li&gt;
-&lt;li&gt;数据区域存储变量和进程执行期间使用的动态分配的内存；&lt;/li&gt;
-&lt;li&gt;堆栈区域存储着活动过程调用的指令和本地变量。&lt;/li&gt;&lt;/ul&gt;
+&lt;li&gt;程序次序规则：一个线程内写在前面的操作先行发生于后面的。&lt;/li&gt;
+&lt;li&gt;管程锁定规则： unlock 操作先行发生于后面对同一个锁的 lock 操作。&lt;/li&gt;
+&lt;li&gt;volatile 规则：对 volatile 变量的写操作先行发生于后面的读操作。&lt;/li&gt;
+&lt;li&gt;线程启动规则：线程的 start 方法先行发生于线程的每个动作。&lt;/li&gt;
+&lt;li&gt;线程终止规则：线程中所有操作先行发生于对线程的终止检测。&lt;/li&gt;
+&lt;li&gt;对象终结规则：对象的初始化先行发生于 finalize 方法。&lt;/li&gt;
+&lt;li&gt;传递性：如果操作 A 先行发生于操作 B，操作 B 先行发生于操作 C，那么操作 A 先行发生于操作 C 。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;as-if-serial-和-happens-before-有什么区别？&quot;&gt;&lt;a href=&quot;#as-if-serial-和-happens-before-有什么区别？&quot; class=&quot;headerlink&quot; title=&quot;as-if-serial 和 happens-before 有什么区别？&quot;&gt;&lt;/a&gt;as-if-serial 和 happens-before 有什么区别？&lt;/h2&gt;&lt;p&gt;as-if-serial 保证单线程程序的执行结果不变，happens-before 保证正确同步的多线程程序的执行结果不变。&lt;/p&gt;
+&lt;p&gt;这两种语义的目的都是为了在不改变程序执行结果的前提下尽可能提高程序执行并行度。&lt;/p&gt;
     
     </summary>
     
     
-      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+      <category term="求职" scheme="http://wanghuan.tech/categories/%E6%B1%82%E8%81%8C/"/>
     
     
   </entry>
   
   <entry>
     <title>JVM面试总结</title>
-    <link href="http://eternalhorizon.cn/2020/03/16/jvm-mian-shi-zong-jie/"/>
-    <id>http://eternalhorizon.cn/2020/03/16/jvm-mian-shi-zong-jie/</id>
+    <link href="http://wanghuan.tech/2020/03/16/jvm-mian-shi-zong-jie/"/>
+    <id>http://wanghuan.tech/2020/03/16/jvm-mian-shi-zong-jie/</id>
     <published>2020-03-16T01:07:38.000Z</published>
-    <updated>2020-04-28T05:20:40.651Z</updated>
+    <updated>2020-08-10T05:06:44.775Z</updated>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;JVM-类加载机制&quot;&gt;&lt;a href=&quot;#JVM-类加载机制&quot; class=&quot;headerlink&quot; title=&quot;JVM: 类加载机制&quot;&gt;&lt;/a&gt;JVM: 类加载机制&lt;/h2&gt;&lt;p&gt;Java虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是&lt;strong&gt;虚拟机的加载机制&lt;/strong&gt;。&lt;/p&gt;
+      &lt;h2 id=&quot;JVM&quot;&gt;&lt;a href=&quot;#JVM&quot; class=&quot;headerlink&quot; title=&quot;JVM&quot;&gt;&lt;/a&gt;JVM&lt;/h2&gt;&lt;p&gt;JVM即java虚拟机，可以屏蔽具体硬件平台执行java语言或其他jvm支持的语言编译而出的字节码，&lt;strong&gt;jvm实现了java语言重要的特征：平台无关性，一次编译到处运行。&lt;/strong&gt; &lt;/p&gt;
+&lt;p&gt;原理：编译后的java程序指令并不是直接在CPU上执行，而是由JVM执行。JVM屏蔽了具体的硬件平台，使Java语言只需要编译生成在JVM上运行的目标字节码(.class)，就可以不加修改的在各个平台上执行。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;JVM=类加载器+执行引擎+运行时数据区域&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;JVM-类加载机制&quot;&gt;&lt;a href=&quot;#JVM-类加载机制&quot; class=&quot;headerlink&quot; title=&quot;JVM: 类加载机制&quot;&gt;&lt;/a&gt;JVM: 类加载机制&lt;/h2&gt;&lt;p&gt;Java虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是&lt;strong&gt;虚拟机的加载机制&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://juejin.im/post/5a810b0e5188257a5c606a85#heading-1&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;要看看哦&lt;/a&gt;&lt;/p&gt;
     
     </summary>
     
     
-      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+      <category term="求职" scheme="http://wanghuan.tech/categories/%E6%B1%82%E8%81%8C/"/>
     
     
   </entry>
   
   <entry>
     <title>Mysql面试汇总</title>
-    <link href="http://eternalhorizon.cn/2020/03/13/mysql-mian-shi-hui-zong/"/>
-    <id>http://eternalhorizon.cn/2020/03/13/mysql-mian-shi-hui-zong/</id>
+    <link href="http://wanghuan.tech/2020/03/13/mysql-mian-shi-hui-zong/"/>
+    <id>http://wanghuan.tech/2020/03/13/mysql-mian-shi-hui-zong/</id>
     <published>2020-03-13T12:59:55.000Z</published>
     <updated>2020-04-28T05:20:40.651Z</updated>
     
@@ -166,15 +276,15 @@
     </summary>
     
     
-      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+      <category term="求职" scheme="http://wanghuan.tech/categories/%E6%B1%82%E8%81%8C/"/>
     
     
   </entry>
   
   <entry>
     <title>设计模式题汇总</title>
-    <link href="http://eternalhorizon.cn/2020/03/13/she-ji-mo-shi-ti-hui-zong/"/>
-    <id>http://eternalhorizon.cn/2020/03/13/she-ji-mo-shi-ti-hui-zong/</id>
+    <link href="http://wanghuan.tech/2020/03/13/she-ji-mo-shi-ti-hui-zong/"/>
+    <id>http://wanghuan.tech/2020/03/13/she-ji-mo-shi-ti-hui-zong/</id>
     <published>2020-03-13T12:56:00.000Z</published>
     <updated>2020-04-28T05:20:40.653Z</updated>
     
@@ -193,17 +303,17 @@
     </summary>
     
     
-      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+      <category term="求职" scheme="http://wanghuan.tech/categories/%E6%B1%82%E8%81%8C/"/>
     
     
-      <category term="设计模式" scheme="http://eternalhorizon.cn/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="http://wanghuan.tech/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
   <entry>
     <title>网络协议面试题汇总</title>
-    <link href="http://eternalhorizon.cn/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/"/>
-    <id>http://eternalhorizon.cn/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/</id>
+    <link href="http://wanghuan.tech/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/"/>
+    <id>http://wanghuan.tech/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/</id>
     <published>2020-03-13T12:53:35.000Z</published>
     <updated>2020-04-28T05:20:40.653Z</updated>
     
@@ -229,19 +339,19 @@
     </summary>
     
     
-      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+      <category term="求职" scheme="http://wanghuan.tech/categories/%E6%B1%82%E8%81%8C/"/>
     
     
-      <category term="TCP" scheme="http://eternalhorizon.cn/tags/TCP/"/>
+      <category term="TCP" scheme="http://wanghuan.tech/tags/TCP/"/>
     
-      <category term="HTTP" scheme="http://eternalhorizon.cn/tags/HTTP/"/>
+      <category term="HTTP" scheme="http://wanghuan.tech/tags/HTTP/"/>
     
   </entry>
   
   <entry>
     <title>redis面试题汇总</title>
-    <link href="http://eternalhorizon.cn/2020/03/13/redis-mian-shi-ti-hui-zong/"/>
-    <id>http://eternalhorizon.cn/2020/03/13/redis-mian-shi-ti-hui-zong/</id>
+    <link href="http://wanghuan.tech/2020/03/13/redis-mian-shi-ti-hui-zong/"/>
+    <id>http://wanghuan.tech/2020/03/13/redis-mian-shi-ti-hui-zong/</id>
     <published>2020-03-13T12:49:29.000Z</published>
     <updated>2020-04-28T05:20:40.651Z</updated>
     
@@ -258,15 +368,15 @@
     </summary>
     
     
-      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+      <category term="求职" scheme="http://wanghuan.tech/categories/%E6%B1%82%E8%81%8C/"/>
     
     
   </entry>
   
   <entry>
     <title>Java基础面试题汇总</title>
-    <link href="http://eternalhorizon.cn/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/"/>
-    <id>http://eternalhorizon.cn/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/</id>
+    <link href="http://wanghuan.tech/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/"/>
+    <id>http://wanghuan.tech/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/</id>
     <published>2020-03-13T12:32:50.000Z</published>
     <updated>2020-04-28T05:20:40.652Z</updated>
     
@@ -282,36 +392,36 @@
     </summary>
     
     
-      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+      <category term="求职" scheme="http://wanghuan.tech/categories/%E6%B1%82%E8%81%8C/"/>
     
     
   </entry>
   
   <entry>
     <title>面试问题汇总</title>
-    <link href="http://eternalhorizon.cn/2020/02/27/mian-shi-wen-ti-hui-zong/"/>
-    <id>http://eternalhorizon.cn/2020/02/27/mian-shi-wen-ti-hui-zong/</id>
+    <link href="http://wanghuan.tech/2020/02/27/mian-shi-wen-ti-hui-zong/"/>
+    <id>http://wanghuan.tech/2020/02/27/mian-shi-wen-ti-hui-zong/</id>
     <published>2020-02-27T02:20:25.000Z</published>
-    <updated>2020-04-28T05:20:40.653Z</updated>
+    <updated>2020-08-10T05:06:45.026Z</updated>
     
     <summary type="html">
     
       &lt;p&gt;&lt;a href=&quot;https://www.bilibili.com/read/cv4150256/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.bilibili.com/read/cv4150256/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://www.processon.com/view/link/5db53025e4b0893e9a654cda#map&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;学习大纲&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&quot;Java基础&quot;&gt;&lt;a href=&quot;#Java基础&quot; class=&quot;headerlink&quot; title=&quot;Java基础&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/&quot;&gt;Java基础&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;Java并发&quot;&gt;&lt;a href=&quot;#Java并发&quot; class=&quot;headerlink&quot; title=&quot;Java并发&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/&quot;&gt;Java并发&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;JVM&quot;&gt;&lt;a href=&quot;#JVM&quot; class=&quot;headerlink&quot; title=&quot;JVM&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/16/jvm-mian-shi-zong-jie/&quot;&gt;JVM&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;Spring&quot;&gt;&lt;a href=&quot;#Spring&quot; class=&quot;headerlink&quot; title=&quot;Spring&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/16/spring-mian-shi-zong-jie/&quot;&gt;Spring&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;redis&quot;&gt;&lt;a href=&quot;#redis&quot; class=&quot;headerlink&quot; title=&quot;redis&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/13/redis-mian-shi-ti-hui-zong/&quot;&gt;redis&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;网络协议&quot;&gt;&lt;a href=&quot;#网络协议&quot; class=&quot;headerlink&quot; title=&quot;网络协议&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/&quot;&gt;网络协议&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;Mysql&quot;&gt;&lt;a href=&quot;#Mysql&quot; class=&quot;headerlink&quot; title=&quot;Mysql&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/13/mysql-mian-shi-hui-zong/&quot;&gt;Mysql&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;设计模式&quot;&gt;&lt;a href=&quot;#设计模式&quot; class=&quot;headerlink&quot; title=&quot;设计模式&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/13/she-ji-mo-shi-ti-hui-zong/&quot;&gt;设计模式&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;算法与数据结构&quot;&gt;&lt;a href=&quot;#算法与数据结构&quot; class=&quot;headerlink&quot; title=&quot;算法与数据结构&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/17/suan-fa-yu-shu-ju-jie-gou-mian-shi-ti-hui-zong/&quot;&gt;算法与数据结构&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;Docker&quot;&gt;&lt;a href=&quot;#Docker&quot; class=&quot;headerlink&quot; title=&quot;Docker&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://eternalhorizon.cn/2020/03/16/docker-mian-shi-zong-jie/&quot;&gt;Docker&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;Java基础&quot;&gt;&lt;a href=&quot;#Java基础&quot; class=&quot;headerlink&quot; title=&quot;Java基础&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://wanghuan.tech/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/&quot;&gt;Java基础&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;Java并发&quot;&gt;&lt;a href=&quot;#Java并发&quot; class=&quot;headerlink&quot; title=&quot;Java并发&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://wanghuan.tech/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/&quot;&gt;Java并发&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;JVM&quot;&gt;&lt;a href=&quot;#JVM&quot; class=&quot;headerlink&quot; title=&quot;JVM&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://wanghuan.tech/2020/03/16/jvm-mian-shi-zong-jie/&quot;&gt;JVM&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;Spring&quot;&gt;&lt;a href=&quot;#Spring&quot; class=&quot;headerlink&quot; title=&quot;Spring&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://wanghuan.tech/2020/03/16/spring-mian-shi-zong-jie/&quot;&gt;Spring&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;redis&quot;&gt;&lt;a href=&quot;#redis&quot; class=&quot;headerlink&quot; title=&quot;redis&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://wanghuan.tech/2020/03/13/redis-mian-shi-ti-hui-zong/&quot;&gt;redis&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;网络协议&quot;&gt;&lt;a href=&quot;#网络协议&quot; class=&quot;headerlink&quot; title=&quot;网络协议&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://wanghuan.tech/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/&quot;&gt;网络协议&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;Mysql&quot;&gt;&lt;a href=&quot;#Mysql&quot; class=&quot;headerlink&quot; title=&quot;Mysql&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://wanghuan.tech/2020/03/13/mysql-mian-shi-hui-zong/&quot;&gt;Mysql&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;设计模式&quot;&gt;&lt;a href=&quot;#设计模式&quot; class=&quot;headerlink&quot; title=&quot;设计模式&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://wanghuan.tech/2020/03/13/she-ji-mo-shi-ti-hui-zong/&quot;&gt;设计模式&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;算法与数据结构&quot;&gt;&lt;a href=&quot;#算法与数据结构&quot; class=&quot;headerlink&quot; title=&quot;算法与数据结构&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://wanghuan.tech/2020/03/17/suan-fa-yu-shu-ju-jie-gou-mian-shi-ti-hui-zong/&quot;&gt;算法与数据结构&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;Docker&quot;&gt;&lt;a href=&quot;#Docker&quot; class=&quot;headerlink&quot; title=&quot;Docker&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://wanghuan.tech/2020/03/16/docker-mian-shi-zong-jie/&quot;&gt;Docker&lt;/a&gt;&lt;/h2&gt;
     
     </summary>
     
     
-      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+      <category term="求职" scheme="http://wanghuan.tech/categories/%E6%B1%82%E8%81%8C/"/>
     
     
   </entry>
   
   <entry>
     <title>2020一定要拿到offer啊</title>
-    <link href="http://eternalhorizon.cn/2020/02/02/2020-yi-ding-yao-na-dao-offer-a/"/>
-    <id>http://eternalhorizon.cn/2020/02/02/2020-yi-ding-yao-na-dao-offer-a/</id>
+    <link href="http://wanghuan.tech/2020/02/02/2020-yi-ding-yao-na-dao-offer-a/"/>
+    <id>http://wanghuan.tech/2020/02/02/2020-yi-ding-yao-na-dao-offer-a/</id>
     <published>2020-02-02T03:06:02.000Z</published>
     <updated>2020-04-28T05:20:41.347Z</updated>
     
@@ -335,25 +445,25 @@
     </summary>
     
     
-      <category term="求职" scheme="http://eternalhorizon.cn/categories/%E6%B1%82%E8%81%8C/"/>
+      <category term="求职" scheme="http://wanghuan.tech/categories/%E6%B1%82%E8%81%8C/"/>
     
     
-      <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
+      <category term="Mysql" scheme="http://wanghuan.tech/tags/Mysql/"/>
     
-      <category term="Redis" scheme="http://eternalhorizon.cn/tags/Redis/"/>
+      <category term="Java" scheme="http://wanghuan.tech/tags/Java/"/>
     
-      <category term="Mysql" scheme="http://eternalhorizon.cn/tags/Mysql/"/>
+      <category term="Redis" scheme="http://wanghuan.tech/tags/Redis/"/>
     
-      <category term="Vue" scheme="http://eternalhorizon.cn/tags/Vue/"/>
+      <category term="Vue" scheme="http://wanghuan.tech/tags/Vue/"/>
     
-      <category term="Springboot" scheme="http://eternalhorizon.cn/tags/Springboot/"/>
+      <category term="Springboot" scheme="http://wanghuan.tech/tags/Springboot/"/>
     
   </entry>
   
   <entry>
     <title>属于渣欢和狗婷的一百</title>
-    <link href="http://eternalhorizon.cn/2020/01/02/shu-yu-zha-huan-he-gou-ting-de-yi-bai/"/>
-    <id>http://eternalhorizon.cn/2020/01/02/shu-yu-zha-huan-he-gou-ting-de-yi-bai/</id>
+    <link href="http://wanghuan.tech/2020/01/02/shu-yu-zha-huan-he-gou-ting-de-yi-bai/"/>
+    <id>http://wanghuan.tech/2020/01/02/shu-yu-zha-huan-he-gou-ting-de-yi-bai/</id>
     <published>2020-01-02T01:35:50.000Z</published>
     <updated>2020-04-28T05:20:40.653Z</updated>
     
@@ -377,15 +487,15 @@
     </summary>
     
     
-      <category term="恋爱" scheme="http://eternalhorizon.cn/categories/%E6%81%8B%E7%88%B1/"/>
+      <category term="恋爱" scheme="http://wanghuan.tech/categories/%E6%81%8B%E7%88%B1/"/>
     
     
   </entry>
   
   <entry>
     <title>并发容器之ConcurrentLinkedQueue</title>
-    <link href="http://eternalhorizon.cn/2019/12/08/bing-fa-rong-qi-zhi-concurrentlinkedqueue/"/>
-    <id>http://eternalhorizon.cn/2019/12/08/bing-fa-rong-qi-zhi-concurrentlinkedqueue/</id>
+    <link href="http://wanghuan.tech/2019/12/08/bing-fa-rong-qi-zhi-concurrentlinkedqueue/"/>
+    <id>http://wanghuan.tech/2019/12/08/bing-fa-rong-qi-zhi-concurrentlinkedqueue/</id>
     <published>2019-12-08T05:47:45.000Z</published>
     <updated>2020-04-28T05:20:40.653Z</updated>
     
@@ -401,8 +511,8 @@
   
   <entry>
     <title>并发容器之ConcurrentHashMap(JDK 1.8版本)</title>
-    <link href="http://eternalhorizon.cn/2019/12/06/bing-fa-rong-qi-zhi-concurrenthashmap-jdk-1-8-ban-ben/"/>
-    <id>http://eternalhorizon.cn/2019/12/06/bing-fa-rong-qi-zhi-concurrenthashmap-jdk-1-8-ban-ben/</id>
+    <link href="http://wanghuan.tech/2019/12/06/bing-fa-rong-qi-zhi-concurrenthashmap-jdk-1-8-ban-ben/"/>
+    <id>http://wanghuan.tech/2019/12/06/bing-fa-rong-qi-zhi-concurrenthashmap-jdk-1-8-ban-ben/</id>
     <published>2019-12-06T05:57:43.000Z</published>
     <updated>2020-04-28T05:20:41.350Z</updated>
     
@@ -416,111 +526,16 @@
     </summary>
     
     
-      <category term="Concurrent" scheme="http://eternalhorizon.cn/categories/Concurrent/"/>
+      <category term="Concurrent" scheme="http://wanghuan.tech/categories/Concurrent/"/>
     
     
-      <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
+      <category term="Concurrent" scheme="http://wanghuan.tech/tags/Concurrent/"/>
     
-      <category term="Concurrent" scheme="http://eternalhorizon.cn/tags/Concurrent/"/>
+      <category term="Java" scheme="http://wanghuan.tech/tags/Java/"/>
     
-      <category term="HashMap" scheme="http://eternalhorizon.cn/tags/HashMap/"/>
+      <category term="HashMap" scheme="http://wanghuan.tech/tags/HashMap/"/>
     
-      <category term="ConcurrentHashMap" scheme="http://eternalhorizon.cn/tags/ConcurrentHashMap/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java中的Cloneable和Serializable接口思考</title>
-    <link href="http://eternalhorizon.cn/2019/12/06/java-zhong-de-cloneable-he-serializable-jie-kou-si-kao/"/>
-    <id>http://eternalhorizon.cn/2019/12/06/java-zhong-de-cloneable-he-serializable-jie-kou-si-kao/</id>
-    <published>2019-12-06T01:57:06.000Z</published>
-    <updated>2020-04-28T05:20:40.652Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;Cloneable接口&quot;&gt;&lt;a href=&quot;#Cloneable接口&quot; class=&quot;headerlink&quot; title=&quot;Cloneable接口&quot;&gt;&lt;/a&gt;Cloneable接口&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;clone()方法&lt;/strong&gt;：允许在&lt;strong&gt;堆&lt;/strong&gt;中克隆出一块与原对象一样的对象，并将这个对象的地址赋予新的引用。&lt;/p&gt;
-&lt;p&gt;Java中一个类要实现clone()方法，必须实现Cloneable接口，否则在调用clone()方法时会报CloneNotSupportException异常。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;需要说明：&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-    
-      <category term="Java" scheme="http://eternalhorizon.cn/categories/Java/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>LockSupport工具</title>
-    <link href="http://eternalhorizon.cn/2019/12/05/locksupport-gong-ju/"/>
-    <id>http://eternalhorizon.cn/2019/12/05/locksupport-gong-ju/</id>
-    <published>2019-12-05T08:50:12.000Z</published>
-    <updated>2020-04-28T05:20:40.651Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;a href=&quot;https://github.com/njustwh2014/MyJavaRepo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;我的github项目，有一些代码示例&lt;/a&gt; forked from &lt;a href=&quot;https://github.com/CL0610/Java-concurrency&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/CL0610/Java-concurrency&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&quot;1-LockSupport简介&quot;&gt;&lt;a href=&quot;#1-LockSupport简介&quot; class=&quot;headerlink&quot; title=&quot;1. LockSupport简介&quot;&gt;&lt;/a&gt;1. LockSupport简介&lt;/h2&gt;&lt;p&gt;在之前介绍&lt;a href=&quot;http://eternalhorizon.cn/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/&quot;&gt;AQS的底层实现&lt;/a&gt;，已经在介绍java中的Lock时，比如&lt;a href=&quot;http://eternalhorizon.cn/2019/11/05/che-di-li-jie-reentrantlock/&quot;&gt;ReentrantLock&lt;/a&gt;,&lt;a href=&quot;http://eternalhorizon.cn/2019/11/08/shen-ru-li-jie-du-xie-suo-reentrantreadwritelock/&quot;&gt;ReentReadWriteLocks&lt;/a&gt;,已经在介绍线程间等待/通知机制使用的&lt;a href=&quot;http://eternalhorizon.cn/2019/11/08/xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi/&quot;&gt;Condition&lt;/a&gt;时都会调用LockSupport.park()方法和LockSupport.unpark()方法。而这个在同步组件的实现中被频繁使用的LockSupport到底是何方神圣，现在就来看看。LockSupport位于java.util.concurrent.locks包下，有兴趣的可以直接去看源码，该类的方法并不是很多。LockSupprot是线程的阻塞原语，用来阻塞线程和唤醒线程。每个使用LockSupport的线程都会与一个许可关联，如果该许可可用，并且可在线程中使用，则调用park()将会立即返回，否则可能阻塞。如果许可尚不可用，则可以调用 unpark 使其可用。但是注意许可&lt;strong&gt;不可重入&lt;/strong&gt;，也就是说只能调用一次park()方法，否则会一直阻塞。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Concurrent" scheme="http://eternalhorizon.cn/categories/Concurrent/"/>
-    
-    
-      <category term="Java" scheme="http://eternalhorizon.cn/tags/Java/"/>
-    
-      <category term="Concurrent" scheme="http://eternalhorizon.cn/tags/Concurrent/"/>
-    
-      <category term="AQS" scheme="http://eternalhorizon.cn/tags/AQS/"/>
-    
-      <category term="Lock" scheme="http://eternalhorizon.cn/tags/Lock/"/>
-    
-      <category term="Condition" scheme="http://eternalhorizon.cn/tags/Condition/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>centos上部署docker、java、nginx、elasticsearch</title>
-    <link href="http://eternalhorizon.cn/2019/12/05/centos-shang-bu-shu-docker-java-nginx-elasticsearch/"/>
-    <id>http://eternalhorizon.cn/2019/12/05/centos-shang-bu-shu-docker-java-nginx-elasticsearch/</id>
-    <published>2019-12-05T02:00:46.000Z</published>
-    <updated>2020-04-28T05:20:40.652Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;安装centos6&quot;&gt;&lt;a href=&quot;#安装centos6&quot; class=&quot;headerlink&quot; title=&quot;安装centos6&quot;&gt;&lt;/a&gt;安装centos6&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#查看版本信息&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cat /etc/redhat-release&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/shuaigexiaobo/article/details/78030008&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;版本信息参考链接&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;开启相应端口&lt;/strong&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Centos" scheme="http://eternalhorizon.cn/categories/Centos/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>docker中使用grafana</title>
-    <link href="http://eternalhorizon.cn/2019/11/28/docker-zhong-shi-yong-grafana/"/>
-    <id>http://eternalhorizon.cn/2019/11/28/docker-zhong-shi-yong-grafana/</id>
-    <published>2019-11-28T05:54:07.000Z</published>
-    <updated>2020-04-28T05:20:40.652Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;查看grafana镜像&quot;&gt;&lt;a href=&quot;#查看grafana镜像&quot; class=&quot;headerlink&quot; title=&quot;查看grafana镜像&quot;&gt;&lt;/a&gt;查看grafana镜像&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;docker search grafana&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-      <category term="docker" scheme="http://eternalhorizon.cn/categories/docker/"/>
-    
+      <category term="ConcurrentHashMap" scheme="http://wanghuan.tech/tags/ConcurrentHashMap/"/>
     
   </entry>
   

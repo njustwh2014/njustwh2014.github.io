@@ -17,24 +17,24 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"eternalhorizon.cn","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"wanghuan.tech","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="JVM: 类加载机制Java虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是虚拟机的加载机制。 要看看哦">
+  <meta name="description" content="JVMJVM即java虚拟机，可以屏蔽具体硬件平台执行java语言或其他jvm支持的语言编译而出的字节码，jvm实现了java语言重要的特征：平台无关性，一次编译到处运行。  原理：编译后的java程序指令并不是直接在CPU上执行，而是由JVM执行。JVM屏蔽了具体的硬件平台，使Java语言只需要编译生成在JVM上运行的目标字节码(.class)，就可以不加修改的在各个平台上执行。 JVM=类加载">
 <meta name="keywords" content="Java, 中间件, Spring, Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM面试总结">
-<meta property="og:url" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;16&#x2F;jvm-mian-shi-zong-jie&#x2F;index.html">
+<meta property="og:url" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2020&#x2F;03&#x2F;16&#x2F;jvm-mian-shi-zong-jie&#x2F;index.html">
 <meta property="og:site_name" content="Eternal Horizon">
-<meta property="og:description" content="JVM: 类加载机制Java虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是虚拟机的加载机制。 要看看哦">
+<meta property="og:description" content="JVMJVM即java虚拟机，可以屏蔽具体硬件平台执行java语言或其他jvm支持的语言编译而出的字节码，jvm实现了java语言重要的特征：平台无关性，一次编译到处运行。  原理：编译后的java程序指令并不是直接在CPU上执行，而是由JVM执行。JVM屏蔽了具体的硬件平台，使Java语言只需要编译生成在JVM上运行的目标字节码(.class)，就可以不加修改的在各个平台上执行。 JVM=类加载">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;16&#x2F;jvm-mian-shi-zong-jie&#x2F;JVM_RUNTIME_DATA_AREA.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;16&#x2F;jvm-mian-shi-zong-jie&#x2F;JVM_RUNTIME_DATA.png">
-<meta property="og:updated_time" content="2020-04-28T05:20:40.651Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2020&#x2F;03&#x2F;16&#x2F;jvm-mian-shi-zong-jie&#x2F;JVM_RUNTIME_DATA_AREA.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2020&#x2F;03&#x2F;16&#x2F;jvm-mian-shi-zong-jie&#x2F;JVM_RUNTIME_DATA.png">
+<meta property="og:updated_time" content="2020-08-10T05:06:44.775Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;eternalhorizon.cn&#x2F;2020&#x2F;03&#x2F;16&#x2F;jvm-mian-shi-zong-jie&#x2F;JVM_RUNTIME_DATA_AREA.png">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2020&#x2F;03&#x2F;16&#x2F;jvm-mian-shi-zong-jie&#x2F;JVM_RUNTIME_DATA_AREA.png">
 
-<link rel="canonical" href="http://eternalhorizon.cn/2020/03/16/jvm-mian-shi-zong-jie/">
+<link rel="canonical" href="http://wanghuan.tech/2020/03/16/jvm-mian-shi-zong-jie/">
 
 
 <script id="page-configurations">
@@ -129,17 +129,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">26</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">30</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">10</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">13</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">40</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">44</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -193,7 +193,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://eternalhorizon.cn/2020/03/16/jvm-mian-shi-zong-jie/">
+    <link itemprop="mainEntityOfPage" href="http://wanghuan.tech/2020/03/16/jvm-mian-shi-zong-jie/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -223,7 +223,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-28 13:20:40" itemprop="dateModified" datetime="2020-04-28T13:20:40+08:00">2020-04-28</time>
+                <time title="修改时间：2020-08-10 13:06:44" itemprop="dateModified" datetime="2020-08-10T13:06:44+08:00">2020-08-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -255,14 +255,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>15k</span>
+              <span>17k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>14 分钟</span>
+              <span>15 分钟</span>
             </span>
 
         </div>
@@ -274,7 +274,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="JVM-类加载机制"><a href="#JVM-类加载机制" class="headerlink" title="JVM: 类加载机制"></a>JVM: 类加载机制</h2><p>Java虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是<strong>虚拟机的加载机制</strong>。</p>
+        <h2 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h2><p>JVM即java虚拟机，可以屏蔽具体硬件平台执行java语言或其他jvm支持的语言编译而出的字节码，<strong>jvm实现了java语言重要的特征：平台无关性，一次编译到处运行。</strong> </p>
+<p>原理：编译后的java程序指令并不是直接在CPU上执行，而是由JVM执行。JVM屏蔽了具体的硬件平台，使Java语言只需要编译生成在JVM上运行的目标字节码(.class)，就可以不加修改的在各个平台上执行。</p>
+<p><strong>JVM=类加载器+执行引擎+运行时数据区域</strong></p>
+<h2 id="JVM-类加载机制"><a href="#JVM-类加载机制" class="headerlink" title="JVM: 类加载机制"></a>JVM: 类加载机制</h2><p>Java虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是<strong>虚拟机的加载机制</strong>。</p>
 <p><a href="https://juejin.im/post/5a810b0e5188257a5c606a85#heading-1" target="_blank" rel="noopener">要看看哦</a></p>
 <a id="more"></a>
 <h3 id="类加载时机"><a href="#类加载时机" class="headerlink" title="类加载时机"></a>类加载时机</h3><p>类从被虚拟机加载到内存中开始，到卸载出内存为止，它的生命周期经历了<strong>加载（Loading）、验证（Verification）、准备（Preparation）、解析（Resolution）、初始化（Initialization）、使用（Using）和卸载（Unloading）</strong>，一共七个阶段，其中验证、准备、解析部分统称为连接。</p>
@@ -389,17 +392,20 @@
 <p>JNDI服务：JNDI的目的就是对资源进行集中管理和查找，它需要调用独立厂商实现部部署在应用程序的classpath下的JNDI接口提供者(SPI, Service Provider Interface)的代码。</p>
 <p>因此，为了破坏这种双亲委派机制，在<strong>启动类里也能够使用系统类加载器对类进行加载</strong>，Java设计了<strong>线程上下文加载器</strong>。在核心类进行类加载时，可以读取当前线程的线程上下文加载器，使用该加载器加载实现了SPI接口的类。</p>
 <p>Java中所有涉及SPI的加载动作基本上都采用这种方式，例如JNDI,JDBC,JCE,JAXB和JBI等</p>
-<h2 id="对象实例化过程："><a href="#对象实例化过程：" class="headerlink" title="对象实例化过程："></a>对象实例化过程：</h2><p>以<code>Person p = new Person()</code>为例</p>
-<ul>
-<li>1，JVM会读取指定的路径下的Person.class文件，并加载进内存，并会先加载Person的父类(如果有直接的父类的情况下).</li>
-<li>2，在堆内存中开辟空间，分配地址。</li>
-<li>3，并在对象空间中，对对象中的属性进行默认初始化。</li>
-<li>4，调用(Person类)对应的构造函数进行初始化。</li>
-<li>5，在构造函数中，第一行会先到调用父类中构造函数进行初始化。</li>
-<li>6，父类的属性初始化完毕后，再对子类的属性进行显示初始化。</li>
-<li>7，再进行子类构造函数的特定初始化(即Person类构造函数后面的初始化)。</li>
-<li>8，初始化完毕后，将地址值赋值给引用变量.</li>
+<h2 id="对象实例化过程："><a href="#对象实例化过程：" class="headerlink" title="对象实例化过程："></a>对象实例化过程：</h2><ul>
+<li>当JVM遇到字节码new指令时，首先检查该指令参数能否在常量池中定位到一个具体的类的符号引用，并检查该类<br>是否经过加载、验证、解析和初始化，如果没有则进行类加载</li>
+<li>虚拟机在堆区分配空间</li>
+<li>分配空间完成后，虚拟机为对象成员变量赋零值，这样可以保证对象不赋初值也可以调用。</li>
+<li>设置对象头，包括哈希值、GC信息、锁信息、对象所属类的类元信息</li>
+<li>执行init方法，初始化成员变量，执行实例化代码块，调用类的构造方法，<strong>并把堆内对象的首地址赋值给引用变量</strong>。</li>
 </ul>
+<h2 id="对象分配内存是否线程安全"><a href="#对象分配内存是否线程安全" class="headerlink" title="对象分配内存是否线程安全"></a>对象分配内存是否线程安全</h2><p>对象创建十分频繁，即使修改一个指针的位置在并发下也不是线程安全的，可能正给对象A分配内存，指针还没来得及修改，对象B又使用了指针来分配内存。</p>
+<p>解决方法：① CAS 加失败重试保证更新原子性。② 把内存分配按线程划分在不同空间，即每个线程在 Java 堆中预先分配一小块内存，叫做本地线程分配缓冲TLAB(Thread Local Allocation Buffer)，哪个线程要分配内存就在对应的TLAB分配，TLAB用完了再进行同步</p>
+<h2 id="对象的内存布局了解吗？"><a href="#对象的内存布局了解吗？" class="headerlink" title="对象的内存布局了解吗？"></a>对象的内存布局了解吗？</h2><p>对象在堆内存的存储布局可分为<strong>对象头、实例数据和对齐填充</strong>。</p>
+<p><strong>对象头占12B</strong>，包括对象标记和类型指针。对象标记存储对象自身的运行时数据，如哈希码、GC 分代年龄、锁标志、偏向线程 ID 等，这部分占 8B，称为 Mark Word。Mark Word 被设计为动态数据结构，以便在极小的空间存储更多数据，根据对象状态复用存储空间。</p>
+<p><strong>类型指针是对象指向它的类型元数据的指针</strong>，占 4B。JVM 通过该指针来确定对象是哪个类的实例。</p>
+<p><strong>实例数据是对象真正存储的有效信息，即本类对象的实例成员变量和所有可见的父类成员变量</strong>。存储顺序会受到虚拟机分配策略参数和字段在源码中定义顺序的影响。相同宽度的字段总是被分配到一起存放，在满足该前提条件的情况下父类中定义的变量会出现在子类之前。</p>
+<p><strong>对齐填充不是必然存在的，仅起占位符作用。</strong>虚拟机的自动内存管理系统要求任何对象的大小必须是 8B 的倍数，对象头已被设为 8B 的 1 或 2 倍，如果对象实例数据部分没有对齐，需要对齐填充补全。</p>
 <h2 id="JVM-运行时数据区"><a href="#JVM-运行时数据区" class="headerlink" title="JVM 运行时数据区"></a>JVM 运行时数据区</h2><p>JVM = 类加载器(classloader) + 执行引擎(execution engine) + 运行时数据区域(runtime data area)</p>
 <p><img src="/2020/03/16/jvm-mian-shi-zong-jie/JVM_RUNTIME_DATA_AREA.png" alt></p>
 <h3 id="栈区：栈区需要内存连续，线程私有，可以避免GC"><a href="#栈区：栈区需要内存连续，线程私有，可以避免GC" class="headerlink" title="栈区：栈区需要内存连续，线程私有，可以避免GC"></a>栈区：栈区需要内存连续，线程私有，可以避免GC</h3><ul>
@@ -749,7 +755,32 @@
 <td align="left">令大于这个设置值的对象直接在老年代分配</td>
 </tr>
 </tbody></table>
-<h2 id="内存溢出的分析过程"><a href="#内存溢出的分析过程" class="headerlink" title="内存溢出的分析过程"></a>内存溢出的分析过程</h2><h2 id="JVM：synchronized和volatile关键字在JVM中的行为"><a href="#JVM：synchronized和volatile关键字在JVM中的行为" class="headerlink" title="JVM：synchronized和volatile关键字在JVM中的行为"></a>JVM：<code>synchronized</code>和<code>volatile</code>关键字在JVM中的行为</h2><h2 id="你熟悉的JVM调优参数，使用过哪些调优工具？"><a href="#你熟悉的JVM调优参数，使用过哪些调优工具？" class="headerlink" title="你熟悉的JVM调优参数，使用过哪些调优工具？"></a>你熟悉的JVM调优参数，使用过哪些调优工具？</h2>
+<h2 id="内存溢出的分析过程"><a href="#内存溢出的分析过程" class="headerlink" title="内存溢出的分析过程"></a>内存溢出的分析过程</h2><h2 id="JVM：synchronized和volatile关键字在JVM中的行为"><a href="#JVM：synchronized和volatile关键字在JVM中的行为" class="headerlink" title="JVM：synchronized和volatile关键字在JVM中的行为"></a>JVM：<code>synchronized</code>和<code>volatile</code>关键字在JVM中的行为</h2><h2 id="你熟悉的JVM调优参数，使用过哪些调优工具？"><a href="#你熟悉的JVM调优参数，使用过哪些调优工具？" class="headerlink" title="你熟悉的JVM调优参数，使用过哪些调优工具？"></a>你熟悉的JVM调优参数，使用过哪些调优工具？</h2><ul>
+<li>jps：虚拟机进程状况工具</li>
+</ul>
+<p>功能和 ps 命令类似：可以列出正在运行的虚拟机进程，显示虚拟机执行主类名称以及这些进程的本地虚拟机唯一 ID（LVMID)。LVMID 与操作系统的进程 ID（PID）一致，使用 Windows 的任务管理器或 UNIX 的 ps 命令也可以查询到虚拟机进程的 LVMID，但如果同时启动了多个虚拟机进程，必须依赖 jps 命令。</p>
+<ul>
+<li>jstat：虚拟机统计信息监视工具</li>
+</ul>
+<p>用于监视虚拟机各种运行状态信息。可以显示本地或远程虚拟机进程中的类加载、内存、垃圾收集、即时编译器等运行时数据，在没有 GUI 界面的服务器上是运行期定位虚拟机性能问题的常用工具。</p>
+<p>参数含义：S0 和 S1 表示两个 Survivor，E 表示新生代，O 表示老年代，YGC 表示 Young GC 次数，YGCT 表示 Young GC 耗时，FGC 表示 Full GC 次数，FGCT 表示 Full GC 耗时，GCT 表示 GC 总耗时。</p>
+<ul>
+<li>jinfo：Java 配置信息工具</li>
+</ul>
+<p>实时查看和调整虚拟机各项参数，使用 jps 的 -v 参数可以查看虚拟机启动时显式指定的参数，但如果想知道未显式指定的参数值只能使用 jinfo 的 -flag 查询。</p>
+<ul>
+<li>jmap：Java 内存映像工具</li>
+</ul>
+<p>用于生成堆转储快照，还可以查询 finalize 执行队列、Java 堆和方法区的详细信息，如空间使用率，当前使用的是哪种收集器等。和 jinfo 一样，部分功能在 Windows 受限，除了生成堆转储快照的 -dump 和查看每个类实例的 -histo 外，其余选项只能在 Linux 使用。</p>
+<ul>
+<li>jhat：虚拟机堆转储快照分析工具</li>
+</ul>
+<p>JDK 提供 jhat 与 jmap 搭配使用分析 jmap 生成的堆转储快照。jhat 内置了一个微型的 HTTP/Web 服务器，生成堆转储快照的分析结果后可以在浏览器查看。</p>
+<ul>
+<li>jstack：Java 堆栈跟踪工具</li>
+</ul>
+<p>用于生成虚拟机当前时刻的线程快照。线程快照就是当前虚拟机内每一条线程正在执行的方法堆栈的集合，生成线程快照的目的通常是定位线程出现长时间停顿的原因，如线程间死锁、死循环、请求外部资源导致的长时间挂起等。线程出现停顿时通过 jstack 查看各个线程的调用堆栈，可以获知没有响应的线程在后台做什么或等什么资源。</p>
+
     </div>
 
     
@@ -830,7 +861,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-类加载机制"><span class="nav-number">1.</span> <span class="nav-text">JVM: 类加载机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载时机"><span class="nav-number">1.1.</span> <span class="nav-text">类加载时机</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#何时类开始加载"><span class="nav-number">1.1.1.</span> <span class="nav-text">何时类开始加载</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载过程"><span class="nav-number">1.2.</span> <span class="nav-text">类加载过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#加载"><span class="nav-number">1.2.1.</span> <span class="nav-text">加载</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证"><span class="nav-number">1.3.</span> <span class="nav-text">验证</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#文件格式验证"><span class="nav-number">1.3.1.</span> <span class="nav-text">文件格式验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#元数据验证"><span class="nav-number">1.3.2.</span> <span class="nav-text">元数据验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字节码验证"><span class="nav-number">1.3.3.</span> <span class="nav-text">字节码验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#符号引用验证"><span class="nav-number">1.3.4.</span> <span class="nav-text">符号引用验证</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#符号引用（Symbolic-Reference）"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">符号引用（Symbolic Reference）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#直接引用（Direct-Reference）"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">直接引用（Direct Reference）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准备"><span class="nav-number">1.4.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解析"><span class="nav-number">1.5.</span> <span class="nav-text">解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#类或者接口解析"><span class="nav-number">1.5.1.</span> <span class="nav-text">类或者接口解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字段解析"><span class="nav-number">1.5.2.</span> <span class="nav-text">字段解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类方法解析"><span class="nav-number">1.5.3.</span> <span class="nav-text">类方法解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#接口方法解析"><span class="nav-number">1.5.4.</span> <span class="nav-text">接口方法解析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化"><span class="nav-number">1.6.</span> <span class="nav-text">初始化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM双亲委派机制"><span class="nav-number">2.</span> <span class="nav-text">JVM双亲委派机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象实例化过程："><span class="nav-number">3.</span> <span class="nav-text">对象实例化过程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-运行时数据区"><span class="nav-number">4.</span> <span class="nav-text">JVM 运行时数据区</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#栈区：栈区需要内存连续，线程私有，可以避免GC"><span class="nav-number">4.1.</span> <span class="nav-text">栈区：栈区需要内存连续，线程私有，可以避免GC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#堆区：堆区不需要连续的内存，可动态增加内存，增加内存失败会抛出OutOfMemoryError"><span class="nav-number">4.2.</span> <span class="nav-text">堆区：堆区不需要连续的内存，可动态增加内存，增加内存失败会抛出OutOfMemoryError</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#新生代："><span class="nav-number">4.2.1.</span> <span class="nav-text">新生代：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#老年代："><span class="nav-number">4.2.2.</span> <span class="nav-text">老年代：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#永久代："><span class="nav-number">4.2.3.</span> <span class="nav-text">永久代：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法区"><span class="nav-number">4.3.</span> <span class="nav-text">方法区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#直接内存"><span class="nav-number">4.4.</span> <span class="nav-text">直接内存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-常见GC算法"><span class="nav-number">5.</span> <span class="nav-text">JVM: 常见GC算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GC分类"><span class="nav-number">5.1.</span> <span class="nav-text">GC分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MinorGC与FullGC触发条件"><span class="nav-number">5.2.</span> <span class="nav-text">MinorGC与FullGC触发条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java四种引用类型"><span class="nav-number">5.3.</span> <span class="nav-text">Java四种引用类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标记算法"><span class="nav-number">5.4.</span> <span class="nav-text">标记算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回收算法"><span class="nav-number">5.5.</span> <span class="nav-text">回收算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-GC收集器特点"><span class="nav-number">6.</span> <span class="nav-text">JVM GC收集器特点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新生代收集器"><span class="nav-number">6.1.</span> <span class="nav-text">新生代收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#老年代收集器"><span class="nav-number">6.2.</span> <span class="nav-text">老年代收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">6.3.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见的启动参数"><span class="nav-number">7.</span> <span class="nav-text">常见的启动参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存溢出的分析过程"><span class="nav-number">8.</span> <span class="nav-text">内存溢出的分析过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM：synchronized和volatile关键字在JVM中的行为"><span class="nav-number">9.</span> <span class="nav-text">JVM：synchronized和volatile关键字在JVM中的行为</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#你熟悉的JVM调优参数，使用过哪些调优工具？"><span class="nav-number">10.</span> <span class="nav-text">你熟悉的JVM调优参数，使用过哪些调优工具？</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM"><span class="nav-number">1.</span> <span class="nav-text">JVM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-类加载机制"><span class="nav-number">2.</span> <span class="nav-text">JVM: 类加载机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载时机"><span class="nav-number">2.1.</span> <span class="nav-text">类加载时机</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#何时类开始加载"><span class="nav-number">2.1.1.</span> <span class="nav-text">何时类开始加载</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类加载过程"><span class="nav-number">2.2.</span> <span class="nav-text">类加载过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#加载"><span class="nav-number">2.2.1.</span> <span class="nav-text">加载</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证"><span class="nav-number">2.3.</span> <span class="nav-text">验证</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#文件格式验证"><span class="nav-number">2.3.1.</span> <span class="nav-text">文件格式验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#元数据验证"><span class="nav-number">2.3.2.</span> <span class="nav-text">元数据验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字节码验证"><span class="nav-number">2.3.3.</span> <span class="nav-text">字节码验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#符号引用验证"><span class="nav-number">2.3.4.</span> <span class="nav-text">符号引用验证</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#符号引用（Symbolic-Reference）"><span class="nav-number">2.3.4.1.</span> <span class="nav-text">符号引用（Symbolic Reference）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#直接引用（Direct-Reference）"><span class="nav-number">2.3.4.2.</span> <span class="nav-text">直接引用（Direct Reference）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准备"><span class="nav-number">2.4.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解析"><span class="nav-number">2.5.</span> <span class="nav-text">解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#类或者接口解析"><span class="nav-number">2.5.1.</span> <span class="nav-text">类或者接口解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字段解析"><span class="nav-number">2.5.2.</span> <span class="nav-text">字段解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类方法解析"><span class="nav-number">2.5.3.</span> <span class="nav-text">类方法解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#接口方法解析"><span class="nav-number">2.5.4.</span> <span class="nav-text">接口方法解析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化"><span class="nav-number">2.6.</span> <span class="nav-text">初始化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM双亲委派机制"><span class="nav-number">3.</span> <span class="nav-text">JVM双亲委派机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象实例化过程："><span class="nav-number">4.</span> <span class="nav-text">对象实例化过程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象分配内存是否线程安全"><span class="nav-number">5.</span> <span class="nav-text">对象分配内存是否线程安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象的内存布局了解吗？"><span class="nav-number">6.</span> <span class="nav-text">对象的内存布局了解吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-运行时数据区"><span class="nav-number">7.</span> <span class="nav-text">JVM 运行时数据区</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#栈区：栈区需要内存连续，线程私有，可以避免GC"><span class="nav-number">7.1.</span> <span class="nav-text">栈区：栈区需要内存连续，线程私有，可以避免GC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#堆区：堆区不需要连续的内存，可动态增加内存，增加内存失败会抛出OutOfMemoryError"><span class="nav-number">7.2.</span> <span class="nav-text">堆区：堆区不需要连续的内存，可动态增加内存，增加内存失败会抛出OutOfMemoryError</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#新生代："><span class="nav-number">7.2.1.</span> <span class="nav-text">新生代：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#老年代："><span class="nav-number">7.2.2.</span> <span class="nav-text">老年代：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#永久代："><span class="nav-number">7.2.3.</span> <span class="nav-text">永久代：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法区"><span class="nav-number">7.3.</span> <span class="nav-text">方法区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#直接内存"><span class="nav-number">7.4.</span> <span class="nav-text">直接内存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-常见GC算法"><span class="nav-number">8.</span> <span class="nav-text">JVM: 常见GC算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GC分类"><span class="nav-number">8.1.</span> <span class="nav-text">GC分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MinorGC与FullGC触发条件"><span class="nav-number">8.2.</span> <span class="nav-text">MinorGC与FullGC触发条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java四种引用类型"><span class="nav-number">8.3.</span> <span class="nav-text">Java四种引用类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标记算法"><span class="nav-number">8.4.</span> <span class="nav-text">标记算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回收算法"><span class="nav-number">8.5.</span> <span class="nav-text">回收算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-GC收集器特点"><span class="nav-number">9.</span> <span class="nav-text">JVM GC收集器特点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新生代收集器"><span class="nav-number">9.1.</span> <span class="nav-text">新生代收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#老年代收集器"><span class="nav-number">9.2.</span> <span class="nav-text">老年代收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">9.3.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见的启动参数"><span class="nav-number">10.</span> <span class="nav-text">常见的启动参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存溢出的分析过程"><span class="nav-number">11.</span> <span class="nav-text">内存溢出的分析过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM：synchronized和volatile关键字在JVM中的行为"><span class="nav-number">12.</span> <span class="nav-text">JVM：synchronized和volatile关键字在JVM中的行为</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#你熟悉的JVM调优参数，使用过哪些调优工具？"><span class="nav-number">13.</span> <span class="nav-text">你熟悉的JVM调优参数，使用过哪些调优工具？</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -844,20 +875,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">30</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -905,12 +936,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">204k</span>
+    <span title="站点总字数">215k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:06</span>
+    <span title="站点阅读时长">3:16</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
@@ -973,8 +1004,8 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       el         : '#valine-comments',
       verify     : false,
       notify     : false,
-      appId      : 'Fhg8nAsyMme0K6TqY820NK17-gzGzoHsz# Your leancloud application appid',
-      appKey     : 'zoqpwVMBfhi2YQ9xf94Jdbf2# Your leancloud application appkey',
+      appId      : 'Fhg8nAsyMme0K6TqY820NK17-gzGzoHsz',
+      appKey     : 'zoqpwVMBfhi2YQ9xf94Jdbf2',
       placeholder: "欢迎批评指正！",
       avatar     : 'mm',
       meta       : guest,
