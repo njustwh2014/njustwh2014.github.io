@@ -17,21 +17,21 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"wanghuan.tech","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"njustwh2014.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="什么是指令重排序？为了提高性能，编译器和处理器通常会对指令进行重排序，重排序指从源代码到指令序列的重排序，分为三种：① 编译器优化的重排序，编译器在不改变单线程程序语义的前提下可以重排语句的执行顺序。② 指令级并行的重排序，如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。③ 内存系统的重排序。 as-if-serial 是什么？不管怎么重排序，单线程程序的执行结果不能改变，编译器和">
 <meta name="keywords" content="Java, 中间件, Spring, Redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="并发编程面试总结">
-<meta property="og:url" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2020&#x2F;03&#x2F;16&#x2F;bing-fa-bian-cheng-mian-shi-zong-jie&#x2F;index.html">
+<meta property="og:url" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;03&#x2F;16&#x2F;bing-fa-bian-cheng-mian-shi-zong-jie&#x2F;index.html">
 <meta property="og:site_name" content="Eternal Horizon">
 <meta property="og:description" content="什么是指令重排序？为了提高性能，编译器和处理器通常会对指令进行重排序，重排序指从源代码到指令序列的重排序，分为三种：① 编译器优化的重排序，编译器在不改变单线程程序语义的前提下可以重排语句的执行顺序。② 指令级并行的重排序，如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。③ 内存系统的重排序。 as-if-serial 是什么？不管怎么重排序，单线程程序的执行结果不能改变，编译器和">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-08-10T05:06:44.870Z">
+<meta property="og:updated_time" content="2020-12-05T08:29:11.531Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://wanghuan.tech/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/">
+<link rel="canonical" href="http://njustwh2014.github.io/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/">
 
 
 <script id="page-configurations">
@@ -190,7 +190,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://wanghuan.tech/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/">
+    <link itemprop="mainEntityOfPage" href="http://njustwh2014.github.io/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -220,7 +220,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-10 13:06:44" itemprop="dateModified" datetime="2020-08-10T13:06:44+08:00">2020-08-10</time>
+                <time title="修改时间：2020-12-05 16:29:11" itemprop="dateModified" datetime="2020-12-05T16:29:11+08:00">2020-12-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -510,7 +510,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h2><p><a href="http://wanghuan.tech/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/"><strong>之前写的，没事看看</strong></a></p>
+<h2 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h2><p><a href="http://njustwh2014.github.io/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/"><strong>之前写的，没事看看</strong></a></p>
 <p>AQS则实现了对同步状态的管理，以及对阻塞线程进行排队，等待通知等等一些底层的实现处理。AQS的核心也包括了这些方面:同步队列，独占式锁的获取和释放，共享锁的获取和释放以及可中断锁，超时等待锁获取这些特性的实现</p>
 <h2 id="哪些地方用到了CAS"><a href="#哪些地方用到了CAS" class="headerlink" title="哪些地方用到了CAS"></a>哪些地方用到了CAS</h2><h2 id="高并发解决超卖少卖的情况"><a href="#高并发解决超卖少卖的情况" class="headerlink" title="高并发解决超卖少卖的情况"></a>高并发解决超卖少卖的情况</h2><p><a href="http://www.linuxmysql.com/17/2019/1035.htm" target="_blank" rel="noopener">参考连接</a></p>
 
@@ -669,7 +669,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">215k</span>
+    <span title="站点总字数">216k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>

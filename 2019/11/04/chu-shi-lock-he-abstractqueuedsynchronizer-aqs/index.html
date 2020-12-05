@@ -17,27 +17,27 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"wanghuan.tech","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"njustwh2014.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="我的github项目，有一些代码示例 forked from https:&#x2F;&#x2F;github.com&#x2F;CL0610&#x2F;Java-concurrency 1. concurrent包的结构层次在针对并发编程中，Doug Lea大师为我们提供了大量实用，高性能的工具类，针对这些代码进行研究会让我们对并发编程的掌握更加透彻也会大大提升我们对并发编程技术的热爱。这些代码在java.util.concurren">
-<meta name="keywords" content="Concurrent,Java,AQS,Lock,Condition">
+<meta name="keywords" content="Java,Concurrent,AQS,Lock,Condition">
 <meta property="og:type" content="article">
 <meta property="og:title" content="初识Lock和AbstractQueuedSynchronizer(AQS)">
-<meta property="og:url" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2019&#x2F;11&#x2F;04&#x2F;chu-shi-lock-he-abstractqueuedsynchronizer-aqs&#x2F;index.html">
+<meta property="og:url" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;11&#x2F;04&#x2F;chu-shi-lock-he-abstractqueuedsynchronizer-aqs&#x2F;index.html">
 <meta property="og:site_name" content="Eternal Horizon">
 <meta property="og:description" content="我的github项目，有一些代码示例 forked from https:&#x2F;&#x2F;github.com&#x2F;CL0610&#x2F;Java-concurrency 1. concurrent包的结构层次在针对并发编程中，Doug Lea大师为我们提供了大量实用，高性能的工具类，针对这些代码进行研究会让我们对并发编程的掌握更加透彻也会大大提升我们对并发编程技术的热爱。这些代码在java.util.concurren">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2019&#x2F;11&#x2F;04&#x2F;chu-shi-lock-he-abstractqueuedsynchronizer-aqs&#x2F;concurrent%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2019&#x2F;11&#x2F;04&#x2F;chu-shi-lock-he-abstractqueuedsynchronizer-aqs&#x2F;concurrent%E5%8C%85%E5%AE%9E%E7%8E%B0%E6%95%B4%E4%BD%93%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2019&#x2F;11&#x2F;04&#x2F;chu-shi-lock-he-abstractqueuedsynchronizer-aqs&#x2F;AQS%E5%8F%AF%E9%87%8D%E5%86%99%E7%9A%84%E6%96%B9%E6%B3%95.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2019&#x2F;11&#x2F;04&#x2F;chu-shi-lock-he-abstractqueuedsynchronizer-aqs&#x2F;AQS%E6%8F%90%E4%BE%9B%E7%9A%84%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2019&#x2F;11&#x2F;04&#x2F;chu-shi-lock-he-abstractqueuedsynchronizer-aqs&#x2F;mutex%E7%9A%84%E6%89%A7%E8%A1%8C%E6%83%85%E5%86%B5.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;11&#x2F;04&#x2F;chu-shi-lock-he-abstractqueuedsynchronizer-aqs&#x2F;concurrent%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;11&#x2F;04&#x2F;chu-shi-lock-he-abstractqueuedsynchronizer-aqs&#x2F;concurrent%E5%8C%85%E5%AE%9E%E7%8E%B0%E6%95%B4%E4%BD%93%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;11&#x2F;04&#x2F;chu-shi-lock-he-abstractqueuedsynchronizer-aqs&#x2F;AQS%E5%8F%AF%E9%87%8D%E5%86%99%E7%9A%84%E6%96%B9%E6%B3%95.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;11&#x2F;04&#x2F;chu-shi-lock-he-abstractqueuedsynchronizer-aqs&#x2F;AQS%E6%8F%90%E4%BE%9B%E7%9A%84%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;11&#x2F;04&#x2F;chu-shi-lock-he-abstractqueuedsynchronizer-aqs&#x2F;mutex%E7%9A%84%E6%89%A7%E8%A1%8C%E6%83%85%E5%86%B5.png">
 <meta property="og:updated_time" content="2020-04-28T05:20:40.653Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2019&#x2F;11&#x2F;04&#x2F;chu-shi-lock-he-abstractqueuedsynchronizer-aqs&#x2F;concurrent%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;11&#x2F;04&#x2F;chu-shi-lock-he-abstractqueuedsynchronizer-aqs&#x2F;concurrent%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png">
 
-<link rel="canonical" href="http://wanghuan.tech/2019/11/04/chu-shi-lock-he-abstractqueuedsynchronizer-aqs/">
+<link rel="canonical" href="http://njustwh2014.github.io/2019/11/04/chu-shi-lock-he-abstractqueuedsynchronizer-aqs/">
 
 
 <script id="page-configurations">
@@ -196,7 +196,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://wanghuan.tech/2019/11/04/chu-shi-lock-he-abstractqueuedsynchronizer-aqs/">
+    <link itemprop="mainEntityOfPage" href="http://njustwh2014.github.io/2019/11/04/chu-shi-lock-he-abstractqueuedsynchronizer-aqs/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -356,8 +356,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Concurrent/" rel="tag"># Concurrent</a>
               <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/Concurrent/" rel="tag"># Concurrent</a>
               <a href="/tags/AQS/" rel="tag"># AQS</a>
               <a href="/tags/Lock/" rel="tag"># Lock</a>
               <a href="/tags/Condition/" rel="tag"># Condition</a>
@@ -510,7 +510,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">215k</span>
+    <span title="站点总字数">216k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>

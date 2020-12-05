@@ -17,28 +17,28 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"wanghuan.tech","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"njustwh2014.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="我的github项目，有一些代码示例 forked from https:&#x2F;&#x2F;github.com&#x2F;CL0610&#x2F;Java-concurrency 1.Condition简介任何一个java类都天然继承于Object类，在线程间实现通信的往往会应用到Object的几个方法，比如wait(),wait(long timeout),wait(long timeout, int nanos)与notif">
-<meta name="keywords" content="Concurrent,Java,AQS,Lock,Condition">
+<meta name="keywords" content="Java,Concurrent,AQS,Lock,Condition">
 <meta property="og:type" content="article">
 <meta property="og:title" content="详解Condition的await和signal等待通知机制">
-<meta property="og:url" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2019&#x2F;11&#x2F;08&#x2F;xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi&#x2F;index.html">
+<meta property="og:url" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;11&#x2F;08&#x2F;xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi&#x2F;index.html">
 <meta property="og:site_name" content="Eternal Horizon">
 <meta property="og:description" content="我的github项目，有一些代码示例 forked from https:&#x2F;&#x2F;github.com&#x2F;CL0610&#x2F;Java-concurrency 1.Condition简介任何一个java类都天然继承于Object类，在线程间实现通信的往往会应用到Object的几个方法，比如wait(),wait(long timeout),wait(long timeout, int nanos)与notif">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2019&#x2F;11&#x2F;08&#x2F;xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi&#x2F;debug%E6%A8%A1%E5%BC%8F%E4%B8%8B%E6%83%85%E6%99%AF%E5%9B%BE.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2019&#x2F;11&#x2F;08&#x2F;xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi&#x2F;debug%E6%A8%A1%E5%BC%8F%E4%B8%8B%E6%83%85%E6%99%AF%E5%9B%BE.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2019&#x2F;11&#x2F;08&#x2F;xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi&#x2F;AQS%E6%8C%81%E6%9C%89%E5%A4%9A%E4%B8%AACondition.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2019&#x2F;11&#x2F;08&#x2F;xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi&#x2F;await%E6%96%B9%E6%B3%95%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2019&#x2F;11&#x2F;08&#x2F;xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi&#x2F;signal%E6%89%A7%E8%A1%8C%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2019&#x2F;11&#x2F;08&#x2F;xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi&#x2F;condition%E4%B8%8B%E7%9A%84%E7%AD%89%E5%BE%85%E9%80%9A%E7%9F%A5%E6%9C%BA%E5%88%B6.png">
-<meta property="og:updated_time" content="2020-08-10T05:06:44.993Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;11&#x2F;08&#x2F;xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi&#x2F;debug%E6%A8%A1%E5%BC%8F%E4%B8%8B%E6%83%85%E6%99%AF%E5%9B%BE.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;11&#x2F;08&#x2F;xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi&#x2F;debug%E6%A8%A1%E5%BC%8F%E4%B8%8B%E6%83%85%E6%99%AF%E5%9B%BE.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;11&#x2F;08&#x2F;xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi&#x2F;AQS%E6%8C%81%E6%9C%89%E5%A4%9A%E4%B8%AACondition.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;11&#x2F;08&#x2F;xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi&#x2F;await%E6%96%B9%E6%B3%95%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;11&#x2F;08&#x2F;xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi&#x2F;signal%E6%89%A7%E8%A1%8C%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;11&#x2F;08&#x2F;xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi&#x2F;condition%E4%B8%8B%E7%9A%84%E7%AD%89%E5%BE%85%E9%80%9A%E7%9F%A5%E6%9C%BA%E5%88%B6.png">
+<meta property="og:updated_time" content="2020-12-05T08:31:10.147Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;wanghuan.tech&#x2F;2019&#x2F;11&#x2F;08&#x2F;xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi&#x2F;debug%E6%A8%A1%E5%BC%8F%E4%B8%8B%E6%83%85%E6%99%AF%E5%9B%BE.png">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;11&#x2F;08&#x2F;xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi&#x2F;debug%E6%A8%A1%E5%BC%8F%E4%B8%8B%E6%83%85%E6%99%AF%E5%9B%BE.png">
 
-<link rel="canonical" href="http://wanghuan.tech/2019/11/08/xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi/">
+<link rel="canonical" href="http://njustwh2014.github.io/2019/11/08/xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi/">
 
 
 <script id="page-configurations">
@@ -197,7 +197,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://wanghuan.tech/2019/11/08/xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi/">
+    <link itemprop="mainEntityOfPage" href="http://njustwh2014.github.io/2019/11/08/xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -227,7 +227,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-10 13:06:44" itemprop="dateModified" datetime="2020-08-10T13:06:44+08:00">2020-08-10</time>
+                <time title="修改时间：2020-12-05 16:31:10" itemprop="dateModified" datetime="2020-12-05T16:31:10+08:00">2020-12-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -301,8 +301,8 @@
 </blockquote>
 <ol>
 <li><code>void signal()</code>：唤醒一个等待在condition上的线程，将该线程从<strong>等待队列</strong>中转移到<strong>同步队列</strong>中，如果在同步队列中能够竞争到Lock则可以从等待方法中返回。</li>
-<li><code>void signalAll()</code>：与1的区别在于能够唤醒所有等待在condition上的线程<h2 id="2-Condition实现原理分析"><a href="#2-Condition实现原理分析" class="headerlink" title="2.Condition实现原理分析"></a>2.Condition实现原理分析</h2><h3 id="2-1-等待队列"><a href="#2-1-等待队列" class="headerlink" title="2.1 等待队列"></a>2.1 等待队列</h3>要想能够深入的掌握condition还是应该知道它的实现原理，现在我们一起来看看condiiton的源码。创建一个condition对象是通过<code>lock.newCondition()</code>,而这个方法实际上是会new出一个<strong>ConditionObject</strong>对象，该类是AQS（<a href="http://wanghuan.tech/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/">AQS的实现原理的文章</a>）的一个内部类，有兴趣可以去看看。前面我们说过，condition是要和lock配合使用的也就是condition和Lock是绑定在一起的，而lock的实现原理又依赖于AQS，自然而然ConditionObject作为AQS的一个内部类无可厚非。我们知道在锁机制的实现上，AQS内部维护了一个同步队列，如果是独占式锁的话，所有获取锁失败的线程的尾插入到<strong>同步队列</strong>，同样的，condition内部也是使用同样的方式，内部维护了一个 <strong>等待队列</strong>，所有调用condition.await方法的线程会加入到等待队列中，并且线程状态转换为等待状态。另外注意到ConditionObject中有两个成员变量：<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** First node of condition queue. */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> Node firstWaiter;</span><br><span class="line"><span class="comment">/** Last node of condition queue. */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> Node lastWaiter;</span><br></pre></td></tr></table></figure>
-这样我们就可以看出来ConditionObject通过持有等待队列的头尾指针来管理等待队列。主要注意的是Node类复用了在AQS中的Node类，其节点状态和相关属性可以去看<a href="http://wanghuan.tech/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/">AQS的实现原理的文章</a>，如果您仔细看完这篇文章对condition的理解易如反掌，对lock体系的实现也会有一个质的提升。Node类有这样一个属性：<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//后继节点</span></span><br><span class="line">Node nextWaiter;</span><br></pre></td></tr></table></figure>
+<li><code>void signalAll()</code>：与1的区别在于能够唤醒所有等待在condition上的线程<h2 id="2-Condition实现原理分析"><a href="#2-Condition实现原理分析" class="headerlink" title="2.Condition实现原理分析"></a>2.Condition实现原理分析</h2><h3 id="2-1-等待队列"><a href="#2-1-等待队列" class="headerlink" title="2.1 等待队列"></a>2.1 等待队列</h3>要想能够深入的掌握condition还是应该知道它的实现原理，现在我们一起来看看condiiton的源码。创建一个condition对象是通过<code>lock.newCondition()</code>,而这个方法实际上是会new出一个<strong>ConditionObject</strong>对象，该类是AQS（<a href="http://njustwh2014.github.io/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/">AQS的实现原理的文章</a>）的一个内部类，有兴趣可以去看看。前面我们说过，condition是要和lock配合使用的也就是condition和Lock是绑定在一起的，而lock的实现原理又依赖于AQS，自然而然ConditionObject作为AQS的一个内部类无可厚非。我们知道在锁机制的实现上，AQS内部维护了一个同步队列，如果是独占式锁的话，所有获取锁失败的线程的尾插入到<strong>同步队列</strong>，同样的，condition内部也是使用同样的方式，内部维护了一个 <strong>等待队列</strong>，所有调用condition.await方法的线程会加入到等待队列中，并且线程状态转换为等待状态。另外注意到ConditionObject中有两个成员变量：<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** First node of condition queue. */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> Node firstWaiter;</span><br><span class="line"><span class="comment">/** Last node of condition queue. */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> Node lastWaiter;</span><br></pre></td></tr></table></figure>
+这样我们就可以看出来ConditionObject通过持有等待队列的头尾指针来管理等待队列。主要注意的是Node类复用了在AQS中的Node类，其节点状态和相关属性可以去看<a href="http://njustwh2014.github.io/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/">AQS的实现原理的文章</a>，如果您仔细看完这篇文章对condition的理解易如反掌，对lock体系的实现也会有一个质的提升。Node类有这样一个属性：<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//后继节点</span></span><br><span class="line">Node nextWaiter;</span><br></pre></td></tr></table></figure>
 进一步说明，<strong>等待队列是一个单向队列</strong>，而在之前说AQS时知道同步队列是一个双向队列。接下来我们用一个demo，通过debug进去看是不是符合我们的猜想：<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">        Thread thread = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            lock.lock();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                condition.await();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">                lock.unlock();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        thread.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 这段代码没有任何实际意义，甚至很臭，只是想说明下我们刚才所想的。新建了10个线程，每个线程先获取锁，然后调用condition.await方法释放锁将当前线程加入到等待队列中，通过debug控制当走到第10个线程的时候查看<code>firstWaiter</code>即等待队列中的头结点，debug模式下情景图如下：</li>
 </ol>
@@ -322,13 +322,13 @@
 <p>这段代码就很容易理解了，<strong>调用AQS的模板方法release方法释放AQS的同步状态并且唤醒在同步队列中头结点的后继节点引用的线程</strong>，如果释放成功则正常返回，若失败的话就抛出异常。到目前为止，这两段代码已经解决了前面的两个问题的答案了，还剩下第三个问题，怎样从await方法退出？现在回过头再来看await方法有这样一段逻辑：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> (!isOnSyncQueue(node)) &#123;</span><br><span class="line">    <span class="comment">// 3. 当前线程进入到等待状态</span></span><br><span class="line">    LockSupport.park(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">if</span> ((interruptMode = checkInterruptWhileWaiting(node)) != <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>很显然，当线程第一次调用condition.await()方法时，会进入到这个while()循环中，然后通过LockSupport.park(this)方法使得当前线程进入等待状态，那么要想退出这个await方法第一个前提条件自然而然的是要先退出这个while循环，出口就只剩下两个地方：<strong>1. 逻辑走到break退出while循环；2. while循环中的逻辑判断为false</strong>。再看代码出现第1种情况的条件是当前等待的线程被中断后代码会走到break退出，第二种情况是当前节点被移动到了同步队列中（即另外线程调用的condition的signal或者signalAll方法），while中逻辑判断为false后结束while循环。总结下，就是<strong>当前线程被中断或者调用condition.signal/condition.signalAll方法当前节点移动到了同步队列后</strong> ，这是当前线程退出await方法的前提条件。当退出while循环后就会调用<code>acquireQueued(node, savedState)</code>，这个方法在介绍AQS的底层实现时说过了，若感兴趣的话可以去<a href="http://wanghuan.tech/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/">看这篇文章</a>，该方法的作用是在<strong>自旋过程中线程不断尝试获取同步状态，直至成功（线程获取到lock）</strong>。这样也说明了<strong>退出await方法必须是已经获得了condition引用（关联）的lock</strong>。到目前为止，开头的三个问题我们通过阅读源码的方式已经完全找到了答案，也对await方法的理解加深。await方法示意图如下图：</p>
+<p>很显然，当线程第一次调用condition.await()方法时，会进入到这个while()循环中，然后通过LockSupport.park(this)方法使得当前线程进入等待状态，那么要想退出这个await方法第一个前提条件自然而然的是要先退出这个while循环，出口就只剩下两个地方：<strong>1. 逻辑走到break退出while循环；2. while循环中的逻辑判断为false</strong>。再看代码出现第1种情况的条件是当前等待的线程被中断后代码会走到break退出，第二种情况是当前节点被移动到了同步队列中（即另外线程调用的condition的signal或者signalAll方法），while中逻辑判断为false后结束while循环。总结下，就是<strong>当前线程被中断或者调用condition.signal/condition.signalAll方法当前节点移动到了同步队列后</strong> ，这是当前线程退出await方法的前提条件。当退出while循环后就会调用<code>acquireQueued(node, savedState)</code>，这个方法在介绍AQS的底层实现时说过了，若感兴趣的话可以去<a href="http://njustwh2014.github.io/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/">看这篇文章</a>，该方法的作用是在<strong>自旋过程中线程不断尝试获取同步状态，直至成功（线程获取到lock）</strong>。这样也说明了<strong>退出await方法必须是已经获得了condition引用（关联）的lock</strong>。到目前为止，开头的三个问题我们通过阅读源码的方式已经完全找到了答案，也对await方法的理解加深。await方法示意图如下图：</p>
 <p><img src="/2019/11/08/xiang-jie-condition-de-await-he-signal-deng-dai-tong-zhi-ji-zhi/await%E6%96%B9%E6%B3%95%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="await方法示意图"></p>
 <p>如图，调用condition.await方法的线程必须是已经获得了lock，也就是当前线程是同步队列中的头结点。调用该方法后会使得当前线程所封装的Node尾插入到等待队列中。</p>
 <blockquote>
 <p>超时机制的支持</p>
 </blockquote>
-<p>condition还额外支持了超时机制，使用者可调用方法awaitNanos,awaitUtil。这两个方法的实现原理，基本上与AQS中的tryAcquire方法如出一辙，关于tryAcquire可以仔细阅读<a href="http://wanghuan.tech/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/">这篇文章的第3.4部分</a>。</p>
+<p>condition还额外支持了超时机制，使用者可调用方法awaitNanos,awaitUtil。这两个方法的实现原理，基本上与AQS中的tryAcquire方法如出一辙，关于tryAcquire可以仔细阅读<a href="http://njustwh2014.github.io/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/">这篇文章的第3.4部分</a>。</p>
 <blockquote>
 <p>不响应中断的支持</p>
 </blockquote>
@@ -372,8 +372,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Concurrent/" rel="tag"># Concurrent</a>
               <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/Concurrent/" rel="tag"># Concurrent</a>
               <a href="/tags/AQS/" rel="tag"># AQS</a>
               <a href="/tags/Lock/" rel="tag"># Lock</a>
               <a href="/tags/Condition/" rel="tag"># Condition</a>
@@ -526,7 +526,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">215k</span>
+    <span title="站点总字数">216k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
