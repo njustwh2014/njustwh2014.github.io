@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/java.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/java16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"njustwh2014.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="System structure  First, main thread monitors the bif data folder backup.  When the file directory is updated，the live thread of pool will work for unzipping zip file and extracting all XML files then">
+<meta name="keywords" content="Java, 中间件, Spring, Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一次简单的elasticsearch使用">
+<meta property="og:url" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;10&#x2F;30&#x2F;yi-ci-jian-dan-de-elasticsearch-shi-yong&#x2F;index.html">
+<meta property="og:site_name" content="Eternal Horizon">
+<meta property="og:description" content="System structure  First, main thread monitors the bif data folder backup.  When the file directory is updated，the live thread of pool will work for unzipping zip file and extracting all XML files then">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;pzpoejx7j.bkt.clouddn.com&#x2F;systemstructure.png">
+<meta property="og:updated_time" content="2022-09-09T09:12:32.732Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;pzpoejx7j.bkt.clouddn.com&#x2F;systemstructure.png">
+
+<link rel="canonical" href="http://njustwh2014.github.io/2019/10/30/yi-ci-jian-dan-de-elasticsearch-shi-yong/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>一次简单的elasticsearch使用 | Eternal Horizon</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Eternal Horizon" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Eternal Horizon</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">30</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">43</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://njustwh2014.github.io/2019/10/30/yi-ci-jian-dan-de-elasticsearch-shi-yong/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Wang Huan">
+      <meta itemprop="description" content="记录学习心得、读书感受以及一些Java知识。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eternal Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          一次简单的elasticsearch使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-30 14:52:29" itemprop="dateCreated datePublished" datetime="2019-10-30T14:52:29+08:00">2019-10-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-09 17:12:32" itemprop="dateModified" datetime="2022-09-09T17:12:32+08:00">2022-09-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/elasticsearch/" itemprop="url" rel="index"><span itemprop="name">elasticsearch</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/10/30/yi-ci-jian-dan-de-elasticsearch-shi-yong/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/30/yi-ci-jian-dan-de-elasticsearch-shi-yong/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>10 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="System-structure"><a href="#System-structure" class="headerlink" title="System structure"></a>System structure</h2><p><img src="http://pzpoejx7j.bkt.clouddn.com/systemstructure.png" alt="System structure"></p>
+<ul>
+<li>First, main thread monitors the bif data folder backup. </li>
+<li>When the file directory is updated，the live thread of pool will work for unzipping zip file and extracting all XML files then resolving XML files to json files.</li>
+<li>Put all json files to elasticsearch.</li>
+<li>Visualize data of elasticsearch by Grafana.</li>
+</ul>
+<h2 id="Monitor-the-folder"><a href="#Monitor-the-folder" class="headerlink" title="Monitor the folder"></a>Monitor the folder</h2><p>Use Java class: <strong>WatchService</strong></p>
+<a id="more"></a>
+<p>This class allows you to monitor changes to files in the operating system in real time, including creating, updating, and deleting events.</p>
+<p>the core code:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> micro.trend.wh.customerinsightsystem.service.MyWatchService;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.*;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileWatchTask</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String fileDirectory;</span><br><span class="line">    <span class="keyword">private</span> MyWatchService myWatchService;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FileWatchTask</span><span class="params">(String fileDirectory,MyWatchService myWatchService)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.fileDirectory = fileDirectory;</span><br><span class="line">        <span class="keyword">this</span>.myWatchService=myWatchService;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        WatchService watchService = <span class="keyword">null</span>;</span><br><span class="line">        ExecutorService executorService=Executors.newFixedThreadPool(<span class="number">20</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//获取当前文件系统的WatchService监控对象</span></span><br><span class="line">            watchService = FileSystems.getDefault().newWatchService();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            log.error(e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//获取文件目录下的Path对象注册到 watchService中。</span></span><br><span class="line">            <span class="comment">//监听的事件类型，有创建，删除，以及修改</span></span><br><span class="line">            Paths.get(fileDirectory)</span><br><span class="line">                    .register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_DELETE,</span><br><span class="line">                            StandardWatchEventKinds.ENTRY_MODIFY);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            log.error(e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            WatchKey key = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">//获取可用key.没有可用的就wait</span></span><br><span class="line">                key = watchService.take();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                log.error(e.getMessage());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (WatchEvent&lt;?&gt; event : key.pollEvents()) &#123;</span><br><span class="line">                <span class="comment">//todo</span></span><br><span class="line">                System.out.println(<span class="string">"the folder is updated!"</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//重置，这一步很重要，否则当前的key就不再会获取将来发生的事件</span></span><br><span class="line">            <span class="keyword">boolean</span> valid = key.reset();</span><br><span class="line">            <span class="comment">//失效状态，退出监听</span></span><br><span class="line">            <span class="keyword">if</span> (!valid) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Unzip-File"><a href="#Unzip-File" class="headerlink" title="Unzip File"></a>Unzip File</h2><p>core code:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.nio.charset.Charset;</span><br><span class="line"><span class="keyword">import</span> java.util.Enumeration;</span><br><span class="line"><span class="keyword">import</span> java.util.zip.ZipEntry;</span><br><span class="line"><span class="keyword">import</span> java.util.zip.ZipFile;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UnZip</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">unZipFiles</span><span class="params">(String zipPath,String dstPath)</span> <span class="keyword">throws</span> IOException</span>&#123;</span><br><span class="line">        unZipFiles(<span class="keyword">new</span> File(zipPath),dstPath);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    * unzip file to specified path</span></span><br><span class="line"><span class="comment">    * @param zipFile: the file that is need to unzip</span></span><br><span class="line"><span class="comment">    * @param dstPath: destination of unzipping</span></span><br><span class="line"><span class="comment">    * */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">unZipFiles</span><span class="params">(File zipFile,String dstPath)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        ZipFile zip=<span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            zip=<span class="keyword">new</span> ZipFile(zipFile, Charset.forName(<span class="string">"GBK"</span>));<span class="comment">// solving for chinese grabled</span></span><br><span class="line">        &#125;<span class="keyword">catch</span> (FileNotFoundException e)&#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                Thread.currentThread().sleep(<span class="number">10000</span>);</span><br><span class="line">            &#125;<span class="keyword">catch</span> (InterruptedException sleepErr)&#123;</span><br><span class="line">                sleepErr.printStackTrace();</span><br><span class="line">                log.error(sleepErr.getMessage());</span><br><span class="line">            &#125;</span><br><span class="line">            zip=<span class="keyword">new</span> ZipFile(zipFile, Charset.forName(<span class="string">"GBK"</span>));<span class="comment">// solving for chinese grabled</span></span><br><span class="line">        &#125;</span><br><span class="line">        String name=zip.getName().substring(zip.getName().lastIndexOf(<span class="string">'\\'</span>)+<span class="number">1</span>,zip.getName().lastIndexOf(<span class="string">'.'</span>));</span><br><span class="line"></span><br><span class="line">        File pathFile=<span class="keyword">new</span> File(dstPath+name);</span><br><span class="line">        <span class="keyword">if</span>(!pathFile.exists())&#123;</span><br><span class="line">            pathFile.mkdirs();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(Enumeration&lt;? extends ZipEntry&gt; entries=zip.entries();entries.hasMoreElements();)&#123;</span><br><span class="line">            ZipEntry entry=(ZipEntry) entries.nextElement();</span><br><span class="line">            String zipEntryName=entry.getName();</span><br><span class="line">            InputStream in=zip.getInputStream(entry);</span><br><span class="line">            String outPath=(dstPath+name+<span class="string">"/"</span>+zipEntryName).replaceAll(<span class="string">"\\*"</span>,<span class="string">"/"</span>);</span><br><span class="line">            <span class="comment">// Judge whether the path exist</span></span><br><span class="line">            File file=<span class="keyword">new</span> File(outPath.substring(<span class="number">0</span>,outPath.lastIndexOf(<span class="string">'/'</span>)));</span><br><span class="line">            <span class="keyword">if</span>(!file.exists())&#123;</span><br><span class="line">                file.mkdirs();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//judge whether the full path is directory</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">new</span> File(outPath).isDirectory())&#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            FileOutputStream out=<span class="keyword">new</span> FileOutputStream(outPath);</span><br><span class="line">            <span class="keyword">byte</span>[] buf1=<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">            <span class="keyword">int</span> len;</span><br><span class="line">            <span class="keyword">while</span>((len=in.read(buf1))&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                out.write(buf1,<span class="number">0</span>,len);</span><br><span class="line">            &#125;</span><br><span class="line">            in.close();</span><br><span class="line">            out.close();</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(zipFile.getName()+<span class="string">"unzipped finished!"</span>);</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Resolve-XML-file-to-Json-file"><a href="#Resolve-XML-file-to-Json-file" class="headerlink" title="Resolve XML file to Json file"></a>Resolve XML file to Json file</h2><p>core code:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSON;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSONArray;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSONObject;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.TypeReference;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> org.dom4j.Document;</span><br><span class="line"><span class="keyword">import</span> org.dom4j.DocumentException;</span><br><span class="line"><span class="keyword">import</span> org.dom4j.Element;</span><br><span class="line"><span class="keyword">import</span> org.dom4j.io.SAXReader;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.math.BigInteger;</span><br><span class="line"><span class="keyword">import</span> java.util.LinkedHashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dom4jResolveXml</span> </span>&#123;</span><br><span class="line">    String xmlDir=<span class="keyword">null</span>;</span><br><span class="line">    String jsonFileDir=<span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Dom4jResolveXml</span><span class="params">(String xmlDir, String jsonFileDir)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.xmlDir = xmlDir;</span><br><span class="line">        <span class="keyword">this</span>.jsonFileDir=jsonFileDir;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">resolveXML</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line"></span><br><span class="line">            InputStream inputStream=<span class="keyword">new</span> FileInputStream(xmlDir);</span><br><span class="line">            SAXReader saxReader=<span class="keyword">new</span> SAXReader();</span><br><span class="line">            Document document=saxReader.read(xmlDir);</span><br><span class="line">            Element bifElement=document.getRootElement();</span><br><span class="line"><span class="comment">//            System.out.println("root name:"+bifElement.getName());</span></span><br><span class="line"><span class="comment">//            System.out.println("root element attribute count:"+bifElement.attributeCount());</span></span><br><span class="line"><span class="comment">//            System.out.println("root element value:"+bifElement.attributeValue("bif"));</span></span><br><span class="line">            Element productElement=bifElement.element(<span class="string">"Product"</span>);</span><br><span class="line">            Element trafficMatrixElement=productElement.element(<span class="string">"TrafficMatrix"</span>);</span><br><span class="line">            <span class="keyword">if</span>(trafficMatrixElement==<span class="keyword">null</span>)&#123;</span><br><span class="line">                log.info(<span class="string">"the xml file: "</span>+xmlDir+<span class="string">" has no traffixMatrix node."</span>);</span><br><span class="line">                <span class="keyword">return</span> ;</span><br><span class="line">            &#125;</span><br><span class="line">            String trafficMatrixText=trafficMatrixElement.getTextTrim();</span><br><span class="line">            Element acElement=productElement.element(<span class="string">"AC"</span>);</span><br><span class="line">            String acText=acElement.getTextTrim();</span><br><span class="line">            Element guidElement=productElement.element(<span class="string">"GUID"</span>);</span><br><span class="line">            String guidText=guidElement.getText();</span><br><span class="line"><span class="comment">//            System.out.println(trafficMatrixText);</span></span><br><span class="line"><span class="comment">//            System.out.println("*************************");</span></span><br><span class="line"></span><br><span class="line">            StringBuilder jsonSB=<span class="keyword">new</span> StringBuilder(trafficMatrixText);</span><br><span class="line"></span><br><span class="line"><span class="comment">//            jsonSB.insert(1,"\"AC\":"+"\""+acText+"\","+"\"GUID\":\""+guidText+"\",\"cpuinfo\":&#123;");</span></span><br><span class="line"><span class="comment">//            jsonSB.append("&#125;");</span></span><br><span class="line"></span><br><span class="line">            trafficMatrixText=jsonSB.toString();</span><br><span class="line">            <span class="keyword">synchronized</span> (<span class="keyword">this</span>.getClass())&#123;</span><br><span class="line">                jsonResolve(trafficMatrixText,acText,guidText);</span><br><span class="line">            &#125;</span><br><span class="line"><span class="comment">//            System.out.println(trafficMatrixText.substring(0,1));</span></span><br><span class="line"><span class="comment">//            outJsonToFile(trafficMatrixText);</span></span><br><span class="line">        &#125;<span class="keyword">catch</span> (FileNotFoundException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;<span class="keyword">catch</span> (DocumentException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">jsonResolve</span><span class="params">(String jsonOrigin,String acInfo,String guidInfo)</span></span>&#123;</span><br><span class="line">        String idTxtFileName=PropertiesUtils.getValueByKey(<span class="string">"config.properties"</span>,<span class="string">"idTxtFileName"</span>);</span><br><span class="line">        String idStr=ReadAndWriteFile.readFile(idTxtFileName);</span><br><span class="line">        BigInteger bigInteger=<span class="keyword">new</span> BigInteger(idStr);</span><br><span class="line"></span><br><span class="line"><span class="comment">//        JSONObject jsonObject= JSON.parseObject(jsonOrigin);//disorder</span></span><br><span class="line">        LinkedHashMap&lt;String, String&gt; jsonMap = JSON.parseObject(jsonOrigin, <span class="keyword">new</span> TypeReference&lt;LinkedHashMap&lt;String, String&gt;&gt;() &#123;</span><br><span class="line">        &#125;);</span><br><span class="line">        StringBuilder sb=<span class="keyword">new</span> StringBuilder();</span><br><span class="line">        JSONObject cpuObject=<span class="keyword">null</span>;</span><br><span class="line">        String jsonFileNameNOTDir=<span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">for</span>(Map.Entry&lt;String,String&gt; entry:jsonMap.entrySet())&#123;</span><br><span class="line"><span class="comment">//            System.out.println("key:"+entry.getKey()+" value:"+entry.getValue().toString());</span></span><br><span class="line"><span class="comment">//            &#123;"index":&#123;"_index":"acinfoindex","_id":5&#125;&#125;</span></span><br><span class="line">            sb.append(<span class="string">"&#123;\"index\":&#123;\"_index\":\"acinfoindex\",\"_id\":"</span>+bigInteger+<span class="string">"&#125;&#125;\n"</span>);</span><br><span class="line">            bigInteger=bigInteger.add(BigInteger.valueOf(<span class="number">1</span>));</span><br><span class="line">            sb.append(<span class="string">"&#123;"</span>);</span><br><span class="line">            sb.append(<span class="string">"\"AC\":\""</span>+acInfo+<span class="string">"\","</span>);</span><br><span class="line">            sb.append(<span class="string">"\"GUID\":\""</span>+guidInfo+<span class="string">"\","</span>);</span><br><span class="line">            sb.append(<span class="string">"\"TIME\":\""</span>+entry.getKey()+<span class="string">"\","</span>);</span><br><span class="line">            sb.append(<span class="string">"\"CPUINFO\":"</span>);</span><br><span class="line">            sb.append(<span class="string">"&#123;"</span>);</span><br><span class="line">            LinkedHashMap&lt;String,String&gt; cpuMap=JSON.parseObject(entry.getValue(),<span class="keyword">new</span> TypeReference&lt;LinkedHashMap&lt;String, String&gt;&gt;()&#123;&#125;);</span><br><span class="line">            <span class="keyword">for</span>(Map.Entry&lt;String,String&gt; cpuEntry:cpuMap.entrySet())&#123;</span><br><span class="line"><span class="comment">//                System.out.println(cpuEntry.getKey()+"*******"+cpuEntry.getValue());</span></span><br><span class="line">                <span class="keyword">if</span>(cpuEntry.getValue()==<span class="keyword">null</span>||cpuEntry.getValue().equals(<span class="string">""</span>))&#123;</span><br><span class="line">                    cpuEntry.setValue(<span class="string">"0"</span>);</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    sb.append(<span class="string">"\""</span>+cpuEntry.getKey()+<span class="string">"\":"</span>+cpuEntry.getValue()+<span class="string">","</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            sb.deleteCharAt(sb.length()-<span class="number">1</span>);</span><br><span class="line">            sb.append(<span class="string">"&#125;"</span>);</span><br><span class="line"><span class="comment">//            sb.append(entry.getValue());</span></span><br><span class="line">            sb.append(<span class="string">"&#125;"</span>);</span><br><span class="line">            sb.append(<span class="string">"\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        jsonFileNameNOTDir=acInfo+<span class="string">"_"</span>+guidInfo+bigInteger+<span class="string">".json"</span>;</span><br><span class="line">        ReadAndWriteFile.writeFile(idTxtFileName,bigInteger.toString());</span><br><span class="line">        outJsonToFile(sb.toString(),jsonFileNameNOTDir);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * output json string to file</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">outJsonToFile</span><span class="params">(String jsonStr,String jsonFileNameNeNOTDir)</span></span>&#123;</span><br><span class="line">        <span class="keyword">byte</span>[] buff=<span class="keyword">new</span> <span class="keyword">byte</span>[]&#123;&#125;;</span><br><span class="line"></span><br><span class="line">        FileOutputStream fileOutputStream=<span class="keyword">null</span>;</span><br><span class="line">        File file=<span class="keyword">new</span> File(jsonFileDir+jsonFileNameNeNOTDir);</span><br><span class="line">        <span class="keyword">if</span>(!file.getParentFile().exists())&#123;</span><br><span class="line">            file.getParentFile().mkdirs();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            buff=jsonStr.getBytes();</span><br><span class="line">            fileOutputStream=<span class="keyword">new</span> FileOutputStream(file);</span><br><span class="line">            log.info(<span class="string">"output file path:"</span>+jsonFileDir);</span><br><span class="line">            fileOutputStream.write(buff,<span class="number">0</span>,buff.length);</span><br><span class="line">            log.info(<span class="string">"output json data to file success!"</span>);</span><br><span class="line">            SSH2Util ssh2Util = <span class="keyword">new</span> SSH2Util(PropertiesUtils.getValueByKey(<span class="string">"config.properties"</span>,<span class="string">"ip"</span>), PropertiesUtils.getValueByKey(<span class="string">"config.properties"</span>,<span class="string">"usrName"</span>),PropertiesUtils.getValueByKey(<span class="string">"config.properties"</span>,<span class="string">"pwd"</span>), <span class="number">22</span>);</span><br><span class="line">            ssh2Util.putFile(jsonFileDir, jsonFileNameNeNOTDir,PropertiesUtils.getValueByKey(<span class="string">"config.properties"</span>,<span class="string">"serverDir"</span>));</span><br><span class="line">        &#125;<span class="keyword">catch</span> (IOException e)&#123;</span><br><span class="line">            log.error(e.getMessage());</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">            log.error(e.getMessage());</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span>(fileOutputStream!=<span class="keyword">null</span>)&#123;</span><br><span class="line">                <span class="keyword">try</span>&#123;</span><br><span class="line">                    fileOutputStream.close();</span><br><span class="line">                &#125;<span class="keyword">catch</span> (IOException eS)&#123;</span><br><span class="line">                    log.error(eS.getMessage());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Beacuse the program need to record the index id, so I just write the id to the txt, so when build each json need to read the txt and increase the id. In order to speed up, multi-threaded data is used. We need to use lock avoiding open txt file failed.</p>
+<h2 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h2><p>install guid:<a href="https://www.howtoing.com/how-to-install-elasticsearch-logstash-and-kibana-elastic-stack-on-centos-7" target="_blank" rel="noopener">https://www.howtoing.com/how-to-install-elasticsearch-logstash-and-kibana-elastic-stack-on-centos-7</a></p>
+<p>index:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -X PUT <span class="string">"localhost:9200/acinfoindex?pretty"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">  "mappings":&#123;</span></span><br><span class="line"><span class="string">    "info":&#123;</span></span><br><span class="line"><span class="string">      "properties":&#123;</span></span><br><span class="line"><span class="string">        "AC":&#123;"type":"keyword"&#125;,</span></span><br><span class="line"><span class="string">        "GUID":&#123;"type":"keyword"&#125;,</span></span><br><span class="line"><span class="string">        "TIME":&#123;"type":"date",</span></span><br><span class="line"><span class="string">          "format": "epoch_second"</span></span><br><span class="line"><span class="string">          &#125;,</span></span><br><span class="line"><span class="string">        "CPUINFO":&#123;</span></span><br><span class="line"><span class="string">            "properties":&#123;</span></span><br><span class="line"><span class="string">                "auth_simp_n":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "auth_ntlm_n":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "th_inc":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "th_net_in_traffic":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "auth_krb5_n":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "usg_mem":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "th_net_out_traffic":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "auth_succ_n":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "usg_disk_io":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "th_inc_http2":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "th_inc_https":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "th_inc_http":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "auth_n":&#123;"type": "integer"&#125;,</span></span><br><span class="line"><span class="string">                "usg_cpu":&#123;"type": "integer"&#125;</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">            </span></span><br><span class="line"><span class="string">        &#125; </span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    &#125;   </span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">'</span></span><br></pre></td></tr></table></figure>
+
+<p>and then put data to elasticsearch</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> pyinotify</span><br><span class="line"></span><br><span class="line">multi_event=pyinotify.IN_CREATE|pyinotify.IN_ACCESS|pyinotify.IN_CLOSE_WRITE</span><br><span class="line">wm=pyinotify.WatchManager()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyEventHandler</span><span class="params">(pyinotify.ProcessEvent)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_IN_CREATE</span><span class="params">(self,event)</span>:</span></span><br><span class="line">        print(<span class="string">'CREATE'</span>,event.pathname)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">precess_IN_ACCESS</span><span class="params">(self,event)</span>:</span></span><br><span class="line">        print(<span class="string">'ACCESS'</span>,event.pathname)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_IN_CLOSE_WRITE</span><span class="params">(self,event)</span>:</span></span><br><span class="line">        print(<span class="string">'CLOSE_WRITE'</span>,event.pathname)</span><br><span class="line">        output = os.popen(<span class="string">"curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/acinfoindex/info/_bulk?pretty' --data-binary @"</span>+event.pathname)</span><br><span class="line"></span><br><span class="line">handler=MyEventHandler()</span><br><span class="line"></span><br><span class="line">notifier=pyinotify.Notifier(wm,handler)</span><br><span class="line"></span><br><span class="line">wm.add_watch(<span class="string">'/home/huanhuan/data'</span>,multi_event)</span><br><span class="line">notifier.loop()</span><br></pre></td></tr></table></figure>
+
+<h2 id="Grafana"><a href="#Grafana" class="headerlink" title="Grafana"></a>Grafana</h2><p> refer to:</p>
+<p><a href="http://docs.flycloud.me/docs/ELKStack/elasticsearch/other/grafana.html" target="_blank" rel="noopener">http://docs.flycloud.me/docs/ELKStack/elasticsearch/other/grafana.html</a></p>
+<p><a href="https://www.aiprose.com/blog/26" target="_blank" rel="noopener">https://www.aiprose.com/blog/26</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/10/28/java-zhong-zheng-ze-biao-da-shi-shi-yong/" rel="prev" title="Java中正则表达式使用">
+      <i class="fa fa-chevron-left"></i> Java中正则表达式使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/04/chu-shi-lock-he-abstractqueuedsynchronizer-aqs/" rel="next" title="初识Lock和AbstractQueuedSynchronizer(AQS)">
+      初识Lock和AbstractQueuedSynchronizer(AQS) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#System-structure"><span class="nav-number">1.</span> <span class="nav-text">System structure</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Monitor-the-folder"><span class="nav-number">2.</span> <span class="nav-text">Monitor the folder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Unzip-File"><span class="nav-number">3.</span> <span class="nav-text">Unzip File</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Resolve-XML-file-to-Json-file"><span class="nav-number">4.</span> <span class="nav-text">Resolve XML file to Json file</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Elasticsearch"><span class="nav-number">5.</span> <span class="nav-text">Elasticsearch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Grafana"><span class="nav-number">6.</span> <span class="nav-text">Grafana</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Wang Huan</p>
+  <div class="site-description" itemprop="description">记录学习心得、读书感受以及一些Java知识。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/njustwh2014" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;njustwh2014" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:seuwh2018@foxmail.com" title="E-Mail → mailto:seuwh2018@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Huan</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">215k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:16</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Fhg8nAsyMme0K6TqY820NK17-gzGzoHsz',
+      appKey     : 'zoqpwVMBfhi2YQ9xf94Jdbf2',
+      placeholder: "欢迎批评指正！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

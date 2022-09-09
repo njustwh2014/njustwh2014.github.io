@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/java.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/java16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"njustwh2014.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="https:&#x2F;&#x2F;www.bilibili.com&#x2F;read&#x2F;cv4150256&#x2F; 学习大纲 Java基础Java并发JVMSpringredis网络协议Mysql设计模式算法与数据结构Docker">
+<meta name="keywords" content="Java, 中间件, Spring, Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试问题汇总">
+<meta property="og:url" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;02&#x2F;27&#x2F;mian-shi-wen-ti-hui-zong&#x2F;index.html">
+<meta property="og:site_name" content="Eternal Horizon">
+<meta property="og:description" content="https:&#x2F;&#x2F;www.bilibili.com&#x2F;read&#x2F;cv4150256&#x2F; 学习大纲 Java基础Java并发JVMSpringredis网络协议Mysql设计模式算法与数据结构Docker">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2022-09-09T09:12:32.805Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://njustwh2014.github.io/2020/02/27/mian-shi-wen-ti-hui-zong/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>面试问题汇总 | Eternal Horizon</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Eternal Horizon" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Eternal Horizon</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">30</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">43</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://njustwh2014.github.io/2020/02/27/mian-shi-wen-ti-hui-zong/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Wang Huan">
+      <meta itemprop="description" content="记录学习心得、读书感受以及一些Java知识。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eternal Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          面试问题汇总
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-02-27 10:20:25" itemprop="dateCreated datePublished" datetime="2020-02-27T10:20:25+08:00">2020-02-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-09 17:12:32" itemprop="dateModified" datetime="2022-09-09T17:12:32+08:00">2022-09-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B1%82%E8%81%8C/" itemprop="url" rel="index"><span itemprop="name">求职</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/02/27/mian-shi-wen-ti-hui-zong/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/02/27/mian-shi-wen-ti-hui-zong/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a href="https://www.bilibili.com/read/cv4150256/" target="_blank" rel="noopener">https://www.bilibili.com/read/cv4150256/</a></p>
+<p><a href="https://www.processon.com/view/link/5db53025e4b0893e9a654cda#map" target="_blank" rel="noopener">学习大纲</a></p>
+<h2 id="Java基础"><a href="#Java基础" class="headerlink" title="Java基础"></a><a href="http://njustwh2014.github.io/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/">Java基础</a></h2><h2 id="Java并发"><a href="#Java并发" class="headerlink" title="Java并发"></a><a href="http://njustwh2014.github.io/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/">Java并发</a></h2><h2 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a><a href="http://njustwh2014.github.io/2020/03/16/jvm-mian-shi-zong-jie/">JVM</a></h2><h2 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a><a href="http://njustwh2014.github.io/2020/03/16/spring-mian-shi-zong-jie/">Spring</a></h2><h2 id="redis"><a href="#redis" class="headerlink" title="redis"></a><a href="hhttp://njustwh2014.github.io/2020/03/13/redis-mian-shi-ti-hui-zong/">redis</a></h2><h2 id="网络协议"><a href="#网络协议" class="headerlink" title="网络协议"></a><a href="http://njustwh2014.github.io/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/">网络协议</a></h2><h2 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a><a href="http://njustwh2014.github.io/2020/03/13/mysql-mian-shi-hui-zong/">Mysql</a></h2><h2 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a><a href="http://njustwh2014.github.io/2020/03/13/she-ji-mo-shi-ti-hui-zong/">设计模式</a></h2><h2 id="算法与数据结构"><a href="#算法与数据结构" class="headerlink" title="算法与数据结构"></a><a href="http://njustwh2014.github.io/2020/03/17/suan-fa-yu-shu-ju-jie-gou-mian-shi-ti-hui-zong/">算法与数据结构</a></h2><h2 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a><a href="http://njustwh2014.github.io/2020/03/16/docker-mian-shi-zong-jie/">Docker</a></h2><a id="more"></a>
+<h2 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h2><h3 id="merge和rebase区别"><a href="#merge和rebase区别" class="headerlink" title="merge和rebase区别"></a>merge和rebase区别</h3><p>最开始实习的时候是使用svn，之后正式工作就一直在使用git，这样算起来，使用git也有两年的时间了。以前带我的同事，让我在拉代码的时候要我使用git pull –rebase，一直很纳闷为什么要那样做，后来遇到拉代码的时候有许多冲突要解决，然后去查找资料，才了解到其中的一些事情。今天分享一下，顺便自己也梳理一下。</p>
+<h4 id="git-pull"><a href="#git-pull" class="headerlink" title="git pull"></a>git pull</h4><p>git pull 是　git fetch + git merge FETCH_HEAD 的缩写。所以，默认情况下，git pull就是先fetch，然后执行merge 操作，如果加–rebase 参数，就是使用git rebase 代替git merge。</p>
+<h4 id="merge-和-rebase"><a href="#merge-和-rebase" class="headerlink" title="merge 和 rebase"></a>merge 和 rebase</h4><p>merge 是合并的意思，rebase是复位基底的意思。</p>
+<p>现在我们有这样的两个分支,test和master，提交如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">      D---E test</span><br><span class="line">     /</span><br><span class="line">A---B---C---F master</span><br></pre></td></tr></table></figure>
+
+<p>在master执行git merge test,然后会得到如下结果：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">      D--------E</span><br><span class="line">     /          \</span><br><span class="line">A---B---C---F----G   test, master</span><br></pre></td></tr></table></figure>
+<p>在master执行git rebase test，然后得到如下结果：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">A---B---D---E---C&apos;---F&apos; test, master</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，merge操作会生成一个新的节点，之前的提交分开显示。而rebase操作不会生成新的节点，是将两个分支融合成一个线性的提交。</p>
+<p>####　其他内容放这里</p>
+<p>通过上面可以看到，想要更好的提交树，使用rebase操作会更好一点。这样可以线性的看到每一次提交，并且没有增加提交节点。</p>
+<p>在我们操作过程中。merge 操作遇到冲突的时候，当前merge不能继续进行下去。手动修改冲突内容后，add 修改，commit 就可以了。</p>
+<p>而rebase 操作的话，会中断rebase,同时会提示去解决冲突。解决冲突后,将修改add后执行git rebase –continue继续操作，或者git rebase –skip忽略冲突。</p>
+<h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><h3 id="linux熟悉吗"><a href="#linux熟悉吗" class="headerlink" title="linux熟悉吗"></a>linux熟悉吗</h3><p><a href="https://www.cnblogs.com/yzh-blog/p/11670289.html" target="_blank" rel="noopener">qnmd不熟</a></p>
+<h2 id="dubbo面试题"><a href="#dubbo面试题" class="headerlink" title="dubbo面试题"></a>dubbo面试题</h2><p><a href="https://youzhixueyuan.com/dubbo-interview-question-answers.html" target="_blank" rel="noopener"><strong>参考连接</strong></a></p>
+<h2 id="Rabbitmq面试题"><a href="#Rabbitmq面试题" class="headerlink" title="Rabbitmq面试题"></a>Rabbitmq面试题</h2><p><a href="https://juejin.im/" target="_blank" rel="noopener">面试问题</a></p>
+<h2 id="系统设计与优化-综合性问题"><a href="#系统设计与优化-综合性问题" class="headerlink" title="系统设计与优化(综合性问题)"></a>系统设计与优化(综合性问题)</h2><h3 id="秒杀系统设计"><a href="#秒杀系统设计" class="headerlink" title="秒杀系统设计"></a>秒杀系统设计</h3><h3 id="博客网站的压力测试方法"><a href="#博客网站的压力测试方法" class="headerlink" title="博客网站的压力测试方法"></a>博客网站的压力测试方法</h3><p>找到系统性能瓶颈：</p>
+<ul>
+<li>应用服务器</li>
+<li>数据库IO</li>
+<li>建立连接</li>
+<li>Java代码</li>
+</ul>
+<h3 id="有几次请求响应慢的原因以及解决办法"><a href="#有几次请求响应慢的原因以及解决办法" class="headerlink" title="有几次请求响应慢的原因以及解决办法"></a>有几次请求响应慢的原因以及解决办法</h3><ul>
+<li>查看CPU占用、内存、IO占用情况</li>
+<li>JVM参数设置是否合理</li>
+<li>数据链路问题，DNS解析速度，内网广播风暴，是否跨运营商等</li>
+<li>程序设计是否合理</li>
+<li>检查数据库访问速度</li>
+<li>是否被攻击</li>
+<li>硬件故障</li>
+</ul>
+<h3 id="Elasticsearch倒排索引"><a href="#Elasticsearch倒排索引" class="headerlink" title="Elasticsearch倒排索引"></a>Elasticsearch倒排索引</h3><p>倒排索引是一种索引方法，被用来存储全文搜索下每个单词在一个或一组文章中的位置，是文档检索系统中常用的数据结构。</p>
+<ul>
+<li><p>T0=”it is what it is”</p>
+</li>
+<li><p>T1=”what is it”</p>
+</li>
+<li><p>T2=”it is a banana”</p>
+</li>
+<li><p>反向文件索引</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;a&quot;:      &#123;2&#125;</span><br><span class="line">&quot;banana&quot;: &#123;2&#125;</span><br><span class="line">&quot;is&quot;:     &#123;0, 1, 2&#125;</span><br><span class="line">&quot;it&quot;:     &#123;0, 1, 2&#125;</span><br><span class="line">&quot;what&quot;:   &#123;0, 1&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>完全反向索引</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;a&quot;:      &#123;(2, 2)&#125;</span><br><span class="line">&quot;banana&quot;: &#123;(2, 3)&#125;</span><br><span class="line">&quot;is&quot;:     &#123;(0, 1), (0, 4), (1, 1), (2, 1)&#125;</span><br><span class="line">&quot;it&quot;:     &#123;(0, 0), (0, 3), (1, 2), (2, 0)&#125; </span><br><span class="line">&quot;what&quot;:   &#123;(0, 2), (1, 0)&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="nginx反向代理是什么，为什么需要nginx反向代理"><a href="#nginx反向代理是什么，为什么需要nginx反向代理" class="headerlink" title="nginx反向代理是什么，为什么需要nginx反向代理"></a>nginx反向代理是什么，为什么需要nginx反向代理</h3><blockquote>
+<p>反向代理</p>
+</blockquote>
+<p>反向代理是指以代理服务器来接收网络请求，并转发给内部网络上服务器，并将服务器处理结果返回给请求端。此时，代理服务器对外表现为一个服务器。</p>
+<p>正向代理是指，由于一些网络配置导致无法直接访问某个目标服务器，使用中间服务器代为转发请求。客户端向代理服务器发送请求，并指定目标服务器，代理服务器向目标服务器请求后，并将请求结果返回给客户端。（如翻墙）</p>
+<blockquote>
+<p>为什么需要反向代理</p>
+</blockquote>
+<ul>
+<li>可以起到保护网络安全作用，任何访问请求都必须经过代理服务器。</li>
+<li>缓存静态资源，加速web访问</li>
+<li>实现负载均衡</li>
+</ul>
+<h3 id="tomcat相关原理"><a href="#tomcat相关原理" class="headerlink" title="tomcat相关原理"></a>tomcat相关原理</h3><h3 id="mysql的sql处理过程"><a href="#mysql的sql处理过程" class="headerlink" title="mysql的sql处理过程"></a>mysql的sql处理过程</h3><h3 id="dubbo的原理"><a href="#dubbo的原理" class="headerlink" title="dubbo的原理"></a>dubbo的原理</h3><h3 id="dubbo序列化协议"><a href="#dubbo序列化协议" class="headerlink" title="dubbo序列化协议"></a>dubbo序列化协议</h3><h3 id="dubbo负载均衡策略"><a href="#dubbo负载均衡策略" class="headerlink" title="dubbo负载均衡策略"></a>dubbo负载均衡策略</h3><h3 id="dubbo-spi机制实现"><a href="#dubbo-spi机制实现" class="headerlink" title="dubbo spi机制实现"></a>dubbo spi机制实现</h3><h3 id="nacos原理"><a href="#nacos原理" class="headerlink" title="nacos原理"></a>nacos原理</h3><h3 id="Tomcat与Nginx、Apache-HTTP-Server"><a href="#Tomcat与Nginx、Apache-HTTP-Server" class="headerlink" title="Tomcat与Nginx、Apache HTTP Server"></a>Tomcat与Nginx、Apache HTTP Server</h3><ul>
+<li>Tomcat支持Servlet和JSP(Java Server Page),与Apache HTTP Server相比，Tomcat能够动态的生成资源并返回到客户端。</li>
+<li>通常使用Nginx将静态资源与动态资源分离，当请求静态资源时则转发给Nginx Web服务器，返回静态资源，当请求动态资源时，则转发请求给后续的Tomcat服务器</li>
+<li>当业务压力增大时，一个Tomcat实例不足以处理业务请求时，需要对Tomcat进行水平扩展，这个时候可以利用Nginx负载均衡算法，分发请求给不同的Tomcat实例</li>
+</ul>
+<h2 id="编程题"><a href="#编程题" class="headerlink" title="编程题"></a>编程题</h2>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/02/02/2020-yi-ding-yao-na-dao-offer-a/" rel="prev" title="2020一定要拿到offer啊">
+      <i class="fa fa-chevron-left"></i> 2020一定要拿到offer啊
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/" rel="next" title="Java基础面试题汇总">
+      Java基础面试题汇总 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java基础"><span class="nav-number">1.</span> <span class="nav-text">Java基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java并发"><span class="nav-number">2.</span> <span class="nav-text">Java并发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM"><span class="nav-number">3.</span> <span class="nav-text">JVM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring"><span class="nav-number">4.</span> <span class="nav-text">Spring</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis"><span class="nav-number">5.</span> <span class="nav-text">redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络协议"><span class="nav-number">6.</span> <span class="nav-text">网络协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mysql"><span class="nav-number">7.</span> <span class="nav-text">Mysql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计模式"><span class="nav-number">8.</span> <span class="nav-text">设计模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法与数据结构"><span class="nav-number">9.</span> <span class="nav-text">算法与数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker"><span class="nav-number">10.</span> <span class="nav-text">Docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git"><span class="nav-number">11.</span> <span class="nav-text">Git</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#merge和rebase区别"><span class="nav-number">11.1.</span> <span class="nav-text">merge和rebase区别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#git-pull"><span class="nav-number">11.1.1.</span> <span class="nav-text">git pull</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#merge-和-rebase"><span class="nav-number">11.1.2.</span> <span class="nav-text">merge 和 rebase</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统"><span class="nav-number">12.</span> <span class="nav-text">操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#linux熟悉吗"><span class="nav-number">12.1.</span> <span class="nav-text">linux熟悉吗</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dubbo面试题"><span class="nav-number">13.</span> <span class="nav-text">dubbo面试题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rabbitmq面试题"><span class="nav-number">14.</span> <span class="nav-text">Rabbitmq面试题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统设计与优化-综合性问题"><span class="nav-number">15.</span> <span class="nav-text">系统设计与优化(综合性问题)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#秒杀系统设计"><span class="nav-number">15.1.</span> <span class="nav-text">秒杀系统设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#博客网站的压力测试方法"><span class="nav-number">15.2.</span> <span class="nav-text">博客网站的压力测试方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有几次请求响应慢的原因以及解决办法"><span class="nav-number">15.3.</span> <span class="nav-text">有几次请求响应慢的原因以及解决办法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch倒排索引"><span class="nav-number">15.4.</span> <span class="nav-text">Elasticsearch倒排索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx反向代理是什么，为什么需要nginx反向代理"><span class="nav-number">15.5.</span> <span class="nav-text">nginx反向代理是什么，为什么需要nginx反向代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat相关原理"><span class="nav-number">15.6.</span> <span class="nav-text">tomcat相关原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql的sql处理过程"><span class="nav-number">15.7.</span> <span class="nav-text">mysql的sql处理过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo的原理"><span class="nav-number">15.8.</span> <span class="nav-text">dubbo的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo序列化协议"><span class="nav-number">15.9.</span> <span class="nav-text">dubbo序列化协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo负载均衡策略"><span class="nav-number">15.10.</span> <span class="nav-text">dubbo负载均衡策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo-spi机制实现"><span class="nav-number">15.11.</span> <span class="nav-text">dubbo spi机制实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nacos原理"><span class="nav-number">15.12.</span> <span class="nav-text">nacos原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tomcat与Nginx、Apache-HTTP-Server"><span class="nav-number">15.13.</span> <span class="nav-text">Tomcat与Nginx、Apache HTTP Server</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编程题"><span class="nav-number">16.</span> <span class="nav-text">编程题</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Wang Huan</p>
+  <div class="site-description" itemprop="description">记录学习心得、读书感受以及一些Java知识。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/njustwh2014" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;njustwh2014" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:seuwh2018@foxmail.com" title="E-Mail → mailto:seuwh2018@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Huan</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">215k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:16</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Fhg8nAsyMme0K6TqY820NK17-gzGzoHsz',
+      appKey     : 'zoqpwVMBfhi2YQ9xf94Jdbf2',
+      placeholder: "欢迎批评指正！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/java.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/java16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"njustwh2014.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="堆排序算法的时间复杂度堆排序与快速排序、归并排序一样都是时间复杂度为O(N*logN)的几种常见排序方法。 堆和堆排序">
+<meta name="keywords" content="Java, 中间件, Spring, Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法与数据结构面试题汇总">
+<meta property="og:url" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;03&#x2F;17&#x2F;suan-fa-yu-shu-ju-jie-gou-mian-shi-ti-hui-zong&#x2F;index.html">
+<meta property="og:site_name" content="Eternal Horizon">
+<meta property="og:description" content="堆排序算法的时间复杂度堆排序与快速排序、归并排序一样都是时间复杂度为O(N*logN)的几种常见排序方法。 堆和堆排序">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2022-09-09T09:12:32.796Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://njustwh2014.github.io/2020/03/17/suan-fa-yu-shu-ju-jie-gou-mian-shi-ti-hui-zong/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>算法与数据结构面试题汇总 | Eternal Horizon</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Eternal Horizon" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Eternal Horizon</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">30</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">43</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://njustwh2014.github.io/2020/03/17/suan-fa-yu-shu-ju-jie-gou-mian-shi-ti-hui-zong/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Wang Huan">
+      <meta itemprop="description" content="记录学习心得、读书感受以及一些Java知识。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eternal Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          算法与数据结构面试题汇总
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-17 16:27:49" itemprop="dateCreated datePublished" datetime="2020-03-17T16:27:49+08:00">2020-03-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-09 17:12:32" itemprop="dateModified" datetime="2022-09-09T17:12:32+08:00">2022-09-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B1%82%E8%81%8C/" itemprop="url" rel="index"><span itemprop="name">求职</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/03/17/suan-fa-yu-shu-ju-jie-gou-mian-shi-ti-hui-zong/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/03/17/suan-fa-yu-shu-ju-jie-gou-mian-shi-ti-hui-zong/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>10k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="堆排序算法的时间复杂度"><a href="#堆排序算法的时间复杂度" class="headerlink" title="堆排序算法的时间复杂度"></a>堆排序算法的时间复杂度</h2><p><strong>堆排序与快速排序、归并排序一样都是时间复杂度为O(N*logN)的几种常见排序方法。</strong></p>
+<h3 id="堆和堆排序"><a href="#堆和堆排序" class="headerlink" title="堆和堆排序"></a><a href="https://blog.csdn.net/MoreWindows/article/details/6709644" target="_blank" rel="noopener">堆和堆排序</a></h3><a id="more"></a>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@program</span>:datastructureimpl</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>:堆接口</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: Huan Wang(https://github.com/njustwh2014)</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span>:2020-03-17 16:48</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Heap</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> o)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">get</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] nums)</span></span>;<span class="comment">//最小堆得到的是递减数组</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@program</span>:datastructureimpl</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>:小顶堆实现 简约实现，不支持扩容，具体扩容实现参考PriorityQueue</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: Huan Wang(https://github.com/njustwh2014)</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span>:2020-03-17 17:03</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MinHeap</span> <span class="keyword">implements</span> <span class="title">Heap</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> capacity=<span class="number">20</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span>[] nums;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span> index;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MinHeap</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.nums = nums;</span><br><span class="line">        <span class="keyword">this</span>.capacity=nums.length;</span><br><span class="line">        <span class="keyword">this</span>.nums=<span class="keyword">new</span> <span class="keyword">int</span>[capacity];</span><br><span class="line">        <span class="keyword">this</span>.index=nums.length-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;index+<span class="number">1</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">this</span>.nums[i]=nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MinHeap</span><span class="params">(<span class="keyword">int</span> capacity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.capacity = capacity;</span><br><span class="line">        <span class="keyword">this</span>.nums=<span class="keyword">new</span> <span class="keyword">int</span>[capacity];</span><br><span class="line">        <span class="keyword">this</span>.index=-<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MinHeap</span><span class="params">(<span class="keyword">int</span> capacity, <span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.capacity = capacity;</span><br><span class="line">        <span class="comment">//如果nums长度大于capacity则放弃超过部分</span></span><br><span class="line">        <span class="keyword">this</span>.index=(capacity&gt;=nums.length)?nums.length-<span class="number">1</span>:capacity-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">this</span>.nums=<span class="keyword">new</span> <span class="keyword">int</span>[capacity];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;index+<span class="number">1</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">this</span>.nums[i]=nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        init();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Description</span>: 堆化数组</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Param</span>: []</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span>: void</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@thorws</span>:</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Author</span>: Mr.Wang</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Date</span>: 2020/3/17</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(index&lt;<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=(index+<span class="number">1</span>)/<span class="number">2</span>-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">            fixDown(nums,i,index+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Description</span>:</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Param</span>: [o]</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span>: boolean</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@thorws</span>:</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Author</span>: Mr.Wang</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Date</span>: 2020/3/17</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(index==capacity-<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;<span class="comment">//添加失败</span></span><br><span class="line">        &#125;</span><br><span class="line">        nums[++index]=o;</span><br><span class="line">        fixUp(nums,index);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Description</span>: 向上调整堆</span></span><br><span class="line"><span class="comment">     *      * 每次插入都是将新数据放在数组最后。可以发现从这个新数据的父结点到根结点必然为一个有序的数列，</span></span><br><span class="line"><span class="comment">     *      * 现在的任务是将这个新数据插入到这个有序数据中——这就类似于直接插入排序中将一个数据并入到有序区间中</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Param</span>: [nums, index]</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span>: void</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@thorws</span>:</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Author</span>: Mr.Wang</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Date</span>: 2020/3/17</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fixUp</span><span class="params">(<span class="keyword">int</span>[] nums,<span class="keyword">int</span> i)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> o=nums[i];</span><br><span class="line">        <span class="keyword">int</span> j=(i-<span class="number">1</span>)/<span class="number">2</span>;<span class="comment">//父节点下标</span></span><br><span class="line">        <span class="keyword">while</span>(j&gt;=<span class="number">0</span>&amp;&amp;i!=<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[j]&lt;=o)&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            nums[i]=nums[j];</span><br><span class="line">            i=j;</span><br><span class="line">            j=(i-<span class="number">1</span>)/<span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        nums[i]=o;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(index==-<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(index==<span class="number">0</span>)&#123;</span><br><span class="line">            nums[<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">            index--;</span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">        swap(nums,<span class="number">0</span>,index);</span><br><span class="line">        index--;</span><br><span class="line">        fixDown(nums,<span class="number">0</span>,index+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] nums,<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> temp=nums[i];</span><br><span class="line">        nums[i]=nums[j];</span><br><span class="line">        nums[j]=temp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Description</span>: 向下调整</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Param</span>: [nums, i, n] n为节点总数 i为从i节点开始调整</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span>: void</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@thorws</span>:</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Author</span>: Mr.Wang</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Date</span>: 2020/3/17</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fixDown</span><span class="params">(<span class="keyword">int</span>[] nums,<span class="keyword">int</span> i,<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> o=nums[i];</span><br><span class="line">        <span class="keyword">int</span> j=i*<span class="number">2</span>+<span class="number">1</span>;<span class="comment">//左子节点</span></span><br><span class="line">        <span class="keyword">while</span>(j&lt;n)&#123;</span><br><span class="line">            <span class="keyword">if</span>(j+<span class="number">1</span>&lt;n&amp;&amp;nums[j+<span class="number">1</span>]&lt;nums[j])&#123;</span><br><span class="line">                j++;<span class="comment">//这步很妙，选取出了左右子节点中较小值</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(o&lt;=nums[j])&#123;</span><br><span class="line">                <span class="keyword">break</span>;<span class="comment">//父节点均小于左右子节点，则不需要调整</span></span><br><span class="line">            &#125;</span><br><span class="line">            nums[i]=nums[j];</span><br><span class="line">            i=j;</span><br><span class="line">            j=i*<span class="number">2</span>+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        nums[i]=o;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=index;i++)&#123;</span><br><span class="line">            System.out.print(nums[i]);</span><br><span class="line">            System.out.print(<span class="string">" "</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">""</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">int</span>[] nums)</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++)&#123;</span><br><span class="line">            System.out.print(nums[i]);</span><br><span class="line">            System.out.print(<span class="string">" "</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">""</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">get</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(index==-<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"堆中无元素"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Description</span>: 利用最小堆进行排序得到的是递减数组</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Param</span>: [nums]</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span>: void</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@thorws</span>:</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Author</span>: Mr.Wang</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Date</span>: 2020/3/17</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//先堆化数组</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=nums.length/<span class="number">2</span>-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">            fixDown(nums,i,nums.length);</span><br><span class="line">        &#125;</span><br><span class="line">        print(nums);</span><br><span class="line">        <span class="comment">//交换nums[0]与nums[i]</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=nums.length-<span class="number">1</span>;i&gt;=<span class="number">1</span>;i--)&#123;</span><br><span class="line">            swap(nums,<span class="number">0</span>,i);</span><br><span class="line">            fixDown(nums,<span class="number">0</span>,i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Iterator实现"><a href="#Iterator实现" class="headerlink" title="Iterator实现"></a>Iterator实现</h2><h3 id="Iterator接口"><a href="#Iterator接口" class="headerlink" title="Iterator接口"></a>Iterator接口</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@program</span>:datastructure</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>:</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: Huan Wang(https://github.com/njustwh2014)</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span>:2019-12-17 15:35</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Iterator</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">next</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@program</span>:datastructure</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>:</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: Huan Wang(https://github.com/njustwh2014)</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span>:2019-12-17 15:36</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Container</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Iterator <span class="title">getIterator</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@program</span>:datastructure</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>:</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: Huan Wang(https://github.com/njustwh2014)</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span>:2019-12-17 15:37</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NameRepository</span> <span class="keyword">implements</span> <span class="title">Container</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String[] name=&#123;<span class="string">"tingting"</span>,<span class="string">"huanhuan"</span>,<span class="string">"dog"</span>,<span class="string">"cat"</span>&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Iterator <span class="title">getIterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> NameIterator();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">NameIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span></span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> index=<span class="number">0</span>;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(index&lt;name.length)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Object <span class="title">next</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">this</span>.hasNext())&#123;</span><br><span class="line"><span class="comment">//                String ret= name[index];</span></span><br><span class="line"><span class="comment">////                index++;</span></span><br><span class="line"><span class="comment">////                return ret;</span></span><br><span class="line">                <span class="keyword">return</span> name[index++];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Leetcode-301-Remove-Invalid-Parentheses"><a href="#Leetcode-301-Remove-Invalid-Parentheses" class="headerlink" title="Leetcode 301: Remove Invalid Parentheses"></a><a href="https://leetcode.com/problems/remove-invalid-parentheses/" target="_blank" rel="noopener">Leetcode 301: Remove Invalid Parentheses</a></h2><p>先来举个例子：(()))</p>
+<p>对于这种情况，当遍历到下标4处的)，此时出现右括号多于左括号，那么只需要删除此前任意一个右括号即可，得到如下结果：(())、(())、(())，可以发现存在重复结果，因此保留一个结果[“(())”]</p>
+<p>对于左括号多于右括号的情况，如：()(()，需要将字符串反转，)(()(，并将)(视为合法组合，当遍历到下标为2处的左括号，则出现左括号多于右括号情况，可以删除此前任一一个左括号即可，同右括号多于左括号情况了。</p>
+<p>接下来处理怎么去重。</p>
+<p>还是举一个例子：()())())</p>
+<p>删除原则就是当出现连续括号时，默认删除第一个</p>
+<p>当遍历到下标4处的右括号时，需要进行处理，根据原则我们可以得到如下两种处理结果: (())())、()()())</p>
+<p>接下来再对(())())处理，根据原则可以得到 (()())、(())()两种结果</p>
+<p>对()()())处理，根据原则可以得到(()())、()(())、()()()</p>
+<p>此外还需记录上次删除的下标，如果在删除下标前再删除也会产生重复结果。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Description</span>: leetcode 301 Remove Invalid Parentheses https://leetcode.com/problems/remove-invalid-parentheses/</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Param</span>: [s]</span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span>: java.util.List&lt;java.lang.String&gt;</span></span><br><span class="line"><span class="comment">* <span class="doctag">@thorws</span>:</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Author</span>: Mr.Wang</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Date</span>: 2020/4/28</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">removeInvalidParentheses</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    List&lt;String&gt; ret=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">if</span>(s==<span class="keyword">null</span>||s.length()==<span class="number">0</span>)&#123;</span><br><span class="line">        ret.add(<span class="string">""</span>);</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">    removeInvalidParenthesesHelper(s,ret,<span class="number">0</span>,<span class="number">0</span>,<span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'('</span>,<span class="string">')'</span>&#125;);</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">removeInvalidParenthesesHelper</span><span class="params">(String s,List&lt;String&gt; ret,<span class="keyword">int</span> lastRemoveIndex,<span class="keyword">int</span> lastCheckedIndex,<span class="keyword">char</span>[] pattern)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//注意这个pattern数组，可以将左括号还是右括号多转化成同一个问题</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=lastCheckedIndex,stack=<span class="number">0</span>;i&lt;s.length();i++)&#123;</span><br><span class="line">        <span class="keyword">char</span> cur=s.charAt(i);</span><br><span class="line">        <span class="keyword">if</span>(cur==pattern[<span class="number">0</span>]) stack++;</span><br><span class="line">        <span class="keyword">if</span>(cur==pattern[<span class="number">1</span>]) stack--;</span><br><span class="line">        <span class="keyword">if</span>(stack&gt;=<span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=lastRemoveIndex;j&lt;=i;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(s.charAt(j)==pattern[<span class="number">1</span>]&amp;&amp;(j==lastRemoveIndex||s.charAt(j-<span class="number">1</span>)!=pattern[<span class="number">1</span>]))&#123;</span><br><span class="line">                removeInvalidParenthesesHelper(s.substring(<span class="number">0</span>,j)+s.substring(j+<span class="number">1</span>),ret,j,i,pattern);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">    &#125;</span><br><span class="line">    String reversed=<span class="keyword">new</span> StringBuilder(s).reverse().toString();</span><br><span class="line">    <span class="keyword">if</span>(pattern[<span class="number">0</span>]==<span class="string">'('</span>)&#123;</span><br><span class="line">        <span class="comment">//说明左括号不少于右括号，所以需要先反转字符串</span></span><br><span class="line">        removeInvalidParenthesesHelper(reversed,ret,<span class="number">0</span>,<span class="number">0</span>,<span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">')'</span>,<span class="string">'('</span>&#125;);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        假设输入为(())</span></span><br><span class="line"><span class="comment">        reversed=))((</span></span><br><span class="line"><span class="comment">        removeInvalidParenthesesHelper(reversed,ret,0,0,new char[]&#123;')','('&#125;);</span></span><br><span class="line"><span class="comment">        才会到这</span></span><br><span class="line"><span class="comment">        此时 reversed=(())</span></span><br><span class="line"><span class="comment">        还不理解，就去IDE打断点吧</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        ret.add(reversed);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">@nums 排序好的数组</span></span><br><span class="line"><span class="comment">@target</span></span><br><span class="line"><span class="comment">@return f返回目标下标 如果没有 返回-1</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">binarySearch</span><span class="params">(<span class="keyword">int</span>[] nums,<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums==<span class="keyword">null</span>||nums.length==<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> left=<span class="number">0</span>,right=nums.length-<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(left&lt;=right)&#123;</span><br><span class="line">        <span class="keyword">int</span> mid=left+(right-left)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(nums[mid]==target)&#123;</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(nums[mid]&lt;target)&#123;</span><br><span class="line">            left=mid+<span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            right=mid-<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除单链表中包含目标数据的节点"><a href="#删除单链表中包含目标数据的节点" class="headerlink" title="删除单链表中包含目标数据的节点"></a>删除单链表中包含目标数据的节点</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">deleteTarget</span><span class="params">(ListNode head,<span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">    ListNode newHead=<span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">    newHead.next=head;</span><br><span class="line">    ListNode prev=newHead,cur=head;</span><br><span class="line">    <span class="keyword">while</span>(cur!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(cur.val==target)&#123;</span><br><span class="line">            prev.next=cur.next;</span><br><span class="line">            cur=cur.next;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            prev=prev.next;</span><br><span class="line">            cur=cur.next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> newHead.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="迷宫传送门"><a href="#迷宫传送门" class="headerlink" title="迷宫传送门"></a>迷宫传送门</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">1 0 -1 1</span></span><br><span class="line"><span class="comment">-2 0 -1 -3</span></span><br><span class="line"><span class="comment">2 2 0 0</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">-2:起点</span></span><br><span class="line"><span class="comment">-3:终点</span></span><br><span class="line"><span class="comment">-1:障碍物不能走</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">1和2 任意门，可以用也可以不用</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//存坐标</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x;</span><br><span class="line">    <span class="keyword">int</span> y;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.x = x;</span><br><span class="line">        <span class="keyword">this</span>.y = y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Node&#123;"</span> +</span><br><span class="line">                <span class="string">"x="</span> + x +</span><br><span class="line">                <span class="string">", y="</span> + y +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//bfs</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMinSteps</span><span class="params">(<span class="keyword">int</span>[][] matrix)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//保存任意门坐标</span></span><br><span class="line">    List&lt;Node&gt; door1=<span class="keyword">new</span> ArrayList&lt;&gt;();<span class="comment">//1：任意门</span></span><br><span class="line">    List&lt;Node&gt; door2=<span class="keyword">new</span> ArrayList&lt;&gt;();<span class="comment">//2:任意门</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//任意门存储已经找到终点和起点</span></span><br><span class="line">    Node start=<span class="keyword">new</span> Node(<span class="number">0</span>,<span class="number">0</span>),end=<span class="keyword">new</span> Node(<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;matrix.length;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;matrix[i].length;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(matrix[i][j]==<span class="number">1</span>)&#123;</span><br><span class="line">                Node node=<span class="keyword">new</span> Node(i,j);</span><br><span class="line">                door1.add(node);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(matrix[i][j]==<span class="number">2</span>)&#123;</span><br><span class="line">                Node node=<span class="keyword">new</span> Node(i,j);</span><br><span class="line">                door2.add(node);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(matrix[i][j]==-<span class="number">2</span>)&#123;</span><br><span class="line">                start.x=i;</span><br><span class="line">                start.y=j;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(matrix[i][j]==-<span class="number">3</span>)&#123;</span><br><span class="line">                end.x=i;</span><br><span class="line">                end.y=j;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    Queue&lt;Node&gt; queue=<span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    HashSet&lt;String&gt; hashSet=<span class="keyword">new</span> HashSet&lt;&gt;();<span class="comment">//访问过的点不重复</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//bfs</span></span><br><span class="line">    <span class="keyword">int</span> steps=<span class="number">0</span>,size=<span class="number">1</span>;</span><br><span class="line">    queue.add(start);</span><br><span class="line">    hashSet.add(start.toString());</span><br><span class="line">    <span class="keyword">while</span>(!queue.isEmpty())&#123;</span><br><span class="line">        Node cur=queue.poll();</span><br><span class="line">        <span class="keyword">if</span>(matrix[cur.x][cur.y]==-<span class="number">3</span>)&#123;</span><br><span class="line">            <span class="comment">//找到终点</span></span><br><span class="line">            <span class="keyword">return</span> steps;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//添加下次到达的点</span></span><br><span class="line">        <span class="keyword">if</span>(matrix[cur.x][cur.y]==<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">for</span>(Node node:door1)&#123;</span><br><span class="line">                <span class="keyword">if</span>(!hashSet.contains(node.toString()))&#123;</span><br><span class="line">                    hashSet.add(node.toString());</span><br><span class="line">                    queue.add(node);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(matrix[cur.x][cur.y]==<span class="number">2</span>)&#123;</span><br><span class="line">            <span class="keyword">for</span>(Node node:door2)&#123;</span><br><span class="line">                <span class="keyword">if</span>(!hashSet.contains(node.toString()))&#123;</span><br><span class="line">                    hashSet.add(node.toString());</span><br><span class="line">                    queue.add(node);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(validPosition(matrix,cur.x+<span class="number">1</span>,cur.y))&#123;</span><br><span class="line">            Node node=<span class="keyword">new</span> Node(cur.x+<span class="number">1</span>,cur.y);</span><br><span class="line">            <span class="keyword">if</span>(!hashSet.contains(node.toString()))&#123;</span><br><span class="line">                hashSet.add(node.toString());</span><br><span class="line">                queue.add(node);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(validPosition(matrix,cur.x-<span class="number">1</span>,cur.y))&#123;</span><br><span class="line">            Node node=<span class="keyword">new</span> Node(cur.x-<span class="number">1</span>,cur.y);</span><br><span class="line">            <span class="keyword">if</span>(!hashSet.contains(node.toString()))&#123;</span><br><span class="line">                hashSet.add(node.toString());</span><br><span class="line">                queue.add(node);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(validPosition(matrix,cur.x,cur.y+<span class="number">1</span>))&#123;</span><br><span class="line">            Node node=<span class="keyword">new</span> Node(cur.x,cur.y+<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span>(!hashSet.contains(node.toString()))&#123;</span><br><span class="line">                hashSet.add(node.toString());</span><br><span class="line">                queue.add(node);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(validPosition(matrix,cur.x,cur.y+<span class="number">1</span>))&#123;</span><br><span class="line">            Node node=<span class="keyword">new</span> Node(cur.x,cur.y+<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span>(!hashSet.contains(node.toString()))&#123;</span><br><span class="line">                hashSet.add(node.toString());</span><br><span class="line">                queue.add(node);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        size--;</span><br><span class="line">        <span class="keyword">if</span>(size==<span class="number">0</span>)&#123;</span><br><span class="line">            steps++;</span><br><span class="line">            size=queue.size();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> steps;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">validPosition</span><span class="params">(<span class="keyword">int</span>[][] matrix,<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(x&lt;<span class="number">0</span>||x&gt;=matrix.length||y&lt;<span class="number">0</span>||y&gt;=matrix[<span class="number">0</span>].length)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="求比整数N小的所有正整数中，各位数字乘积最大者，如输入220，返回199"><a href="#求比整数N小的所有正整数中，各位数字乘积最大者，如输入220，返回199" class="headerlink" title="求比整数N小的所有正整数中，各位数字乘积最大者，如输入220，返回199"></a>求比整数N小的所有正整数中，各位数字乘积最大者，如输入220，返回199</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getMaxMultiByDp</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    String str=String.valueOf(x);</span><br><span class="line">    <span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> nine=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> num=<span class="number">0</span>,bits=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span>[] nums=<span class="keyword">new</span> <span class="keyword">int</span>[str.length()];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=str.length()-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">        <span class="keyword">int</span> cur=Integer.valueOf(str.charAt(i)-<span class="string">'0'</span>);</span><br><span class="line">        <span class="keyword">if</span>(i==str.length()-<span class="number">1</span>)&#123;</span><br><span class="line">            res=cur;</span><br><span class="line">            nums[i]=cur;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(i==<span class="number">0</span>&amp;&amp;cur==<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="comment">//处理首位为1</span></span><br><span class="line">            <span class="keyword">if</span>(nine&gt;cur*res)&#123;</span><br><span class="line">                res=nine;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;nums.length;j++)&#123;</span><br><span class="line">                    nums[j]=<span class="number">9</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                nums[i]=<span class="number">0</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                res=cur*res;</span><br><span class="line">                nums[i]=cur;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>((cur-<span class="number">1</span>)*nine&gt;cur*res)&#123;</span><br><span class="line">                res=(cur-<span class="number">1</span>)*nine;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;nums.length;j++)&#123;</span><br><span class="line">                    nums[j]=<span class="number">9</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                nums[i]=cur-<span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                res=cur*res;</span><br><span class="line">                nums[i]=cur;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        nine=nine*<span class="number">9</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    res=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++)&#123;</span><br><span class="line">        res=res*<span class="number">10</span>+nums[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/16/docker-mian-shi-zong-jie/" rel="prev" title="Docker面试总结">
+      <i class="fa fa-chevron-left"></i> Docker面试总结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/22/dong-tai-dai-li-zong-jie/" rel="next" title="动态代理总结">
+      动态代理总结 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#堆排序算法的时间复杂度"><span class="nav-number">1.</span> <span class="nav-text">堆排序算法的时间复杂度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#堆和堆排序"><span class="nav-number">1.1.</span> <span class="nav-text">堆和堆排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterator实现"><span class="nav-number">2.</span> <span class="nav-text">Iterator实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Iterator接口"><span class="nav-number">2.1.</span> <span class="nav-text">Iterator接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体实现"><span class="nav-number">2.2.</span> <span class="nav-text">具体实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Leetcode-301-Remove-Invalid-Parentheses"><span class="nav-number">3.</span> <span class="nav-text">Leetcode 301: Remove Invalid Parentheses</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二分查找"><span class="nav-number">4.</span> <span class="nav-text">二分查找</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除单链表中包含目标数据的节点"><span class="nav-number">5.</span> <span class="nav-text">删除单链表中包含目标数据的节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迷宫传送门"><span class="nav-number">6.</span> <span class="nav-text">迷宫传送门</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#求比整数N小的所有正整数中，各位数字乘积最大者，如输入220，返回199"><span class="nav-number">7.</span> <span class="nav-text">求比整数N小的所有正整数中，各位数字乘积最大者，如输入220，返回199</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Wang Huan</p>
+  <div class="site-description" itemprop="description">记录学习心得、读书感受以及一些Java知识。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/njustwh2014" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;njustwh2014" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:seuwh2018@foxmail.com" title="E-Mail → mailto:seuwh2018@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Huan</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">215k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:16</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Fhg8nAsyMme0K6TqY820NK17-gzGzoHsz',
+      appKey     : 'zoqpwVMBfhi2YQ9xf94Jdbf2',
+      placeholder: "欢迎批评指正！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

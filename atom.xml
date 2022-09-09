@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Eternal Horizon</title>
+  
+  <subtitle>每天进步一点点</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://njustwh2014.github.io/"/>
+  <updated>2022-09-09T09:12:32.797Z</updated>
+  <id>http://njustwh2014.github.io/</id>
+  
+  <author>
+    <name>Wang Huan</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>网上冲浪记录</title>
+    <link href="http://njustwh2014.github.io/2020/06/11/wang-shang-chong-lang-ji-lu/"/>
+    <id>http://njustwh2014.github.io/2020/06/11/wang-shang-chong-lang-ji-lu/</id>
+    <published>2020-06-11T02:16:10.000Z</published>
+    <updated>2022-09-09T09:12:32.797Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;依旧相信聚沙成塔，切勿浅尝辄止。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="冲浪" scheme="http://njustwh2014.github.io/categories/%E5%86%B2%E6%B5%AA/"/>
+    
+    
+      <category term="冲冲冲" scheme="http://njustwh2014.github.io/tags/%E5%86%B2%E5%86%B2%E5%86%B2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>db与缓存数据一致性</title>
+    <link href="http://njustwh2014.github.io/2020/06/09/db-yu-huan-cun-shu-ju-yi-zhi-xing/"/>
+    <id>http://njustwh2014.github.io/2020/06/09/db-yu-huan-cun-shu-ju-yi-zhi-xing/</id>
+    <published>2020-06-09T03:29:33.000Z</published>
+    <updated>2022-09-09T09:12:32.729Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://www.cnblogs.com/rjzheng/p/9041659.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;参考文章&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;四种处理时序：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;先更新缓存，再更新数据库&lt;/li&gt;
+&lt;li&gt;先更新数据库，再更新缓存&lt;/li&gt;
+&lt;li&gt;先删除缓存，再更新数据库&lt;/li&gt;
+&lt;li&gt;先更新数据库，再删除缓存&lt;/li&gt;&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="面试" scheme="http://njustwh2014.github.io/categories/%E9%9D%A2%E8%AF%95/"/>
+    
+    
+      <category term="数据一致性" scheme="http://njustwh2014.github.io/tags/%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>开源规则引擎Drools</title>
+    <link href="http://njustwh2014.github.io/2020/06/04/kai-yuan-gui-ze-yin-qing-drools/"/>
+    <id>http://njustwh2014.github.io/2020/06/04/kai-yuan-gui-ze-yin-qing-drools/</id>
+    <published>2020-06-04T11:19:46.000Z</published>
+    <updated>2022-09-09T09:12:32.778Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://github.com/njustwh2014/drools-demo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;demo地址&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;为什么需要规则引擎&quot;&gt;&lt;a href=&quot;#为什么需要规则引擎&quot; class=&quot;headerlink&quot; title=&quot;为什么需要规则引擎&quot;&gt;&lt;/a&gt;为什么需要&lt;a href=&quot;https://www.ibm.com/developerworks/cn/opensource/os-drools/index.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;规则引擎&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;规则引擎起源于基于规则的专家系统。利用规则引擎可以将商业决策者的商业运营决策逻辑和应用开发者的技术决策分离。我们可以把商业决策放在中心数据库或其他统一地方，从而能够在运行时动态的管理和修改，改善了开发和运营效率。&lt;/p&gt;
+&lt;p&gt;目前Java开源的规则引擎主要有：Drools、Easy Rules、Mandarax、IBM ILOG。使用最广泛并且开源的是Drools。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Drools" scheme="http://njustwh2014.github.io/categories/Drools/"/>
+    
+    
+      <category term="Drools" scheme="http://njustwh2014.github.io/tags/Drools/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mybatis自动生成的Example类用法</title>
+    <link href="http://njustwh2014.github.io/2020/05/11/mybatis-zi-dong-sheng-cheng-de-example-lei-yong-fa/"/>
+    <id>http://njustwh2014.github.io/2020/05/11/mybatis-zi-dong-sheng-cheng-de-example-lei-yong-fa/</id>
+    <published>2020-05-11T07:42:00.000Z</published>
+    <updated>2022-09-09T09:12:32.725Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;什么是Example类&quot;&gt;&lt;a href=&quot;#什么是Example类&quot; class=&quot;headerlink&quot; title=&quot;什么是Example类&quot;&gt;&lt;/a&gt;什么是Example类&lt;/h2&gt;&lt;p&gt;mybatis-generator会为每个字段产生Criterion，为底层的mapper.xml创建动态sql。理论上通过Example类可以构造出任何筛选条件。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Mysql" scheme="http://njustwh2014.github.io/categories/Mysql/"/>
+    
+    
+      <category term="Mysql" scheme="http://njustwh2014.github.io/tags/Mysql/"/>
+    
+      <category term="Mybatis" scheme="http://njustwh2014.github.io/tags/Mybatis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>动态代理总结</title>
+    <link href="http://njustwh2014.github.io/2020/03/22/dong-tai-dai-li-zong-jie/"/>
+    <id>http://njustwh2014.github.io/2020/03/22/dong-tai-dai-li-zong-jie/</id>
+    <published>2020-03-22T02:03:45.000Z</published>
+    <updated>2022-09-09T09:12:32.758Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;动态代理有什么作用以及使用场景？&quot;&gt;&lt;a href=&quot;#动态代理有什么作用以及使用场景？&quot; class=&quot;headerlink&quot; title=&quot;动态代理有什么作用以及使用场景？&quot;&gt;&lt;/a&gt;动态代理有什么作用以及使用场景？&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;日志集中打印&lt;/li&gt;
+&lt;li&gt;事务&lt;/li&gt;
+&lt;li&gt;权限管理&lt;/li&gt;
+&lt;li&gt;AOP&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;Spring-AOP的实现方式&quot;&gt;&lt;a href=&quot;#Spring-AOP的实现方式&quot; class=&quot;headerlink&quot; title=&quot;Spring AOP的实现方式&quot;&gt;&lt;/a&gt;Spring AOP的实现方式&lt;/h2&gt;
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://njustwh2014.github.io/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+      <category term="动态代理" scheme="http://njustwh2014.github.io/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>算法与数据结构面试题汇总</title>
+    <link href="http://njustwh2014.github.io/2020/03/17/suan-fa-yu-shu-ju-jie-gou-mian-shi-ti-hui-zong/"/>
+    <id>http://njustwh2014.github.io/2020/03/17/suan-fa-yu-shu-ju-jie-gou-mian-shi-ti-hui-zong/</id>
+    <published>2020-03-17T08:27:49.000Z</published>
+    <updated>2022-09-09T09:12:32.796Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;堆排序算法的时间复杂度&quot;&gt;&lt;a href=&quot;#堆排序算法的时间复杂度&quot; class=&quot;headerlink&quot; title=&quot;堆排序算法的时间复杂度&quot;&gt;&lt;/a&gt;堆排序算法的时间复杂度&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;堆排序与快速排序、归并排序一样都是时间复杂度为O(N*logN)的几种常见排序方法。&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&quot;堆和堆排序&quot;&gt;&lt;a href=&quot;#堆和堆排序&quot; class=&quot;headerlink&quot; title=&quot;堆和堆排序&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://blog.csdn.net/MoreWindows/article/details/6709644&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;堆和堆排序&lt;/a&gt;&lt;/h3&gt;
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://njustwh2014.github.io/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Docker面试总结</title>
+    <link href="http://njustwh2014.github.io/2020/03/16/docker-mian-shi-zong-jie/"/>
+    <id>http://njustwh2014.github.io/2020/03/16/docker-mian-shi-zong-jie/</id>
+    <published>2020-03-16T02:03:43.000Z</published>
+    <updated>2022-09-09T09:12:32.721Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;什么是Docker&quot;&gt;&lt;a href=&quot;#什么是Docker&quot; class=&quot;headerlink&quot; title=&quot;什么是Docker&quot;&gt;&lt;/a&gt;什么是Docker&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Docker是一个容器化平台，它以容器的形式将您的应用程序及其所有依赖项打包在一起，以确保您的应用程序在开发，测试或生产的任何环境中无缝运行。&lt;/li&gt;
+&lt;li&gt;Docker容器，将一个软件包装在一个完整的文件系统中，该文件系统包含运行所需的一切：代码，运行时，系统工具，系统库等可以安装在服务器上的任何东西。&lt;/li&gt;
+&lt;li&gt;这可以保证软件始终运行相同，无论其环境如何。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;为什么要用Docker&quot;&gt;&lt;a href=&quot;#为什么要用Docker&quot; class=&quot;headerlink&quot; title=&quot;为什么要用Docker&quot;&gt;&lt;/a&gt;为什么要用Docker&lt;/h2&gt;
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://njustwh2014.github.io/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Spring面试总结</title>
+    <link href="http://njustwh2014.github.io/2020/03/16/spring-mian-shi-zong-jie/"/>
+    <id>http://njustwh2014.github.io/2020/03/16/spring-mian-shi-zong-jie/</id>
+    <published>2020-03-16T01:08:26.000Z</published>
+    <updated>2022-09-09T09:12:32.726Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Spring-Aop实现方式，还有其他的什么方式实现&quot;&gt;&lt;a href=&quot;#Spring-Aop实现方式，还有其他的什么方式实现&quot; class=&quot;headerlink&quot; title=&quot;Spring Aop实现方式，还有其他的什么方式实现&quot;&gt;&lt;/a&gt;Spring Aop实现方式，还有其他的什么方式实现&lt;/h2&gt;&lt;p&gt;AOP 面向切面编程，是对面向对象的补充，处理系统中各个模块的横切关注点，常用于事务管理、日志模块、缓存等。&lt;/p&gt;
+&lt;p&gt;AOP实现的关键在于AOP框架自动创建AOP代理，常有以AspectJ为代表的静态代理，和以SpringAop为代表的动态代理&lt;/p&gt;
+&lt;p&gt;SpringAop的实现方式主要有通过反射的JDK动态代理和CGLIB(Code Generation Library).&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://njustwh2014.github.io/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>并发编程面试总结</title>
+    <link href="http://njustwh2014.github.io/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/"/>
+    <id>http://njustwh2014.github.io/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/</id>
+    <published>2020-03-16T01:08:10.000Z</published>
+    <updated>2022-09-09T09:12:32.775Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;什么是指令重排序？&quot;&gt;&lt;a href=&quot;#什么是指令重排序？&quot; class=&quot;headerlink&quot; title=&quot;什么是指令重排序？&quot;&gt;&lt;/a&gt;什么是指令重排序？&lt;/h2&gt;&lt;p&gt;为了提高性能，编译器和处理器通常会对指令进行重排序，重排序指从源代码到指令序列的重排序，分为三种：① 编译器优化的重排序，编译器在不改变单线程程序语义的前提下可以重排语句的执行顺序。② 指令级并行的重排序，如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。③ 内存系统的重排序。&lt;/p&gt;
+&lt;h2 id=&quot;as-if-serial-是什么？&quot;&gt;&lt;a href=&quot;#as-if-serial-是什么？&quot; class=&quot;headerlink&quot; title=&quot;as-if-serial 是什么？&quot;&gt;&lt;/a&gt;as-if-serial 是什么？&lt;/h2&gt;&lt;p&gt;不管怎么重排序，单线程程序的执行结果不能改变，编译器和处理器必须遵循as-if-serial语义。&lt;/p&gt;
+&lt;p&gt;为了遵循 as-if-serial，编译器和处理器不会对存在数据依赖关系的操作重排序，因为这种重排序会改变执行结果。但是如果操作之间不存在数据依赖关系，这些操作就可能被编译器和处理器重排序。&lt;/p&gt;
+&lt;p&gt;as-if-serial 把单线程程序保护起来，给程序员一种幻觉：单线程程序是按程序的顺序执行的。&lt;/p&gt;
+&lt;h2 id=&quot;happens-before-是什么？&quot;&gt;&lt;a href=&quot;#happens-before-是什么？&quot; class=&quot;headerlink&quot; title=&quot;happens-before 是什么？&quot;&gt;&lt;/a&gt;happens-before 是什么？&lt;/h2&gt;&lt;p&gt;先行发生原则，JMM定义的两项操作间的偏序关系，是判断数据是否存在竞争的重要手段。&lt;/p&gt;
+&lt;p&gt;JMM 将 happens-before 要求禁止的重排序按是否会改变程序执行结果分为两类。对于会改变结果的重排序 JMM 要求编译器和处理器必须禁止，对于不会改变结果的重排序，JMM 不做要求。&lt;/p&gt;
+&lt;p&gt;JMM 存在一些天然的 happens-before 关系，无需任何同步器协助就已经存在。如果两个操作的关系不在此列，并且无法从这些规则推导出来，它们就没有顺序性保障，虚拟机可以对它们随意进行重排序。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;程序次序规则：一个线程内写在前面的操作先行发生于后面的。&lt;/li&gt;
+&lt;li&gt;管程锁定规则： unlock 操作先行发生于后面对同一个锁的 lock 操作。&lt;/li&gt;
+&lt;li&gt;volatile 规则：对 volatile 变量的写操作先行发生于后面的读操作。&lt;/li&gt;
+&lt;li&gt;线程启动规则：线程的 start 方法先行发生于线程的每个动作。&lt;/li&gt;
+&lt;li&gt;线程终止规则：线程中所有操作先行发生于对线程的终止检测。&lt;/li&gt;
+&lt;li&gt;对象终结规则：对象的初始化先行发生于 finalize 方法。&lt;/li&gt;
+&lt;li&gt;传递性：如果操作 A 先行发生于操作 B，操作 B 先行发生于操作 C，那么操作 A 先行发生于操作 C 。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;as-if-serial-和-happens-before-有什么区别？&quot;&gt;&lt;a href=&quot;#as-if-serial-和-happens-before-有什么区别？&quot; class=&quot;headerlink&quot; title=&quot;as-if-serial 和 happens-before 有什么区别？&quot;&gt;&lt;/a&gt;as-if-serial 和 happens-before 有什么区别？&lt;/h2&gt;&lt;p&gt;as-if-serial 保证单线程程序的执行结果不变，happens-before 保证正确同步的多线程程序的执行结果不变。&lt;/p&gt;
+&lt;p&gt;这两种语义的目的都是为了在不改变程序执行结果的前提下尽可能提高程序执行并行度。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://njustwh2014.github.io/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JVM面试总结</title>
+    <link href="http://njustwh2014.github.io/2020/03/16/jvm-mian-shi-zong-jie/"/>
+    <id>http://njustwh2014.github.io/2020/03/16/jvm-mian-shi-zong-jie/</id>
+    <published>2020-03-16T01:07:38.000Z</published>
+    <updated>2022-09-09T09:12:32.722Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;JVM&quot;&gt;&lt;a href=&quot;#JVM&quot; class=&quot;headerlink&quot; title=&quot;JVM&quot;&gt;&lt;/a&gt;JVM&lt;/h2&gt;&lt;p&gt;JVM即java虚拟机，可以屏蔽具体硬件平台执行java语言或其他jvm支持的语言编译而出的字节码，&lt;strong&gt;jvm实现了java语言重要的特征：平台无关性，一次编译到处运行。&lt;/strong&gt; &lt;/p&gt;
+&lt;p&gt;原理：编译后的java程序指令并不是直接在CPU上执行，而是由JVM执行。JVM屏蔽了具体的硬件平台，使Java语言只需要编译生成在JVM上运行的目标字节码(.class)，就可以不加修改的在各个平台上执行。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;JVM=类加载器+执行引擎+运行时数据区域&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;JVM-类加载机制&quot;&gt;&lt;a href=&quot;#JVM-类加载机制&quot; class=&quot;headerlink&quot; title=&quot;JVM: 类加载机制&quot;&gt;&lt;/a&gt;JVM: 类加载机制&lt;/h2&gt;&lt;p&gt;Java虚拟机把描述类的数据从Class文件加载到内存，并对数据进行校验、转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是&lt;strong&gt;虚拟机的加载机制&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://juejin.im/post/5a810b0e5188257a5c606a85#heading-1&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;要看看哦&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://njustwh2014.github.io/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Mysql面试汇总</title>
+    <link href="http://njustwh2014.github.io/2020/03/13/mysql-mian-shi-hui-zong/"/>
+    <id>http://njustwh2014.github.io/2020/03/13/mysql-mian-shi-hui-zong/</id>
+    <published>2020-03-13T12:59:55.000Z</published>
+    <updated>2022-09-09T09:12:32.725Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;相关概念理解&quot;&gt;&lt;a href=&quot;#相关概念理解&quot; class=&quot;headerlink&quot; title=&quot;相关概念理解&quot;&gt;&lt;/a&gt;相关概念理解&lt;/h2&gt;&lt;h3 id=&quot;联合主键和复合主键&quot;&gt;&lt;a href=&quot;#联合主键和复合主键&quot; class=&quot;headerlink&quot; title=&quot;联合主键和复合主键&quot;&gt;&lt;/a&gt;联合主键和复合主键&lt;/h3&gt;&lt;p&gt;联合主键体现在多个表上，复合主键体现在一个表中的多个字段&lt;/p&gt;
+&lt;p&gt;联合主键：&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://njustwh2014.github.io/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>设计模式题汇总</title>
+    <link href="http://njustwh2014.github.io/2020/03/13/she-ji-mo-shi-ti-hui-zong/"/>
+    <id>http://njustwh2014.github.io/2020/03/13/she-ji-mo-shi-ti-hui-zong/</id>
+    <published>2020-03-13T12:56:00.000Z</published>
+    <updated>2022-09-09T09:12:32.797Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;设计原则有哪些？&quot;&gt;&lt;a href=&quot;#设计原则有哪些？&quot; class=&quot;headerlink&quot; title=&quot;设计原则有哪些？&quot;&gt;&lt;/a&gt;设计原则有哪些？&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;单一职责原则：让类或接口职责单一&lt;/li&gt;
+&lt;li&gt;里氏替换原则：子类去替换父类，做到通用编程&lt;/li&gt;
+&lt;li&gt;依赖倒置原则：面向接口编程&lt;/li&gt;
+&lt;li&gt;接口隔离原则：接口的设计要精简单一&lt;/li&gt;
+&lt;li&gt;迪米特法则：最少知识原则，降低依赖间的耦合&lt;/li&gt;
+&lt;li&gt;开闭原则：对扩展开放，对修改关闭&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;创建型&quot;&gt;&lt;a href=&quot;#创建型&quot; class=&quot;headerlink&quot; title=&quot;创建型&quot;&gt;&lt;/a&gt;创建型&lt;/h2&gt;
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://njustwh2014.github.io/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+      <category term="设计模式" scheme="http://njustwh2014.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>网络协议面试题汇总</title>
+    <link href="http://njustwh2014.github.io/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/"/>
+    <id>http://njustwh2014.github.io/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/</id>
+    <published>2020-03-13T12:53:35.000Z</published>
+    <updated>2022-09-09T09:12:32.797Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Http协议&quot;&gt;&lt;a href=&quot;#Http协议&quot; class=&quot;headerlink&quot; title=&quot;Http协议&quot;&gt;&lt;/a&gt;Http协议&lt;/h2&gt;&lt;h3 id=&quot;Get和Post比较&quot;&gt;&lt;a href=&quot;#Get和Post比较&quot; class=&quot;headerlink&quot; title=&quot;Get和Post比较&quot;&gt;&lt;/a&gt;Get和Post比较&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://learnku.com/articles/25881&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;看这篇装逼文章&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Get发送一次数据包 Post发送两次数据包&lt;ul&gt;
+&lt;li&gt;对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；&lt;/li&gt;
+&lt;li&gt;对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;GET在浏览器回退时是无害的，而POST会再次提交请求。&lt;/li&gt;
+&lt;li&gt;GET产生的URL地址可以被Bookmark，而POST不可以。&lt;/li&gt;
+&lt;li&gt;GET请求会被浏览器主动cache，而POST不会，除非手动设置。&lt;/li&gt;
+&lt;li&gt;GET请求只能进行url编码，而POST支持多种编码方式。&lt;/li&gt;
+&lt;li&gt;GET请求参数会被完整保留在浏览器历史记录里，而POST中的参数不会被保留。&lt;/li&gt;
+&lt;li&gt;GET请求在URL中传送的参数是有长度限制的，而POST么有。&lt;/li&gt;
+&lt;li&gt;对参数的数据类型，GET只接受ASCII字符，而POST没有限制。&lt;/li&gt;
+&lt;li&gt;GET比POST更不安全，因为参数直接暴露在URL上，所以不能用来传递敏感信息。&lt;/li&gt;
+&lt;li&gt;GET参数通过URL传递，POST放在Request body中。&lt;/li&gt;&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://njustwh2014.github.io/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+      <category term="TCP" scheme="http://njustwh2014.github.io/tags/TCP/"/>
+    
+      <category term="HTTP" scheme="http://njustwh2014.github.io/tags/HTTP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>redis面试题汇总</title>
+    <link href="http://njustwh2014.github.io/2020/03/13/redis-mian-shi-ti-hui-zong/"/>
+    <id>http://njustwh2014.github.io/2020/03/13/redis-mian-shi-ti-hui-zong/</id>
+    <published>2020-03-13T12:49:29.000Z</published>
+    <updated>2022-09-09T09:12:32.731Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;常见应用&quot;&gt;&lt;a href=&quot;#常见应用&quot; class=&quot;headerlink&quot; title=&quot;常见应用&quot;&gt;&lt;/a&gt;常见应用&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/29665317&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;参考连接&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;这一题要结合着Redis特性来回答，首先得明确Redis有哪些特性。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;应用1：读写性能优异可以当作缓存&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;缓存是Redis最常见的应用场景。&lt;/p&gt;
+&lt;p&gt;这里面试官可能会问，Redis和memcached比较以及如何保证缓存一致。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://njustwh2014.github.io/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Java基础面试题汇总</title>
+    <link href="http://njustwh2014.github.io/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/"/>
+    <id>http://njustwh2014.github.io/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/</id>
+    <published>2020-03-13T12:32:50.000Z</published>
+    <updated>2022-09-09T09:12:32.723Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;PriorityQueue实现原理&quot;&gt;&lt;a href=&quot;#PriorityQueue实现原理&quot; class=&quot;headerlink&quot; title=&quot;PriorityQueue实现原理&quot;&gt;&lt;/a&gt;PriorityQueue实现原理&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;数组&lt;/li&gt;
+&lt;li&gt;扩容&lt;/li&gt;
+&lt;li&gt;堆排序如何实现？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/u013309870/article/details/71189189&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;参考连接&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://njustwh2014.github.io/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>面试问题汇总</title>
+    <link href="http://njustwh2014.github.io/2020/02/27/mian-shi-wen-ti-hui-zong/"/>
+    <id>http://njustwh2014.github.io/2020/02/27/mian-shi-wen-ti-hui-zong/</id>
+    <published>2020-02-27T02:20:25.000Z</published>
+    <updated>2022-09-09T09:12:32.805Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://www.bilibili.com/read/cv4150256/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.bilibili.com/read/cv4150256/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.processon.com/view/link/5db53025e4b0893e9a654cda#map&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;学习大纲&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;Java基础&quot;&gt;&lt;a href=&quot;#Java基础&quot; class=&quot;headerlink&quot; title=&quot;Java基础&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://njustwh2014.github.io/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/&quot;&gt;Java基础&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;Java并发&quot;&gt;&lt;a href=&quot;#Java并发&quot; class=&quot;headerlink&quot; title=&quot;Java并发&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://njustwh2014.github.io/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/&quot;&gt;Java并发&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;JVM&quot;&gt;&lt;a href=&quot;#JVM&quot; class=&quot;headerlink&quot; title=&quot;JVM&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://njustwh2014.github.io/2020/03/16/jvm-mian-shi-zong-jie/&quot;&gt;JVM&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;Spring&quot;&gt;&lt;a href=&quot;#Spring&quot; class=&quot;headerlink&quot; title=&quot;Spring&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://njustwh2014.github.io/2020/03/16/spring-mian-shi-zong-jie/&quot;&gt;Spring&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;redis&quot;&gt;&lt;a href=&quot;#redis&quot; class=&quot;headerlink&quot; title=&quot;redis&quot;&gt;&lt;/a&gt;&lt;a href=&quot;hhttp://njustwh2014.github.io/2020/03/13/redis-mian-shi-ti-hui-zong/&quot;&gt;redis&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;网络协议&quot;&gt;&lt;a href=&quot;#网络协议&quot; class=&quot;headerlink&quot; title=&quot;网络协议&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://njustwh2014.github.io/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/&quot;&gt;网络协议&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;Mysql&quot;&gt;&lt;a href=&quot;#Mysql&quot; class=&quot;headerlink&quot; title=&quot;Mysql&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://njustwh2014.github.io/2020/03/13/mysql-mian-shi-hui-zong/&quot;&gt;Mysql&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;设计模式&quot;&gt;&lt;a href=&quot;#设计模式&quot; class=&quot;headerlink&quot; title=&quot;设计模式&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://njustwh2014.github.io/2020/03/13/she-ji-mo-shi-ti-hui-zong/&quot;&gt;设计模式&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;算法与数据结构&quot;&gt;&lt;a href=&quot;#算法与数据结构&quot; class=&quot;headerlink&quot; title=&quot;算法与数据结构&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://njustwh2014.github.io/2020/03/17/suan-fa-yu-shu-ju-jie-gou-mian-shi-ti-hui-zong/&quot;&gt;算法与数据结构&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;Docker&quot;&gt;&lt;a href=&quot;#Docker&quot; class=&quot;headerlink&quot; title=&quot;Docker&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://njustwh2014.github.io/2020/03/16/docker-mian-shi-zong-jie/&quot;&gt;Docker&lt;/a&gt;&lt;/h2&gt;
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://njustwh2014.github.io/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>2020一定要拿到offer啊</title>
+    <link href="http://njustwh2014.github.io/2020/02/02/2020-yi-ding-yao-na-dao-offer-a/"/>
+    <id>http://njustwh2014.github.io/2020/02/02/2020-yi-ding-yao-na-dao-offer-a/</id>
+    <published>2020-02-02T03:06:02.000Z</published>
+    <updated>2022-09-09T09:12:32.720Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;学习计划&quot;&gt;&lt;a href=&quot;#学习计划&quot; class=&quot;headerlink&quot; title=&quot;学习计划&quot;&gt;&lt;/a&gt;学习计划&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;将之前博客系统重启&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;redis、mysql部署在130虚拟机&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;前端部署在129机器上(nginx代理)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;后端部署在131虚拟机&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;leetcode刷题&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+      <category term="求职" scheme="http://njustwh2014.github.io/categories/%E6%B1%82%E8%81%8C/"/>
+    
+    
+      <category term="Java" scheme="http://njustwh2014.github.io/tags/Java/"/>
+    
+      <category term="Redis" scheme="http://njustwh2014.github.io/tags/Redis/"/>
+    
+      <category term="Mysql" scheme="http://njustwh2014.github.io/tags/Mysql/"/>
+    
+      <category term="Vue" scheme="http://njustwh2014.github.io/tags/Vue/"/>
+    
+      <category term="Springboot" scheme="http://njustwh2014.github.io/tags/Springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>并发容器之ConcurrentLinkedQueue</title>
+    <link href="http://njustwh2014.github.io/2019/12/08/bing-fa-rong-qi-zhi-concurrentlinkedqueue/"/>
+    <id>http://njustwh2014.github.io/2019/12/08/bing-fa-rong-qi-zhi-concurrentlinkedqueue/</id>
+    <published>2019-12-08T05:47:45.000Z</published>
+    <updated>2022-09-09T09:12:32.771Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;1-ConcurrentLinkedQueue简介&quot;&gt;&lt;a href=&quot;#1-ConcurrentLinkedQueue简介&quot; class=&quot;headerlink&quot; title=&quot;1.ConcurrentLinkedQueue简介&quot;&gt;&lt;/a&gt;1.ConcurrentLinkedQueue简介&lt;/h2&gt;&lt;p&gt;在单线程编程中我们会经常用到一些集合类，比如ArrayList,HashMap等，但是这些类都不是线程安全的类。在面试中也经常会有一些考点，比如ArrayList不是线程安全的，Vector是线程安全。而保障Vector线程安全的方式，是非常粗暴的在方法上用synchronized独占锁，将多线程执行变成串行化。要想将ArrayList变成线程安全的也可以使用&lt;code&gt;Collections.synchronizedList(List&amp;lt;T&amp;gt; list)&lt;/code&gt;方法ArrayList转换成线程安全的，但这种转换方式依然是通过synchronized修饰方法实现的，很显然这不是一种高效的方式，同时，队列也是我们常用的一种数据结构，为了解决线程安全的问题，Doug Lea大师为我们准备了ConcurrentLinkedQueue这个线程安全的队列。从类名就可以看的出来实现队列的数据结构是链式。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>并发容器之ConcurrentHashMap(JDK 1.8版本)</title>
+    <link href="http://njustwh2014.github.io/2019/12/06/bing-fa-rong-qi-zhi-concurrenthashmap-jdk-1-8-ban-ben/"/>
+    <id>http://njustwh2014.github.io/2019/12/06/bing-fa-rong-qi-zhi-concurrenthashmap-jdk-1-8-ban-ben/</id>
+    <published>2019-12-06T05:57:43.000Z</published>
+    <updated>2022-09-09T09:12:32.769Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/njustwh2014/MyJavaRepo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;我的github项目，有一些代码示例&lt;/a&gt; forked from &lt;a href=&quot;https://github.com/CL0610/Java-concurrency&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/CL0610/Java-concurrency&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;1-ConcurrentHashmap简介&quot;&gt;&lt;a href=&quot;#1-ConcurrentHashmap简介&quot; class=&quot;headerlink&quot; title=&quot;1.ConcurrentHashmap简介&quot;&gt;&lt;/a&gt;1.ConcurrentHashmap简介&lt;/h2&gt;&lt;p&gt;在使用HashMap时在多线程情况下扩容会出现CPU接近100%的情况，因为&lt;strong&gt;Hashmap并不是线程安全的&lt;/strong&gt;，通常我们可以使用在java体系中古老的Hashtable类，该类基本上所有的方法都采用synchronized进行线程安全的控制，可想而知，在高并发的情况下，每次只有一个线程能够获取对象监视器锁，这样的并发性能的确不令人满意。另外一种方式通过Collections的&lt;code&gt;Map&amp;lt;K,V&amp;gt; synchronizedMap(Map&amp;lt;K,V&amp;gt; m)&lt;/code&gt;将Hashmap包装成一个线程安全的map。比如SynchronzedMap的put方法源码为：&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Concurrent" scheme="http://njustwh2014.github.io/categories/Concurrent/"/>
+    
+    
+      <category term="Java" scheme="http://njustwh2014.github.io/tags/Java/"/>
+    
+      <category term="Concurrent" scheme="http://njustwh2014.github.io/tags/Concurrent/"/>
+    
+      <category term="HashMap" scheme="http://njustwh2014.github.io/tags/HashMap/"/>
+    
+      <category term="ConcurrentHashMap" scheme="http://njustwh2014.github.io/tags/ConcurrentHashMap/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java中的Cloneable和Serializable接口思考</title>
+    <link href="http://njustwh2014.github.io/2019/12/06/java-zhong-de-cloneable-he-serializable-jie-kou-si-kao/"/>
+    <id>http://njustwh2014.github.io/2019/12/06/java-zhong-de-cloneable-he-serializable-jie-kou-si-kao/</id>
+    <published>2019-12-06T01:57:06.000Z</published>
+    <updated>2022-09-09T09:12:32.723Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Cloneable接口&quot;&gt;&lt;a href=&quot;#Cloneable接口&quot; class=&quot;headerlink&quot; title=&quot;Cloneable接口&quot;&gt;&lt;/a&gt;Cloneable接口&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;clone()方法&lt;/strong&gt;：允许在&lt;strong&gt;堆&lt;/strong&gt;中克隆出一块与原对象一样的对象，并将这个对象的地址赋予新的引用。&lt;/p&gt;
+&lt;p&gt;Java中一个类要实现clone()方法，必须实现Cloneable接口，否则在调用clone()方法时会报CloneNotSupportException异常。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;需要说明：&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="http://njustwh2014.github.io/categories/Java/"/>
+    
+    
+  </entry>
+  
+</feed>

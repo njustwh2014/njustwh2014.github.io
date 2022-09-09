@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/java.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/java16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"njustwh2014.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="什么是指令重排序？为了提高性能，编译器和处理器通常会对指令进行重排序，重排序指从源代码到指令序列的重排序，分为三种：① 编译器优化的重排序，编译器在不改变单线程程序语义的前提下可以重排语句的执行顺序。② 指令级并行的重排序，如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。③ 内存系统的重排序。 as-if-serial 是什么？不管怎么重排序，单线程程序的执行结果不能改变，编译器和">
+<meta name="keywords" content="Java, 中间件, Spring, Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="并发编程面试总结">
+<meta property="og:url" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;03&#x2F;16&#x2F;bing-fa-bian-cheng-mian-shi-zong-jie&#x2F;index.html">
+<meta property="og:site_name" content="Eternal Horizon">
+<meta property="og:description" content="什么是指令重排序？为了提高性能，编译器和处理器通常会对指令进行重排序，重排序指从源代码到指令序列的重排序，分为三种：① 编译器优化的重排序，编译器在不改变单线程程序语义的前提下可以重排语句的执行顺序。② 指令级并行的重排序，如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。③ 内存系统的重排序。 as-if-serial 是什么？不管怎么重排序，单线程程序的执行结果不能改变，编译器和">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2022-09-09T09:12:32.775Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://njustwh2014.github.io/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>并发编程面试总结 | Eternal Horizon</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Eternal Horizon" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Eternal Horizon</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">30</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">43</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://njustwh2014.github.io/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Wang Huan">
+      <meta itemprop="description" content="记录学习心得、读书感受以及一些Java知识。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eternal Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          并发编程面试总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-16 09:08:10" itemprop="dateCreated datePublished" datetime="2020-03-16T09:08:10+08:00">2020-03-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-09 17:12:32" itemprop="dateModified" datetime="2022-09-09T17:12:32+08:00">2022-09-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B1%82%E8%81%8C/" itemprop="url" rel="index"><span itemprop="name">求职</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/03/16/bing-fa-bian-cheng-mian-shi-zong-jie/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="什么是指令重排序？"><a href="#什么是指令重排序？" class="headerlink" title="什么是指令重排序？"></a>什么是指令重排序？</h2><p>为了提高性能，编译器和处理器通常会对指令进行重排序，重排序指从源代码到指令序列的重排序，分为三种：① 编译器优化的重排序，编译器在不改变单线程程序语义的前提下可以重排语句的执行顺序。② 指令级并行的重排序，如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。③ 内存系统的重排序。</p>
+<h2 id="as-if-serial-是什么？"><a href="#as-if-serial-是什么？" class="headerlink" title="as-if-serial 是什么？"></a>as-if-serial 是什么？</h2><p>不管怎么重排序，单线程程序的执行结果不能改变，编译器和处理器必须遵循as-if-serial语义。</p>
+<p>为了遵循 as-if-serial，编译器和处理器不会对存在数据依赖关系的操作重排序，因为这种重排序会改变执行结果。但是如果操作之间不存在数据依赖关系，这些操作就可能被编译器和处理器重排序。</p>
+<p>as-if-serial 把单线程程序保护起来，给程序员一种幻觉：单线程程序是按程序的顺序执行的。</p>
+<h2 id="happens-before-是什么？"><a href="#happens-before-是什么？" class="headerlink" title="happens-before 是什么？"></a>happens-before 是什么？</h2><p>先行发生原则，JMM定义的两项操作间的偏序关系，是判断数据是否存在竞争的重要手段。</p>
+<p>JMM 将 happens-before 要求禁止的重排序按是否会改变程序执行结果分为两类。对于会改变结果的重排序 JMM 要求编译器和处理器必须禁止，对于不会改变结果的重排序，JMM 不做要求。</p>
+<p>JMM 存在一些天然的 happens-before 关系，无需任何同步器协助就已经存在。如果两个操作的关系不在此列，并且无法从这些规则推导出来，它们就没有顺序性保障，虚拟机可以对它们随意进行重排序。</p>
+<ul>
+<li>程序次序规则：一个线程内写在前面的操作先行发生于后面的。</li>
+<li>管程锁定规则： unlock 操作先行发生于后面对同一个锁的 lock 操作。</li>
+<li>volatile 规则：对 volatile 变量的写操作先行发生于后面的读操作。</li>
+<li>线程启动规则：线程的 start 方法先行发生于线程的每个动作。</li>
+<li>线程终止规则：线程中所有操作先行发生于对线程的终止检测。</li>
+<li>对象终结规则：对象的初始化先行发生于 finalize 方法。</li>
+<li>传递性：如果操作 A 先行发生于操作 B，操作 B 先行发生于操作 C，那么操作 A 先行发生于操作 C 。</li>
+</ul>
+<h2 id="as-if-serial-和-happens-before-有什么区别？"><a href="#as-if-serial-和-happens-before-有什么区别？" class="headerlink" title="as-if-serial 和 happens-before 有什么区别？"></a>as-if-serial 和 happens-before 有什么区别？</h2><p>as-if-serial 保证单线程程序的执行结果不变，happens-before 保证正确同步的多线程程序的执行结果不变。</p>
+<p>这两种语义的目的都是为了在不改变程序执行结果的前提下尽可能提高程序执行并行度。</p>
+<a id="more"></a>
+
+<h2 id="进程、线程和协程"><a href="#进程、线程和协程" class="headerlink" title="进程、线程和协程"></a>进程、线程和协程</h2><h3 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h3><p>进程是系统资源分配的最小单位, 系统由一个个进程(程序)组成。一般情况下，包括文本区域（text region）、数据区域（data region）和堆栈（stack region）。</p>
+<ul>
+<li>文本区域存储处理器执行的代码</li>
+<li>数据区域存储变量和进程执行期间使用的动态分配的内存；</li>
+<li>堆栈区域存储着活动过程调用的指令和本地变量。</li>
+</ul>
+<p>因此进程的创建和销毁都是相对于系统资源,所以是一种比较昂贵的操作。</p>
+<p>进程有三个状态:</p>
+<ul>
+<li>等待态：等待某个事件的完成；</li>
+<li>就绪态：等待系统分配处理器以便运行；</li>
+<li>运行态：占有处理器正在运行。</li>
+</ul>
+<p>进程是抢占式的争夺CPU运行自身,而CPU单核的情况下同一时间只能执行一个进程的代码,但是多进程的实现则是通过CPU飞快的切换不同进程,因此使得看上去就像是多个进程在同时进行.</p>
+<p><strong>通信问题:</strong>由于进程间是隔离的,各自拥有自己的内存内存资源, 因此相对于线程比较安全, 所以不同进程之间的数据只能通过 IPC(Inter-Process Communication) 进行通信共享.</p>
+<h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><ul>
+<li><strong>线程属于进程</strong></li>
+<li><strong>线程共享进程的内存地址空间</strong></li>
+<li><strong>线程几乎不占有系统资源</strong></li>
+<li><strong>通信问题:</strong>进程相当于一个容器,而线程而是运行在容器里面的,因此对于容器内的东西,线程是共同享有的,因此线程间的通信可以直接通过全局变量进行通信,但是由此带来的例如多个线程读写同一个地址变量的时候则将带来不可预期的后果,因此这时候引入了各种锁的作用,例如互斥锁等。</li>
+<li>多线程是不安全的,当一个线程崩溃了,会导致整个进程也崩溃了,即其他线程也挂了。但多进程而不会,一个进程挂了,另一个进程依然照样运行。</li>
+<li>进程是系统分配资源的最小单位，线程是CPU调度的最小单位。由于默认进程内只有一个线程,所以多核CPU处理多进程就像是一个进程一个核心</li>
+</ul>
+<h3 id="线程和进程的上下文切换"><a href="#线程和进程的上下文切换" class="headerlink" title="线程和进程的上下文切换"></a>线程和进程的上下文切换</h3><p><strong>进程切换分3步:</strong></p>
+<ul>
+<li>切换页目录以使用新的地址空间</li>
+<li>切换内核栈</li>
+<li>切换硬件上下文</li>
+</ul>
+<p><strong>而线程切换只需要第2、3步,因此进程的切换代价比较大</strong></p>
+<h3 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h3><ul>
+<li>协程是属于线程的。协程程序是在线程里面跑的，因此协程又称微线程和纤程等</li>
+<li>协没有线程的上下文切换消耗。协程的调度切换是用户(程序员)手动切换的,因此更加灵活,因此又叫用户空间线程.</li>
+<li>原子操作性。由于协程是用户调度的，所以不会出现执行一半的代码片段被强制中断了，因此无需原子操作锁。</li>
+</ul>
+<h3 id="协程的实现：迭代器和生成器"><a href="#协程的实现：迭代器和生成器" class="headerlink" title="协程的实现：迭代器和生成器"></a>协程的实现：迭代器和生成器</h3><ul>
+<li>迭代器： 实现了迭代接口的类,接口函数例如:current,key,next,rewind,valid。迭代器最基本的规定了对象可以通过next返回下一个值，而不是像数组，列表一样一次性返回。语言实现：在Java的foreach遍历迭代器对(数组)，Python的for遍历迭代器对象(tuple，list，dist)。</li>
+<li>生成器： 使用 yield 关键字的函数,可以多次返回值，生成器实际上也算是实现了迭代器接口(协议)。即生成器也可通过next返回下一个值。</li>
+</ul>
+<p><strong>协程举例：</strong>在Python中，使用了yield的函数为生成器函数，即可以多次返回值。则生成器可以暂停一下，转而执行其他代码，再回来继续执行函数往下的代码。</p>
+<h2 id="Synchronized实现原理，原子操作实现原理"><a href="#Synchronized实现原理，原子操作实现原理" class="headerlink" title="Synchronized实现原理，原子操作实现原理"></a>Synchronized实现原理，原子操作实现原理</h2><p><a href="https://juejin.im/post/5cee325e6fb9a07ee85c0c49" target="_blank" rel="noopener">参考文章</a></p>
+<p><strong>jdk对synchronized做了哪些优化：</strong></p>
+<ul>
+<li><p>适应性自旋锁：为了减少线程状态的改变带来的消耗，不停地执行当前线程</p>
+</li>
+<li><p>锁消除：对于不可能存在共享资源竞争的锁进行消除</p>
+</li>
+<li><p>锁粗化：对于连续多次加锁，精简到只有一次。</p>
+</li>
+<li><p>轻量级锁：无竞争条件下，通过CAS消除同步互斥</p>
+</li>
+<li><p>偏向锁：无竞争条件下消除同步互斥，连CAS操作都不需要</p>
+</li>
+</ul>
+<p>原子操作实现原理：总线锁 缓存锁 CAS</p>
+<p>那么<strong>CAS不足之处</strong>：</p>
+<ul>
+<li><p>ABA</p>
+</li>
+<li><p>循环时间长会导致消耗大</p>
+</li>
+<li><p>只能保证一个共享变量原子操作</p>
+</li>
+</ul>
+<h2 id="线程间同步方式"><a href="#线程间同步方式" class="headerlink" title="线程间同步方式"></a>线程间同步方式</h2><p><a href="https://www.cnblogs.com/xhjt/p/3897440.html" target="_blank" rel="noopener">看看看看</a></p>
+<ul>
+<li><p>1.<code>synchronized</code>修饰方法和方法块</p>
+</li>
+<li><p>2.使用特殊域变量<code>volatile</code></p>
+<ul>
+<li>volatile关键字为域变量的访问提供了一种免锁机制，</li>
+<li>使用volatile修饰域相当于告诉虚拟机该域可能会被其他线程更新，</li>
+<li>因此每次使用该域就要重新计算，而不是使用寄存器中的值</li>
+<li>volatile不会提供任何原子操作，它也不能用来修饰final类型的变量</li>
+</ul>
+</li>
+<li><p>3.使用重入锁<code>RetrentLock</code></p>
+<p>在JavaSE5.0中新增了一个java.util.concurrent包来支持同步。ReentrantLock类是可重入、互斥、实现了Lock接口的锁，它与使用synchronized方法和快具有相同的基本行为和语义，并且扩展了其能力</p>
+<p>ReenreantLock类的常用方法有：</p>
+<ul>
+<li>ReentrantLock() : 创建一个ReentrantLock实例</li>
+<li>lock() : 获得锁</li>
+<li>unlock() : 释放锁</li>
+</ul>
+<p>注：ReentrantLock()还有一个可以创建公平锁的构造方法，但由于能大幅度降低程序运行效率，不推荐使用</p>
+</li>
+<li><p>4.使用<code>ThreadLocal</code><br>如果使用ThreadLocal管理变量，则每一个使用该变量的线程都获得该变量的副本，副本之间相互独立，这样每一个线程都可以随意修改自己的变量副本，而不会对其他线程产生影响。</p>
+<p>ThreadLocal与同步机制:</p>
+<ul>
+<li>a.ThreadLocal与同步机制都是为了解决多线程中相同变量的访问冲突问题。</li>
+<li>b.前者采用以”空间换时间”的方法，后者采用以”时间换空间”的方式</li>
+</ul>
+</li>
+<li><p>5.<a href="https://www.jianshu.com/p/9394b257fdde" target="_blank" rel="noopener">使用阻塞队列<code>LinkedBlockingQueue</code></a></p>
+<ul>
+<li>(1) LinkedBlockingQueue继承于AbstractQueue，它本质上是一个FIFO(先进先出)的队列。</li>
+<li>(2) LinkedBlockingQueue实现了BlockingQueue接口，它支持多线程并发。当多线程竞争同一个资源时，某线程获取到该资源之后，其它线程需要阻塞等待。</li>
+<li>(3) LinkedBlockingQueue是通过<strong>单链表</strong>实现的。<ul>
+<li>a) head是链表的表头。取出数据时，都是从表头head处插入。</li>
+<li>b) last是链表的表尾。新增数据时，都是从表尾last处插入。</li>
+<li>c) count是链表的实际大小，即当前链表中包含的节点个数。</li>
+<li>d) capacity是列表的容量，它是在创建链表时指定的。</li>
+<li>e) putLock是插入锁，takeLock是取出锁；notEmpty是“非空条件”，notFull是“未满条件”。通过它们对链表进行并发控制。</li>
+</ul>
+</li>
+</ul>
+<p>LinkedBlockingQueue在实现“多线程对竞争资源的互斥访问”时，对于“插入”和“取出(删除)”操作分别使用了不同的锁。对于插入操作，通过“插入锁putLock”进行同步；对于取出操作，通过“取出锁takeLock”进行同步。 此外，插入锁putLock和“非满条件notFull”相关联，取出锁takeLock和“非空条件notEmpty”相关联。通过notFull和notEmpty更细腻的控制锁。</p>
+<ul>
+<li>若某线程(线程A)要取出数据时，队列正好为空，则该线程会执行notEmpty.await()进行等待；当其它某个线程(线程B)向队列中插入了数据之后，会调用notEmpty.signal()唤醒“notEmpty上的等待线程”。此时，线程A会被唤醒从而得以继续运行。 此外，线程A在执行取操作前，会获取takeLock，在取操作执行完毕再释放takeLock。</li>
+<li>若某线程(线程H)要插入数据时，队列已满，则该线程会它执行notFull.await()进行等待；当其它某个线程(线程I)取出数据之后，会调用notFull.signal()唤醒“notFull上的等待线程”。此时，线程H就会被唤醒从而得以继续运行。 此外，线程H在执行插入操作前，会获取putLock，在插入操作执行完毕才释放putLock。</li>
+</ul>
+</li>
+<li><p>6.使用原子变量<br>需要使用线程同步的根本原因在于对普通变量的操作不是原子的。</p>
+<p>那么什么是原子操作呢？</p>
+<p>原子操作就是指将读取变量值、修改变量值、保存变量值看成一个整体来操作即这几种行为要么同时完成，要么都不完成。</p>
+</li>
+</ul>
+<h2 id="线程间通信方式"><a href="#线程间通信方式" class="headerlink" title="线程间通信方式"></a>线程间通信方式</h2><p>场景题: “编写两个线程，一个线程打印1<del>25，另一个线程打印字母A</del>Z，打印顺序为12A34B56C……5152Z，要求使用线程间的通信。”</p>
+<p><a href="https://blog.csdn.net/u011514810/article/details/77131296" target="_blank" rel="noopener"><strong>参考文章</strong></a></p>
+<ul>
+<li>用共享变量的形式完成线程间通信<ul>
+<li>利用synchronized和wait、notify</li>
+<li>利用Lock、Condition</li>
+<li>利用volatile</li>
+<li>利用原子类型 </li>
+</ul>
+</li>
+<li>利用CyclicBarrier API</li>
+<li>利用PipedInputStream API</li>
+<li>利用BlockingQueue</li>
+</ul>
+<h2 id="创建线程的几种方式"><a href="#创建线程的几种方式" class="headerlink" title="创建线程的几种方式"></a>创建线程的几种方式</h2><ul>
+<li>1.实现Runnable接口</li>
+<li>2.实现Callable接口：带返回值 FutureTask</li>
+<li>3.继承Thread类：由于一般类都有继承，这种方式代价太高，导致类无法继承</li>
+</ul>
+<h2 id="线程池原理及参数含义"><a href="#线程池原理及参数含义" class="headerlink" title="线程池原理及参数含义"></a>线程池原理及参数含义</h2><h3 id="线程池好处"><a href="#线程池好处" class="headerlink" title="线程池好处"></a>线程池好处</h3><ul>
+<li>降低资源消耗：可以利用已创建的线程，降低创建线程和消耗线程带来的资源消耗</li>
+<li>提高响应速度：当请求到达时，可以不需要重新创建线程而直接执行</li>
+<li>提高线程可管理性：线程是类稀缺资源，无限制地创建线程会消耗过多资源并且会造成系统不稳定，利用线程池可以对线程进行统一的<strong>分配、调优和监控</strong></li>
+</ul>
+<h3 id="线程池工作原理-核心线程-gt-等待队列-gt-线程池是否已满-gt-饱和策略"><a href="#线程池工作原理-核心线程-gt-等待队列-gt-线程池是否已满-gt-饱和策略" class="headerlink" title="线程池工作原理(核心线程-&gt;等待队列-&gt;线程池是否已满-&gt;饱和策略)"></a>线程池工作原理(核心线程-&gt;等待队列-&gt;线程池是否已满-&gt;饱和策略)</h3><ul>
+<li>1.首先判断核心线程是否均在工作，如果均在工作则进入第2步，如果未均在工作，则创建一个新的线程来执行任务</li>
+<li>2.当核心线程均在执行任务时，对于新的任务则判断等待队列是否已满，如果满了则执行第3步，否则，将任务放入等待队列</li>
+<li>3.判断线程池线程是否均在执行任务(注意此时是所有线程而不只是核心线程)，如果均在执行任务，则交给饱和策略来处理任务，否则创建线程执行任务。</li>
+</ul>
+<h3 id="线程池饱和策略"><a href="#线程池饱和策略" class="headerlink" title="线程池饱和策略"></a>线程池饱和策略</h3><ul>
+<li>1.AbortPolicy：为java线程池默认的阻塞策略，不执行此任务，而且直接抛出一个运行时异常，切记ThreadPoolExecutor.execute需要try catch，否则程序会直接退出。</li>
+<li>2.DiscardPolicy：直接抛弃，任务不执行，空方法</li>
+<li>3.DiscardOldestPolicy：从队列里面抛弃head的一个任务，并再次execute 此task。</li>
+<li>4.CallerRunsPolicy：在调用execute的线程里面执行此command，会阻塞入口 </li>
+<li>5.用户自定义拒绝策略（最常用）：实现RejectedExecutionHandler，并自己定义策略模式</li>
+</ul>
+<p><a href="https://juejin.im/post/5c33400c6fb9a049fe35503b" target="_blank" rel="noopener">看看源码吧！！</a></p>
+<h2 id="死锁产生条件以及解决策略"><a href="#死锁产生条件以及解决策略" class="headerlink" title="死锁产生条件以及解决策略"></a>死锁产生条件以及解决策略</h2><h3 id="死锁产生的四个条件"><a href="#死锁产生的四个条件" class="headerlink" title="死锁产生的四个条件"></a>死锁产生的四个条件</h3><ul>
+<li><ol>
+<li>互斥条件：一个资源每次只能被一个线程持有</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>请求与保持条件：一个进程因请求资源而等待时，不会释放已分配的资源。</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>不可剥夺条件：线程持有的资源，在未使用前不可剥夺</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>循环等待条件：若干个线程形成头尾相连的等待资源的关系</li>
+</ol>
+</li>
+</ul>
+<p>只要产生死锁，这四个条件必定成立，若破坏其中一个条件，死锁就不会发生了。</p>
+<h3 id="解决死锁的策略"><a href="#解决死锁的策略" class="headerlink" title="解决死锁的策略"></a>解决死锁的策略</h3><p><a href="https://zhuanlan.zhihu.com/p/61221667" target="_blank" rel="noopener">死锁检测与解除</a></p>
+<ul>
+<li><strong>预防死锁</strong><ul>
+<li><strong>资源一次性分配</strong>：破坏请求和保持条件。　当某个资源只在进程结束时使用一小会，那么在进程运行期间，这个资源都被占用，资源利用率很低。比较好的方法是，进程开始时，只申请和使用进程启动的资源，在运行过程中不断申请新的资源，同时释放已经使用完的资源。</li>
+<li><strong>可剥夺资源</strong>：当进程新申请的资源不满足时，释放已经分配的资源。破坏不可剥夺条件。　在使用某些资源，比如打印机时，当强制剥夺已分配资源的时候，会导致打印机资源打印的信息不连续的问题。</li>
+<li><strong>资源有序分配</strong>：系统给进程编号，按某一顺序申请资源，释放资源则反序释放。破坏循环等待条件。</li>
+</ul>
+</li>
+<li><strong>避免死锁</strong><br><strong>银行家算法</strong>：分配资源前先评估风险，会不会在分配后导致死锁。　即分配给一个进程资源的时候，该进程能否全部返还占用的资源。</li>
+<li><strong>检测死锁</strong><br>建立资源分配表和进程等待表。</li>
+<li><strong>解除死锁</strong><br>从其他进程强制剥夺资源给死锁进程。可以直接撤销死锁进程，或撤销代价最小的进程。</li>
+</ul>
+<h2 id="死锁与饥饿的区别"><a href="#死锁与饥饿的区别" class="headerlink" title="死锁与饥饿的区别"></a>死锁与饥饿的区别</h2><p><strong>饥饿：</strong>一个或者多个线程因为种种原因无法获得所需要的资源，导致一直无法执行的状态。</p>
+<h3 id="Java-中导致饥饿的原因："><a href="#Java-中导致饥饿的原因：" class="headerlink" title="Java 中导致饥饿的原因："></a>Java 中导致饥饿的原因：</h3><ul>
+<li>1、高优先级线程吞噬所有的低优先级线程的CPU时间。</li>
+<li>2、线程被永久堵塞在一个等待进入同步块的状态，因为其他线程总是能在它之前持续地对该同步块进行访问。</li>
+<li>3、线程在等待一个本身也处于永久等待完成的对象(比如调用这个对象的wait方法)，因为其他线程总是被持续地获得唤醒。</li>
+</ul>
+<h3 id="解决饥饿的办法："><a href="#解决饥饿的办法：" class="headerlink" title="解决饥饿的办法："></a>解决饥饿的办法：</h3><ul>
+<li>1.公平锁</li>
+<li>2.读线程可以允许其他读写程并发访问，但禁止写线程。写线程禁止其他线程并发访问。当某个线程正在进行读操作，此时有个写线程进行申请资源，则应禁止其他读线程访问资源。</li>
+</ul>
+<h3 id="什么是活锁"><a href="#什么是活锁" class="headerlink" title="什么是活锁"></a>什么是活锁</h3><p>活锁：是指线程1可以使用资源，但它很礼貌，让其他线程先使用资源，线程2也可以使用资源，但它很绅士，也让其他线程先使用资源。这样你让我，我让你，最后两个线程都无法使用资源。</p>
+<h2 id="JUC下源码分析-偶尔带着看吧"><a href="#JUC下源码分析-偶尔带着看吧" class="headerlink" title="JUC下源码分析(偶尔带着看吧)"></a>JUC下源码分析(偶尔带着看吧)</h2><h2 id="什么是可重入锁，如何实现一个可重入锁？"><a href="#什么是可重入锁，如何实现一个可重入锁？" class="headerlink" title="什么是可重入锁，如何实现一个可重入锁？"></a>什么是可重入锁，如何实现一个可重入锁？</h2><h3 id="可重入锁的定义"><a href="#可重入锁的定义" class="headerlink" title="可重入锁的定义"></a>可重入锁的定义</h3><p>广义上可重入锁是指可重复递归调用的锁，同一个对象或类的前提下，在外层使用锁之后，在内层仍然可以用，并且不发生死锁。</p>
+<p><strong><code>synchronized</code>和<code>ReentrantLock</code></strong>均是可重入锁</p>
+<h3 id="synchronized可重入示例"><a href="#synchronized可重入示例" class="headerlink" title="synchronized可重入示例"></a><code>synchronized</code>可重入示例</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReentrantTest</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getName());</span><br><span class="line">        set();<span class="comment">//还可以获得锁</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ReentrantTest rt = <span class="keyword">new</span> ReentrantTest();</span><br><span class="line">        <span class="keyword">for</span>(;;)&#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(rt).start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="不可重入锁示例"><a href="#不可重入锁示例" class="headerlink" title="不可重入锁示例"></a>不可重入锁示例</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicReference;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UnreentrantLock</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> AtomicReference&lt;Thread&gt; owner = <span class="keyword">new</span> AtomicReference&lt;Thread&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Thread current = Thread.currentThread();</span><br><span class="line">        <span class="comment">//这句是很经典的“自旋”语法，AtomicInteger中也有</span></span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!owner.compareAndSet(<span class="keyword">null</span>, current)) &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unlock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Thread current = Thread.currentThread();</span><br><span class="line">        owner.compareAndSet(current, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改为可重入锁"><a href="#修改为可重入锁" class="headerlink" title="修改为可重入锁"></a>修改为可重入锁</h3><p>在执行每次操作之前，判断当前锁持有者是否是当前对象，采用state计数，不用每次去释放锁。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicReference;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UnreentrantLock</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> AtomicReference&lt;Thread&gt; owner = <span class="keyword">new</span> AtomicReference&lt;Thread&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span> state=<span class="number">0</span>;<span class="comment">//记录重入次数</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Thread current = Thread.currentThread();</span><br><span class="line">        <span class="keyword">if</span>(owner.get()==current)&#123;</span><br><span class="line">            <span class="comment">//该线程已经获得该锁</span></span><br><span class="line">            state++;</span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//这句是很经典的“自旋”语法，AtomicInteger中也有</span></span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!owner.compareAndSet(<span class="keyword">null</span>, current)) &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unlock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Thread current = Thread.currentThread();</span><br><span class="line">        <span class="keyword">if</span>(current==owner.get())&#123;</span><br><span class="line">            <span class="keyword">if</span>(state!=<span class="number">0</span>)&#123;</span><br><span class="line">                state--;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                owner.compareAndSet(current, <span class="keyword">null</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="ReentrantLock可重入锁实现"><a href="#ReentrantLock可重入锁实现" class="headerlink" title="ReentrantLock可重入锁实现"></a><code>ReentrantLock</code>可重入锁实现</h3><p>这里看非公平获得锁实现</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">nonfairTryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> Thread current = Thread.currentThread();</span><br><span class="line">    <span class="keyword">int</span> c = getState();</span><br><span class="line">    <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (compareAndSetState(<span class="number">0</span>, acquires)) &#123;</span><br><span class="line">            setExclusiveOwnerThread(current);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//就是这里</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</span><br><span class="line">        <span class="keyword">int</span> nextc = c + acquires;</span><br><span class="line">        <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>) <span class="comment">// overflow</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</span><br><span class="line">        setState(nextc);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在AQS中维护了一个private volatile int state来计数重入次数，避免了频繁的持有释放操作，这样既提升了效率，又避免了死锁。</p>
+<h2 id="Lock接口下实现的锁和synchronized关键字比较，各自优缺点"><a href="#Lock接口下实现的锁和synchronized关键字比较，各自优缺点" class="headerlink" title="Lock接口下实现的锁和synchronized关键字比较，各自优缺点"></a>Lock接口下实现的锁和<code>synchronized</code>关键字比较，各自优缺点</h2><ul>
+<li><code>synchronized</code>是Java内置的，且不需要手动释放锁，代码可读性较高</li>
+<li><code>Lock</code>接口实现的锁具有以下优势：<ul>
+<li>等待线程可以响应中断</li>
+<li>可以解决读读冲突</li>
+<li>可以实现公平锁</li>
+<li>加锁释放锁操作灵活</li>
+<li>ReentrantLock下的Condition可以灵活实现线程间的协作，而不像<code>synchronized</code>修饰的临界区域只能通过Object类的wait/notify进行</li>
+</ul>
+</li>
+</ul>
+<h2 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h2><p><a href="http://njustwh2014.github.io/2019/11/05/shen-ru-li-jie-abstractqueuedsynchronizer-aqs/"><strong>之前写的，没事看看</strong></a></p>
+<p>AQS则实现了对同步状态的管理，以及对阻塞线程进行排队，等待通知等等一些底层的实现处理。AQS的核心也包括了这些方面:同步队列，独占式锁的获取和释放，共享锁的获取和释放以及可中断锁，超时等待锁获取这些特性的实现</p>
+<h2 id="哪些地方用到了CAS"><a href="#哪些地方用到了CAS" class="headerlink" title="哪些地方用到了CAS"></a>哪些地方用到了CAS</h2><h2 id="高并发解决超卖少卖的情况"><a href="#高并发解决超卖少卖的情况" class="headerlink" title="高并发解决超卖少卖的情况"></a>高并发解决超卖少卖的情况</h2><p><a href="http://www.linuxmysql.com/17/2019/1035.htm" target="_blank" rel="noopener">参考连接</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/16/jvm-mian-shi-zong-jie/" rel="prev" title="JVM面试总结">
+      <i class="fa fa-chevron-left"></i> JVM面试总结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/16/spring-mian-shi-zong-jie/" rel="next" title="Spring面试总结">
+      Spring面试总结 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是指令重排序？"><span class="nav-number">1.</span> <span class="nav-text">什么是指令重排序？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#as-if-serial-是什么？"><span class="nav-number">2.</span> <span class="nav-text">as-if-serial 是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#happens-before-是什么？"><span class="nav-number">3.</span> <span class="nav-text">happens-before 是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#as-if-serial-和-happens-before-有什么区别？"><span class="nav-number">4.</span> <span class="nav-text">as-if-serial 和 happens-before 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程、线程和协程"><span class="nav-number">5.</span> <span class="nav-text">进程、线程和协程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#进程"><span class="nav-number">5.1.</span> <span class="nav-text">进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程"><span class="nav-number">5.2.</span> <span class="nav-text">线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程和进程的上下文切换"><span class="nav-number">5.3.</span> <span class="nav-text">线程和进程的上下文切换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协程"><span class="nav-number">5.4.</span> <span class="nav-text">协程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协程的实现：迭代器和生成器"><span class="nav-number">5.5.</span> <span class="nav-text">协程的实现：迭代器和生成器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Synchronized实现原理，原子操作实现原理"><span class="nav-number">6.</span> <span class="nav-text">Synchronized实现原理，原子操作实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程间同步方式"><span class="nav-number">7.</span> <span class="nav-text">线程间同步方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程间通信方式"><span class="nav-number">8.</span> <span class="nav-text">线程间通信方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建线程的几种方式"><span class="nav-number">9.</span> <span class="nav-text">创建线程的几种方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池原理及参数含义"><span class="nav-number">10.</span> <span class="nav-text">线程池原理及参数含义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池好处"><span class="nav-number">10.1.</span> <span class="nav-text">线程池好处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池工作原理-核心线程-gt-等待队列-gt-线程池是否已满-gt-饱和策略"><span class="nav-number">10.2.</span> <span class="nav-text">线程池工作原理(核心线程-&gt;等待队列-&gt;线程池是否已满-&gt;饱和策略)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池饱和策略"><span class="nav-number">10.3.</span> <span class="nav-text">线程池饱和策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#死锁产生条件以及解决策略"><span class="nav-number">11.</span> <span class="nav-text">死锁产生条件以及解决策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#死锁产生的四个条件"><span class="nav-number">11.1.</span> <span class="nav-text">死锁产生的四个条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决死锁的策略"><span class="nav-number">11.2.</span> <span class="nav-text">解决死锁的策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#死锁与饥饿的区别"><span class="nav-number">12.</span> <span class="nav-text">死锁与饥饿的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-中导致饥饿的原因："><span class="nav-number">12.1.</span> <span class="nav-text">Java 中导致饥饿的原因：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决饥饿的办法："><span class="nav-number">12.2.</span> <span class="nav-text">解决饥饿的办法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是活锁"><span class="nav-number">12.3.</span> <span class="nav-text">什么是活锁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JUC下源码分析-偶尔带着看吧"><span class="nav-number">13.</span> <span class="nav-text">JUC下源码分析(偶尔带着看吧)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是可重入锁，如何实现一个可重入锁？"><span class="nav-number">14.</span> <span class="nav-text">什么是可重入锁，如何实现一个可重入锁？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#可重入锁的定义"><span class="nav-number">14.1.</span> <span class="nav-text">可重入锁的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#synchronized可重入示例"><span class="nav-number">14.2.</span> <span class="nav-text">synchronized可重入示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不可重入锁示例"><span class="nav-number">14.3.</span> <span class="nav-text">不可重入锁示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改为可重入锁"><span class="nav-number">14.4.</span> <span class="nav-text">修改为可重入锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ReentrantLock可重入锁实现"><span class="nav-number">14.5.</span> <span class="nav-text">ReentrantLock可重入锁实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lock接口下实现的锁和synchronized关键字比较，各自优缺点"><span class="nav-number">15.</span> <span class="nav-text">Lock接口下实现的锁和synchronized关键字比较，各自优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AQS"><span class="nav-number">16.</span> <span class="nav-text">AQS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哪些地方用到了CAS"><span class="nav-number">17.</span> <span class="nav-text">哪些地方用到了CAS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高并发解决超卖少卖的情况"><span class="nav-number">18.</span> <span class="nav-text">高并发解决超卖少卖的情况</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Wang Huan</p>
+  <div class="site-description" itemprop="description">记录学习心得、读书感受以及一些Java知识。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/njustwh2014" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;njustwh2014" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:seuwh2018@foxmail.com" title="E-Mail → mailto:seuwh2018@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Huan</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">215k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:16</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Fhg8nAsyMme0K6TqY820NK17-gzGzoHsz',
+      appKey     : 'zoqpwVMBfhi2YQ9xf94Jdbf2',
+      placeholder: "欢迎批评指正！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

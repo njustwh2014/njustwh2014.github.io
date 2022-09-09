@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/java.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/java16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"njustwh2014.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="什么是正则表达式正则表达式是一个定义搜索模式的字符串。 示例">
+<meta name="keywords" content="Java, 中间件, Spring, Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java中正则表达式使用">
+<meta property="og:url" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;10&#x2F;28&#x2F;java-zhong-zheng-ze-biao-da-shi-shi-yong&#x2F;index.html">
+<meta property="og:site_name" content="Eternal Horizon">
+<meta property="og:description" content="什么是正则表达式正则表达式是一个定义搜索模式的字符串。 示例">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2022-09-09T09:12:32.723Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://njustwh2014.github.io/2019/10/28/java-zhong-zheng-ze-biao-da-shi-shi-yong/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java中正则表达式使用 | Eternal Horizon</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Eternal Horizon" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Eternal Horizon</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">30</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">43</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://njustwh2014.github.io/2019/10/28/java-zhong-zheng-ze-biao-da-shi-shi-yong/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Wang Huan">
+      <meta itemprop="description" content="记录学习心得、读书感受以及一些Java知识。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eternal Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java中正则表达式使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-28 11:15:43" itemprop="dateCreated datePublished" datetime="2019-10-28T11:15:43+08:00">2019-10-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-09 17:12:32" itemprop="dateModified" datetime="2022-09-09T17:12:32+08:00">2022-09-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/10/28/java-zhong-zheng-ze-biao-da-shi-shi-yong/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/28/java-zhong-zheng-ze-biao-da-shi-shi-yong/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="什么是正则表达式"><a href="#什么是正则表达式" class="headerlink" title="什么是正则表达式"></a>什么是正则表达式</h2><p>正则表达式是一个定义<strong>搜索模式</strong>的字符串。</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><a id="more"></a>
+<table>
+<thead>
+<tr>
+<th align="left">正则表达式</th>
+<th align="left">匹配</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">this is text</td>
+<td align="left">精确匹配到字符串this is text</td>
+</tr>
+<tr>
+<td align="left">this\s+is\s+text</td>
+<td align="left">匹配单词this和is后跟一个或多个空格</td>
+</tr>
+<tr>
+<td align="left">^\d+(.\d+)?</td>
+<td align="left">^ 定义模式必须匹配字符串的开始，d+ 匹配一个或多个数字，? 表明小括号内的语句是可选的，. 匹配 “.”，小括号表示分组。例如匹配：”5”、”1.5” 和 “2.21”</td>
+</tr>
+</tbody></table>
+<h2 id="正则表达式编写规则"><a href="#正则表达式编写规则" class="headerlink" title="正则表达式编写规则"></a>正则表达式编写规则</h2><h3 id="常见匹配符号"><a href="#常见匹配符号" class="headerlink" title="常见匹配符号"></a>常见匹配符号</h3><table>
+<thead>
+<tr>
+<th align="left">正则表达式</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">.</td>
+<td align="left">匹配所有单个字符，除了换行(Linux换行符\n, Windows换行符\r\n)</td>
+</tr>
+<tr>
+<td align="left">^regex</td>
+<td align="left">正则必须匹配字符串开头</td>
+</tr>
+<tr>
+<td align="left">regex$</td>
+<td align="left">正则必须匹配字符串结尾</td>
+</tr>
+<tr>
+<td align="left">[abc]</td>
+<td align="left">复选集定义，匹配a或b或c</td>
+</tr>
+<tr>
+<td align="left">[abc][vz]</td>
+<td align="left">复选集定义，匹配字母 a 或 b 或 c，后面跟着 v 或 z</td>
+</tr>
+<tr>
+<td align="left">[^abc]</td>
+<td align="left">当插入符 ^ 在中括号中以第一个字符开始显示，则表示否定模式。此模式匹配所有字符，除了 a 或 b 或 c</td>
+</tr>
+<tr>
+<td align="left">[a-d1-7]</td>
+<td align="left">范围匹配，匹配字母 a 到 d 和数字从 1 到 7 之间，但不匹配 d1</td>
+</tr>
+<tr>
+<td align="left">XZ</td>
+<td align="left">X后直接跟着Z</td>
+</tr>
+<tr>
+<td align="left">X|Z</td>
+<td align="left">匹配X或Z</td>
+</tr>
+</tbody></table>
+<h3 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h3><p>元字符是一个预定义的字符。</p>
+<table>
+<thead>
+<tr>
+<th align="left">正则表达式</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">\d</td>
+<td align="left">匹配一个数字，是 [0-9] 的简写</td>
+</tr>
+<tr>
+<td align="left">\D</td>
+<td align="left">匹配一个非数字，是 [^0-9] 的简写</td>
+</tr>
+<tr>
+<td align="left">\s</td>
+<td align="left">匹配一个空格，是 [ \t\n\x0b\r\f] 的简写</td>
+</tr>
+<tr>
+<td align="left">\S</td>
+<td align="left">匹配一个非空格</td>
+</tr>
+<tr>
+<td align="left">\w</td>
+<td align="left">匹配一个单词字符（大小写字母、数字、下划线），是 [a-zA-Z_0-9] 的简写</td>
+</tr>
+<tr>
+<td align="left">\W</td>
+<td align="left">匹配一个非单词字符（除了大小写字母、数字、下划线之外的字符），等同于 [^\w]</td>
+</tr>
+</tbody></table>
+<h3 id="限制符"><a href="#限制符" class="headerlink" title="限制符"></a>限制符</h3><p>限定符定义了一个元素可以发生的频率。</p>
+<table>
+<thead>
+<tr>
+<th align="left">正则表达式</th>
+<th align="left">描述</th>
+<th align="left">举例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">*</td>
+<td align="left">匹配 &gt;=0 个，是 {0,} 的简写</td>
+<td align="left">X* 表示匹配零个或多个字母 X，.* 表示匹配任何字符串</td>
+</tr>
+<tr>
+<td align="left">+</td>
+<td align="left">匹配 &gt;=1 个，是 {1,} 的简写</td>
+<td align="left">X+ 表示匹配一个或多个字母 X</td>
+</tr>
+<tr>
+<td align="left">?</td>
+<td align="left">匹配 1 个或 0 个，是 {0,1} 的简写</td>
+<td align="left">X? 表示匹配 0 个或 1 个字母 X</td>
+</tr>
+<tr>
+<td align="left">{X}</td>
+<td align="left">只匹配 X 个字符</td>
+<td align="left">\d{3} 表示匹配 3 个数字，.{10} 表示匹配任何长度是 10 的字符串</td>
+</tr>
+<tr>
+<td align="left">{X,Y}</td>
+<td align="left">匹配 &gt;=X 且 &lt;=Y 个</td>
+<td align="left">\d{1,4} 表示匹配至少 1 个最多 4 个数字</td>
+</tr>
+<tr>
+<td align="left">*?</td>
+<td align="left">如果 ? 是限定符 * 或 + 或 ? 或 {} 后面的第一个字符，那么表示非贪婪模式（尽可能少的匹配字符），而不是默认的贪婪模式</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h3 id="分组与反向应用"><a href="#分组与反向应用" class="headerlink" title="分组与反向应用"></a>分组与反向应用</h3><p>小括号()可以达到对正则表达式分组的效果。</p>
+<p>模式分组后会在正则表达式中创建反向引用。反向引用会保存匹配模式分组的字符串片断，这使得我们可以获取并使用这个字符串片断。</p>
+<p>Java中，在以正则表达式替换字符串的语法中，是通过 $ 来引用分组的反向引用，$0 是匹配完整模式的字符串（注意在 JavaScript 中是用 $&amp; 表示）；$1 是第一个分组的反向引用；$2 是第二个分组的反向引用，以此类推。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    String str=<span class="string">"Hello ,world ."</span>;</span><br><span class="line">    String pattern=<span class="string">"(\\w)(\\s+)([.,])"</span>;</span><br><span class="line">    System.out.println(str.replaceAll(pattern,<span class="string">"$1$3"</span>));<span class="comment">//Hello,World.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的例子中，我们使用了 [.] 来匹配普通字符 . 而不需要使用 [\.]。因为正则对于 [] 中的 .，会自动处理为 [.]，即普通字符 . 进行匹配。</p>
+<h3 id="仅分组但无反向引用"><a href="#仅分组但无反向引用" class="headerlink" title="仅分组但无反向引用"></a>仅分组但无反向引用</h3><p>当我们在小括号 () 内的模式开头加入 ?:，那么表示这个模式仅分组，但不创建反向引用。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String str = <span class="string">"img.jpg"</span>;</span><br><span class="line"><span class="comment">// 分组且创建反向引用</span></span><br><span class="line"><span class="comment">//        Pattern pattern = Pattern.compile("(jpg|png)");</span></span><br><span class="line"><span class="comment">//        Matcher matcher = pattern.matcher(str);</span></span><br><span class="line"><span class="comment">//        while (matcher.find()) &#123;</span></span><br><span class="line"><span class="comment">//            System.out.println(matcher.group());//jpg</span></span><br><span class="line"><span class="comment">//            System.out.println(matcher.group(1));//jpg</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 分组但不创建反向引用</span></span><br><span class="line">Pattern pattern = Pattern.compile(<span class="string">"(?:jpg|png)"</span>);</span><br><span class="line">Matcher matcher = pattern.matcher(str);</span><br><span class="line"><span class="keyword">while</span> (matcher.find()) &#123;</span><br><span class="line">    System.out.println(matcher.group());<span class="comment">//jpg</span></span><br><span class="line">    System.out.println(matcher.group(<span class="number">1</span>));<span class="comment">//Exception in thread "main" java.lang.IndexOutOfBoundsException: No group 1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="分组的反向引用副本"><a href="#分组的反向引用副本" class="headerlink" title="分组的反向引用副本"></a>分组的反向引用副本</h3><p>Java 中可以在小括号中使用 ?<name> 将小括号中匹配的内容保存为一个名字为 name 的副本。</name></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String str=<span class="string">"@wanghuan is a cool boy."</span>;</span><br><span class="line">Pattern pattern=Pattern.compile(<span class="string">"@(?&lt;first&gt;\\w+\\s)"</span>);</span><br><span class="line">Matcher matcher=pattern.matcher(str);</span><br><span class="line"><span class="keyword">while</span>(matcher.find())&#123;</span><br><span class="line">    System.out.println(matcher.group());<span class="comment">//@wanghuan</span></span><br><span class="line">    System.out.println(matcher.group(<span class="number">1</span>));<span class="comment">//wanghuan</span></span><br><span class="line">    System.out.println(matcher.group(<span class="string">"first"</span>));<span class="comment">//wanghuan</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="否对先行断言"><a href="#否对先行断言" class="headerlink" title="否对先行断言"></a>否对先行断言</h3><p>我们可以创建否定先行断言模式的匹配，即某个字符串后面不包含另一个字符串的匹配模式。</p>
+<p>否定先行断言模式通过 (?!pattern) 定义。比如，我们匹配后面不是跟着 “b” 的 “a”：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Pattern pattern=Pattern.compile(<span class="string">"a(?!a)"</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="指定正则表达式的模式"><a href="#指定正则表达式的模式" class="headerlink" title="指定正则表达式的模式"></a>指定正则表达式的模式</h3><p>可以在正则开头指定模式修饰符。</p>
+<blockquote>
+<p>(?i) 使正则忽略大小写。</p>
+</blockquote>
+<blockquote>
+<p>(?s) 表示单行模式（”single line mode”）使正则的 . 匹配所有字符，包括换行符。</p>
+</blockquote>
+<blockquote>
+<p>(?m) 表示多行模式（”multi-line mode”），使正则的 ^ 和 $ 匹配字符串中每行的开始和结束。</p>
+</blockquote>
+<h3 id="java中反斜杠"><a href="#java中反斜杠" class="headerlink" title="java中反斜杠"></a>java中反斜杠</h3><p>反斜杠 \ 在 Java 中表示转义字符，这意味着 \ 在 Java 拥有预定义的含义。</p>
+<p>这里例举两个特别重要的用法：</p>
+<ul>
+<li>在匹配 . 或 { 或 [ 或 ( 或 ? 或 $ 或 ^ 或 * 这些特殊字符时，需要在前面加上 \，比如匹配 . 时，Java 中要写为 \.，但对于正则表达式来说就是 .。</li>
+</ul>
+<ul>
+<li>在匹配 \ 时，Java 中要写为 \\，但对于正则表达式来说就是 \。</li>
+</ul>
+<p><strong>注意：</strong> Java 中的正则表达式字符串有两层含义，首先 Java 字符串转义出符合正则表达式语法的字符串，然后再由转义后的正则表达式进行模式匹配。</p>
+<h3 id="易错示例"><a href="#易错示例" class="headerlink" title="易错示例"></a>易错示例</h3><blockquote>
+<p>[jpg|png] 表示匹配字符j或p或g或p或n或g中的任意一个字符</p>
+</blockquote>
+<blockquote>
+<p>(jpg|png) 表示匹配jpg或png</p>
+</blockquote>
+<h2 id="在字符串中使用正则表达式"><a href="#在字符串中使用正则表达式" class="headerlink" title="在字符串中使用正则表达式"></a>在字符串中使用正则表达式</h2><h3 id="内置的字符串正则处理方法"><a href="#内置的字符串正则处理方法" class="headerlink" title="内置的字符串正则处理方法"></a>内置的字符串正则处理方法</h3><p>在 Java 中有四个内置的运行正则表达式的方法，分别是 matches()、split())、replaceFirst()、replaceAll()。注意 replace() 方法不支持正则表达式。</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">s.matches(“regex”)</td>
+<td align="left">当仅且当正则匹配整个字符串时返回 true</td>
+</tr>
+<tr>
+<td align="left">s.split(“regex”)</td>
+<td align="left">按匹配的正则表达式切片字符串</td>
+</tr>
+<tr>
+<td align="left">s.replaceFirst(“regex”, “replacement”)</td>
+<td align="left">替换首次匹配的字符串片段</td>
+</tr>
+<tr>
+<td align="left">s.replaceAll(“regex”, “replacement”)</td>
+<td align="left">替换所有匹配的字符</td>
+</tr>
+</tbody></table>
+<h3 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">System.out.println(<span class="string">"wxj"</span>.matches(<span class="string">"wxj"</span>));</span><br><span class="line">System.out.println(<span class="string">"----------"</span>);</span><br><span class="line"></span><br><span class="line">String[] array = <span class="string">"w x j"</span>.split(<span class="string">"\\s"</span>);</span><br><span class="line"><span class="keyword">for</span> (String item : array) &#123;</span><br><span class="line">    System.out.println(item);</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(<span class="string">"----------"</span>);</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"w x j"</span>.replaceFirst(<span class="string">"\\s"</span>, <span class="string">"-"</span>));</span><br><span class="line">System.out.println(<span class="string">"----------"</span>);</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"w x j"</span>.replaceAll(<span class="string">"\\s"</span>, <span class="string">"-"</span>));</span><br></pre></td></tr></table></figure>
+
+<p>result:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="literal">true</span></span><br><span class="line">----------</span><br><span class="line">w</span><br><span class="line">x</span><br><span class="line">j</span><br><span class="line">----------</span><br><span class="line">w-x j</span><br><span class="line">----------</span><br><span class="line">w-x-j</span><br></pre></td></tr></table></figure>
+
+<h2 id="模式与匹配"><a href="#模式与匹配" class="headerlink" title="模式与匹配"></a>模式与匹配</h2><p>Java 中使用正则表达式需要用到两个类，分别为 java.util.regex.Pattern 和 java.util.regex.Matcher。</p>
+<ul>
+<li><p>第一步，通过正则表达式创建模式对象 Pattern。</p>
+</li>
+<li><p>第二步，通过模式对象 Pattern，根据指定字符串创建匹配对象 Matcher。</p>
+</li>
+<li><p>第三步，通过匹配对象 Matcher，根据正则表达式操作字符串。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String str=<span class="string">"Wanghuan is a cool boy!"</span>;</span><br><span class="line">Pattern pattern=Pattern.compile(<span class="string">"\\w+"</span>);</span><br><span class="line"><span class="comment">// Java 中忽略大小写，有两种写法：</span></span><br><span class="line"><span class="comment">// Pattern pattern = Pattern.compile("\\w+", Pattern.CASE_INSENSITIVE);</span></span><br><span class="line"><span class="comment">// Pattern pattern = Pattern.compile("(?i)\\w+"); // 推荐写法</span></span><br><span class="line">Matcher matcher=pattern.matcher(str);</span><br><span class="line"><span class="keyword">while</span>(matcher.find())&#123;</span><br><span class="line">    System.out.print(<span class="string">"Start index: "</span> + matcher.start());</span><br><span class="line">    System.out.print(<span class="string">" End index: "</span> + matcher.end() + <span class="string">" "</span>);</span><br><span class="line">    System.out.println(matcher.group());</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 创建第两个模式，将空格替换为 -</span></span><br><span class="line">Pattern replace = Pattern.compile(<span class="string">"\\s+"</span>);</span><br><span class="line">Matcher matcher2 = replace.matcher(str);</span><br><span class="line">System.out.println(matcher2.replaceAll(<span class="string">"-"</span>));</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>result:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Start index: 0 End index: 8 Wanghuan</span><br><span class="line">Start index: 9 End index: 11 is</span><br><span class="line">Start index: 12 End index: 13 a</span><br><span class="line">Start index: 14 End index: 18 cool</span><br><span class="line">Start index: 19 End index: 22 boy</span><br><span class="line">Wanghuan-is<span class="_">-a</span>-cool-boy!</span><br></pre></td></tr></table></figure>
+
+<h2 id="常用例子"><a href="#常用例子" class="headerlink" title="常用例子"></a>常用例子</h2><blockquote>
+<p>请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如，字符串”+100”,”5e2”,”-123”,”3.1416”和”-1E-16”都表示数值。 但是”12e”,”1a3.14”,”1.2.3”,”+-5”和”12e+4.3”都不是。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isNumeric</span><span class="params">(<span class="keyword">char</span>[] str)</span> </span>&#123;</span><br><span class="line">    String pattern=<span class="string">"[+-]?\\d*(?:\\.\\d*)?(?:[Ee][+-]?\\d+)?$"</span>;</span><br><span class="line">    String s=<span class="keyword">new</span> String(str);</span><br><span class="line">    <span class="keyword">return</span> Pattern.matches(pattern,s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>更多例子参考文章<a href="https://segmentfault.com/a/1190000009162306" target="_blank" rel="noopener">Java 正则表达式详解</a></p>
+<h2 id="正则表达式检验网站"><a href="#正则表达式检验网站" class="headerlink" title="正则表达式检验网站"></a>正则表达式检验网站</h2><p>推荐一个网站，这个网站可以检查你写的正则表达式和对应的字符串匹配时会不会有问题。<br><a href="https://regex101.com/" target="_blank" rel="noopener">Online regex tester and debugger: PHP, PCRE, Python, Golang and JavaScript</a></p>
+<h2 id="对于量词匹配的三种模式"><a href="#对于量词匹配的三种模式" class="headerlink" title="对于量词匹配的三种模式"></a>对于量词匹配的三种模式</h2><p>使用正则表达式时要注意对于量词匹配的三种模式使用，从而优化正则表达式的效率。</p>
+<blockquote>
+<p>贪婪模式</p>
+</blockquote>
+<blockquote>
+<p>懒惰模式</p>
+</blockquote>
+<blockquote>
+<p>独占模式</p>
+</blockquote>
+<p>具体细节可以参考文章<a href="https://www.cnblogs.com/study-everyday/p/7426862.html" target="_blank" rel="noopener">一个由正则表达式引发的血案</a></p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><blockquote>
+<p><a href="https://segmentfault.com/a/1190000009162306" target="_blank" rel="noopener">Java 正则表达式详解</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.cnblogs.com/study-everyday/p/7426862.html" target="_blank" rel="noopener">一个由正则表达式引发的血案</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/10/22/wo-de-wang-zhan-kai-fa-jing-li-yu-java-xue-xi-xin-lu-li-cheng/" rel="prev" title="我的网站开发经历与Java学习心路历程">
+      <i class="fa fa-chevron-left"></i> 我的网站开发经历与Java学习心路历程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/10/30/yi-ci-jian-dan-de-elasticsearch-shi-yong/" rel="next" title="一次简单的elasticsearch使用">
+      一次简单的elasticsearch使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是正则表达式"><span class="nav-number">1.</span> <span class="nav-text">什么是正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">2.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式编写规则"><span class="nav-number">3.</span> <span class="nav-text">正则表达式编写规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常见匹配符号"><span class="nav-number">3.1.</span> <span class="nav-text">常见匹配符号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#元字符"><span class="nav-number">3.2.</span> <span class="nav-text">元字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#限制符"><span class="nav-number">3.3.</span> <span class="nav-text">限制符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分组与反向应用"><span class="nav-number">3.4.</span> <span class="nav-text">分组与反向应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#仅分组但无反向引用"><span class="nav-number">3.5.</span> <span class="nav-text">仅分组但无反向引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分组的反向引用副本"><span class="nav-number">3.6.</span> <span class="nav-text">分组的反向引用副本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#否对先行断言"><span class="nav-number">3.7.</span> <span class="nav-text">否对先行断言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指定正则表达式的模式"><span class="nav-number">3.8.</span> <span class="nav-text">指定正则表达式的模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java中反斜杠"><span class="nav-number">3.9.</span> <span class="nav-text">java中反斜杠</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#易错示例"><span class="nav-number">3.10.</span> <span class="nav-text">易错示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在字符串中使用正则表达式"><span class="nav-number">4.</span> <span class="nav-text">在字符串中使用正则表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内置的字符串正则处理方法"><span class="nav-number">4.1.</span> <span class="nav-text">内置的字符串正则处理方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例-1"><span class="nav-number">4.2.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模式与匹配"><span class="nav-number">5.</span> <span class="nav-text">模式与匹配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用例子"><span class="nav-number">6.</span> <span class="nav-text">常用例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式检验网站"><span class="nav-number">7.</span> <span class="nav-text">正则表达式检验网站</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对于量词匹配的三种模式"><span class="nav-number">8.</span> <span class="nav-text">对于量词匹配的三种模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文章"><span class="nav-number">9.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Wang Huan</p>
+  <div class="site-description" itemprop="description">记录学习心得、读书感受以及一些Java知识。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/njustwh2014" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;njustwh2014" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:seuwh2018@foxmail.com" title="E-Mail → mailto:seuwh2018@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Huan</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">215k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:16</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Fhg8nAsyMme0K6TqY820NK17-gzGzoHsz',
+      appKey     : 'zoqpwVMBfhi2YQ9xf94Jdbf2',
+      placeholder: "欢迎批评指正！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

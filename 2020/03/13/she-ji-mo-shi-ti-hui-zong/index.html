@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/java.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/java16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"njustwh2014.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="设计原则有哪些？ 单一职责原则：让类或接口职责单一 里氏替换原则：子类去替换父类，做到通用编程 依赖倒置原则：面向接口编程 接口隔离原则：接口的设计要精简单一 迪米特法则：最少知识原则，降低依赖间的耦合 开闭原则：对扩展开放，对修改关闭  创建型">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式题汇总">
+<meta property="og:url" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;03&#x2F;13&#x2F;she-ji-mo-shi-ti-hui-zong&#x2F;index.html">
+<meta property="og:site_name" content="Eternal Horizon">
+<meta property="og:description" content="设计原则有哪些？ 单一职责原则：让类或接口职责单一 里氏替换原则：子类去替换父类，做到通用编程 依赖倒置原则：面向接口编程 接口隔离原则：接口的设计要精简单一 迪米特法则：最少知识原则，降低依赖间的耦合 开闭原则：对扩展开放，对修改关闭  创建型">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;03&#x2F;13&#x2F;she-ji-mo-shi-ti-hui-zong&#x2F;%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F%E4%B8%8E%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F%E7%B1%BB%E5%9B%BE%E5%AF%B9%E6%AF%94.png">
+<meta property="og:updated_time" content="2022-09-09T09:12:32.797Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;03&#x2F;13&#x2F;she-ji-mo-shi-ti-hui-zong&#x2F;%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F%E4%B8%8E%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F%E7%B1%BB%E5%9B%BE%E5%AF%B9%E6%AF%94.png">
+
+<link rel="canonical" href="http://njustwh2014.github.io/2020/03/13/she-ji-mo-shi-ti-hui-zong/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>设计模式题汇总 | Eternal Horizon</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Eternal Horizon" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Eternal Horizon</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">30</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">43</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://njustwh2014.github.io/2020/03/13/she-ji-mo-shi-ti-hui-zong/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Wang Huan">
+      <meta itemprop="description" content="记录学习心得、读书感受以及一些Java知识。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eternal Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          设计模式题汇总
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-13 20:56:00" itemprop="dateCreated datePublished" datetime="2020-03-13T20:56:00+08:00">2020-03-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-09 17:12:32" itemprop="dateModified" datetime="2022-09-09T17:12:32+08:00">2022-09-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B1%82%E8%81%8C/" itemprop="url" rel="index"><span itemprop="name">求职</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/03/13/she-ji-mo-shi-ti-hui-zong/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/03/13/she-ji-mo-shi-ti-hui-zong/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="设计原则有哪些？"><a href="#设计原则有哪些？" class="headerlink" title="设计原则有哪些？"></a>设计原则有哪些？</h2><ul>
+<li>单一职责原则：让类或接口职责单一</li>
+<li>里氏替换原则：子类去替换父类，做到通用编程</li>
+<li>依赖倒置原则：面向接口编程</li>
+<li>接口隔离原则：接口的设计要精简单一</li>
+<li>迪米特法则：最少知识原则，降低依赖间的耦合</li>
+<li>开闭原则：对扩展开放，对修改关闭</li>
+</ul>
+<h2 id="创建型"><a href="#创建型" class="headerlink" title="创建型"></a>创建型</h2><a id="more"></a>
+<h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><ul>
+<li>懒汉式（线程安全问题）</li>
+<li>饿汉式</li>
+</ul>
+<h3 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a><a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%20-%20%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82.md" target="_blank" rel="noopener"><strong>简单工厂模式</strong></a></h3><h3 id="工厂方法"><a href="#工厂方法" class="headerlink" title="工厂方法"></a><a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%20-%20%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95.md" target="_blank" rel="noopener"><strong>工厂方法</strong></a></h3><p>定义一个创建对象的接口，但由子类决定实例化哪个类。工厂方法把实例化推迟到子类。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Factory</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> <span class="keyword">public</span> Product <span class="title">factoryMethod</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Product product=factoryMethod();</span><br><span class="line">        <span class="comment">//do something with product</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteFactory1</span> <span class="keyword">extends</span> <span class="title">Factory</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Product <span class="title">factoryMethod</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteProduct1();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteFactory2</span> <span class="keyword">extends</span> <span class="title">Factory</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Product <span class="title">factoryMethod</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteProduct2();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="抽象工厂"><a href="#抽象工厂" class="headerlink" title="抽象工厂"></a><a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%20-%20%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82.md" target="_blank" rel="noopener"><strong>抽象工厂</strong></a></h3><p>提供一个接口，用于创建<strong>相关的对象家族</strong>。</p>
+<p>抽象工厂模式创建的是对象家族，也就是很多对象而不是一个对象，并且这些对象是相关的，也就是说必须一起创建出来。而工厂方法模式只是用于创建一个对象，这和抽象工厂模式有很大不同。</p>
+<p>抽象工厂模式用到了工厂方法模式来创建单一对象，AbstractFactory中的createProductA()和createProductB()方法都是让子类来实现，这两个方法单独来看就是在创建一个对象，这符合工厂方法模式的定义。</p>
+<p>至于创建对象的家族这一概念是在Client体现，Client要通过AbstractFactory同时调用两个方法来创建出两个对象，在这里这两个对象就有很大的相关性，Client需要同时创建出这两个对象。</p>
+<p>从高层次来看，抽象工厂使用了组合，即 Cilent 组合了 AbstractFactory，而工厂方法模式使用了继承。</p>
+<h3 id="生成器（Builder）"><a href="#生成器（Builder）" class="headerlink" title="生成器（Builder）"></a><a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%20-%20%E7%94%9F%E6%88%90%E5%99%A8.md" target="_blank" rel="noopener"><strong>生成器（Builder）</strong></a></h3><p>封装一个对象的构造过程，并允许按步骤构造。</p>
+<p><code>java.lang.StringBuilder</code></p>
+<h3 id="原型模式-Prototype"><a href="#原型模式-Prototype" class="headerlink" title="原型模式(Prototype)"></a><a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%20-%20%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F.md" target="_blank" rel="noopener"><strong>原型模式(Prototype)</strong></a></h3><p>使用原型实例指定要创建对象的类型，通过复制这个原型来创建新对象。</p>
+<h2 id="行为型"><a href="#行为型" class="headerlink" title="行为型"></a>行为型</h2><h3 id="责任链"><a href="#责任链" class="headerlink" title="责任链"></a><a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%20-%20%E8%B4%A3%E4%BB%BB%E9%93%BE.md" target="_blank" rel="noopener"><strong>责任链</strong></a></h3><h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a><a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%20-%20%E5%91%BD%E4%BB%A4.md" target="_blank" rel="noopener"><strong>命令</strong></a></h3><p>看到这</p>
+<h3 id="状态"><a href="#状态" class="headerlink" title="状态"></a><a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%20-%20%E7%8A%B6%E6%80%81.md" target="_blank" rel="noopener"><strong>状态</strong></a></h3><p>允许对象在内部状态改变时改变它的行为，对象看起来好像修改了它所属的类。</p>
+<h3 id="策略"><a href="#策略" class="headerlink" title="策略"></a><a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%20-%20%E7%AD%96%E7%95%A5.md" target="_blank" rel="noopener"><strong>策略</strong></a></h3><p>定义一系列算法，封装每个算法，并使它们可以互换。</p>
+<p>策略模式可以让算法独立于使用它的客户端。</p>
+<p><strong>策略模式与状态模式的比较</strong></p>
+<p>状态模式的类图和策略模式类似，并且都是能够动态改变对象的行为。但是状态模式是通过状态转移来改变 Context 所组合的 State 对象，而策略模式是通过 Context 本身的决策来改变组合的 Strategy 对象。所谓的状态转移，是指 Context 在运行过程中由于一些条件发生改变而使得 State 对象发生改变，注意必须要是在运行过程中。</p>
+<p>状态模式主要是用来解决状态转移的问题，当状态发生转移了，那么 Context 对象就会改变它的行为；而策略模式主要是用来封装一组可以互相替代的算法族，并且可以根据需要动态地去替换 Context 使用的算法。</p>
+<h2 id="SpringBoot可以借鉴的设计模式"><a href="#SpringBoot可以借鉴的设计模式" class="headerlink" title="SpringBoot可以借鉴的设计模式"></a>SpringBoot可以借鉴的设计模式</h2><h3 id="单例模式-1"><a href="#单例模式-1" class="headerlink" title="单例模式"></a>单例模式</h3><p>单例模式，主要目的是保证实例的独一无二，提高资源的重复利用。单例模式的难点就在于需要通过代码来维护系统中实例的唯一性，需要确保各种线程不安全环境下实例的独一性。</p>
+<p>常用于配置文件的读取，监控程序，IOC容器等，spring中最常用的单例实现方式就是注册登记式的单例模式，这个后面看源码的时候，会深入了解</p>
+<p>一句话总结：保证独一无二</p>
+<h3 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h3><p>原型模式其实就是针对复制而言的一种模式，原型模式中需要弄清<strong>浅复制和深复制</strong>的区别。</p>
+<ul>
+<li>浅复制：对于数据类型是基本数据类型的成员变量，浅复制直接进行值的传递，即将原始对象中属性的值复制一份给新对象；对于引用数据类型的成员变量，浅复制就只是传递引用，这样使得两个对象之间其实操作的是同一份数据</li>
+<li>深复制：就是在浅复制的基础上，完成对象引用的深层次的复制。深复制不仅要复制对象所有的基本数据类型，还要在复制过程中为原有的引用数据类型开辟新的存储空间，将引用对象的数据拷贝到新开辟的存储空间中。一定程度上来说，对象进行深复制就是要对整个对象图进行复制。</li>
+</ul>
+<p>更为形象的图形解释可以参考这篇博客——深复制与浅复制的区别</p>
+<p><strong>原型模式主要就是应用于对象间的复制。spring中我们在配置对象的scope的时候，将scope配置成为prototype，即将bean配置成多例的，其中就会用到原型模式。</strong></p>
+<p>一句话总结：复制作用</p>
+<h3 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h3><p>从总体来看代理模式的作用就是在某一个类中某一指定的方法执行之前和执行之后，织入一些增强逻辑，这个理解依旧有点绕，但是结合AOP来理解就不难了，AOP的主要作用就是在目标方法的执行前和执行后织入一些增强的逻辑。</p>
+<p>代理通常分为<strong>静态代理和动态代理</strong>，由于静态代理在扩展性方面的不足才引出了动态代理。</p>
+<blockquote>
+<p>引申：静态代理需要目标对象与代理对象均要实现同一接口，当接口添加新方法时，代理对象与目标对象都要实现该方法，从而导致扩展性不足。</p>
+</blockquote>
+<p>动态代理的实现方式常见的有两种：<strong>一种是JDK Proxy，另一种是CgLib</strong>，前者是动态植入，后者是继承；前者要求目标类要实现一个接口，目的就是方便获取方法信息，方便JDK利用反射动态调用。使用JDK动态代理的时候，增强的逻辑类需要实现InvocationHandler接口，在其中的invoke方法中去编写增强逻辑。CGLib相对来说就容易的多，具体可以见上文。</p>
+<p><strong>动态代理在spring中用的较多，典型的AOP就是用的代理。除此之外，结合实际来看，如果针对原有的目标需要动态进行增强都可以利用动态代理模式</strong></p>
+<p>一句话总结：买票找黄牛，办事找代理。</p>
+<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><p>策略模式是比较好理解的一种设计模式，该模式就是封装了一些算法供用户选择，根据用户的选择如何确定到指定的算法策略的过程中，为了避免使用if…else或者switch这种选择语句，就需要结合工厂模式进行使用，因此策略模式一定程度上并不单独使用</p>
+<p><strong>使用场景：支付方式的选择</strong></p>
+<p>一句话总结：我走那条路，我做主</p>
+<h3 id="模板方法模式"><a href="#模板方法模式" class="headerlink" title="模板方法模式"></a>模板方法模式</h3><p>模板方法模式也是一个比较好理解的设计模式，无非就是在估计的流程中，加入一些不同的算法实现，最终产生出不同的结果而已，<strong>提供的模板一般采用抽象类来实现，需要加入自己的算法的时候，就通过继承这个抽象类来完成。</strong></p>
+<p><strong>使用场景：JdbcTemplate，工作流，spring-orm</strong></p>
+<p>一句话总结：流程标准化，原料自己加</p>
+<h3 id="委派模式"><a href="#委派模式" class="headerlink" title="委派模式"></a>委派模式</h3><p><strong>委派模式某一种程度上是代理和策略模式的结合</strong>，在实现过程中，最重要的就是对委派列表的维护，这在之前的博客中实现的比较简单，直接值委派者中维护了引用。</p>
+<p><strong>使用场景：spring中的DispatcherServlet、Delegate命名结尾的都是委派模式</strong></p>
+<p>一句话总结：项目经理委派活给普通员工</p>
+<h3 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h3><p><strong>适配器模式从命名来看也能理解其意思，需要和装饰者模式区分开来。</strong>针对两者的区别还是列出一个类图吧。</p>
+<p><img src="/2020/03/13/she-ji-mo-shi-ti-hui-zong/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F%E4%B8%8E%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F%E7%B1%BB%E5%9B%BE%E5%AF%B9%E6%AF%94.png" alt="适配器模式与装饰者模式类图对比"></p>
+<p>使用场景：DataAdapter</p>
+<p>一句话总结：转换头</p>
+<h3 id="装饰者模式"><a href="#装饰者模式" class="headerlink" title="装饰者模式"></a>装饰者模式</h3><p>一定程度上来讲，装饰者模式与适配器模式有点类似，两者的具体区别上面的图中已经很好的展示出来了</p>
+<p><strong>使用场景：spring中以Decorate结尾的都是使用的装饰者模式，IO流的设计，数据源</strong></p>
+<p>一句话总结：同宗同源的增强</p>
+<h3 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h3><p>只需要理清楚两个角色，<strong>消息发布者和消息订阅者</strong>，难点在于消息发布者如何维护多个消息订阅者的信息</p>
+<p><strong>使用场景：消息队列，swing中的监听器，spring中的监听器</strong></p>
+<p>一句话总结：完成时通知一下。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag"># 设计模式</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/" rel="prev" title="网络协议面试题汇总">
+      <i class="fa fa-chevron-left"></i> 网络协议面试题汇总
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/13/mysql-mian-shi-hui-zong/" rel="next" title="Mysql面试汇总">
+      Mysql面试汇总 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#设计原则有哪些？"><span class="nav-number">1.</span> <span class="nav-text">设计原则有哪些？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建型"><span class="nav-number">2.</span> <span class="nav-text">创建型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式"><span class="nav-number">2.1.</span> <span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简单工厂模式"><span class="nav-number">2.2.</span> <span class="nav-text">简单工厂模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工厂方法"><span class="nav-number">2.3.</span> <span class="nav-text">工厂方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抽象工厂"><span class="nav-number">2.4.</span> <span class="nav-text">抽象工厂</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成器（Builder）"><span class="nav-number">2.5.</span> <span class="nav-text">生成器（Builder）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原型模式-Prototype"><span class="nav-number">2.6.</span> <span class="nav-text">原型模式(Prototype)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#行为型"><span class="nav-number">3.</span> <span class="nav-text">行为型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#责任链"><span class="nav-number">3.1.</span> <span class="nav-text">责任链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令"><span class="nav-number">3.2.</span> <span class="nav-text">命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态"><span class="nav-number">3.3.</span> <span class="nav-text">状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#策略"><span class="nav-number">3.4.</span> <span class="nav-text">策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringBoot可以借鉴的设计模式"><span class="nav-number">4.</span> <span class="nav-text">SpringBoot可以借鉴的设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式-1"><span class="nav-number">4.1.</span> <span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原型模式"><span class="nav-number">4.2.</span> <span class="nav-text">原型模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代理模式"><span class="nav-number">4.3.</span> <span class="nav-text">代理模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#策略模式"><span class="nav-number">4.4.</span> <span class="nav-text">策略模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模板方法模式"><span class="nav-number">4.5.</span> <span class="nav-text">模板方法模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#委派模式"><span class="nav-number">4.6.</span> <span class="nav-text">委派模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#适配器模式"><span class="nav-number">4.7.</span> <span class="nav-text">适配器模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#装饰者模式"><span class="nav-number">4.8.</span> <span class="nav-text">装饰者模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#观察者模式"><span class="nav-number">4.9.</span> <span class="nav-text">观察者模式</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Wang Huan</p>
+  <div class="site-description" itemprop="description">记录学习心得、读书感受以及一些Java知识。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/njustwh2014" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;njustwh2014" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:seuwh2018@foxmail.com" title="E-Mail → mailto:seuwh2018@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Huan</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">215k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:16</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Fhg8nAsyMme0K6TqY820NK17-gzGzoHsz',
+      appKey     : 'zoqpwVMBfhi2YQ9xf94Jdbf2',
+      placeholder: "欢迎批评指正！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/java.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/java16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"njustwh2014.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="什么是SSLH一种不同的multiplexing在相同端口处理多种协议，sslh就是这样可以处理ssl和ssh。sslh可以分辨进入端口的是哪种协议，并转发到相应的服务。这样就可以在同一个端口同时处理http和ssh。注意，这个方法并不是掩藏实际的ssh服务，扫描监听端口的工具scanssh依然可以监听到ssh。sslh方法可以在防火墙开放较少的端口情况下提供更多的服务。  基本步骤：">
+<meta name="keywords" content="Java, 中间件, Spring, Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="应用sslh实现多协议访问同一端口">
+<meta property="og:url" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;10&#x2F;22&#x2F;ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou&#x2F;index.html">
+<meta property="og:site_name" content="Eternal Horizon">
+<meta property="og:description" content="什么是SSLH一种不同的multiplexing在相同端口处理多种协议，sslh就是这样可以处理ssl和ssh。sslh可以分辨进入端口的是哪种协议，并转发到相应的服务。这样就可以在同一个端口同时处理http和ssh。注意，这个方法并不是掩藏实际的ssh服务，扫描监听端口的工具scanssh依然可以监听到ssh。sslh方法可以在防火墙开放较少的端口情况下提供更多的服务。  基本步骤：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;pzpoejx7j.bkt.clouddn.com&#x2F;sslh.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;10&#x2F;22&#x2F;ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou&#x2F;1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2019&#x2F;10&#x2F;22&#x2F;ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou&#x2F;2.png">
+<meta property="og:updated_time" content="2022-09-09T09:12:32.776Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;pzpoejx7j.bkt.clouddn.com&#x2F;sslh.png">
+
+<link rel="canonical" href="http://njustwh2014.github.io/2019/10/22/ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>应用sslh实现多协议访问同一端口 | Eternal Horizon</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Eternal Horizon" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Eternal Horizon</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">30</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">43</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://njustwh2014.github.io/2019/10/22/ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Wang Huan">
+      <meta itemprop="description" content="记录学习心得、读书感受以及一些Java知识。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eternal Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          应用sslh实现多协议访问同一端口
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-22 09:05:12" itemprop="dateCreated datePublished" datetime="2019-10-22T09:05:12+08:00">2019-10-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-09 17:12:32" itemprop="dateModified" datetime="2022-09-09T17:12:32+08:00">2022-09-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/10/22/ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/22/ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="什么是SSLH"><a href="#什么是SSLH" class="headerlink" title="什么是SSLH"></a>什么是SSLH</h2><p>一种不同的multiplexing在相同端口处理多种协议，sslh就是这样可以处理ssl和ssh。sslh可以分辨进入端口的是哪种协议，并转发到相应的服务。这样就可以在同一个端口同时处理http和ssh。注意，这个方法并不是掩藏实际的ssh服务，扫描监听端口的工具scanssh依然可以监听到ssh。<strong>sslh方法可以在防火墙开放较少的端口情况下提供更多的服务。</strong></p>
+<p><img src="http://pzpoejx7j.bkt.clouddn.com/sslh.png" alt="sslh"></p>
+<h2 id="基本步骤："><a href="#基本步骤：" class="headerlink" title="基本步骤："></a>基本步骤：</h2><a id="more"></a>
+<ul>
+<li>首先安装web服务器(tomcat, nginx etc.)，使之监听在localhost(default port 80), 当然也可以监听在非标准端口如8088</li>
+<li>设置ssh服务端口22的连接，这个端口也可以是任意的，但标准的是22</li>
+<li>(optional)创建一个非特权用户 如sslh</li>
+<li>安装和启动sslh服务，并监听在端口443，并转发到localhost的http和ssh <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/usr/<span class="built_in">local</span>/sbin/sslh-fork -u sslh -p xx.yy.zz.aa:443 --tls 127.0.0.1:2443 --ssh 127.0.0.1:22</span><br></pre></td></tr></table></figure>
+ 这个ip xx.yy.zz.aa是该服务器的外网ip，如我的10.206.210.235</li>
+</ul>
+<h2 id="Centos上配置全过程"><a href="#Centos上配置全过程" class="headerlink" title="Centos上配置全过程"></a>Centos上配置全过程</h2><p><strong>在一切开始前请确认服务器的443端口是否对外开放</strong></p>
+<h3 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum install nginx</span><br></pre></td></tr></table></figure>
+<p>或者使用 <a href="https://openresty.org/cn/" target="_blank" rel="noopener">OpenResty(定制的nginx)</a></p>
+<p>创建证书：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/nginx</span><br><span class="line">openssl genrsa -out cert.key 2048</span><br><span class="line">openssl req -new -x509 -key cert.key -out cert.pem -days 3650</span><br></pre></td></tr></table></figure>
+<p>配置nginx:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/nginx/conf.d</span><br><span class="line">ls</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>修改default.conf localhost:80<br><img src="/2019/10/22/ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou/1.png" alt="default.conf"></p>
+</li>
+<li><p>新建sslh.conf</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"> vim sslh.conf</span><br><span class="line"> server &#123;</span><br><span class="line">    listen       localhost:443 ssl;</span><br><span class="line">    server_name  localhost;</span><br><span class="line"></span><br><span class="line">    ssl_certificate      cert.pem;</span><br><span class="line">    ssl_certificate_key  cert.key;</span><br><span class="line"></span><br><span class="line">    ssl_session_cache    shared:SSL:1m;</span><br><span class="line">    ssl_session_timeout  5m;</span><br><span class="line"></span><br><span class="line">    ssl_ciphers  HIGH:!aNULL:!MD5;</span><br><span class="line">    ssl_prefer_server_ciphers  on;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        root   html;</span><br><span class="line">        index  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>启动nginx, 并监听端口443</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">netstat -an | grep 443</span><br></pre></td></tr></table></figure>
+<p>会看到</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tcp        0      0 127.0.0.1:443           0.0.0.0:*               LISTEN</span><br></pre></td></tr></table></figure>
+<p>表明nginx启动成功，当然你也可以用下面命令查看nginx启动状态</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl status nginx -l</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装sslh"><a href="#安装sslh" class="headerlink" title="安装sslh"></a>安装sslh</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo yum install epel-release</span><br><span class="line">sudo yum install sslh</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这个安装包位于EPEL，所以需要先安装EPEL软件仓库</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>EPEL中，这个sslh配置已经非常完善，配置文件 /etc/sslh.cfg</p>
+</blockquote>
+<p>修改/etc/sslh.cfg，只需要修改 { host: “SERVER_NAME”; port: “443”; }，这个SERVER_NAME对应的是/etc/hosts中服务器外网的IP地址解析</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># This is a basic configuration file that should provide</span><br><span class="line"># sensible values for &quot;standard&quot; setup.</span><br><span class="line"></span><br><span class="line">verbose: false;</span><br><span class="line">foreground: true;</span><br><span class="line">inetd: false;</span><br><span class="line">numeric: false;</span><br><span class="line">transparent: false;</span><br><span class="line">timeout: &quot;2&quot;;</span><br><span class="line">user: &quot;sslh&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># Change hostname with your external address name.</span><br><span class="line">listen:</span><br><span class="line">(</span><br><span class="line">    &#123; host: &quot;10.206.210.235&quot;; port: &quot;443&quot;; &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">protocols:</span><br><span class="line">(</span><br><span class="line">     &#123; name: &quot;ssh&quot;; service: &quot;ssh&quot;; host: &quot;localhost&quot;; port: &quot;22&quot;; probe: &quot;builtin&quot;; &#125;,</span><br><span class="line">     &#123; name: &quot;openvpn&quot;; host: &quot;localhost&quot;; port: &quot;1194&quot;; probe: &quot;builtin&quot;; &#125;,</span><br><span class="line">     &#123; name: &quot;xmpp&quot;; host: &quot;localhost&quot;; port: &quot;5222&quot;; probe: &quot;builtin&quot;; &#125;,</span><br><span class="line">     &#123; name: &quot;http&quot;; host: &quot;localhost&quot;; port: &quot;80&quot;; probe: &quot;builtin&quot;; &#125;,</span><br><span class="line">     &#123; name: &quot;ssl&quot;; host: &quot;localhost&quot;; port: &quot;443&quot;; probe: &quot;builtin&quot;; &#125;,</span><br><span class="line">     &#123; name: &quot;anyprot&quot;; host: &quot;localhost&quot;; port: &quot;443&quot;; probe: &quot;builtin&quot;; &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>现在我们准备在443端口上启动sslh，提供HTTPS和SSH的协议转发</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl start sslh</span><br><span class="line">systemctl status sslh -l</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/10/22/ying-yong-sslh-shi-xian-duo-xie-yi-fang-wen-tong-yi-duan-kou/2.png" alt="sslh启动状态"></p>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>在另一台可以ping到该服务器的机器上</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh 10.206.210.235 -p 443</span><br></pre></td></tr></table></figure>
+
+<p>浏览器访问：</p>
+<blockquote>
+<p><a href="https://10.206.210.235加密通道" target="_blank" rel="noopener">https://10.206.210.235加密通道</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://10.206.210.235:443非加密通道" target="_blank" rel="noopener">http://10.206.210.235:443非加密通道</a></p>
+</blockquote>
+<p>验证了sslh确实在443端口提供了多种服务。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://huataihuang.gitbooks.io/cloud-atlas/service/ssh/sslh_multi_service_in_one_port.html" target="_blank" rel="noopener">https://huataihuang.gitbooks.io/cloud-atlas/service/ssh/sslh_multi_service_in_one_port.html</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/10/21/ru-he-zai-hexo-bo-ke-zhong-cha-ru-tu-pian/" rel="prev" title="如何在Hexo博客中插入图片">
+      <i class="fa fa-chevron-left"></i> 如何在Hexo博客中插入图片
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/10/22/wo-de-wang-zhan-kai-fa-jing-li-yu-java-xue-xi-xin-lu-li-cheng/" rel="next" title="我的网站开发经历与Java学习心路历程">
+      我的网站开发经历与Java学习心路历程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是SSLH"><span class="nav-number">1.</span> <span class="nav-text">什么是SSLH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本步骤："><span class="nav-number">2.</span> <span class="nav-text">基本步骤：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Centos上配置全过程"><span class="nav-number">3.</span> <span class="nav-text">Centos上配置全过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装nginx"><span class="nav-number">3.1.</span> <span class="nav-text">安装nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装sslh"><span class="nav-number">3.2.</span> <span class="nav-text">安装sslh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证"><span class="nav-number">3.3.</span> <span class="nav-text">验证</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Wang Huan</p>
+  <div class="site-description" itemprop="description">记录学习心得、读书感受以及一些Java知识。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/njustwh2014" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;njustwh2014" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:seuwh2018@foxmail.com" title="E-Mail → mailto:seuwh2018@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Huan</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">215k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:16</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Fhg8nAsyMme0K6TqY820NK17-gzGzoHsz',
+      appKey     : 'zoqpwVMBfhi2YQ9xf94Jdbf2',
+      placeholder: "欢迎批评指正！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

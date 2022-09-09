@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/java.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/java16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"njustwh2014.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="PriorityQueue实现原理 数组 扩容 堆排序如何实现？  参考连接">
+<meta name="keywords" content="Java, 中间件, Spring, Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java基础面试题汇总">
+<meta property="og:url" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;03&#x2F;13&#x2F;java-ji-chu-mian-shi-ti-hui-zong&#x2F;index.html">
+<meta property="og:site_name" content="Eternal Horizon">
+<meta property="og:description" content="PriorityQueue实现原理 数组 扩容 堆排序如何实现？  参考连接">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;03&#x2F;13&#x2F;java-ji-chu-mian-shi-ti-hui-zong&#x2F;map.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;03&#x2F;13&#x2F;java-ji-chu-mian-shi-ti-hui-zong&#x2F;hashmapstruct.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;03&#x2F;13&#x2F;java-ji-chu-mian-shi-ti-hui-zong&#x2F;Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%9B%BE.jpg">
+<meta property="og:updated_time" content="2022-09-09T09:12:32.723Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;03&#x2F;13&#x2F;java-ji-chu-mian-shi-ti-hui-zong&#x2F;map.png">
+
+<link rel="canonical" href="http://njustwh2014.github.io/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java基础面试题汇总 | Eternal Horizon</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Eternal Horizon" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Eternal Horizon</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">30</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">43</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://njustwh2014.github.io/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Wang Huan">
+      <meta itemprop="description" content="记录学习心得、读书感受以及一些Java知识。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eternal Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java基础面试题汇总
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-13 20:32:50" itemprop="dateCreated datePublished" datetime="2020-03-13T20:32:50+08:00">2020-03-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-09 17:12:32" itemprop="dateModified" datetime="2022-09-09T17:12:32+08:00">2022-09-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B1%82%E8%81%8C/" itemprop="url" rel="index"><span itemprop="name">求职</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="PriorityQueue实现原理"><a href="#PriorityQueue实现原理" class="headerlink" title="PriorityQueue实现原理"></a>PriorityQueue实现原理</h2><ul>
+<li>数组</li>
+<li>扩容</li>
+<li>堆排序如何实现？</li>
+</ul>
+<p><a href="https://blog.csdn.net/u013309870/article/details/71189189" target="_blank" rel="noopener">参考连接</a></p>
+<a id="more"></a>
+
+<h2 id="单例模式为什么需要double-check？"><a href="#单例模式为什么需要double-check？" class="headerlink" title="单例模式为什么需要double check？"></a>单例模式为什么需要double check？</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleInstance</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> SingleInstance instance; <span class="comment">//使用volatile禁止命令重排序，防止获得了未被初始化的实例</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SingleInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> SingleInstance <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">null</span> == instance)&#123;</span><br><span class="line">            <span class="comment">//第一次检查是为了避免每次都加锁，只有当instance==null时才需要加锁</span></span><br><span class="line">            synchronised(SingleInstance.class)&#123;</span><br><span class="line">                <span class="keyword">if</span>(<span class="keyword">null</span> == instance)&#123;</span><br><span class="line">                    <span class="comment">//第二次检查是为了防止多个线程同时请求getInstance只有一个线程进行了实例化对象，其他线程获取锁以后再实例化一个对象</span></span><br><span class="line">                    instance = <span class="keyword">new</span> SingleInsatnce();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="为什么要重写hashCode和equals方法"><a href="#为什么要重写hashCode和equals方法" class="headerlink" title="为什么要重写hashCode和equals方法"></a>为什么要重写hashCode和equals方法</h2><p>如果不重写，则会默认调用Object类的hashCode和equals方法，Object类的hashCode方法是根据对象内存首地址计算得到，equals方法也同样是根据对象内存首地址进行判断。这在很多场景下是不可用的。</p>
+<h2 id="hashCode与equals区别"><a href="#hashCode与equals区别" class="headerlink" title="hashCode与equals区别"></a>hashCode与equals区别</h2><ul>
+<li>规范1：若重写equals(Object obj)方法，有必要重写hashcode()方法，确保通过equals(Object obj)方法判断结果为true的两个对象具备相等的hashcode()返回值。说得简单点就是：“如果两个对象相同，那么他们的hashcode应该 相等”。不过请注意：这个只是规范，如果你非要写一个类让equals(Object obj)返回true而hashcode()返回两个不相等的值，编译和运行都是不会报错的。不过这样违反了Java规范，程序也就埋下了BUG。 </li>
+<li>规范2：如果equals(Object obj)返回false，即两个对象“不相同”，并不要求对这两个对象调用hashcode()方法得到两个不相同的数。说的简单点就是：“如果两个对象不相同，他们的hashcode可能相同”。<br>根据这两个规范，可以得到如下推论： <ul>
+<li>1、如果两个对象equals，Java运行时环境会认为他们的hashcode一定相等。 </li>
+<li>2、如果两个对象不equals，他们的hashcode有可能相等。 </li>
+<li>3、如果两个对象hashcode相等，他们不一定equals。 </li>
+<li>4、如果两个对象hashcode不相等，他们一定不equals。 </li>
+</ul>
+</li>
+</ul>
+<h2 id="jdk1-8-Map接口实现类的比较"><a href="#jdk1-8-Map接口实现类的比较" class="headerlink" title="jdk1.8 Map接口实现类的比较"></a>jdk1.8 Map接口实现类的比较</h2><p>Java为数据结构中的映射定义了一个接口java.util.Map，此接口主要有四个常用的实现类，分别是HashMap、Hashtable、LinkedHashMap和TreeMap，类继承关系如下图所示：</p>
+<p><img src="/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/map.png" alt="Map接口类继承"></p>
+<ul>
+<li>(1) HashMap：它根据键的hashCode值存储数据，大多数情况下可以直接定位到它的值，因而具有很快的访问速度，但遍历顺序却是不确定的。 HashMap最多只允许一条记录的键为null，允许多条记录的值为null。HashMap非线程安全，即任一时刻可以有多个线程同时写HashMap，可能会导致数据的不一致。如果需要满足线程安全，可以用 Collections的synchronizedMap方法使HashMap具有线程安全的能力，或者使用ConcurrentHashMap。</li>
+<li>(2) Hashtable：Hashtable是遗留类，很多映射的常用功能与HashMap类似，不同的是它承自Dictionary类，并且是线程安全的，任一时间只有一个线程能写Hashtable，并发性不如ConcurrentHashMap，因为ConcurrentHashMap引入了分段锁。Hashtable不建议在新代码中使用，不需要线程安全的场合可以用HashMap替换，需要线程安全的场合可以用ConcurrentHashMap替换。</li>
+<li>(3) LinkedHashMap：LinkedHashMap是HashMap的一个子类，使用双向连边，保存了记录的插入顺序，在用Iterator遍历LinkedHashMap时，先得到的记录肯定是先插入的，也可以在构造时带参数，按照访问次序排序。</li>
+<li>(4) TreeMap：TreeMap实现SortedMap接口，能够把它保存的记录根据键排序，默认是按键值的升序排序，也可以指定排序的比较器，当用Iterator遍历TreeMap时，得到的记录是排过序的。如果使用排序的映射，建议使用TreeMap。在使用TreeMap时，key必须实现Comparable接口或者在构造TreeMap传入自定义的Comparator，否则会在运行时抛出java.lang.ClassCastException类型的异常。</li>
+</ul>
+<p>对于上述四种Map类型的类，要求映射中的key是不可变对象。不可变对象是该对象在创建后它的哈希值不会被改变。如果对象的哈希值发生变化，Map对象很可能就定位不到映射的位置了。</p>
+<h2 id="HashMap实现原理"><a href="#HashMap实现原理" class="headerlink" title="HashMap实现原理"></a>HashMap实现原理</h2><h3 id="存储结构"><a href="#存储结构" class="headerlink" title="存储结构"></a>存储结构</h3><p>从结构实现来讲，HashMap是数组+链表+红黑树（JDK1.8增加了红黑树部分）实现的，如下如所示。</p>
+<p><img src="/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/hashmapstruct.png" alt="HashMap存储结构"></p>
+<blockquote>
+<p>HashMap类中有一个非常重要的字段，就是 Node[] table，即哈希桶数组，明显它是一个Node的数组。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> hash;    <span class="comment">//用来定位数组索引位置</span></span><br><span class="line">        <span class="keyword">final</span> K key;</span><br><span class="line">        V value;</span><br><span class="line">        Node&lt;K,V&gt; next;   <span class="comment">//链表的下一个node</span></span><br><span class="line"></span><br><span class="line">        Node(<span class="keyword">int</span> hash, K key, V value, Node&lt;K,V&gt; next) &#123; ... &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> K <span class="title">getKey</span><span class="params">()</span></span>&#123; ... &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> V <span class="title">getValue</span><span class="params">()</span> </span>&#123; ... &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123; ... &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123; ... &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> V <span class="title">setValue</span><span class="params">(V newValue)</span> </span>&#123; ... &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>&#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Node是HashMap的一个内部类，实现了Map.Entry接口，本质是就是一个映射(键值对)。上图中的每个黑色圆点就是一个Node对象。</p>
+<p><a href="https://crossoverjie.top/2018/07/23/java-senior/ConcurrentHashMap/" target="_blank" rel="noopener">https://crossoverjie.top/2018/07/23/java-senior/ConcurrentHashMap/</a></p>
+<h2 id="集合类-HashMap和HashTable、ConcurrentHashMap-源码比较-重点"><a href="#集合类-HashMap和HashTable、ConcurrentHashMap-源码比较-重点" class="headerlink" title="集合类:HashMap和HashTable、ConcurrentHashMap(源码比较) 重点"></a>集合类:HashMap和HashTable、ConcurrentHashMap(源码比较) <strong>重点</strong></h2><h3 id="HashMap是非线程安全，HashTable和ConcurrentHashMap是线程安全"><a href="#HashMap是非线程安全，HashTable和ConcurrentHashMap是线程安全" class="headerlink" title="HashMap是非线程安全，HashTable和ConcurrentHashMap是线程安全"></a>HashMap是非线程安全，HashTable和ConcurrentHashMap是线程安全</h3><h3 id="HashMap与HashTable比较"><a href="#HashMap与HashTable比较" class="headerlink" title="HashMap与HashTable比较"></a>HashMap与HashTable比较</h3><table>
+<thead>
+<tr>
+<th>不同点</th>
+<th>HashMap</th>
+<th>HashTable</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>实现原理</td>
+<td>继承自AbstractMap类</td>
+<td>继承自Dictionary(JDK1.0添加)没用过</td>
+</tr>
+<tr>
+<td>初始化容量不同(二者负载因子均为0.75)</td>
+<td>初始容量为16</td>
+<td>初始容量为11</td>
+</tr>
+<tr>
+<td>扩容机制不同(当前容量大于总容量*负载因子)</td>
+<td>总容量翻倍(保持始终为2的幂)</td>
+<td>总容量翻倍+1</td>
+</tr>
+<tr>
+<td>迭代器不同</td>
+<td>使用Iterator迭代器，是fail-fast的</td>
+<td>使用Enumerator，不是fail-fast的</td>
+</tr>
+</tbody></table>
+<h3 id="HashMap底层原理-关键点"><a href="#HashMap底层原理-关键点" class="headerlink" title="HashMap底层原理 关键点"></a>HashMap底层原理 关键点</h3><ul>
+<li>JDK1.8引入数组加链表+红黑树</li>
+<li>链表长度超过8时转成红黑树</li>
+</ul>
+<blockquote>
+<p>Hashmap中的链表大小超过八个时会自动转化为红黑树，当删除小于六时重新变为链表，为啥呢？</p>
+</blockquote>
+<p>根据泊松分布，在负载因子默认为0.75的时候，单个hash槽内元素个数为8的概率小于百万分之一，所以将7作为一个分水岭，等于7的时候不转换，大于等于8的时候才进行转换，小于等于6的时候就化为链表。</p>
+<h3 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h3><ul>
+<li>JDK1.7 有segment分段锁</li>
+<li>JDK1.8 放弃分段锁<a href="https://cloud.tencent.com/developer/article/1509556" target="_blank" rel="noopener">为何？</a></li>
+<li>CAS和synchronied</li>
+<li>get和put操作</li>
+</ul>
+<p><a href="https://mp.weixin.qq.com/s/AixdbEiXf3KfE724kg2YIw" target="_blank" rel="noopener">看这篇屁话</a></p>
+<p>JDK1.7和JDK1.8对于二者改动及原因</p>
+<h2 id="ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet"><a href="#ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet" class="headerlink" title="ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet"></a>ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet</h2><p><img src="/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%9B%BE.jpg" alt="Java集合框架图"></p>
+<p>需要了解底层数据结构和各容器之间的优劣比较</p>
+<h2 id="讲一下HashMap的原理，如果链表过长怎么办，如果想让Map按照put的顺序存放键值对应该使用什么类？"><a href="#讲一下HashMap的原理，如果链表过长怎么办，如果想让Map按照put的顺序存放键值对应该使用什么类？" class="headerlink" title="讲一下HashMap的原理，如果链表过长怎么办，如果想让Map按照put的顺序存放键值对应该使用什么类？"></a>讲一下HashMap的原理，如果链表过长怎么办，如果想让Map按照put的顺序存放键值对应该使用什么类？</h2><p>HashMap在存在hash冲突的情况下，会使用链表或红黑树存储hash冲突的key，一般当链表长度超过<code>TREEIFY_THRESHOLD</code>会将链表转成红黑树。</p>
+<p>Map按照元素大小排序用TreeMap</p>
+<p>Map按照元素put顺序用LinkedHashMap</p>
+<h2 id="Session与Cookie区别"><a href="#Session与Cookie区别" class="headerlink" title="Session与Cookie区别"></a>Session与Cookie区别</h2><p>session是存储在服务器端,cookie是存储在客户端的,所以安全来讲session的安全性要比cookie高,然后我们获取session里的信息是通过存放在<strong>会话cookie</strong>里的sessionid获取的。又由于session是存放在服务器的内存中,所以session里的东西不断增加会造成服务器的负担,所以会把很重要的信息存储在session中,而把一些次要东西存储在客户端的cookie里。</p>
+<p>cookie确切的说分为两大类分为<strong>会话cookie和持久化cookie</strong>,会话cookie确切的说是存放在客户端浏览器的内存中,所以说他的生命周期和浏览器是一致的,浏览器关了会话cookie也就消失了,然而持久化cookie是存放在客户端硬盘中,而持久化cookie的生命周期就是我们在设置cookie时候设置的那个保存时间,然后我们考虑一问题当浏览器关闭时session会不会丢失,从上面叙述分析session的信息是通过sessionid获取的,而sessionid是存放在会话cookie当中的,当浏览器关闭的时候会话cookie消失所以我们的sessionid也就消失了,但是session的信息还存在服务器端,这时我们只是查不到所谓的session但它并不是不存在。那么,session在什么情况下丢失,就是在服务器关闭的时候,或者是sessio过期,再或者调用了invalidate()的或者是我们想要session中的某一条数据消失调用session.removeAttribute()方法,然后session在什么时候被创建呢,确切的说是通过调用session.getsession来创建,这就是session与cookie的区别。</p>
+<blockquote>
+<p>Session的生命周期</p>
+</blockquote>
+<ul>
+<li>Session何时生效</li>
+</ul>
+<p>Session在用户第一次访问服务器时创建，注意只有访问JSP、Servlet等程序时才会创建Session，而访问HTML、image等静态文件时不会产生Session,可调用request.getSession(true)强制生成Session。</p>
+<ul>
+<li>Session何时失效<ul>
+<li>服务器会把长时间没有活动的Session从服务器内存中清除，此时Session便失效。Tomcat中Session的默认失效时间为20分钟。</li>
+<li>调用Session的invalidate方法。<pre><code><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HttpSession session = request.getSession();</span><br><span class="line">session.invalidate();<span class="comment">//注销该request的所有session</span></span><br></pre></td></tr></table></figure></code></pre></li>
+<li>session的过期时间是从什么时候开始计算的？是从一登录就开始计算还是说从停止活动开始计算？<br>从session不活动的时候开始计算，如果session一直活动，session就总不会过期。从该Session未被访问,开始计时; 一旦Session被访问,计时清0;</li>
+</ul>
+</li>
+</ul>
+<h2 id="JDK1-8新特性"><a href="#JDK1-8新特性" class="headerlink" title="JDK1.8新特性"></a>JDK1.8新特性</h2><p><a href="https://www.jianshu.com/p/5b800057f2d8" target="_blank" rel="noopener">参考文章</a></p>
+<h3 id="语言特性"><a href="#语言特性" class="headerlink" title="语言特性"></a>语言特性</h3><ul>
+<li>Lambda表达式和函数式接口</li>
+<li>接口的默认方法和静态方法</li>
+<li>方法引用</li>
+<li>重复注解<code>@Repeatable</code></li>
+<li>更好的类型推断</li>
+<li>拓宽注解的应用场景</li>
+</ul>
+<h3 id="编译器特性"><a href="#编译器特性" class="headerlink" title="编译器特性"></a>编译器特性</h3><ul>
+<li>参数名称</li>
+</ul>
+<h3 id="库"><a href="#库" class="headerlink" title="库"></a>库</h3><ul>
+<li>Optional</li>
+<li>Streams</li>
+<li>Date/Time API</li>
+<li>Nashorn JavaScript引擎</li>
+<li>Base64</li>
+<li>并行数组</li>
+<li>并发性</li>
+</ul>
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><ul>
+<li>Nashorn引擎：jjs</li>
+<li>类依赖分析器：jdeps</li>
+</ul>
+<h3 id="运行时-JVM"><a href="#运行时-JVM" class="headerlink" title="运行时(JVM)"></a>运行时(JVM)</h3><p>使用Metaspace（JEP 122）代替持久代（PermGen space）。在JVM参数方面，使用-XX:MetaSpaceSize和-XX:MaxMetaspaceSize代替原来的-XX:PermSize和-XX:MaxPermSize。</p>
+<h2 id="NIO原理"><a href="#NIO原理" class="headerlink" title="NIO原理"></a>NIO原理</h2><h3 id="NIO与传统IO比较"><a href="#NIO与传统IO比较" class="headerlink" title="NIO与传统IO比较"></a>NIO与传统IO比较</h3><ul>
+<li>面向缓冲和面向流</li>
+<li>非阻塞与阻塞</li>
+<li>选择器(单线程管理多个通道)</li>
+</ul>
+<h3 id="NIO与IO适用场景不同"><a href="#NIO与IO适用场景不同" class="headerlink" title="NIO与IO适用场景不同"></a>NIO与IO适用场景不同</h3><p>由于NIO是面向缓冲的这导致数据处理前都需要处理缓冲区中数据是否完整或者读取完毕。</p>
+<p>NIO适用于连接数大，但每次只传送极少数的数据，如聊天服务器</p>
+<p>IO适合于连接数少，但需要传输大量数据</p>
+<h2 id="NIO原理-1"><a href="#NIO原理-1" class="headerlink" title="NIO原理"></a>NIO原理</h2><p>NIO核心 buffer channal selector</p>
+<p><strong>小小tips：</strong></p>
+<ul>
+<li>同步与异步：同步是指用户空间是主动发起IO请求的一方，内核空间被动接受，而异步相反，用户空间线程向内核空间注册各种回调函数，由内核空间调用</li>
+<li>阻塞与非阻塞</li>
+</ul>
+<p><strong>四种IO模型</strong></p>
+<p><a href="https://www.cnblogs.com/crazymakercircle/p/10225159.html#%E5%9B%9B%E7%A7%8D%E4%B8%BB%E8%A6%81%E7%9A%84io%E6%A8%A1%E5%9E%8B" target="_blank" rel="noopener">参考文章</a></p>
+<ul>
+<li>同步阻塞(IO)</li>
+<li>同步非阻塞(NIO)</li>
+<li>多路复用  IO多路复用模型，就是通过一种新的系统调用，一个进程可以监视多个文件描述符，一旦某个描述符就绪（一般是内核缓冲区可读/可写），内核kernel能够通知程序进行相应的IO系统调用。</li>
+<li>异步IO模型</li>
+</ul>
+<h2 id="Java序列化"><a href="#Java序列化" class="headerlink" title="Java序列化"></a>Java序列化</h2><h2 id="数组内存分配"><a href="#数组内存分配" class="headerlink" title="数组内存分配"></a>数组内存分配</h2><p><a href="https://blog.csdn.net/pange1991/article/details/80898344" target="_blank" rel="noopener">参考文档</a></p>
+<p><strong>对于64位操作系统，引用类型指针压缩前8字节，压缩后斩4字节</strong></p>
+<ul>
+<li>指针压缩前：数组对象的对象头占用24个字节（8字节MarkWord+8字节类型指针+8字节数组长度）</li>
+<li>指针压缩后：启用压缩之后占用16个字节（8字节MarkWord+4字节类型指针+4字节数组长度）</li>
+</ul>
+<p>拿new Integer[3]来具体解释下：</p>
+<ul>
+<li>未开启压缩：24（对象头）+ 8*3 = 48，不需要padding；</li>
+<li>开启压缩：16（对象头）+ 4*3 = 28，需要对齐填充 28 + 4(padding) = 32，其他依次类推。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/02/27/mian-shi-wen-ti-hui-zong/" rel="prev" title="面试问题汇总">
+      <i class="fa fa-chevron-left"></i> 面试问题汇总
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/13/redis-mian-shi-ti-hui-zong/" rel="next" title="redis面试题汇总">
+      redis面试题汇总 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#PriorityQueue实现原理"><span class="nav-number">1.</span> <span class="nav-text">PriorityQueue实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单例模式为什么需要double-check？"><span class="nav-number">2.</span> <span class="nav-text">单例模式为什么需要double check？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要重写hashCode和equals方法"><span class="nav-number">3.</span> <span class="nav-text">为什么要重写hashCode和equals方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hashCode与equals区别"><span class="nav-number">4.</span> <span class="nav-text">hashCode与equals区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jdk1-8-Map接口实现类的比较"><span class="nav-number">5.</span> <span class="nav-text">jdk1.8 Map接口实现类的比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap实现原理"><span class="nav-number">6.</span> <span class="nav-text">HashMap实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#存储结构"><span class="nav-number">6.1.</span> <span class="nav-text">存储结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集合类-HashMap和HashTable、ConcurrentHashMap-源码比较-重点"><span class="nav-number">7.</span> <span class="nav-text">集合类:HashMap和HashTable、ConcurrentHashMap(源码比较) 重点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap是非线程安全，HashTable和ConcurrentHashMap是线程安全"><span class="nav-number">7.1.</span> <span class="nav-text">HashMap是非线程安全，HashTable和ConcurrentHashMap是线程安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap与HashTable比较"><span class="nav-number">7.2.</span> <span class="nav-text">HashMap与HashTable比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap底层原理-关键点"><span class="nav-number">7.3.</span> <span class="nav-text">HashMap底层原理 关键点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ConcurrentHashMap"><span class="nav-number">7.4.</span> <span class="nav-text">ConcurrentHashMap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet"><span class="nav-number">8.</span> <span class="nav-text">ArrayList、LinkedList、TreeMap、LinkedHashMap、HashSet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#讲一下HashMap的原理，如果链表过长怎么办，如果想让Map按照put的顺序存放键值对应该使用什么类？"><span class="nav-number">9.</span> <span class="nav-text">讲一下HashMap的原理，如果链表过长怎么办，如果想让Map按照put的顺序存放键值对应该使用什么类？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Session与Cookie区别"><span class="nav-number">10.</span> <span class="nav-text">Session与Cookie区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JDK1-8新特性"><span class="nav-number">11.</span> <span class="nav-text">JDK1.8新特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语言特性"><span class="nav-number">11.1.</span> <span class="nav-text">语言特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译器特性"><span class="nav-number">11.2.</span> <span class="nav-text">编译器特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#库"><span class="nav-number">11.3.</span> <span class="nav-text">库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工具"><span class="nav-number">11.4.</span> <span class="nav-text">工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时-JVM"><span class="nav-number">11.5.</span> <span class="nav-text">运行时(JVM)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NIO原理"><span class="nav-number">12.</span> <span class="nav-text">NIO原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NIO与传统IO比较"><span class="nav-number">12.1.</span> <span class="nav-text">NIO与传统IO比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NIO与IO适用场景不同"><span class="nav-number">12.2.</span> <span class="nav-text">NIO与IO适用场景不同</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NIO原理-1"><span class="nav-number">13.</span> <span class="nav-text">NIO原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java序列化"><span class="nav-number">14.</span> <span class="nav-text">Java序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组内存分配"><span class="nav-number">15.</span> <span class="nav-text">数组内存分配</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Wang Huan</p>
+  <div class="site-description" itemprop="description">记录学习心得、读书感受以及一些Java知识。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/njustwh2014" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;njustwh2014" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:seuwh2018@foxmail.com" title="E-Mail → mailto:seuwh2018@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Huan</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">215k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:16</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Fhg8nAsyMme0K6TqY820NK17-gzGzoHsz',
+      appKey     : 'zoqpwVMBfhi2YQ9xf94Jdbf2',
+      placeholder: "欢迎批评指正！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/java.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/java16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"njustwh2014.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="demo地址 为什么需要规则引擎规则引擎起源于基于规则的专家系统。利用规则引擎可以将商业决策者的商业运营决策逻辑和应用开发者的技术决策分离。我们可以把商业决策放在中心数据库或其他统一地方，从而能够在运行时动态的管理和修改，改善了开发和运营效率。 目前Java开源的规则引擎主要有：Drools、Easy Rules、Mandarax、IBM ILOG。使用最广泛并且开源的是Drools。">
+<meta name="keywords" content="Drools">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开源规则引擎Drools">
+<meta property="og:url" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;06&#x2F;04&#x2F;kai-yuan-gui-ze-yin-qing-drools&#x2F;index.html">
+<meta property="og:site_name" content="Eternal Horizon">
+<meta property="og:description" content="demo地址 为什么需要规则引擎规则引擎起源于基于规则的专家系统。利用规则引擎可以将商业决策者的商业运营决策逻辑和应用开发者的技术决策分离。我们可以把商业决策放在中心数据库或其他统一地方，从而能够在运行时动态的管理和修改，改善了开发和运营效率。 目前Java开源的规则引擎主要有：Drools、Easy Rules、Mandarax、IBM ILOG。使用最广泛并且开源的是Drools。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2022-09-09T09:12:32.778Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://njustwh2014.github.io/2020/06/04/kai-yuan-gui-ze-yin-qing-drools/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>开源规则引擎Drools | Eternal Horizon</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Eternal Horizon" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Eternal Horizon</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">30</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">43</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://njustwh2014.github.io/2020/06/04/kai-yuan-gui-ze-yin-qing-drools/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Wang Huan">
+      <meta itemprop="description" content="记录学习心得、读书感受以及一些Java知识。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eternal Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          开源规则引擎Drools
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-04 19:19:46" itemprop="dateCreated datePublished" datetime="2020-06-04T19:19:46+08:00">2020-06-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-09 17:12:32" itemprop="dateModified" datetime="2022-09-09T17:12:32+08:00">2022-09-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Drools/" itemprop="url" rel="index"><span itemprop="name">Drools</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/06/04/kai-yuan-gui-ze-yin-qing-drools/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/04/kai-yuan-gui-ze-yin-qing-drools/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a href="https://github.com/njustwh2014/drools-demo" target="_blank" rel="noopener">demo地址</a></p>
+<h2 id="为什么需要规则引擎"><a href="#为什么需要规则引擎" class="headerlink" title="为什么需要规则引擎"></a>为什么需要<a href="https://www.ibm.com/developerworks/cn/opensource/os-drools/index.html" target="_blank" rel="noopener">规则引擎</a></h2><p>规则引擎起源于基于规则的专家系统。利用规则引擎可以将商业决策者的商业运营决策逻辑和应用开发者的技术决策分离。我们可以把商业决策放在中心数据库或其他统一地方，从而能够在运行时动态的管理和修改，改善了开发和运营效率。</p>
+<p>目前Java开源的规则引擎主要有：Drools、Easy Rules、Mandarax、IBM ILOG。使用最广泛并且开源的是Drools。</p>
+<a id="more"></a>
+
+<h3 id="规则引擎的优点"><a href="#规则引擎的优点" class="headerlink" title="规则引擎的优点"></a>规则引擎的优点</h3><h4 id="声明式编程"><a href="#声明式编程" class="headerlink" title="声明式编程"></a>声明式编程</h4><p>规则可以很容易地解决困难的问题，并得到解决方案的验证。与代码不同，规则以较不复杂的语言编写; 业务分析师可以轻松阅读和验证一套规则。</p>
+<h4 id="逻辑和数据分离"><a href="#逻辑和数据分离" class="headerlink" title="逻辑和数据分离"></a>逻辑和数据分离</h4><p>数据位于“域对象”中，业务逻辑位于“规则”中。根据项目的种类，这种分离是非常有利的。</p>
+<h4 id="速度和可扩展性"><a href="#速度和可扩展性" class="headerlink" title="速度和可扩展性"></a>速度和可扩展性</h4><p>写入Drools的Rete OO算法已经是一个成熟的算法。在Drools的帮助下，您的应用程序变得非常可扩展。如果频繁更改请求，可以添加新规则，而无需修改现有规则。</p>
+<h4 id="知识集中化"><a href="#知识集中化" class="headerlink" title="知识集中化"></a>知识集中化</h4><p>通过使用规则，您创建一个可执行的知识库（知识库）。这是商业政策的一个真理点。理想情况下，规则是可读的，它们也可以用作文档。</p>
+<h2 id="rete-算法"><a href="#rete-算法" class="headerlink" title="rete 算法"></a>rete 算法</h2><p>Rete 算法最初是由卡内基梅隆大学的 Charles L.Forgy 博士在 1974 年发表的论文中所阐述的算法 , 该算法提供了专家系统的一个高效实现。自 Rete 算法提出以后 , 它就被用到一些大型的规则系统中 , 像 ILog、Jess、JBoss Rules 等都是基于 RETE 算法的规则引擎</p>
+<p>Rete 在拉丁语中译为”net”，即网络。Rete 匹配算法是一种进行大量模式集合和大量对象集合间比较的高效方法，通过网络筛选的方法找出所有匹配各个模式的对象和规则。</p>
+<p>其核心思想是将分离的匹配项根据内容动态构造匹配树，以达到显著降低计算量的效果。Rete 算法可以被分为两个部分：规则编译和规则执行。当Rete算法进行事实的断言时，包含三个阶段：匹配、选择和执行，称做 match-select-act cycle。</p>
+<h2 id="DRools特点"><a href="#DRools特点" class="headerlink" title="DRools特点"></a>DRools特点</h2><p>Drools 是一个基于Charles Forgy’s的RETE算法的，易于访问企业策略、易于调整以及易于管理的开源业务规则引擎，符合业内标准，速度快、效率高。 业务分析师人员或审核人员可以利用它轻松查看业务规则，从而检验是否已编码的规则执行了所需的业务规则。</p>
+<p>Drools 是用Java语言编写的开放源码规则引擎，使用Rete算法对所编写的规则求值。Drools允许使用声明方式表达业务逻辑。可以使用非XML的本地语言编写规则，从而便于学习和理解。并且，还可以将Java代码直接嵌入到规则文件中，这令Drools的学习更加吸引人。</p>
+<h3 id="Drools优点："><a href="#Drools优点：" class="headerlink" title="Drools优点："></a>Drools优点：</h3><ul>
+<li>非常活跃的社区支持</li>
+<li>易用</li>
+<li>快速的执行速度</li>
+<li>在 Java 开发人员中流行</li>
+<li>与 Java Rule Engine API（JSR 94）兼容</li>
+</ul>
+<h2 id="Drools相关概念："><a href="#Drools相关概念：" class="headerlink" title="Drools相关概念："></a>Drools相关概念：</h2><ul>
+<li>事实（Fact）：对象之间及对象属性之间的关系</li>
+<li>规则（rule）：是由条件和结论构成的推理语句，一般表示为if…Then。一个规则的if部分称为LHS，then部分称为RHS。</li>
+<li>模式（module）：就是指IF语句的条件。这里IF条件可能是有几个更小的条件组成的大条件。模式就是指的不能在继续分割下去的最小的原子条件。</li>
+</ul>
+<p>Drools通过<strong>事实、规则和模式</strong>相互组合来完成工作，drools在开源规则引擎中使用率最广，但是在国内企业使用偏少，保险、支付行业使用稍多。</p>
+<h2 id="简单demo"><a href="#简单demo" class="headerlink" title="简单demo"></a>简单demo</h2><p>drools有专门的<a href="http://einverne.github.io/post/2019/03/drools-syntax.html" target="_blank" rel="noopener">规则语法drl</a>,用于描述规则如何执行。</p>
+<p>简单demo主要实现当status=hello时，输出hello world，并将status置为bye，当status=bye时，输出goodbye。</p>
+<p>用java语言可以描述如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(message.status==Message.HELLO)&#123;</span><br><span class="line">    System.out.println(message.message);</span><br><span class="line">    message.status=Message.GOODBYE;</span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>(message.status==Message.GOODBYE)&#123;</span><br><span class="line">    System.out.println(message.message);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用drl语言描述，drl文件需要放在<code>src/main/resources/..</code>目录下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">package rules</span><br><span class="line"></span><br><span class="line">import cn.edu.seu.wh.drools.simple.demo.entity.Message;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">global java.util.List list</span><br><span class="line"></span><br><span class="line">rule &quot;Hello World&quot;</span><br><span class="line">    dialect &quot;mvel&quot;</span><br><span class="line">    salience 3</span><br><span class="line">    when</span><br><span class="line">        m:Message(status==Message.HELLO,msg:message)</span><br><span class="line">    then</span><br><span class="line">        System.out.println(msg);</span><br><span class="line">        list.add(m);</span><br><span class="line">        modify(m)&#123;message=&quot;Goodbye cruel world!&quot;,status=Message.GOODBYE&#125;;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">rule &quot;Good Bye&quot;</span><br><span class="line">    dialect &quot;java&quot;</span><br><span class="line">    when</span><br><span class="line">        Message(status==Message.GOODBYE,msg:message)</span><br><span class="line">    then</span><br><span class="line">        System.out.println(msg);</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>package与java语言类似，但package不必和物理路径一致。</li>
+<li>import可以导入java类完整路径或静态方法</li>
+<li>rule 规则名称，需要保持唯一性，可以设置重复次数，默认重复无数次。</li>
+<li>salience 用于设置优先级，数字越大优先级越高，不设置时执行顺序随机。</li>
+<li>when 条件语句  就是当达到什么条件的时候</li>
+<li>then 根据条件的结果，来执行具体动作</li>
+<li>end 规则结束</li>
+</ul>
+<p>需要一个配置文件告诉代码drl文件在哪里，在drools中这个文件是kmodule.xml，放置在<code>src/main/resources/META-INF</code>下</p>
+<p>kmodule.xml内容如下：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">kmodule</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns</span>=<span class="string">"http://www.drools.org/xsd/kmodule"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">kbase</span> <span class="attr">name</span>=<span class="string">"HelloWorldKB"</span> <span class="attr">packages</span>=<span class="string">"rules"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ksession</span> <span class="attr">name</span>=<span class="string">"HelloWorldKS"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">kbase</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">kmodule</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Kmodule 中可以包含一个到多个 kbase,分别对应 drl 的规则文件。</li>
+<li>Kbase 需要一个唯一的 name,可以取任意字符串。</li>
+<li>packages 为drl文件所在resource目录下的路径。<strong>注意区分drl文件中的package与此处的package不一定相同</strong>。多个包用逗号分隔。默认情况下会扫描 resources目录下所有(包含子目录)规则文件。<strong>此目录下所有rule名称不能重复</strong></li>
+<li>kbase的default属性,标示当前KieBase是不是默认的,如果是默认的则不用名称 就可以查找到该 KieBase,但每个 module 最多只能有一个默认 KieBase。</li>
+<li>kbase 下面可以有一个或多个 ksession,ksession 的 name 属性必须设置,且必须唯一。</li>
+</ul>
+<p>代码端处理如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorldDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// KieServices is the factory for all KIE services</span></span><br><span class="line">        KieServices kieServices = KieServices.Factory.get();</span><br><span class="line">        <span class="comment">// KieContainer是重量级组件，建议复用</span></span><br><span class="line">        KieContainer kieContainer = kieServices.getKieClasspathContainer();</span><br><span class="line">        execute(kieContainer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(KieContainer kieContainer)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 依赖KieContainer产生一个KieSession，它的定义和配置在 META-INF/kmodule.xml</span></span><br><span class="line">        KieSession kieSession=kieContainer.newKieSession(<span class="string">"HelloWorldKS"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 一旦KieSession生成，application可以和它交互</span></span><br><span class="line">        <span class="comment">// 这个demo里声明了一个global变量list 在rules/HelloWorld.drl文件里</span></span><br><span class="line">        List&lt;Object&gt; list=<span class="keyword">new</span> ArrayList&lt;Object&gt;();</span><br><span class="line">        kieSession.setGlobal(<span class="string">"list"</span>,list);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// application也可以设置监听器</span></span><br><span class="line">        kieSession.addEventListener(<span class="keyword">new</span> DebugAgendaEventListener());</span><br><span class="line">        kieSession.addEventListener(<span class="keyword">new</span> DebugRuleRuntimeEventListener());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// To setup a file based audit logger, uncomment the next line</span></span><br><span class="line">        <span class="comment">// KieRuntimeLogger logger = ks.getLoggers().newFileLogger( ksession, "./helloworld" );</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// To setup a ThreadedFileLogger, so that the audit view reflects events whilst debugging,</span></span><br><span class="line">        <span class="comment">// uncomment the next line</span></span><br><span class="line">        <span class="comment">// KieRuntimeLogger logger = ks.getLoggers().newThreadedFileLogger( ksession, "./helloworld", 1000 );</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">// application插入facts into session</span></span><br><span class="line">        <span class="keyword">final</span> Message message=<span class="keyword">new</span> Message();</span><br><span class="line">        message.setMessage(<span class="string">"Hello World!"</span>);</span><br><span class="line">        message.setStatus(Message.HELLO);</span><br><span class="line">        kieSession.insert(message);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 执行所有rules</span></span><br><span class="line">        kieSession.fireAllRules();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(Object obj:list)&#123;</span><br><span class="line">            System.out.println(<span class="string">"Object in list:"</span>+obj.toString());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">// Remove comment if using logging</span></span><br><span class="line">        <span class="comment">// logger.close();</span></span><br><span class="line"></span><br><span class="line">        kieSession.dispose();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>Message</code>如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Setter</span></span><br><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Message</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> HELLO=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> GOODBYE=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> String message;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> status;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="整合Spring，动态从数据库覆盖原有的规则"><a href="#整合Spring，动态从数据库覆盖原有的规则" class="headerlink" title="整合Spring，动态从数据库覆盖原有的规则"></a>整合Spring，动态从数据库覆盖原有的规则</h2><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><p><a href="https://www.ibm.com/developerworks/cn/opensource/os-drools/index.html" target="_blank" rel="noopener">规则引擎</a></p>
+</li>
+<li><p><a href="http://einverne.github.io/post/2019/03/drools-syntax.html" target="_blank" rel="noopener">规则语法drl</a></p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Drools/" rel="tag"># Drools</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/11/mybatis-zi-dong-sheng-cheng-de-example-lei-yong-fa/" rel="prev" title="Mybatis自动生成的Example类用法">
+      <i class="fa fa-chevron-left"></i> Mybatis自动生成的Example类用法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/09/db-yu-huan-cun-shu-ju-yi-zhi-xing/" rel="next" title="db与缓存数据一致性">
+      db与缓存数据一致性 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么需要规则引擎"><span class="nav-number">1.</span> <span class="nav-text">为什么需要规则引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#规则引擎的优点"><span class="nav-number">1.1.</span> <span class="nav-text">规则引擎的优点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#声明式编程"><span class="nav-number">1.1.1.</span> <span class="nav-text">声明式编程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑和数据分离"><span class="nav-number">1.1.2.</span> <span class="nav-text">逻辑和数据分离</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#速度和可扩展性"><span class="nav-number">1.1.3.</span> <span class="nav-text">速度和可扩展性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#知识集中化"><span class="nav-number">1.1.4.</span> <span class="nav-text">知识集中化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rete-算法"><span class="nav-number">2.</span> <span class="nav-text">rete 算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DRools特点"><span class="nav-number">3.</span> <span class="nav-text">DRools特点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Drools优点："><span class="nav-number">3.1.</span> <span class="nav-text">Drools优点：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Drools相关概念："><span class="nav-number">4.</span> <span class="nav-text">Drools相关概念：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单demo"><span class="nav-number">5.</span> <span class="nav-text">简单demo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#整合Spring，动态从数据库覆盖原有的规则"><span class="nav-number">6.</span> <span class="nav-text">整合Spring，动态从数据库覆盖原有的规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">7.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Wang Huan</p>
+  <div class="site-description" itemprop="description">记录学习心得、读书感受以及一些Java知识。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/njustwh2014" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;njustwh2014" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:seuwh2018@foxmail.com" title="E-Mail → mailto:seuwh2018@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Huan</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">215k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:16</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Fhg8nAsyMme0K6TqY820NK17-gzGzoHsz',
+      appKey     : 'zoqpwVMBfhi2YQ9xf94Jdbf2',
+      placeholder: "欢迎批评指正！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

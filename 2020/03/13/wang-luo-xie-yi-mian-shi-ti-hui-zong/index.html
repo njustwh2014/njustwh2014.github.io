@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/java.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/java16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"njustwh2014.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Http协议Get和Post比较看这篇装逼文章  Get发送一次数据包 Post发送两次数据包 对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）； 对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。   GET在浏览器回退时是无害的，而POST会再次提交请求">
+<meta name="keywords" content="TCP,HTTP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络协议面试题汇总">
+<meta property="og:url" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;03&#x2F;13&#x2F;wang-luo-xie-yi-mian-shi-ti-hui-zong&#x2F;index.html">
+<meta property="og:site_name" content="Eternal Horizon">
+<meta property="og:description" content="Http协议Get和Post比较看这篇装逼文章  Get发送一次数据包 Post发送两次数据包 对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）； 对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。   GET在浏览器回退时是无害的，而POST会再次提交请求">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2022-09-09T09:12:32.797Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://njustwh2014.github.io/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>网络协议面试题汇总 | Eternal Horizon</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Eternal Horizon" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Eternal Horizon</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">30</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">43</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://njustwh2014.github.io/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Wang Huan">
+      <meta itemprop="description" content="记录学习心得、读书感受以及一些Java知识。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eternal Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网络协议面试题汇总
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-13 20:53:35" itemprop="dateCreated datePublished" datetime="2020-03-13T20:53:35+08:00">2020-03-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-09 17:12:32" itemprop="dateModified" datetime="2022-09-09T17:12:32+08:00">2022-09-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B1%82%E8%81%8C/" itemprop="url" rel="index"><span itemprop="name">求职</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Http协议"><a href="#Http协议" class="headerlink" title="Http协议"></a>Http协议</h2><h3 id="Get和Post比较"><a href="#Get和Post比较" class="headerlink" title="Get和Post比较"></a>Get和Post比较</h3><p><a href="https://learnku.com/articles/25881" target="_blank" rel="noopener">看这篇装逼文章</a></p>
+<ul>
+<li>Get发送一次数据包 Post发送两次数据包<ul>
+<li>对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；</li>
+<li>对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。</li>
+</ul>
+</li>
+<li>GET在浏览器回退时是无害的，而POST会再次提交请求。</li>
+<li>GET产生的URL地址可以被Bookmark，而POST不可以。</li>
+<li>GET请求会被浏览器主动cache，而POST不会，除非手动设置。</li>
+<li>GET请求只能进行url编码，而POST支持多种编码方式。</li>
+<li>GET请求参数会被完整保留在浏览器历史记录里，而POST中的参数不会被保留。</li>
+<li>GET请求在URL中传送的参数是有长度限制的，而POST么有。</li>
+<li>对参数的数据类型，GET只接受ASCII字符，而POST没有限制。</li>
+<li>GET比POST更不安全，因为参数直接暴露在URL上，所以不能用来传递敏感信息。</li>
+<li>GET参数通过URL传递，POST放在Request body中。<a id="more"></a>
+<blockquote>
+<p>Session和Cookie比较</p>
+</blockquote>
+</li>
+</ul>
+<p>session是存储在服务器端,cookie是存储在客户端的,所以安全来讲session的安全性要比cookie高,然后我们获取session里的信息是通过存放在<strong>会话cookie</strong>里的sessionid获取的。又由于session是存放在服务器的内存中,所以session里的东西不断增加会造成服务器的负担,所以会把很重要的信息存储在session中,而把一些次要东西存储在客户端的cookie里。</p>
+<p>cookie确切的说分为两大类分为<strong>会话cookie和持久化cookie</strong>,会话cookie确切的说是存放在客户端浏览器的内存中,所以说他的生命周期和浏览器是一致的,浏览器关了会话cookie也就消失了,然而持久化cookie是存放在客户端硬盘中,而持久化cookie的生命周期就是我们在设置cookie时候设置的那个保存时间,然后我们考虑一问题当浏览器关闭时session会不会丢失,从上面叙述分析session的信息是通过sessionid获取的,而sessionid是存放在会话cookie当中的,当浏览器关闭的时候会话cookie消失所以我们的sessionid也就消失了,但是session的信息还存在服务器端,这时我们只是查不到所谓的session但它并不是不存在。那么,session在什么情况下丢失,就是在服务器关闭的时候,或者是sessio过期,再或者调用了invalidate()的或者是我们想要session中的某一条数据消失调用session.removeAttribute()方法,然后session在什么时候被创建呢,确切的说是通过调用session.getsession来创建,这就是session与cookie的区别。</p>
+<blockquote>
+<p>常用HTTP的头部</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>头部</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Accept: text/html,image/*</td>
+<td>浏览器接受的数据类型</td>
+</tr>
+<tr>
+<td>Accept-Charset: ISO-8859-1</td>
+<td>浏览器接受的编码格式</td>
+</tr>
+<tr>
+<td>Accept-Encoding: gzip,compress</td>
+<td>浏览器接受的数据压缩格式</td>
+</tr>
+<tr>
+<td>Accept-Language: en-us,zh-</td>
+<td>浏览器接受的语言</td>
+</tr>
+<tr>
+<td>Host: <a href="http://www.it315.org:80" target="_blank" rel="noopener">www.it315.org:80</a></td>
+<td>（必须的）当前请求访问的目标地址（主机:端口）</td>
+</tr>
+<tr>
+<td>If-Modified-Since: Tue, 11 Jul 2000 18:23:51 GMT</td>
+<td>浏览器最后的缓存时间</td>
+</tr>
+<tr>
+<td>Referer: <a href="http://www.it315.org/index.jsp" target="_blank" rel="noopener">http://www.it315.org/index.jsp</a></td>
+<td>当前请求来自于哪里</td>
+</tr>
+<tr>
+<td>User-Agent: Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0)</td>
+<td>浏览器类型</td>
+</tr>
+<tr>
+<td>Cookie:name=eric</td>
+<td>浏览器保存的cookie信息</td>
+</tr>
+<tr>
+<td>Connection: close/Keep-Alive</td>
+<td>浏览器跟服务器连接状态。close: 连接关闭  keep-alive：保存连接。</td>
+</tr>
+<tr>
+<td>Date: Tue, 11 Jul 2000 18:23:51 GMT</td>
+<td>请求发出的时间</td>
+</tr>
+</tbody></table>
+<h3 id="常用的HTTP状态码"><a href="#常用的HTTP状态码" class="headerlink" title="常用的HTTP状态码"></a>常用的HTTP状态码</h3><p><a href="https://www.cnblogs.com/starof/p/5035119.html" target="_blank" rel="noopener">参考文章</a></p>
+<p>100 200 201 202 3xx 4xx 5xx</p>
+<blockquote>
+<p>HTTP1.0、1.1、2.0三个版本各自的特性</p>
+</blockquote>
+<p><a href="https://www.jianshu.com/p/52d86558ca57" target="_blank" rel="noopener">参考文章</a></p>
+<ul>
+<li>HTTP1.0与1.1区别<ul>
+<li>缓存处理</li>
+<li>带宽优化及网络连接的使用</li>
+<li>错误通知的管理</li>
+<li>消息在网络中的发送</li>
+<li>互联网地址的维护</li>
+<li>安全性及完整性</li>
+</ul>
+</li>
+<li>HTTP2.0<ul>
+<li>多路复用</li>
+<li>二进制分帧</li>
+<li>首部压缩</li>
+<li>服务器推送</li>
+<li></li>
+</ul>
+</li>
+</ul>
+<h3 id="HTTPS中的SSL握手过程"><a href="#HTTPS中的SSL握手过程" class="headerlink" title="HTTPS中的SSL握手过程"></a>HTTPS中的SSL握手过程</h3><p><a href="https://www.jianshu.com/p/7158568e4867" target="_blank" rel="noopener">参考文章</a></p>
+<p>RSA/DH</p>
+<p><a href="https://zhuanlan.zhihu.com/p/43789231" target="_blank" rel="noopener">非对称加密-&gt; 对称加密</a></p>
+<p><strong>由于RSA非对称加密以幂模运算的存在，导致其比ASE对称加密慢。</strong></p>
+<h3 id="CSRF、XSS攻击，避免的方法"><a href="#CSRF、XSS攻击，避免的方法" class="headerlink" title="CSRF、XSS攻击，避免的方法"></a>CSRF、XSS攻击，避免的方法</h3><p><a href="https://www.jianshu.com/p/64a413ada155" target="_blank" rel="noopener">参考文章</a></p>
+<h2 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h2><h3 id="TCP头部"><a href="#TCP头部" class="headerlink" title="TCP头部"></a>TCP头部</h3><p>记住常用部分占用多少字节</p>
+<h3 id="三次握手和四次挥手"><a href="#三次握手和四次挥手" class="headerlink" title="三次握手和四次挥手"></a>三次握手和四次挥手</h3><ul>
+<li>三次握手<ul>
+<li>客户端发送请求报文给服务端，SYN=1 这个包序号为x </li>
+<li>服务端给客户端发送确认报文ACK=1，SYN=1 这个包序号为y 确认号为x+1 此次握手表明 服务端可以接收客户端，但不确定客户端能否接收</li>
+<li>客户端给服务端发送确认报文 ACK=1 序号为x+1 确认号为y+1 此次握手告诉服务端，客户端也可以接收</li>
+</ul>
+</li>
+<li>四次挥手<ul>
+<li>客户端发送释放报文，FIN=1给服务端 此时客户端进入半关闭FIN-WAIT状态</li>
+<li>服务端返回确认报文ACK=1，此时服务端进入CLOSE-WAIT状态，接着服务端发送剩余的数据</li>
+<li>服务端发送完数据后发送释放报文给客户端，FIN=1，ACK=1</li>
+<li>客户端返回确认报文给服务端，后进入TIME-WAIT状态 经过2MSL时间后关闭，此时若再次接收服务端释放报文，则重发确认报文。</li>
+</ul>
+</li>
+</ul>
+<h3 id="关于第三次握手的解释"><a href="#关于第三次握手的解释" class="headerlink" title="关于第三次握手的解释"></a>关于第三次握手的解释</h3><p>我们可以假设没有第三次握手机制。当客户端向服务端发送请求建立报文A，由于网络延迟等原因导致超时后客户端重新发送请求建立连接报文B，请求建立连接报文B到达服务端后，服务端返回确认报文给客户端建立连接并传输数据。此时请求报文A也到达服务端，服务端会认为这是新的建立连接请求，并依旧返回确认报文给客户端，客户端没有建立连接需求，自然不会发送数据给服务端，而此时服务端会认为连接已经建立，会始终等待客户端发送数据，直到超出保活计数器的设定值，而将客户端判定为出了问题，才会关闭这个连接。这样就浪费了很多服务器的资源。而如果有第三次握手，客户端不会返回确认，服务端收不到确认报文会认为客户端没有建立连接请求，从而不建立该连接。</p>
+<h3 id="第三次握手挥手失败的处理"><a href="#第三次握手挥手失败的处理" class="headerlink" title="第三次握手挥手失败的处理"></a>第三次握手挥手失败的处理</h3><p>第三次握手失败时，由于第二次握手时，服务端返回SYN+ACK给客户端，因此客户端进入成功建立连接状态，而此时服务端由于未收到客户端的ACK，这就要分为以下几种情况讨论：</p>
+<ul>
+<li>第一种情况是客户端发出的确认报文丢失，但是下一个数据包未丢失，此数据包中也含有ACK信息，服务端能够进入ESTABLISHED状态。</li>
+<li>第二种情况是客户端和服务端均没有发送数据，或者服务端想发送数据，但由于未接收到客户端ACK，从而不能发送数据，服务器端会有定时器，重新发送SYN+ACK数据包给客户端，客户端再次返回ACK数据包，则成功建立连接。</li>
+<li>第三种情况是一直不成功，一般是五次重传以后，服务器端会有超时设置，如果超时，服务端发送RTS报文，进入CLOSED状态，避免SYN洪泛攻击。</li>
+</ul>
+<h3 id="SYN洪泛攻击"><a href="#SYN洪泛攻击" class="headerlink" title="SYN洪泛攻击"></a>SYN洪泛攻击</h3><p><a href="https://zhuanlan.zhihu.com/p/29539671" target="_blank" rel="noopener">康康</a></p>
+<p>SYN Flood（半开放攻击）是一种拒绝服务（DDoS）攻击，其目的是通过消耗所有可用的服务器资源使服务器不可用于合法流量。通过重复发送初始连接请求（SYN）数据包，攻击者能够压倒目标服务器机器上的所有可用端口，导致目标设备根本不响应合法流量。</p>
+<h3 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a>拥塞控制</h3><p><a href="https://juejin.im/entry/5b7fcd13f265da4372473199" target="_blank" rel="noopener">这个写的不错</a></p>
+<p>TCP 拥塞控制算法发展的过程中出现了如下几种不同的思路：</p>
+<ul>
+<li><p>基于<strong>丢包</strong>的拥塞控制：将丢包视为出现拥塞，采取缓慢探测的方式，逐渐增大拥塞窗口，当出现丢包时，将拥塞窗口减小，如 Reno、Cubic 等。</p>
+</li>
+<li><p>基于<strong>时延</strong>的拥塞控制：将时延增加视为出现拥塞，延时增加时增大拥塞窗口，延时减小时减小拥塞窗口，如 Vegas、FastTCP 等。</p>
+</li>
+<li><p>基于<strong>链路容量</strong>的拥塞控制：实时测量网络带宽和时延，认为网络上报文总量大于带宽时延乘积时出现了拥塞，如 BBR。</p>
+</li>
+<li><p>基于<strong>学习</strong>的拥塞控制：没有特定的拥塞信号，而是借助<strong>评价函数</strong>，基于训练数据，使用机器学习的方法形成一个控制策略，如 Remy。</p>
+</li>
+</ul>
+<p><strong>Reno算法：慢开始、拥塞避免、快重传、快恢复</strong> 慢开始指数增长，到达慢开始阈值ssthresh时，进入拥塞避免，线性增长，如果出现超时，则进入重新慢开始，此时ssthresh变为当前cnwd的一半。如果出现丢包，则进入快重传阶段，直接进入拥塞避免，但ssthresh变为当前cnwd的一半。</p>
+<p><strong>Vegas算法</strong>：将时延 RTT 的增加作为网络出现拥塞的信号，RTT 增加，拥塞窗口减小，RTT 减小，拥塞窗口增加。</p>
+<blockquote>
+<p>流量控制(零窗口含义、接受窗口的协商)</p>
+</blockquote>
+<p><strong>什么是流量控制？流量控制的目的？</strong></p>
+<p>如果发送者发送数据过快，接收者来不及接收，那么就会有分组丢失。为了避免分组丢失，控制发送者的发送速度，使得接收者来得及接收，这就是流量控制。流量控制根本目的是防止分组丢失，它是构成TCP可靠性的一方面。</p>
+<p><strong>如何实现流量控制？</strong></p>
+<p>由滑动窗口协议（连续ARQ协议）实现。滑动窗口协议既保证了分组无差错、有序接收，也实现了流量控制。主要的方式就是接收方返回的 ACK中会包含自己的接收窗口的大小，并且利用大小来控制发送方的数据发送。</p>
+<p><strong>流量控制引发的死锁？怎么避免死锁的发生？</strong></p>
+<p>当发送者收到了一个窗口为0的应答，发送者便停止发送，等待接收者的下一个应答。但是如果这个窗口不为0的应答在传输过程丢失，发送者一直等待下去，而接收者以为发送者已经收到该应答，等待接收新数据，这样双方就相互等待，从而产生死锁。</p>
+<p>为了避免流量控制引发的死锁，TCP使用了持续计时器。每当发送者收到一个零窗口的应答后就启动该计时器。时间一到便主动发送报文询问接收者的窗口大小。若接收者仍然返回零窗口，则重置该计时器继续等待；若窗口不为0，则表示应答报文丢失了，此时重置发送窗口后开始发送，这样就避免了死锁的产生。</p>
+<p><strong>拥塞控制作用于网络，防止大量数据进入网络导致阻塞，流量控制是作用于接收者的，它是控制发送者的发送速度从而使接收者来得及接收，防止分组丢失的。</strong></p>
+<h3 id="Nagle"><a href="#Nagle" class="headerlink" title="Nagle"></a>Nagle</h3><p><a href="https://blog.csdn.net/ce123_zhouwei/article/details/9050797" target="_blank" rel="noopener">参考文章</a></p>
+<h3 id="TCP与UDP的区别"><a href="#TCP与UDP的区别" class="headerlink" title="TCP与UDP的区别"></a>TCP与UDP的区别</h3><ul>
+<li>1、基于连接与无连接； why？</li>
+<li>2、对系统资源的要求（TCP较多，UDP少）； why?</li>
+<li>3、UDP程序结构较简单； why?</li>
+<li>4、流模式与数据报模式 ； why?</li>
+<li>5、TCP保证数据正确性，UDP可能丢包； why?</li>
+<li>6、TCP保证数据顺序，UDP不保证。why?</li>
+</ul>
+<h2 id="描述数据从网卡至内核空间最后至用户空间的过程"><a href="#描述数据从网卡至内核空间最后至用户空间的过程" class="headerlink" title="描述数据从网卡至内核空间最后至用户空间的过程"></a>描述数据从网卡至内核空间最后至用户空间的过程</h2><p>数据通过网线进入网卡后，进行模数转换写入网卡缓存，通过DMA写入计算机内存，一个内核线程根据TCP协议进行拆包，最后将数据写入每个socket对应的sync/accept队列中，供应用程序使用(应用程序需要进行组包操作，对应着分包操作)。</p>
+<h2 id="url到获取页面过程"><a href="#url到获取页面过程" class="headerlink" title="url到获取页面过程"></a>url到获取页面过程</h2><p>在浏览器中输入一个网址，首先要做的就是域名的解析，也就是域名-&gt;ip的解析，依次查看了浏览器缓存，系统缓存，hosts文件，路由器缓存，递归搜索根域名服务器，直到找到最终的ip地址。</p>
+<p>然后就是TCP协议的三次握手建立连接，过程我们已经阐述了。由浏览器发送一个HTTP请求；经过路由器的转发，通过服务器的防火墙，该HTTP请求到达了服务器；服务器处理该HTTP请求，返回一个HTML文件；浏览器解析该HTML文件，并且渲染显示在浏览器端。</p>
+<p>这里，我们可以来具体阐述下HTTP协议和TCP协议的关系与区别。</p>
+<h2 id="介绍TCP-IP头，其中哪些首部涉及滑动窗口，以及拥塞控制"><a href="#介绍TCP-IP头，其中哪些首部涉及滑动窗口，以及拥塞控制" class="headerlink" title="介绍TCP/IP头，其中哪些首部涉及滑动窗口，以及拥塞控制"></a>介绍TCP/IP头，其中哪些首部涉及滑动窗口，以及拥塞控制</h2><h2 id="http与https的区别"><a href="#http与https的区别" class="headerlink" title="http与https的区别"></a>http与https的区别</h2><h2 id="CDN的关键技术"><a href="#CDN的关键技术" class="headerlink" title="CDN的关键技术"></a>CDN的关键技术</h2><p><a href="https://blog.csdn.net/moakun/article/details/80690536" target="_blank" rel="noopener">参考连接</a></p>
+<p>CDN网络是在用户和服务器之间增加Cache层，如何将用户的请求引导到Cache上获得源服务器的数据，主要是通过接管DNS实现，这就是CDN的最基本的原理。</p>
+<ul>
+<li>1.用户向浏览器输入<a href="http://www.web.com这个域名，浏览器第一次发现本地没有dns缓存，则向网站的DNS服务器请求；" target="_blank" rel="noopener">www.web.com这个域名，浏览器第一次发现本地没有dns缓存，则向网站的DNS服务器请求；</a></li>
+<li>2.网站的DNS域名解析器设置了CNAME，指向了<a href="http://www.web.51cdn.com,请求指向了CDN网络中的智能DNS负载均衡系统；" target="_blank" rel="noopener">www.web.51cdn.com,请求指向了CDN网络中的智能DNS负载均衡系统；</a></li>
+<li>3.智能DNS负载均衡系统解析域名，把对用户响应速度最快的IP节点返回给用户；</li>
+<li>4.用户向该IP节点（CDN服务器）发出请求；</li>
+<li>5.由于是第一次访问，CDN服务器会向原web站点请求，并缓存内容；</li>
+<li>6.请求结果发给用户。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TCP/" rel="tag"># TCP</a>
+              <a href="/tags/HTTP/" rel="tag"># HTTP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/13/redis-mian-shi-ti-hui-zong/" rel="prev" title="redis面试题汇总">
+      <i class="fa fa-chevron-left"></i> redis面试题汇总
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/13/she-ji-mo-shi-ti-hui-zong/" rel="next" title="设计模式题汇总">
+      设计模式题汇总 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Http协议"><span class="nav-number">1.</span> <span class="nav-text">Http协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Get和Post比较"><span class="nav-number">1.1.</span> <span class="nav-text">Get和Post比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用的HTTP状态码"><span class="nav-number">1.2.</span> <span class="nav-text">常用的HTTP状态码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTPS中的SSL握手过程"><span class="nav-number">1.3.</span> <span class="nav-text">HTTPS中的SSL握手过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSRF、XSS攻击，避免的方法"><span class="nav-number">1.4.</span> <span class="nav-text">CSRF、XSS攻击，避免的方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP"><span class="nav-number">2.</span> <span class="nav-text">TCP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP头部"><span class="nav-number">2.1.</span> <span class="nav-text">TCP头部</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三次握手和四次挥手"><span class="nav-number">2.2.</span> <span class="nav-text">三次握手和四次挥手</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于第三次握手的解释"><span class="nav-number">2.3.</span> <span class="nav-text">关于第三次握手的解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三次握手挥手失败的处理"><span class="nav-number">2.4.</span> <span class="nav-text">第三次握手挥手失败的处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SYN洪泛攻击"><span class="nav-number">2.5.</span> <span class="nav-text">SYN洪泛攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拥塞控制"><span class="nav-number">2.6.</span> <span class="nav-text">拥塞控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nagle"><span class="nav-number">2.7.</span> <span class="nav-text">Nagle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP与UDP的区别"><span class="nav-number">2.8.</span> <span class="nav-text">TCP与UDP的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#描述数据从网卡至内核空间最后至用户空间的过程"><span class="nav-number">3.</span> <span class="nav-text">描述数据从网卡至内核空间最后至用户空间的过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#url到获取页面过程"><span class="nav-number">4.</span> <span class="nav-text">url到获取页面过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍TCP-IP头，其中哪些首部涉及滑动窗口，以及拥塞控制"><span class="nav-number">5.</span> <span class="nav-text">介绍TCP/IP头，其中哪些首部涉及滑动窗口，以及拥塞控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http与https的区别"><span class="nav-number">6.</span> <span class="nav-text">http与https的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CDN的关键技术"><span class="nav-number">7.</span> <span class="nav-text">CDN的关键技术</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Wang Huan</p>
+  <div class="site-description" itemprop="description">记录学习心得、读书感受以及一些Java知识。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/njustwh2014" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;njustwh2014" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:seuwh2018@foxmail.com" title="E-Mail → mailto:seuwh2018@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Huan</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">215k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:16</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Fhg8nAsyMme0K6TqY820NK17-gzGzoHsz',
+      appKey     : 'zoqpwVMBfhi2YQ9xf94Jdbf2',
+      placeholder: "欢迎批评指正！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

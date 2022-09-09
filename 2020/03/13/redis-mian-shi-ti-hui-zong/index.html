@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/java.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/java16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"njustwh2014.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="常见应用参考连接 这一题要结合着Redis特性来回答，首先得明确Redis有哪些特性。  应用1：读写性能优异可以当作缓存  缓存是Redis最常见的应用场景。 这里面试官可能会问，Redis和memcached比较以及如何保证缓存一致。">
+<meta name="keywords" content="Java, 中间件, Spring, Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis面试题汇总">
+<meta property="og:url" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;03&#x2F;13&#x2F;redis-mian-shi-ti-hui-zong&#x2F;index.html">
+<meta property="og:site_name" content="Eternal Horizon">
+<meta property="og:description" content="常见应用参考连接 这一题要结合着Redis特性来回答，首先得明确Redis有哪些特性。  应用1：读写性能优异可以当作缓存  缓存是Redis最常见的应用场景。 这里面试官可能会问，Redis和memcached比较以及如何保证缓存一致。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2022-09-09T09:12:32.731Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://njustwh2014.github.io/2020/03/13/redis-mian-shi-ti-hui-zong/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>redis面试题汇总 | Eternal Horizon</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Eternal Horizon" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Eternal Horizon</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">30</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">43</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://njustwh2014.github.io/2020/03/13/redis-mian-shi-ti-hui-zong/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Wang Huan">
+      <meta itemprop="description" content="记录学习心得、读书感受以及一些Java知识。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eternal Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          redis面试题汇总
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-13 20:49:29" itemprop="dateCreated datePublished" datetime="2020-03-13T20:49:29+08:00">2020-03-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-09 17:12:32" itemprop="dateModified" datetime="2022-09-09T17:12:32+08:00">2022-09-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B1%82%E8%81%8C/" itemprop="url" rel="index"><span itemprop="name">求职</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/03/13/redis-mian-shi-ti-hui-zong/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/03/13/redis-mian-shi-ti-hui-zong/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="常见应用"><a href="#常见应用" class="headerlink" title="常见应用"></a>常见应用</h2><p><a href="https://zhuanlan.zhihu.com/p/29665317" target="_blank" rel="noopener">参考连接</a></p>
+<p>这一题要结合着Redis特性来回答，首先得明确Redis有哪些特性。</p>
+<blockquote>
+<p>应用1：读写性能优异可以当作缓存</p>
+</blockquote>
+<p>缓存是Redis最常见的应用场景。</p>
+<p>这里面试官可能会问，Redis和memcached比较以及如何保证缓存一致。</p>
+<a id="more"></a>
+<p>缓存可能会问到Redis缓存实现方式,主要有两种</p>
+<ul>
+<li>方案1：读取前会先查询Redis，如果没有命中数据则会去查询数据库比如Mysql，然后拉取数据进Redis</li>
+</ul>
+<p>可能会存在缓存击穿以及实时性差的问题，那么如何避免缓存击穿呢？</p>
+<ul>
+<li>方案2：插入数据时同时插入Redis，这种实时性强</li>
+</ul>
+<p>开发时不便于于统一处理</p>
+<p>总结起来就是方案1适合用于对数据实时性要求不高的场合，方案2适合用于数据量不大的场合，如字典表</p>
+<blockquote>
+<p>丰富的数据类型</p>
+</blockquote>
+<ul>
+<li><p>String：适合最简单Key-value存储，类似于Memcached存储结构，可以存短信验证码、配置信息等</p>
+</li>
+<li><p>hash：一般key为ID或其他唯一标识，value为详情等</p>
+</li>
+<li><p>list：list适合存储有序且数据相对固定，如省市区表、字典表等 因为list有序，可以根据输入时间排序 如 最新的*** 消息队列等</p>
+</li>
+<li><p>set：可以存放一个人的好友，set的交集、并集、差集操作，例如查找共同好友</p>
+</li>
+<li><p>Sorted Set：是set的增强版本，增加了Score用于排序，可以实现类似Top10而不依赖插入顺序</p>
+</li>
+</ul>
+<blockquote>
+<p>自动过期提高开发效率</p>
+</blockquote>
+<p>如验证码等</p>
+<blockquote>
+<p>单线程可以作为分布式锁 setnx</p>
+</blockquote>
+<blockquote>
+<p>分布式和持久化有效应对高并发</p>
+</blockquote>
+<h2 id="底层数据结构"><a href="#底层数据结构" class="headerlink" title="底层数据结构"></a>底层数据结构</h2><p><a href="https://www.cnblogs.com/jaycekon/p/6227442.html" target="_blank" rel="noopener">参考文章</a></p>
+<ul>
+<li><p>SDS(Simple Dynamic String)</p>
+</li>
+<li><p>双端链表</p>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span>&#123;</span></span><br><span class="line">      <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">prev</span>;</span></span><br><span class="line">      <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> * <span class="title">next</span>;</span></span><br><span class="line">      <span class="keyword">void</span> * value;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以直接操作<code>list</code>来操作链表更方便</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">list</span>&#123;</span></span><br><span class="line">    <span class="comment">//表头节点</span></span><br><span class="line">    listNode  * head;</span><br><span class="line">    <span class="comment">//表尾节点</span></span><br><span class="line">    listNode  * tail;</span><br><span class="line">    <span class="comment">//链表长度</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> len;</span><br><span class="line">    <span class="comment">//节点值复制函数</span></span><br><span class="line">    <span class="keyword">void</span> *(*dup) (<span class="keyword">void</span> *ptr);</span><br><span class="line">    <span class="comment">//节点值释放函数</span></span><br><span class="line">    <span class="keyword">void</span> (*<span class="built_in">free</span>) (<span class="keyword">void</span> *ptr);</span><br><span class="line">    <span class="comment">//节点值对比函数</span></span><br><span class="line">    <span class="keyword">int</span> (*match)(<span class="keyword">void</span> *ptr, <span class="keyword">void</span> *key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>头节点的prev和尾节点的next都指向null</p>
+<ul>
+<li>字典 由hashtable实现<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictht</span> &#123;</span></span><br><span class="line">   <span class="comment">//哈希表数组</span></span><br><span class="line">   dictEntry **table;</span><br><span class="line">   <span class="comment">//哈希表大小</span></span><br><span class="line">   <span class="keyword">unsigned</span> <span class="keyword">long</span> size;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//哈希表大小掩码，用于计算索引值</span></span><br><span class="line">   <span class="keyword">unsigned</span> <span class="keyword">long</span> sizemask;</span><br><span class="line">   <span class="comment">//该哈希表已有节点的数量</span></span><br><span class="line">   <span class="keyword">unsigned</span> <span class="keyword">long</span> used;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><strong>SDS、字典、跳跃表、链表、压缩列表</strong></p>
+<ul>
+<li>跳跃表</li>
+</ul>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzA4NTg1MjM0Mg==&mid=509777776&idx=1&sn=e56f24bdf2de7e25515fe9f25ef57557&mpshare=1&scene=1&srcid=1010HdkIxon3icsWNmTyecI6#rd" target="_blank" rel="noopener">Redis内部数据结构详解</a></p>
+<p><a href="https://juejin.im/post/57fa935b0e3dd90057c50fbc" target="_blank" rel="noopener">skiplist</a></p>
+<p><code>sorted list</code>底层用到skiplist，那么为什么不用平衡树呢？</p>
+<p>内存占用方面skiplist每个节点平均1.33个指针，而平衡树是2</p>
+<p>范围查找实现简单</p>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzA4NTg1MjM0Mg==&mid=2657261265&idx=1&sn=e105c4b86a5640c5fc8212cd824f750b&scene=21#wechat_redirect" target="_blank" rel="noopener">压缩列表</a></li>
+</ul>
+<p>因为 ziplist 节约内存的性质， 哈希键、列表键和有序集合键初始化的底层实现皆采用 ziplist</p>
+<h2 id="RDB和AOF两种不同方式的比较以及优缺点"><a href="#RDB和AOF两种不同方式的比较以及优缺点" class="headerlink" title="RDB和AOF两种不同方式的比较以及优缺点"></a>RDB和AOF两种不同方式的比较以及优缺点</h2><blockquote>
+<p>原理</p>
+</blockquote>
+<blockquote>
+<p>性能</p>
+</blockquote>
+<blockquote>
+<p>稳定性</p>
+</blockquote>
+<h2 id="跳表和红黑树之间的比较"><a href="#跳表和红黑树之间的比较" class="headerlink" title="跳表和红黑树之间的比较"></a>跳表和红黑树之间的比较</h2><blockquote>
+<p>插入效率</p>
+</blockquote>
+<blockquote>
+<p>实现方式</p>
+</blockquote>
+<blockquote>
+<p>内存消耗</p>
+</blockquote>
+<blockquote>
+<p>特殊条件查询</p>
+</blockquote>
+<h2 id="SDS和原始字符串比较"><a href="#SDS和原始字符串比较" class="headerlink" title="SDS和原始字符串比较"></a>SDS和原始字符串比较</h2><p><a href="https://www.cnblogs.com/jaycekon/p/6227442.html" target="_blank" rel="noopener">参考文章</a></p>
+<ul>
+<li><p>查询字符串长度</p>
+<p>SDS的结构体如下</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*  </span></span><br><span class="line"><span class="comment"> * 保存字符串对象的结构  </span></span><br><span class="line"><span class="comment"> */</span>  </span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span>  </span><br><span class="line">      </span><br><span class="line">    <span class="comment">// buf 中已占用空间的长度  </span></span><br><span class="line">    <span class="keyword">int</span> len;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// buf 中剩余可用空间的长度  </span></span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">free</span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 数据空间  </span></span><br><span class="line">    <span class="keyword">char</span> buf[];  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>杜绝内存溢出</p>
+</li>
+<li><p>减少字符串修改带来的内存重分配次数</p>
+</li>
+<li><p>惰性空间释放：避免缩短字符串带来的内存重分配，也为将来扩展字符串带来优化</p>
+</li>
+<li><p>二进制安全</p>
+</li>
+</ul>
+<p>不像c字符串那样通过空字符判断字符串结束，而是通过len属性</p>
+<h2 id="字典和HashMap的比较"><a href="#字典和HashMap的比较" class="headerlink" title="字典和HashMap的比较"></a>字典和HashMap的比较</h2><p><strong>*扩容方式和扩容大小</strong></p>
+<h2 id="单线程的Redis为何快"><a href="#单线程的Redis为何快" class="headerlink" title="单线程的Redis为何快"></a><a href="https://www.iminho.me/wiki/blog-25.html" target="_blank" rel="noopener">单线程的Redis为何快</a></h2><p><a href="https://www.iminho.me/wiki/blog-25.html" target="_blank" rel="noopener">一定要看</a></p>
+<h2 id="redis同步机制"><a href="#redis同步机制" class="headerlink" title="redis同步机制"></a>redis同步机制</h2><ul>
+<li>全量复制</li>
+<li>增量复制</li>
+</ul>
+<p><a href="https://www.jianshu.com/p/41254dc5cb38" target="_blank" rel="noopener">看</a></p>
+<h2 id="给了一个场景，结合redis设计一个天气数据展示接口，前端传给后台一个城市名参数，后台返回相应的天气数据"><a href="#给了一个场景，结合redis设计一个天气数据展示接口，前端传给后台一个城市名参数，后台返回相应的天气数据" class="headerlink" title="给了一个场景，结合redis设计一个天气数据展示接口，前端传给后台一个城市名参数，后台返回相应的天气数据"></a>给了一个场景，结合redis设计一个天气数据展示接口，前端传给后台一个城市名参数，后台返回相应的天气数据</h2>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/13/java-ji-chu-mian-shi-ti-hui-zong/" rel="prev" title="Java基础面试题汇总">
+      <i class="fa fa-chevron-left"></i> Java基础面试题汇总
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/13/wang-luo-xie-yi-mian-shi-ti-hui-zong/" rel="next" title="网络协议面试题汇总">
+      网络协议面试题汇总 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#常见应用"><span class="nav-number">1.</span> <span class="nav-text">常见应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#底层数据结构"><span class="nav-number">2.</span> <span class="nav-text">底层数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RDB和AOF两种不同方式的比较以及优缺点"><span class="nav-number">3.</span> <span class="nav-text">RDB和AOF两种不同方式的比较以及优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跳表和红黑树之间的比较"><span class="nav-number">4.</span> <span class="nav-text">跳表和红黑树之间的比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SDS和原始字符串比较"><span class="nav-number">5.</span> <span class="nav-text">SDS和原始字符串比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字典和HashMap的比较"><span class="nav-number">6.</span> <span class="nav-text">字典和HashMap的比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单线程的Redis为何快"><span class="nav-number">7.</span> <span class="nav-text">单线程的Redis为何快</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis同步机制"><span class="nav-number">8.</span> <span class="nav-text">redis同步机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#给了一个场景，结合redis设计一个天气数据展示接口，前端传给后台一个城市名参数，后台返回相应的天气数据"><span class="nav-number">9.</span> <span class="nav-text">给了一个场景，结合redis设计一个天气数据展示接口，前端传给后台一个城市名参数，后台返回相应的天气数据</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Wang Huan</p>
+  <div class="site-description" itemprop="description">记录学习心得、读书感受以及一些Java知识。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/njustwh2014" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;njustwh2014" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:seuwh2018@foxmail.com" title="E-Mail → mailto:seuwh2018@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Huan</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">215k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:16</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Fhg8nAsyMme0K6TqY820NK17-gzGzoHsz',
+      appKey     : 'zoqpwVMBfhi2YQ9xf94Jdbf2',
+      placeholder: "欢迎批评指正！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

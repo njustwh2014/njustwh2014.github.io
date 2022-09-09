@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/java.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/java16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"njustwh2014.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="学习计划 将之前博客系统重启   redis、mysql部署在130虚拟机  前端部署在129机器上(nginx代理)  后端部署在131虚拟机    leetcode刷题">
+<meta name="keywords" content="Java,Redis,Mysql,Vue,Springboot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2020一定要拿到offer啊">
+<meta property="og:url" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;02&#x2F;02&#x2F;2020-yi-ding-yao-na-dao-offer-a&#x2F;index.html">
+<meta property="og:site_name" content="Eternal Horizon">
+<meta property="og:description" content="学习计划 将之前博客系统重启   redis、mysql部署在130虚拟机  前端部署在129机器上(nginx代理)  后端部署在131虚拟机    leetcode刷题">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2022-09-09T09:12:32.720Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://njustwh2014.github.io/2020/02/02/2020-yi-ding-yao-na-dao-offer-a/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>2020一定要拿到offer啊 | Eternal Horizon</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Eternal Horizon" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Eternal Horizon</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">30</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">43</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://njustwh2014.github.io/2020/02/02/2020-yi-ding-yao-na-dao-offer-a/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Wang Huan">
+      <meta itemprop="description" content="记录学习心得、读书感受以及一些Java知识。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eternal Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2020一定要拿到offer啊
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-02-02 11:06:02" itemprop="dateCreated datePublished" datetime="2020-02-02T11:06:02+08:00">2020-02-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-09 17:12:32" itemprop="dateModified" datetime="2022-09-09T17:12:32+08:00">2022-09-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B1%82%E8%81%8C/" itemprop="url" rel="index"><span itemprop="name">求职</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/02/02/2020-yi-ding-yao-na-dao-offer-a/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/02/02/2020-yi-ding-yao-na-dao-offer-a/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="学习计划"><a href="#学习计划" class="headerlink" title="学习计划"></a>学习计划</h1><blockquote>
+<p>将之前博客系统重启</p>
+</blockquote>
+<ul>
+<li><p>redis、mysql部署在130虚拟机</p>
+</li>
+<li><p>前端部署在129机器上(nginx代理)</p>
+</li>
+<li><p>后端部署在131虚拟机</p>
+</li>
+</ul>
+<blockquote>
+<p>leetcode刷题</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="网站重新部署和优化工作"><a href="#网站重新部署和优化工作" class="headerlink" title="网站重新部署和优化工作"></a>网站重新部署和优化工作</h2><blockquote>
+<p><a href="https://www.jianshu.com/p/2217cfed29d7" target="_blank" rel="noopener">docker-compose.yml详解</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://juejin.im/post/5c3363bf6fb9a049e2322cdb" target="_blank" rel="noopener">docker网络模式</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.cnblogs.com/javabg/p/7976977.html" target="_blank" rel="noopener">servlet+idea环境配置参考</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.cnblogs.com/starof/p/4680083.html" target="_blank" rel="noopener">centos上安装mysql</a> </p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.cnblogs.com/zuidongfeng/p/8859229.html" target="_blank" rel="noopener">centos上部署springboot项目</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://blog.csdn.net/chen3888015/article/details/70172505/" target="_blank" rel="noopener">centos上配置fdfs</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://www.ityouknow.com/springboot/2018/01/16/spring-boot-fastdfs.html" target="_blank" rel="noopener">微笑大神： 使用fdfs</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://blog.csdn.net/qq_34301871/article/details/80060235" target="_blank" rel="noopener">HTTP请求不能访问文件的原因</a></p>
+</blockquote>
+<blockquote>
+<p><a href>出现缺少fastcommon.h修改办法</a> <a href="https://blog.csdn.net/babydavic/article/details/21240021" target="_blank" rel="noopener">https://blog.csdn.net/babydavic/article/details/21240021</a>)</p>
+</blockquote>
+<blockquote>
+<p><a href="https://blog.csdn.net/qq_36922927/article/details/79554806" target="_blank" rel="noopener">nginx安装</a></p>
+</blockquote>
+<h3 id="redis安装部署备忘"><a href="#redis安装部署备忘" class="headerlink" title="redis安装部署备忘"></a>redis安装部署备忘</h3><p>redis安装在130机器</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 运行服务</span></span><br><span class="line">docker run -it --name redis -v /root/wanghuan/docker/redis/cfg/redis.conf:/usr/<span class="built_in">local</span>/etc/redis/redis.conf -v /root/wanghuan/docker/redis/data:/data -d -p 6379:6379 redis:latest /bin/bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入容器</span></span><br><span class="line">docker <span class="built_in">exec</span> -it redis bash</span><br><span class="line"><span class="comment"># 加载配置</span></span><br><span class="line">redis-server /usr/<span class="built_in">local</span>/etc/redis/redis.conf</span><br><span class="line"><span class="comment"># 测试连接</span></span><br><span class="line">redis-cli -a wanghuan</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>tips: redis desktop manager for free: <a href="https://github.com/qishibo/AnotherRedisDesktopManager/" target="_blank" rel="noopener">https://github.com/qishibo/AnotherRedisDesktopManager/</a></p>
+</blockquote>
+<h3 id="mysql安装部署备忘"><a href="#mysql安装部署备忘" class="headerlink" title="mysql安装部署备忘"></a>mysql安装部署备忘</h3><p>mysql安装在130机器</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># pull image</span></span><br><span class="line">docker pull mysql:latest</span><br><span class="line"><span class="comment"># run</span></span><br><span class="line">docker run --name mysql-mstc -v /root/wanghuan/docker/mysql/data:/data -e MYSQL_ROOT_PASSWORD=123456 -d -i -p 3306:3306 --restart=always  mysql:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 导出sql文件</span></span><br><span class="line">mysqldump -u root -p seumstc &gt; F:/seumstc.sql</span><br><span class="line"><span class="comment"># docker容器内导入sql文件</span></span><br><span class="line"><span class="comment"># 进入docker容器</span></span><br><span class="line">docker <span class="built_in">exec</span> -it mysql-mstc bash</span><br><span class="line"><span class="comment"># 连接mysql</span></span><br><span class="line">mysql -u root -p</span><br><span class="line"><span class="comment"># 新建数据库</span></span><br><span class="line">create database seumstc;</span><br><span class="line">use seumstc;</span><br><span class="line"><span class="comment"># 导入sql文件</span></span><br><span class="line"><span class="built_in">source</span> /data/seumstc.sql;</span><br></pre></td></tr></table></figure>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><blockquote>
+<p><code>new Integer(123)</code> 与 <code>Integer.valueOf(123)</code> 的区别在于</p>
+</blockquote>
+<p><a href="https://stackoverflow.com/questions/9030817/differences-between-new-integer123-integer-valueof123-and-just-123" target="_blank" rel="noopener">参考</a></p>
+<blockquote>
+<p>红黑树与平衡二叉树的区别</p>
+</blockquote>
+<blockquote>
+<p><a href="http://www.ruanyifeng.com/blog/2013/05/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm.html" target="_blank" rel="noopener">子字符串匹配kmp算法</a> </p>
+</blockquote>
+<p><a href="https://leetcode.com/problems/implement-strstr/" target="_blank" rel="noopener">leetcode 28</a></p>
+<p><a href="https://www.zhihu.com/question/21923021" target="_blank" rel="noopener">参考知乎实现</a></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Description</span>: kmp算法查找子字符串在字符串中匹配的位置 leetcode 28https://leetcode.com/problems/implement-strstr/</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Param</span>: [haystack, needle]</span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span>: int</span></span><br><span class="line"><span class="comment">* <span class="doctag">@thorws</span>:</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Author</span>: Mr.Wang</span></span><br><span class="line"><span class="comment">* <span class="doctag">@Date</span>: 2020/2/5</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">strStr</span><span class="params">(String haystack, String needle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(needle==<span class="keyword">null</span>||needle.length()==<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(haystack==<span class="keyword">null</span>||haystack.length()==<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span>[] maxLengthTable=maxLocalMatchLength(needle);</span><br><span class="line">    <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;haystack.length();i++)&#123;</span><br><span class="line">        <span class="keyword">while</span>(count&gt;<span class="number">0</span>&amp;&amp;needle.charAt(count)!=haystack.charAt(i))&#123;</span><br><span class="line">            count=maxLengthTable[count-<span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(needle.charAt(count)==haystack.charAt(i))&#123;</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(count==needle.length())&#123;</span><br><span class="line">            <span class="keyword">return</span> i-count+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span>[] maxLocalMatchLength(String pattern)&#123;</span><br><span class="line">    <span class="keyword">if</span>(pattern==<span class="keyword">null</span>||pattern.length()==<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span>[] maxLengthTable=<span class="keyword">new</span> <span class="keyword">int</span>[pattern.length()];</span><br><span class="line">    <span class="keyword">int</span> maxLength=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;maxLengthTable.length;i++)&#123;</span><br><span class="line">        <span class="keyword">while</span>(maxLength&gt;<span class="number">0</span>&amp;&amp;pattern.charAt(maxLength)!=pattern.charAt(i))&#123;</span><br><span class="line">            maxLength=maxLengthTable[maxLength-<span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(pattern.charAt(maxLength)==pattern.charAt(i))&#123;</span><br><span class="line">            maxLength++;</span><br><span class="line">        &#125;</span><br><span class="line">        maxLengthTable[i]=maxLength;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> maxLengthTable;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>list与set的区别</p>
+</blockquote>
+<p>list与set均继承自Collections接口。</p>
+<p><strong>list：</strong> 有序，可重复，可动态扩展，查找效率高，但插入删除效率低，支持for循环和迭代器。</p>
+<p><strong>set：</strong> 无序，不重复，位置固定，由hashcode决定，加入set的object必须实现equals方法，插入删除效率高，检索效率低下，插入删除不会改变其他元素位置。set只能使用迭代器。</p>
+<blockquote>
+<p>HashSet如何保证元素不重复</p>
+</blockquote>
+<p>HashSet使用add()方法时调用HashMap的add()方法。判断元素是否存在时除了使用hashcode还需要调用equals()方法。HashMap的key是唯一，HashSet加入的Object作为HashMap的key。</p>
+<p>以下是HashSet的部分源码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object PRESENT=<span class="keyword">new</span> Object();</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> HashMap&lt;E,Object&gt; map;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">HashSet</span><span class="params">()</span></span>&#123;</span><br><span class="line">    map=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.put(e,PRESENT)==<span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>HashMap线程不安全</p>
+</blockquote>
+<h2 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h2><h3 id="1-JVM上堆和栈的比较"><a href="#1-JVM上堆和栈的比较" class="headerlink" title="1. JVM上堆和栈的比较"></a>1. JVM上堆和栈的比较</h3><p><a href="https://iamjohnnyzhuang.github.io/java/2016/07/12/Java%E5%A0%86%E5%92%8C%E6%A0%88%E7%9C%8B%E8%BF%99%E7%AF%87%E5%B0%B1%E5%A4%9F.html" target="_blank" rel="noopener">参考文章</a></p>
+<h3 id="2-JVM运行时数据区域"><a href="#2-JVM运行时数据区域" class="headerlink" title="2. JVM运行时数据区域"></a>2. JVM运行时数据区域</h3><blockquote>
+<p>栈区：栈区需要内存连续</p>
+</blockquote>
+<ul>
+<li><p>程序计数器：记录正在执行的虚拟机字节码指令地址(如果是本地方法则为空)</p>
+</li>
+<li><p>Java虚拟机栈：每一个Java方法在执行的同时会创建一个栈帧用于存放<strong>局部变量表、操作数栈、常量池引用</strong>等信息，方法的调用直至执行完成对应着栈帧入栈和出栈过程。</p>
+<ul>
+<li><p>可以通过<code>-Xss</code>这个参数来描述Java虚拟机栈的内存大小，JDK1.4默认256k，而JDK1.5+默认为1M</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">java -Xss2M HackTheJava</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>该区域可能抛出如下异常：</p>
+<ul>
+<li><p>线程请求的栈深度超过最大值，抛出<code>StackOverflowError</code></p>
+</li>
+<li><p>栈进行动态扩展时无法申请到足够内存时，抛出<code>OutOfMemoryError</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>本地方法栈：本地方法栈与 Java 虚拟机栈类似，它们之间的区别只不过是本地方法栈为本地方法服务。</li>
+</ul>
+<p>本地方法一般是用其它语言（C、C++ 或汇编语言等）编写的，并且被编译为基于本机硬件和操作系统的程序，对待这些方法需要特别处理。</p>
+<blockquote>
+<p>堆区：堆区不需要连续的内存，可动态增加内存，增加内存失败会抛出<code>OutOfMemoryError</code></p>
+</blockquote>
+<p>所有的对象都在堆区分配内存，是垃圾收集的主要区域(GC堆)</p>
+<p>现在的垃圾收集器都采用分代收集算法，其主要思想采用不同类型的对象采用不同的垃圾收集算法，可以将堆分成两块：</p>
+<pre><code>+ 新生代
+
++ 老年代</code></pre><p>可以通过 <code>-Xms</code> 和 <code>-Xmx</code> 这两个虚拟机参数来指定一个程序的堆内存大小，第一个参数设置初始值，第二个参数设置最大值。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">java -Xms1M -Xmx2M HackTheJava</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>方法区</p>
+</blockquote>
+<p>用于存放已被加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。</p>
+<p>和<strong>堆一样不需要连续的内存</strong>，并且可以动态扩展，动态扩展失败一样会抛出 <code>OutOfMemoryError</code> 异常。</p>
+<p>对这块区域进行垃圾回收的主要目标是对常量池的回收和对类的卸载，但是一般比较难实现。</p>
+<p>HotSpot虚拟机把它当成永久代来进行垃圾回收。但很难确定永久代的大小，因为它受到很多因素影响，并且每次 Full GC 之后永久代的大小都会改变，所以经常会抛出<code>OutOfMemoryError</code>异常。为了更容易管理方法区，从 JDK 1.8 开始，移除永久代，并把方法区移至元空间(metaspace)，它位于本地内存中，而不是虚拟机内存中。</p>
+<p>方法区是一个JVM规范，永久代与元空间都是其一种实现方式。在 JDK 1.8 之后，原来永久代的数据被分到了堆和元空间中。元空间存储类的元信息，静态变量和常量池等放入堆中。</p>
+<ul>
+<li><p>运行时常量池</p>
+<p><strong>运行时常量池是方法区的一部分</strong>。</p>
+<p>Class 文件中的常量池（编译器生成的字面量和符号引用）会在类加载后被放入这个区域。</p>
+<p>除了在编译期生成的常量，还允许动态生成，例如 String 类的 intern()。</p>
+</li>
+</ul>
+<blockquote>
+<p>直接内存</p>
+</blockquote>
+<p>在 JDK 1.4 中新引入了 NIO 类，它可以使用 Native 函数库直接分配堆外内存，然后通过 Java 堆里的 DirectByteBuffer 对象作为这块内存的引用进行操作。这样能在一些场景中显著提高性能，因为避免了在堆内存和堆外内存来回拷贝数据。</p>
+<h2 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h2><h3 id="1-从输入URL到页面加载的详细过程"><a href="#1-从输入URL到页面加载的详细过程" class="headerlink" title="1. 从输入URL到页面加载的详细过程"></a>1. 从输入URL到页面加载的详细过程</h3><p><a href="https://segmentfault.com/a/1190000006879700" target="_blank" rel="noopener">参考文章</a></p>
+<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="1-Redis是单线程吗？为什么Redis如此之快？"><a href="#1-Redis是单线程吗？为什么Redis如此之快？" class="headerlink" title="1. Redis是单线程吗？为什么Redis如此之快？"></a>1. Redis是单线程吗？为什么Redis如此之快？</h3><p>redis单线程指的是网络请求模块使用了一个线程，即一个线程处理所有网络请求，其他模块仍用了多个线程。</p>
+<p>因为CPU不是Redis的瓶颈。Redis的瓶颈最有可能是机器内存或者网络带宽，既然单线程容易实现，而且CPU不会成为瓶颈，那就顺理成章地采用单线程的方案了。关于redis的性能，官方网站也有，普通笔记本轻松处理每秒几十万的请求。</p>
+<blockquote>
+<p>redis为什么如此之快？</p>
+</blockquote>
+<ul>
+<li><p>完全基于内存，绝大部分请求是纯粹的内存操作，非常快速。数据存在内存中，类似于HashMap，HashMap的优势就是查找和操作的时间复杂度都是O(1)；</p>
+</li>
+<li><p>数据结构简单，对数据操作也简单，Redis中的数据结构是专门进行设计的；</p>
+</li>
+<li><p>采用单线程，避免了不必要的上下文切换和竞争条件，也不存在多进程或者多线程导致的切换而消耗 CPU，不用去考虑各种锁的问题，不存在加锁释放锁操作，没有因为可能出现死锁而导致的性能消耗；</p>
+</li>
+<li><p>使用多路I/O复用模型，非阻塞IO；<a href="https://draveness.me/redis-io-multiplexing" target="_blank" rel="noopener">参考</a></p>
+</li>
+<li><p>使用底层模型不同，它们之间底层实现方式以及与客户端之间通信的应用协议不一样，Redis直接自己构建了VM 机制 ，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求；</p>
+</li>
+</ul>
+<blockquote>
+<p>多路I/O复用模型，非阻塞IO</p>
+</blockquote>
+<p>下面举一个例子，模拟一个tcp服务器处理30个客户socket。<br>假设你是一个监考老师，让30个学生解答一道竞赛考题，然后负责验收学生答卷，你有下面几个选择：</p>
+<p>第一种选择：按顺序逐个验收，先验收A，然后是B，之后是C、D。。。这中间如果有一个学生卡住，全班都会被耽误。<br>这种模式就好比，你用循环挨个处理socket，根本不具有并发能力。</p>
+<p>第二种选择：你创建30个分身，每个分身检查一个学生的答案是否正确。 这种类似于为每一个用户创建一个进程或者线程处理连接。</p>
+<p>第三种选择，你站在讲台上等，谁解答完谁举手。这时C、D举手，表示他们解答问题完毕，你下去依次检查C、D的答案，然后继续回到讲台上等。此时E、A又举手，然后去处理E和A。。。</p>
+<p>这种就是IO复用模型，Linux下的select、poll和epoll就是干这个的。将用户socket对应的fd注册进epoll，然后epoll帮你监听哪些socket上有消息到达，这样就避免了大量的无用操作。此时的socket应该采用非阻塞模式。</p>
+<p>这样，整个过程只在调用select、poll、epoll这些调用的时候才会阻塞，收发客户消息是不会阻塞的，整个进程或者线程就被充分利用起来，这就是事件驱动，所谓的reactor模式。</p>
+<blockquote>
+<p>针对上面距离，在redis中表现为：</p>
+</blockquote>
+<p>有30个redis客户端（考生）与redis服务器的网络连接模块（监考老师）保持TCP连接，客户端会不定时的发送请求给服务器，当有一个redis客户端发起请求，会触发unix系统像epoll这样的系统调用，Redis的I/O 多路复用模块封装了底层的epoll这样的 I/O 多路复用函数，然后转发到相应的事件处理器。</p>
+<p>文件事件处理器使用 I/O 多路复用模块同时监听多个 FD（文件描述符），当 accept、read、write 和 close 文件事件产生时，文件事件处理器就会回调 FD 绑定的事件处理器。</p>
+<p>虽然整个文件事件处理器是在单线程上运行的，但是通过 I/O 多路复用模块的引入，实现了同时对多个 FD 读写的监控，提高了网络通信模型的性能，同时也可以保证整个 Redis 服务实现的简单。</p>
+<h3 id="2-redis可能出现的问题："><a href="#2-redis可能出现的问题：" class="headerlink" title="2. redis可能出现的问题："></a>2. redis可能出现的问题：</h3><ul>
+<li><p>缓存雪崩</p>
+</li>
+<li><p>缓存穿透</p>
+</li>
+<li><p>数据库和缓存双写一致性问题</p>
+</li>
+</ul>
+<h3 id="3-Redis持久化方式有哪些？并比较"><a href="#3-Redis持久化方式有哪些？并比较" class="headerlink" title="3. Redis持久化方式有哪些？并比较"></a>3. Redis持久化方式有哪些？并比较</h3><h3 id="4-Redis过期回收策略和内存淘汰机制"><a href="#4-Redis过期回收策略和内存淘汰机制" class="headerlink" title="4.Redis过期回收策略和内存淘汰机制"></a>4.Redis过期回收策略和内存淘汰机制</h3><h3 id="5-redis主从复制机制"><a href="#5-redis主从复制机制" class="headerlink" title="5.redis主从复制机制"></a>5.redis主从复制机制</h3><blockquote>
+<p>分布式系统的CAP理论</p>
+</blockquote>
+<h3 id="6-redis对事务的支持"><a href="#6-redis对事务的支持" class="headerlink" title="6.redis对事务的支持"></a>6.redis对事务的支持</h3><h3 id="7-redis的哨兵模式"><a href="#7-redis的哨兵模式" class="headerlink" title="7.redis的哨兵模式"></a>7.redis的哨兵模式</h3><h3 id="8-redis实现分布式锁"><a href="#8-redis实现分布式锁" class="headerlink" title="8.redis实现分布式锁"></a>8.redis实现分布式锁</h3><h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><h3 id="1-fast-forward"><a href="#1-fast-forward" class="headerlink" title="1. fast-forward"></a>1. fast-forward</h3><h3 id="2-merge与rebase区别"><a href="#2-merge与rebase区别" class="headerlink" title="2. merge与rebase区别"></a>2. merge与rebase区别</h3>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/Redis/" rel="tag"># Redis</a>
+              <a href="/tags/Mysql/" rel="tag"># Mysql</a>
+              <a href="/tags/Vue/" rel="tag"># Vue</a>
+              <a href="/tags/Springboot/" rel="tag"># Springboot</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/08/bing-fa-rong-qi-zhi-concurrentlinkedqueue/" rel="prev" title="并发容器之ConcurrentLinkedQueue">
+      <i class="fa fa-chevron-left"></i> 并发容器之ConcurrentLinkedQueue
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/02/27/mian-shi-wen-ti-hui-zong/" rel="next" title="面试问题汇总">
+      面试问题汇总 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#学习计划"><span class="nav-number">1.</span> <span class="nav-text">学习计划</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#网站重新部署和优化工作"><span class="nav-number">1.1.</span> <span class="nav-text">网站重新部署和优化工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#redis安装部署备忘"><span class="nav-number">1.1.1.</span> <span class="nav-text">redis安装部署备忘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql安装部署备忘"><span class="nav-number">1.1.2.</span> <span class="nav-text">mysql安装部署备忘</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型"><span class="nav-number">1.2.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM"><span class="nav-number">1.3.</span> <span class="nav-text">JVM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-JVM上堆和栈的比较"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. JVM上堆和栈的比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-JVM运行时数据区域"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. JVM运行时数据区域</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机网络"><span class="nav-number">1.4.</span> <span class="nav-text">计算机网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-从输入URL到页面加载的详细过程"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. 从输入URL到页面加载的详细过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis"><span class="nav-number">1.5.</span> <span class="nav-text">Redis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Redis是单线程吗？为什么Redis如此之快？"><span class="nav-number">1.5.1.</span> <span class="nav-text">1. Redis是单线程吗？为什么Redis如此之快？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-redis可能出现的问题："><span class="nav-number">1.5.2.</span> <span class="nav-text">2. redis可能出现的问题：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Redis持久化方式有哪些？并比较"><span class="nav-number">1.5.3.</span> <span class="nav-text">3. Redis持久化方式有哪些？并比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Redis过期回收策略和内存淘汰机制"><span class="nav-number">1.5.4.</span> <span class="nav-text">4.Redis过期回收策略和内存淘汰机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-redis主从复制机制"><span class="nav-number">1.5.5.</span> <span class="nav-text">5.redis主从复制机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-redis对事务的支持"><span class="nav-number">1.5.6.</span> <span class="nav-text">6.redis对事务的支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-redis的哨兵模式"><span class="nav-number">1.5.7.</span> <span class="nav-text">7.redis的哨兵模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-redis实现分布式锁"><span class="nav-number">1.5.8.</span> <span class="nav-text">8.redis实现分布式锁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git"><span class="nav-number">1.6.</span> <span class="nav-text">git</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-fast-forward"><span class="nav-number">1.6.1.</span> <span class="nav-text">1. fast-forward</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-merge与rebase区别"><span class="nav-number">1.6.2.</span> <span class="nav-text">2. merge与rebase区别</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Wang Huan</p>
+  <div class="site-description" itemprop="description">记录学习心得、读书感受以及一些Java知识。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/njustwh2014" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;njustwh2014" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:seuwh2018@foxmail.com" title="E-Mail → mailto:seuwh2018@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Huan</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">215k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:16</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Fhg8nAsyMme0K6TqY820NK17-gzGzoHsz',
+      appKey     : 'zoqpwVMBfhi2YQ9xf94Jdbf2',
+      placeholder: "欢迎批评指正！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

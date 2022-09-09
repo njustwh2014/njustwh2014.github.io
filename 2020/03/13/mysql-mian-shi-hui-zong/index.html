@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/java.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/java16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"njustwh2014.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"home":"/","about":"/about","tags":"/tags"}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="相关概念理解联合主键和复合主键联合主键体现在多个表上，复合主键体现在一个表中的多个字段 联合主键：">
+<meta name="keywords" content="Java, 中间件, Spring, Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql面试汇总">
+<meta property="og:url" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;03&#x2F;13&#x2F;mysql-mian-shi-hui-zong&#x2F;index.html">
+<meta property="og:site_name" content="Eternal Horizon">
+<meta property="og:description" content="相关概念理解联合主键和复合主键联合主键体现在多个表上，复合主键体现在一个表中的多个字段 联合主键：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;03&#x2F;13&#x2F;mysql-mian-shi-hui-zong&#x2F;GAP.png">
+<meta property="og:updated_time" content="2022-09-09T09:12:32.725Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;njustwh2014.github.io&#x2F;2020&#x2F;03&#x2F;13&#x2F;mysql-mian-shi-hui-zong&#x2F;GAP.png">
+
+<link rel="canonical" href="http://njustwh2014.github.io/2020/03/13/mysql-mian-shi-hui-zong/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Mysql面试汇总 | Eternal Horizon</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Eternal Horizon" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Eternal Horizon</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">30</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">43</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://njustwh2014.github.io/2020/03/13/mysql-mian-shi-hui-zong/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Wang Huan">
+      <meta itemprop="description" content="记录学习心得、读书感受以及一些Java知识。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eternal Horizon">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Mysql面试汇总
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-13 20:59:55" itemprop="dateCreated datePublished" datetime="2020-03-13T20:59:55+08:00">2020-03-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-09 17:12:32" itemprop="dateModified" datetime="2022-09-09T17:12:32+08:00">2022-09-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B1%82%E8%81%8C/" itemprop="url" rel="index"><span itemprop="name">求职</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/03/13/mysql-mian-shi-hui-zong/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/03/13/mysql-mian-shi-hui-zong/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>14k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>13 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="相关概念理解"><a href="#相关概念理解" class="headerlink" title="相关概念理解"></a>相关概念理解</h2><h3 id="联合主键和复合主键"><a href="#联合主键和复合主键" class="headerlink" title="联合主键和复合主键"></a>联合主键和复合主键</h3><p>联合主键体现在多个表上，复合主键体现在一个表中的多个字段</p>
+<p>联合主键：</p>
+<a id="more"></a>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 学生表：student</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> student(</span><br><span class="line"><span class="keyword">id</span> mediumint  auto_increment <span class="keyword">comment</span> <span class="string">'主键id'</span>,</span><br><span class="line"><span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">30</span>) <span class="keyword">comment</span> <span class="string">'姓名'</span>,</span><br><span class="line">age <span class="built_in">smallint</span> <span class="keyword">comment</span> <span class="string">'年龄'</span>,</span><br><span class="line">primary <span class="keyword">key</span>(<span class="keyword">id</span>)</span><br><span class="line">)</span><br><span class="line"><span class="keyword">engine</span> = myisam,</span><br><span class="line"><span class="keyword">charset</span> = utf8,</span><br><span class="line"><span class="keyword">comment</span> = <span class="string">'学生'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 课程表：course</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> course(</span><br><span class="line"><span class="keyword">id</span> mediumint  auto_increment <span class="keyword">comment</span> <span class="string">'主键id'</span>,</span><br><span class="line"><span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">30</span>) <span class="keyword">comment</span> <span class="string">'课程名称'</span>,</span><br><span class="line">primary <span class="keyword">key</span>(<span class="keyword">id</span>)</span><br><span class="line">)</span><br><span class="line"><span class="keyword">engine</span> = myisam,</span><br><span class="line"><span class="keyword">charset</span> = utf8,</span><br><span class="line"><span class="keyword">comment</span> = <span class="string">'课程'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 学生课程表：stu_cour</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> stu_cour(</span><br><span class="line"><span class="keyword">id</span> mediumint  auto_increment <span class="keyword">comment</span> <span class="string">'主键id'</span>,</span><br><span class="line">stu_id mediumint <span class="keyword">comment</span> <span class="string">'学生表id'</span>,</span><br><span class="line">cour_id mediumint <span class="keyword">comment</span> <span class="string">'课程表id'</span>,</span><br><span class="line">primary <span class="keyword">key</span>(<span class="keyword">id</span>)</span><br><span class="line">)</span><br><span class="line"><span class="keyword">engine</span> = myisam,</span><br><span class="line"><span class="keyword">charset</span> = utf8,</span><br><span class="line"><span class="keyword">comment</span> = <span class="string">'学生课程表'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 此时stu_cour中id就表示联合主键，通过id可以获取学生和课程的一条记录</span></span><br></pre></td></tr></table></figure>
+<p>复合主键：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> student(</span><br><span class="line"><span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">30</span>) <span class="keyword">comment</span> <span class="string">'姓名'</span>,</span><br><span class="line">age <span class="built_in">smallint</span> <span class="keyword">comment</span> <span class="string">'年龄'</span>,</span><br><span class="line">sex enum(<span class="string">'男'</span>,<span class="string">'女'</span>) <span class="keyword">comment</span> <span class="string">'性别'</span>,</span><br><span class="line">primary <span class="keyword">key</span>(<span class="keyword">name</span>,age)</span><br><span class="line">)</span><br><span class="line"><span class="keyword">engine</span> = myisam,</span><br><span class="line"><span class="keyword">charset</span> = utf8,</span><br><span class="line"><span class="keyword">comment</span> = <span class="string">'学生'</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="数据库三大范式"><a href="#数据库三大范式" class="headerlink" title="数据库三大范式"></a>数据库三大范式</h2><p>一般地，在进行数据库设计时，应遵循三大原则，也就是我们通常说的三大范式：</p>
+<ul>
+<li><p>第一范式要求确保表中每列的原子性，也就是不可拆分；</p>
+</li>
+<li><p>第二范式要求确保表中每列与主键相关，而不能只与主键的某部分相关（主要针对联合主键[什么是联合主键]），主键列与非主键列遵循完全函数依赖关系，也就是完全依赖；</p>
+</li>
+<li><p>第三范式确保主键列之间没有传递函数依赖关系，也就是消除传递依赖。</p>
+<p>实体中的属性不能是其他实体中的非主属性。因为这样会出现冗余。即：属性不依赖于其他非主属性。</p>
+<p>如果一个实体中出现其他实体的非主属性，可以将这两个实体用外键关联，而不是将另一张表的非主属性直接写在当前表中。</p>
+<p>第三范式需要确保数据表中的每一列数据都和主键直接相关，而不能间接相关。</p>
+<p>比如在设计一个订单数据表的时候，可以将客户编号作为一个外键和订单表建立相应的关系。而不可以在订单表中添加关于客户其它信息（比如姓名、所属公司等）的字段。</p>
+</li>
+</ul>
+<h2 id="Mysql索引"><a href="#Mysql索引" class="headerlink" title="Mysql索引"></a>Mysql索引</h2><h3 id="Mysql索引目的"><a href="#Mysql索引目的" class="headerlink" title="Mysql索引目的"></a>Mysql索引目的</h3><p>索引的目的在于<strong>提高查询效率</strong>，可以类比字典，如果要查“mysql”这个单词，我们肯定需要定位到m字母，然后从下往下找到y字母，再找到剩下的sql。如果没有索引，那么你可能需要把所有单词看一遍才能找到你想要的，如果我想找到m开头的单词呢？或者ze开头的单词呢？是不是觉得如果没有索引，这个事情根本无法完成？</p>
+<h3 id="索引有哪几种"><a href="#索引有哪几种" class="headerlink" title="索引有哪几种"></a>索引有哪几种</h3><ul>
+<li>hash：可以快速精确查询，但不能范围查询</li>
+<li>平衡二叉树：完全平衡二叉树是有序的，所以也是支持范围查找的。</li>
+<li>B树：一个节点可以存储多个元素，相对于完全平衡二叉树所以整棵树的高度就降低了，磁盘IO效率提高了。</li>
+<li>B+树：</li>
+</ul>
+<h3 id="“为什么底层数据结构使用B-树，而不是B树？”"><a href="#“为什么底层数据结构使用B-树，而不是B树？”" class="headerlink" title="“为什么底层数据结构使用B+树，而不是B树？”"></a>“为什么底层数据结构使用B+树，而不是B树？”</h3><ul>
+<li>B-树（B类树）的特定就是每层节点数目非常多，层数很少，目的就是为了就少磁盘IO次数，当查询数据的时候，最好的情况就是很快找到目标索引，然后读取数据，使用B+树就能很好的完成这个目的，但是B-树的每个节点都有data域（指针），这无疑增大了节点大小，说白了增加了磁盘IO次数（<strong>磁盘IO一次读出的数据量大小是固定的，单个数据变大，每次读出的就少，IO次数增多，一次IO多耗时啊！</strong>），而B+树除了叶子节点其它节点并不存储数据，节点小，磁盘IO次数就少。这是优点之一。</li>
+<li>B+树所有的Data域在叶子节点，一般来说都会进行一个优化，就是将所有的叶子节点用指针串起来。这样遍历叶子节点就能获得全部数据，这样就能进行区间访问啦。</li>
+</ul>
+<p><strong>数据库索引采用B+树的主要原因是 B树在提高了磁盘IO性能的同时并没有解决元素遍历的效率低下的问题。正是为了解决这个问题，B+树应运而生。B+树只要遍历叶子节点就可以实现整棵树的遍历。而且在数据库中基于范围的查询是非常频繁的，而B树不支持这样的操作（或者说效率太低）</strong></p>
+<h3 id="聚簇索引与非聚簇索引"><a href="#聚簇索引与非聚簇索引" class="headerlink" title="聚簇索引与非聚簇索引"></a>聚簇索引与非聚簇索引</h3><p><a href="https://www.jianshu.com/p/54c6d5db4fe6" target="_blank" rel="noopener"><strong>参考文章</strong></a></p>
+<p>聚簇索引也称为主键索引，其索引树的叶子节点中存的是整行数据，表中行的物理顺序与键值的逻辑（索引）顺序相同。一个表只能包含一个聚集索引。因为索引（目录）只能按照一种方法进行排序。</p>
+<p>非聚簇索引（普通索引）的叶子节点内容是主键的值。在InnoDB里，非主键索引也被称为二级索引（secondary index）。</p>
+<blockquote>
+<p>MySQL回表：</p>
+</blockquote>
+<ul>
+<li>如果语句是 <code>select * from User where id=3</code>，即主键查询方式，则只需要搜索 主键索引树。</li>
+<li>如果语句是 <code>select * from User where uid=23</code>，即普通索引查询方式，则需要先搜索 普通索引树，得到其对应的主键值为 3，再到主键索引树搜索一次。这个过程称为回表。</li>
+</ul>
+<p>聚集索引与非聚集索引的区别是：叶节点是否存放一整行记录</p>
+<p>InnoDB 主键使用的是聚簇索引，MyISAM 不管是主键索引，还是二级索引使用的都是非聚簇索引。</p>
+<ul>
+<li>1.对于<strong>非聚簇索引</strong>表来说，表数据和索引是分成两部分存储的，主键索引和二级索引存储上没有任何区别。使用的是B+树作为索引的存储结构，所有的节点都是索引，叶子节点存储的是索引+索引对应的记录的数据。</li>
+<li>2.对于<strong>聚簇索引</strong>表来说，表数据是和主键一起存储的，<strong>主键索引的叶结点存储行数据(包含了主键值)，二级索引的叶结点存储行的主键值</strong>。使用的是B+树作为索引的存储结构，非叶子节点都是索引关键字，但非叶子节点中的关键字中不存储对应记录的具体内容或内容地址。叶子节点上的数据是主键与具体记录(数据内容)。</li>
+</ul>
+<p><strong>聚簇索引的优点</strong></p>
+<ul>
+<li>1.当你需要取出一定范围内的数据时，用聚簇索引也比用非聚簇索引好。</li>
+<li>2.当通过聚簇索引查找目标数据时理论上比非聚簇索引要快，因为非聚簇索引定位到对应主键时还要多一次目标记录寻址,即多一次I/O。</li>
+<li>3.使用覆盖索引扫描的查询可以直接使用页节点中的主键值。</li>
+</ul>
+<p><strong>聚簇索引的缺点</strong></p>
+<ul>
+<li>1.插入速度严重依赖于插入顺序，按照主键的顺序插入是最快的方式，否则将会出现页分裂，严重影响性能。因此，对于InnoDB表，我们一般都会定义一个自增的ID列为主键。</li>
+<li>2.更新主键的代价很高，因为将会导致被更新的行移动。因此，对于InnoDB表，我们一般定义主键为不可更新。</li>
+<li>3.二级索引访问需要两次索引查找，第一次找到主键值，第二次根据主键值找到行数据。二级索引的叶节点存储的是主键值，而不是行指针（非聚簇索引存储的是指针或者说是地址），这是为了减少当出现行移动或数据页分裂时二级索引的维护工作，但会让二级索引占用更多的空间。</li>
+<li>4.采用聚簇索引插入新值比采用非聚簇索引插入新值的速度要慢很多，因为插入要保证主键不能重复，判断主键不能重复，采用的方式在不同的索引下面会有很大的性能差距，聚簇索引遍历所有的叶子节点，非聚簇索引也判断所有的叶子节点，但是聚簇索引的叶子节点除了带有主键还有记录值，记录的大小往往比主键要大的多。这样就会导致聚簇索引在判定新记录携带的主键是否重复时进行昂贵的I/O代价。</li>
+</ul>
+<h3 id="索引的底层实现-B-树和红黑树、B树比较"><a href="#索引的底层实现-B-树和红黑树、B树比较" class="headerlink" title="索引的底层实现 B+树和红黑树、B树比较"></a>索引的底层实现 B+树和红黑树、B树比较</h3><h3 id="索引失效"><a href="#索引失效" class="headerlink" title="索引失效"></a>索引失效</h3><h4 id="1-索引不存储null值"><a href="#1-索引不存储null值" class="headerlink" title="1.索引不存储null值"></a>1.索引不存储null值</h4><p>更准确的说，单列索引不存储null值，复合索引不存储全为null的值。索引不能存储Null，所以对这列采用is null条件时，因为索引上根本</p>
+<p>没Null值，不能利用到索引，只能全表扫描。</p>
+<p>为什么索引列不能存Null值？</p>
+<p>将索引列值进行建树，其中必然涉及到诸多的比较操作。Null值的特殊性就在于参与的运算大多取值为null。</p>
+<p>这样的话，null值实际上是不能参与进建索引的过程。也就是说，null值不会像其他取值一样出现在索引树的叶子节点上。</p>
+<h4 id="2-不适合键值较少的列（重复数据较多的列）"><a href="#2-不适合键值较少的列（重复数据较多的列）" class="headerlink" title="2.不适合键值较少的列（重复数据较多的列）"></a>2.不适合键值较少的列（重复数据较多的列）</h4><p>假如索引列TYPE有5个键值，如果有1万条数据，那么 WHERE TYPE = 1将访问表中的2000个数据块。</p>
+<p>再加上访问索引块，一共要访问大于2000个的数据块。</p>
+<p>如果全表扫描，假设10条数据一个数据块，那么只需访问1000个数据块，既然全表扫描访问的数据块</p>
+<p>少一些，肯定就不会利用索引了。</p>
+<h4 id="3-前导模糊查询不能利用索引-like-‘-XX’或者like-‘-XX-’"><a href="#3-前导模糊查询不能利用索引-like-‘-XX’或者like-‘-XX-’" class="headerlink" title="3.前导模糊查询不能利用索引(like ‘%XX’或者like ‘%XX%’)"></a>3.前导模糊查询不能利用索引(like ‘%XX’或者like ‘%XX%’)</h4><p>假如有这样一列code的值为’AAA’,’AAB’,’BAA’,’BAB’ ,如果where code like ‘%AB’条件，由于前面是模糊的，所以不能利用索引的顺序，必须一个个去找，看是否满足条件。这样会导致全索引扫描或者全表扫描。如果是这样的条件where code like ‘A % ‘，就可以查找CODE中A开头的CODE的位置，当碰到B开头的数据时，就可以停止查找了，因为后面的数据一定不满足要求。这样就可以利用索引了。</p>
+<h4 id="4-索引失效的几种情况"><a href="#4-索引失效的几种情况" class="headerlink" title="4.索引失效的几种情况"></a>4.索引失效的几种情况</h4><ul>
+<li>1.如果条件中有or，即使其中有条件带索引也不会使用(这也是为什么尽量少用or的原因)<br>要想使用or，又想让索引生效，只能将or条件中的每个列都加上索引</li>
+<li>2.对于多列索引，不是使用的第一部分，则不会使用索引</li>
+<li>3.like查询以%开头</li>
+<li>4.如果列类型是字符串，那一定要在条件中将数据使用引号引用起来,否则不使用索引</li>
+<li>5.如果mysql估计使用全表扫描要比使用索引快,则不使用索引</li>
+</ul>
+<h4 id="5-MySQL主要提供2种方式的索引：B-Tree索引，Hash索引"><a href="#5-MySQL主要提供2种方式的索引：B-Tree索引，Hash索引" class="headerlink" title="5.MySQL主要提供2种方式的索引：B-Tree索引，Hash索引"></a>5.MySQL主要提供2种方式的索引：B-Tree索引，Hash索引</h4><p>B树索引具有范围查找和前缀查找的能力，对于有N节点的B树，检索一条记录的复杂度为O(LogN)。相当于二分查找。</p>
+<p>哈希索引只能做等于查找，但是无论多大的Hash表，查找复杂度都是O(1)。</p>
+<p>显然，如果值的差异性大，并且以等值查找（=、 &lt;、&gt;、in）为主，Hash索引是更高效的选择，它有O(1)的查找复杂度。</p>
+<p>如果值的差异性相对较差，并且以范围查找为主，B树是更好的选择，它支持范围查找。</p>
+<p>此外，查看索引的使用情况</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">status</span> <span class="keyword">like</span> ‘Handler_read%<span class="string">';</span></span><br></pre></td></tr></table></figure>
+<p>大家可以注意：</p>
+<ul>
+<li>handler_read_key:这个值越高越好，越高表示使用索引查询到的次数</li>
+<li>handler_read_rnd_next:这个值越高，说明查询低效</li>
+</ul>
+<h3 id="建索引的几大原则"><a href="#建索引的几大原则" class="headerlink" title="建索引的几大原则"></a>建索引的几大原则</h3><ul>
+<li>1.最左前缀匹配原则，非常重要的原则，mysql会一直向右匹配直到遇到范围查询(&gt;、&lt;、between、like)就停止匹配，比如a = 1 and b = 2 and c &gt; 3 and d = 4 如果建立(a,b,c,d)顺序的索引，d是用不到索引的，如果建立(a,b,d,c)的索引则都可以用到，a,b,d的顺序可以任意调整。</li>
+<li>2.=和in可以乱序，比如a = 1 and b = 2 and c = 3 建立(a,b,c)索引可以任意顺序，mysql的查询优化器会帮你优化成索引可以识别的形式。</li>
+<li>3.尽量选择区分度高的列作为索引，区分度的公式是count(distinct col)/count(*)，表示字段不重复的比例，比例越大我们扫描的记录数越少，唯一键的区分度是1，而一些状态、性别字段可能在大数据面前区分度就是0，那可能有人会问，这个比例有什么经验值吗？使用场景不同，这个值也很难确定，一般需要join的字段我们都要求是0.1以上，即平均1条扫描10条记录。</li>
+<li>4.索引列不能参与计算，保持列“干净”，比如from_unixtime(create_time) = ’2014-05-29’就不能使用到索引，原因很简单，b+树中存的都是数据表中的字段值，但进行检索时，需要把所有元素都应用函数才能比较，显然成本太大。所以语句应该写成create_time = unix_timestamp(’2014-05-29’)。</li>
+<li>5.尽量的扩展索引，不要新建索引。比如表中已经有a的索引，现在要加(a,b)的索引，那么只需要修改原来的索引即可。</li>
+</ul>
+<h3 id="索引优化策略"><a href="#索引优化策略" class="headerlink" title="索引优化策略"></a>索引优化策略</h3><h3 id="explain慢查询优化"><a href="#explain慢查询优化" class="headerlink" title="explain慢查询优化"></a><code>explain</code>慢查询优化</h3><p>步骤：</p>
+<ul>
+<li>0.先运行看看是否真的很慢，注意设置SQL_NO_CACHE</li>
+<li>1.where条件单表查，锁定最小返回记录表。这句话的意思是把查询语句的where都应用到表中返回的记录数最小的表开始查起，单表每个字段分别查询，看哪个字段的区分度最高</li>
+<li>2.explain查看执行计划，是否与1预期一致（从锁定记录较少的表开始查询）</li>
+<li>3.order by limit 形式的sql语句让排序的表优先查</li>
+<li>4.了解业务方使用场景</li>
+<li>5.加索引时参照建索引的几大原则</li>
+<li>6.观察结果，不符合预期继续从0分析</li>
+</ul>
+<h2 id="Mysql事务"><a href="#Mysql事务" class="headerlink" title="Mysql事务"></a>Mysql事务</h2><h3 id="事务特性-ACID-及其实现"><a href="#事务特性-ACID-及其实现" class="headerlink" title="事务特性(ACID)及其实现"></a>事务特性(ACID)及其实现</h3><p><a href="https://www.cnblogs.com/kismetv/p/10331633.html" target="_blank" rel="noopener">参考</a></p>
+<ul>
+<li>原子性（atomicity，或稱不可分割性）</li>
+<li>一致性（consistency）</li>
+<li>隔离性（isolation，又称独立性）</li>
+<li>持久性（durability）</li>
+</ul>
+<p>按照严格的标准，只有同时<strong>满足ACID特性才是事务</strong>；但是在各大数据库厂商的实现中，真正满足ACID的事务少之又少。例如MySQL的NDB Cluster事务不满足持久性和隔离性；<strong>InnoDB默认事务隔离级别是可重复读，不满足隔离性；</strong>Oracle默认的事务隔离级别为READ COMMITTED，不满足隔离性……因此与其说ACID是事务必须满足的条件，不如说它们是衡量事务的四个维度。</p>
+<h3 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a><strong>定义</strong></h4><p>原子性是指一个事务是一个不可分割的工作单位，其中的操作要么都做，要么都不做；如果事务中一个sql语句执行失败，则已执行的语句也必须回滚，数据库退回到事务前的状态。</p>
+<h4 id="实现原理：undo-log"><a href="#实现原理：undo-log" class="headerlink" title="实现原理：undo log"></a>实现原理：undo log</h4><p>在说明原子性原理之前，首先介绍一下MySQL的事务日志。<strong>MySQL的日志有很多种，如二进制日志、错误日志、查询日志、慢查询日志等，此外InnoDB存储引擎还提供了两种事务日志：redo log(重做日志)和undo log(回滚日志)。其中redo log用于保证事务持久性；undo log则是事务原子性和隔离性实现的基础。</strong></p>
+<p>下面说回undo log。实现原子性的关键，是当事务回滚时能够撤销所有已经成功执行的sql语句。<strong>InnoDB实现回滚，靠的是undo log：</strong>当事务对数据库进行修改时，InnoDB会生成对应的undo log；如果事务执行失败或调用了rollback，导致事务需要回滚，便可以利用undo log中的信息将数据回滚到修改之前的样子。</p>
+<p><strong>undo log属于逻辑日志，它记录的是sql执行相关的信息。当发生回滚时，InnoDB会根据undo log的内容做与之前相反的工作：对于每个insert，回滚时会执行delete；对于每个delete，回滚时会执行insert；对于每个update，回滚时会执行一个相反的update，把数据改回去。</strong></p>
+<p>以update操作为例：当事务执行update时，其生成的undo log中会包含被修改行的主键(以便知道修改了哪些行)、修改了哪些列、这些列在修改前后的值等信息，回滚时便可以使用这些信息将数据还原到update之前的状态。</p>
+<h3 id="持久性"><a href="#持久性" class="headerlink" title="持久性"></a>持久性</h3><h4 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h4><p>持久性是指事务一旦提交，它对数据库的改变就应该是永久性的。接下来的其他操作或故障不应该对其有任何影响。</p>
+<h4 id="实现原理：redo-log"><a href="#实现原理：redo-log" class="headerlink" title="实现原理：redo log"></a>实现原理：redo log</h4><p>redo log和undo log都属于InnoDB的事务日志。下面先聊一下redo log存在的背景。</p>
+<p><strong>InnoDB作为MySQL的存储引擎，数据是存放在磁盘中的，但如果每次读写数据都需要磁盘IO，效率会很低。</strong>为此，InnoDB提供了缓存(Buffer Pool)，Buffer Pool中包含了磁盘中部分数据页的映射，作为访问数据库的缓冲：当从数据库读取数据时，会首先从Buffer Pool中读取，如果Buffer Pool中没有，则从磁盘读取后放入Buffer Pool；当向数据库写入数据时，会首先写入Buffer Pool，Buffer Pool中修改的数据会定期刷新到磁盘中（这一过程称为<strong>刷脏</strong>）。</p>
+<p><strong>Buffer Pool的使用大大提高了读写数据的效率，但是也带了新的问题：如果MySQL宕机，而此时Buffer Pool中修改的数据还没有刷新到磁盘，就会导致数据的丢失，事务的持久性无法保证。</strong></p>
+<p>于是，<strong>redo log被引入来解决这个问题：当数据修改时，除了修改Buffer Pool中的数据，还会在redo log记录这次操作；</strong>当事务提交时，会调用fsync接口对redo log进行刷盘。如果MySQL宕机，重启时可以读取redo log中的数据，对数据库进行恢复。redo log采用的是WAL（Write-ahead logging，预写式日志），<strong>所有修改先写入日志，再更新到Buffer Pool</strong>，保证了数据不会因MySQL宕机而丢失，从而满足了持久性要求。</p>
+<p><strong>既然redo log也需要在事务提交时将日志写入磁盘，为什么它比直接将Buffer Pool中修改的数据写入磁盘(即刷脏)要快呢？主要有以下两方面的原因：</strong></p>
+<ul>
+<li>（1）刷脏是随机IO，因为每次修改的数据位置随机，但写redo log是追加操作，属于顺序IO。</li>
+<li>（2）刷脏是以数据页（Page）为单位的，MySQL默认页大小是16KB，一个Page上一个小修改都要整页写入；而redo log中只包含真正需要写入的部分，无效IO大大减少。</li>
+</ul>
+<h4 id="redo-log与binlog"><a href="#redo-log与binlog" class="headerlink" title="redo log与binlog"></a>redo log与binlog</h4><p>我们知道，在MySQL中还存在binlog(二进制日志)也可以记录写操作并用于数据的恢复，但二者是有着根本的不同的：</p>
+<ul>
+<li><p>（1）作用不同：redo log是用于crash recovery的，保证MySQL宕机也不会影响持久性；binlog是用于point-in-time recovery的，保证服务器可以基于时间点恢复数据，此外binlog还用于主从复制。</p>
+</li>
+<li><p>（2）层次不同：<strong>redo log是InnoDB存储引擎实现的</strong>，而<strong>binlog是MySQL的服务器层实现的</strong>，同时支持InnoDB和其他存储引擎。</p>
+</li>
+<li><p>（3）内容不同：redo log是物理日志，内容基于磁盘的Page；binlog的内容是二进制的，根据binlog_format参数的不同，可能基于sql语句、基于数据本身或者二者的混合。</p>
+</li>
+<li><p>（4）写入时机不同：binlog在事务提交时写入；redo log的写入时机相对多元：<br>前面曾提到：当事务提交时会调用fsync对redo log进行刷盘；这是默认情况下的策略，修改innodb_flush_log_at_trx_commit参数可以改变该策略，但事务的持久性将无法保证。</p>
+<p>除了事务提交时，还有其他刷盘时机：如master thread每秒刷盘一次redo log等，这样的好处是不一定要等到commit时刷盘，commit速度大大加快。</p>
+</li>
+</ul>
+<h3 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h3><p><strong>乐观锁在数据库中就是MVCC，悲观锁就是行锁和表锁。</strong></p>
+<h4 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h4><p><strong>与原子性、持久性侧重于研究事务本身不同，隔离性研究的是不同事务之间的相互影响</strong>。<strong>隔离性是指，事务内部的操作与其他事务是隔离的，并发执行的各个事务之间不能互相干扰</strong>。严格的隔离性，对应了事务隔离级别中的Serializable (可串行化)，但实际应用中出于性能方面的考虑很少会使用可串行化。</p>
+<p>隔离性追求的是并发情形下事务之间互不干扰。简单起见，我们仅考虑最简单的读操作和写操作(暂时不考虑带锁读等特殊操作)，那么隔离性的探讨，主要可以分为两个方面：</p>
+<ul>
+<li>(一个事务)写操作对(另一个事务)写操作的影响：锁机制保证隔离性</li>
+<li>(一个事务)写操作对(另一个事务)读操作的影响：MVCC保证隔离性</li>
+</ul>
+<h4 id="事务的隔离级别-读未提交、读已提交、重复读、序列化"><a href="#事务的隔离级别-读未提交、读已提交、重复读、序列化" class="headerlink" title="事务的隔离级别(读未提交、读已提交、重复读、序列化)"></a>事务的隔离级别(读未提交、读已提交、重复读、序列化)</h4><p><a href="https://blog.csdn.net/JIESA/article/details/51317164" target="_blank" rel="noopener">参考文章</a></p>
+<ul>
+<li>读未提交：可以读到另外事务未提交的写，会造成脏读</li>
+<li>读已提交：可以读到另外事务已提交的写，但可能造成不可重复读</li>
+<li>重复读：在事务写的时候，别的事务不可写。可能造成幻读。Mysql默认隔离级别，通过Next-Key锁(行锁与GAP锁结合)解决幻读</li>
+<li>序列化：事务顺序执行，不仅可以避免脏读、不可重复读，还避免了幻像读，通过加X锁，开销太大。(<a href="https://blog.csdn.net/yuwei19840916/article/details/3245107" target="_blank" rel="noopener">X锁-排他锁，S锁-共享锁</a>)</li>
+</ul>
+<h4 id="通过锁的方式实现隔离性"><a href="#通过锁的方式实现隔离性" class="headerlink" title="通过锁的方式实现隔离性"></a>通过锁的方式实现隔离性</h4><ul>
+<li><p>读写锁：<br>读写锁的概念很平常，当你在读取数据的时候，应该先加读锁，读取完之后的某个时间再解开读锁，那么加了读锁的数据，应该需要有什么特性呢，应该只能读，不能写，因为加了读锁，说明有事务准备读取这个数据，如果被别的事务重写这个事务，那数据就不准确了。所以一个事务给这个数据加了读锁，别的事务也可以对这个数据加读锁，因为大家都是只读不写。</p>
+<p><strong>写锁则具有排他性</strong>（exclusive lock），当一个事务准备对一个数据进行写操作的时候，先要对数据加写锁，那么数据就是可变的，这时候，其他事务就无法对这个数据加读锁了，除非这个写锁释放。</p>
+</li>
+<li><p>两端式提交锁（Two-phase locking）<br>两段式提交分为两步：</p>
+<ul>
+<li>加锁阶段：在该阶段可以进行加锁操作。在对任何数据进行读操作之前要申请并获得S锁（共享锁，其它事务可以继续加共享锁，但不能加排它锁），在进行写操作之前要申请并获得X锁（排它锁，其它事务不能再获得任何锁）。加锁不成功，则事务进入等待状态，直到加锁成功才继续执行。</li>
+<li>解锁阶段：当事务释放了一个封锁以后，事务进入解锁阶段，在该阶段只能进行解锁操作不能再进行加锁操作。</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>事务</th>
+<th>加锁/解锁处理</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>begin;</td>
+<td></td>
+</tr>
+<tr>
+<td>insert into test…</td>
+<td>加insert对应的锁</td>
+</tr>
+<tr>
+<td>update test set…</td>
+<td>加update对应的锁</td>
+</tr>
+<tr>
+<td>delete from test…</td>
+<td>加delete对应的锁</td>
+</tr>
+<tr>
+<td>commit;</td>
+<td>事务提交时，同时释放insert、update、delete对应的锁</td>
+</tr>
+</tbody></table>
+<h4 id="MVCC在MySQL的InnoDB中的实现"><a href="#MVCC在MySQL的InnoDB中的实现" class="headerlink" title="MVCC在MySQL的InnoDB中的实现"></a>MVCC在MySQL的InnoDB中的实现</h4><p><a href="https://www.jianshu.com/p/f692d4f8a53e" target="_blank" rel="noopener">参考文章</a></p>
+<ul>
+<li>数据行版本号</li>
+<li>删除版本号</li>
+</ul>
+<p>在InnoDB中，会在每行数据后添加两个额外的隐藏的值来实现MVCC，这两个值<strong>一个记录这行数据何时被创建，另外一个记录这行数据何时过期（或者被删除）</strong>。 在实际操作中，存储的并不是时间，而是事务的版本号，每开启一个新事务，事务的版本号就会递增。 在可重读Repeatable reads事务隔离级别下：</p>
+<ul>
+<li>SELECT时，读取创建版本号&lt;=当前事务版本号，删除版本号为空或&gt;当前事务版本号。</li>
+<li>INSERT时，保存当前事务版本号为行的创建版本号</li>
+<li>DELETE时，保存当前事务版本号为行的删除版本号</li>
+<li>UPDATE时，插入一条新纪录，保存当前事务版本号为行创建版本号，同时保存当前事务版本号到原来删除的行</li>
+</ul>
+<p>通过MVCC，虽然每行记录都需要额外的存储空间，更多的行检查工作以及一些额外的维护工作，但可以减少锁的使用，大多数读操作都不用加锁，读数据操作很简单，性能很好，并且也能保证只会读取到符合标准的行，也只锁住必要行。</p>
+<h4 id="Innodb的RR级别如何解决幻读问题"><a href="#Innodb的RR级别如何解决幻读问题" class="headerlink" title="Innodb的RR级别如何解决幻读问题"></a>Innodb的RR级别如何解决幻读问题</h4><p><a href="https://tech.meituan.com/2014/08/20/innodb-lock.html" target="_blank" rel="noopener">参考</a></p>
+<p>在RC级别中，事务A修改了所有teacher_id=30的数据，但是当事务B insert进新数据后，事务A发现莫名其妙多了一行teacher_id=30的数据，而且没有被之前的update语句所修改，这就是“当前读”的幻读。</p>
+<p>RR级别中，事务A在update后加锁，事务B无法插入新数据，这样事务A在update前后读的数据保持一致，避免了幻读。这个锁，就是<strong>Gap锁。</strong></p>
+<p>MySQL是这么实现的：</p>
+<p>在class_teacher这张表中，teacher_id是个索引，那么它就会维护一套B+树的数据关系，为了简化，我们用链表结构来表达（实际上是个树形结构，但原理相同）</p>
+<p><img src="/2020/03/13/mysql-mian-shi-hui-zong/GAP.png" alt></p>
+<p>如果使用的是没有索引的字段，比如<code>update class_teacher set teacher_id=7 where class_name=‘初三八班（即使没有匹配到任何数据）’</code>,那么会给全表加入gap锁。同时，它不能像上文中行锁一样经过MySQL Server过滤自动解除不满足条件的锁，因为没有索引，则这些字段也就没有排序，也就没有区间。除非该事务提交，否则其它事务无法插入任何数据。</p>
+<p><strong>行锁防止别的事务修改或删除，GAP锁防止别的事务新增，行锁和GAP锁结合形成的的Next-Key锁共同解决了RR级别在写数据时的幻读问题。</strong></p>
+<h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><p>一致性是指事务执行结束后，数据库的完整性约束没有被破坏，事务执行的前后都是合法的数据状态。数据库的完整性约束包括但不限于：实体完整性（如行的主键存在且唯一）、列完整性（如字段的类型、大小、长度要符合要求）、外键约束、用户自定义完整性（如转账前后，两个账户余额的和应该不变）。</p>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>可以说，一致性是事务追求的最终目标：前面提到的原子性、持久性和隔离性，都是为了保证数据库状态的一致性。此外，除了数据库层面的保障，一致性的实现也需要应用层面进行保障。</p>
+<p>实现一致性的措施包括：</p>
+<p>保证原子性、持久性和隔离性，如果这些特性无法保证，事务的一致性也无法保证<br>数据库本身提供保障，例如不允许向整形列插入字符串值、字符串长度不能超过列的限制等<br>应用层面进行保障，例如如果转账操作只扣除转账者的余额，而没有增加接收者的余额，无论数据库实现的多么完美，也无法保证状态的一致</p>
+<p><a href="https://www.cnblogs.com/kismetv/p/10331633.html" target="_blank" rel="noopener">https://www.cnblogs.com/kismetv/p/10331633.html</a></p>
+<h3 id="事务的隔离级别分别解决哪些问题-脏读、不可重复读、幻读丢失修改"><a href="#事务的隔离级别分别解决哪些问题-脏读、不可重复读、幻读丢失修改" class="headerlink" title="事务的隔离级别分别解决哪些问题(脏读、不可重复读、幻读丢失修改)"></a>事务的隔离级别分别解决哪些问题(脏读、不可重复读、幻读丢失修改)</h3><table>
+<thead>
+<tr>
+<th>隔离级别</th>
+<th>脏读</th>
+<th>不可重复读</th>
+<th>幻读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RU读为提交</td>
+<td>可能</td>
+<td>可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>RC读已提交</td>
+<td>不可能</td>
+<td>可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>RR可重复读</td>
+<td>不可能</td>
+<td>不可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>序列化</td>
+<td>不可能</td>
+<td>不可能</td>
+<td>不可能</td>
+</tr>
+</tbody></table>
+<p>Innodb在RR级别解决幻读采用Next-Key锁(GAP锁和行锁)方法</p>
+<h3 id="事务的回滚-undo、redo日志"><a href="#事务的回滚-undo、redo日志" class="headerlink" title="事务的回滚(undo、redo日志)"></a>事务的回滚(undo、redo日志)</h3><p><a href="https://blog.csdn.net/u012732259/article/details/39524405" target="_blank" rel="noopener">MYSQL 之DDL、DML、DCL、TCL的区别</a></p>
+<ul>
+<li>DDL:操作表结构的命令 如: CREATE、ALTER、DROP</li>
+<li>DML：操作数据的命令 如select update delete insert</li>
+</ul>
+<p>事务的回滚适用于DML，不适用于DDL</p>
+<p>那么DDL事务回滚</p>
+<p>先DCL 再 DDL 最后将DML放入事务中</p>
+<h2 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h2><h3 id="MyISAM与InnoDB的区别"><a href="#MyISAM与InnoDB的区别" class="headerlink" title="MyISAM与InnoDB的区别"></a>MyISAM与InnoDB的区别</h3><p>两种类型最主要的差别就是<strong>Innodb支持事务处理与外键和行级锁</strong>。而MyISAM不支持.所以MyISAM往往就容易被人认为只适合在小项目中使用。<strong>MyISAM类型的表强调的是性能，其执行数度比InnoDB类型更快</strong>。</p>
+<p>以下是一些细节和具体实现的差别：</p>
+<ul>
+<li>1.InnoDB不支持FULLTEXT类型的索引。</li>
+<li>2.InnoDB中不保存表的具体行数，也就是说，执行<code>select count(*) from table</code>时，InnoDB要扫描一遍整个表来计算有多少行，但是MyISAM只要简单的读出保存好的行数即可。注意的是，当count(*)语句包含 where条件时，两种表的操作是一样的。</li>
+<li>3.对于AUTO_INCREMENT类型的字段，InnoDB中必须包含只有该字段的索引，但是在MyISAM表中，可以和其他字段一起建立联合索引。</li>
+<li>4.<code>DELETE FROM table</code>时，InnoDB不会重新建立表，而是一行一行的删除。</li>
+<li>5.<code>LOAD TABLE FROM MASTER</code>操作对InnoDB是不起作用的，解决方法是首先把InnoDB表改成MyISAM表，导入数据后再改成InnoDB表，但是对于使用的额外的InnoDB特性(例如外键)的表不适用。</li>
+<li>另外，InnoDB表的行锁也不是绝对的，假如在执行一个SQL语句时MySQL不能确定要扫描的范围，InnoDB表同样会锁全表，例如<code>update table set num=1 where name like “%aaa%”</code></li>
+</ul>
+<p>作为使用MySQL的用户角度出发，Innodb和MyISAM都是比较喜欢的，<strong>如果数据库平台要达到需求：99.9%的稳定性，方便的扩展性和高可用性来说的话，MyISAM绝对是首选。</strong></p>
+<p>原因如下：</p>
+<ul>
+<li>1、平台上承载的大部分项目是读多写少的项目，而MyISAM的读性能是比Innodb强不少的。</li>
+<li>2、MyISAM的索引和数据是分开的，并且索引是有压缩的，内存使用率就对应提高了不少。能加载更多索引，而Innodb是索引和数据是紧密捆绑的，没有使用压缩从而会造成Innodb比MyISAM体积庞大不小。</li>
+<li>3、经常隔1，2个月就会发生应用开发人员不小心update一个表where写的范围不对，导致这个表没法正常用了，这个时候MyISAM的优越性就体现出来了，随便从当天拷贝的压缩包取出对应表的文件，随便放到一个数据库目录下，然后dump成sql再导回到主库，并把对应的binlog补上。如果是Innodb，恐怕不可能有这么快速度，别和我说让Innodb定期用导出xxx.sql机制备份，因为最小的一个数据库实例的数据量基本都是几十G大小。</li>
+<li>4、从接触的应用逻辑来说，select count(*) 和order by 是最频繁的，大概能占了整个sql总语句的60%以上的操作，而这种操作Innodb其实也是会锁表的，很多人以为Innodb是行级锁，那个只是where对它主键是有效，非主键的都会锁全表的。</li>
+<li>5、还有就是经常有很多应用部门需要我给他们定期某些表的数据，MyISAM的话很方便，只要发给他们对应那表的frm.MYD,MYI的文件，让他们自己在对应版本的数据库启动就行，而Innodb就需要导出xxx.sql了，因为光给别人文件，受字典数据文件的影响，对方是无法使用的。</li>
+<li>6、如果和MyISAM比insert写操作的话，Innodb还达不到MyISAM的写性能，如果是针对基于索引的update操作，虽然MyISAM可能会逊色Innodb,但是那么高并发的写，从库能否追的上也是一个问题，还不如通过多实例分库分表架构来解决。</li>
+<li>7、如果是用MyISAM的话，merge引擎可以大大加快应用部门的开发速度，他们只要对这个merge表做一些select count(*)操作，非常适合大项目总量约几亿的rows某一类型(如日志，调查统计)的业务表。</li>
+<li>当然Innodb也不是绝对不用，用事务的项目就用Innodb的。另外，可能有人会说你MyISAM无法抗太多写操作，但是可以通过架构来弥补。</li>
+</ul>
+<h3 id="上述存储引擎在索引结构方面的区别"><a href="#上述存储引擎在索引结构方面的区别" class="headerlink" title="上述存储引擎在索引结构方面的区别"></a>上述存储引擎在索引结构方面的区别</h3><h3 id="各自的使用场景"><a href="#各自的使用场景" class="headerlink" title="各自的使用场景"></a>各自的使用场景</h3><h2 id="锁-共享锁、排他锁、行锁、表锁、间隙锁"><a href="#锁-共享锁、排他锁、行锁、表锁、间隙锁" class="headerlink" title="锁(共享锁、排他锁、行锁、表锁、间隙锁)"></a>锁(共享锁、排他锁、行锁、表锁、间隙锁)</h2><p><a href="https://zhuanlan.zhihu.com/p/29150809" target="_blank" rel="noopener">总结的很好</a></p>
+<h3 id="如何避免死锁"><a href="#如何避免死锁" class="headerlink" title="如何避免死锁"></a>如何避免死锁</h3><h2 id="SQL语句-常见为聚类函数的使用、表连接查询"><a href="#SQL语句-常见为聚类函数的使用、表连接查询" class="headerlink" title="SQL语句(常见为聚类函数的使用、表连接查询)"></a>SQL语句(常见为聚类函数的使用、表连接查询)</h2><h2 id="分库分表策略"><a href="#分库分表策略" class="headerlink" title="分库分表策略"></a>分库分表策略</h2><h2 id="SQL注入原理-常用SQL防注入框架"><a href="#SQL注入原理-常用SQL防注入框架" class="headerlink" title="SQL注入原理(常用SQL防注入框架)"></a>SQL注入原理(常用SQL防注入框架)</h2><h2 id="Mysql的sql处理过程"><a href="#Mysql的sql处理过程" class="headerlink" title="Mysql的sql处理过程"></a>Mysql的sql处理过程</h2><h3 id="Mysql逻辑分层"><a href="#Mysql逻辑分层" class="headerlink" title="Mysql逻辑分层"></a>Mysql逻辑分层</h3><ul>
+<li><strong>第一层：Connect层</strong></li>
+</ul>
+<p><strong>负责连接管理、授权认证、安全等等</strong></p>
+<p>每个客户端的连接都对应着服务器上的一个线程。服务器上维护了一个线程池，避免为每个连接都创建销毁一个线程。当客户端连接到MySQL服务器时，服务器对其进行认证。可以通过用户名和密码的方式进行认证，也可以通过SSL证书进行认证。登录认证通过后，服务器还会验证该客户端是否有执行某个查询的权限。</p>
+<ul>
+<li><strong>第二层：Service层</strong></li>
+</ul>
+<p><strong>负责解析查询(编译SQL)，并对其进行优化(如调整表的读取顺序，选择合适的索引等)</strong>。对于SELECT语句，在解析查询前，服务器会先检查查询缓存，如果能在其中找到对应的查询结果，则无需再进行查询解析、优化等过程，直接返回查询结果。存储过程、触发器、视图等都在这一层实现。</p>
+<ul>
+<li><strong>第三层：存储引擎</strong></li>
+</ul>
+<p><strong>存储引擎负责在MySQL中存储数据、提取数据、开启一个事务等等</strong>。存储引擎通过API与上层进行通信，这些API屏蔽了不同存储引擎之间的差异，使得这些差异对上层查询过程透明。存储引擎不会去解析SQL。</p>
+<h3 id="Mysql组件："><a href="#Mysql组件：" class="headerlink" title="Mysql组件："></a>Mysql组件：</h3><ul>
+<li><ol>
+<li>线程池组件（Connection Pool）：处理connetor发起的请求，处理用户登录、线程复用、连接数控制、内存检测和缓冲等功能</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>管理服务和工具组件（Mangerment Services &amp; Utilities）主要是完成数据备份和恢复、复制、集群管理、配置、迁移和元数据</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>SQL接口组件（Sql Interface）：进行DML、DLL、视图、存储过程、触发器等操作和管理，通过sql命令来获取查询结果</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>查询分析器组件（Parser）：这里接受并通过解析器来解析sql接口组件传递过来的sql语句，解析器通过词法分析和语法分析等步骤来验证sql的正确性，解析器是由Lex和YACC实现的，是一个很长的脚本<br>主要功能：</li>
+</ol>
+<ul>
+<li>a . 将SQL语句分解成数据结构，并将这个结构传递到后续步骤，以后SQL语句的传递和处理就是基于这个结构的 </li>
+<li>b.  如果在分解构成中遇到错误，那么就说明这个sql语句是不合理的</li>
+</ul>
+</li>
+<li><ol start="5">
+<li>优化器组件（Optimizer）：用于优化查询sql</li>
+</ol>
+</li>
+<li><ol start="6">
+<li>缓冲组件（Cache&amp;Buffer）：将各个组件得出的结果缓冲起来，可以是查询结果，查询sql等等</li>
+</ol>
+</li>
+<li><ol start="7">
+<li>插件式存储引擎（Storage Engines）：各种存储引擎插件，如myisam、innodb</li>
+</ol>
+</li>
+<li><ol start="8">
+<li>物理文件（Files &amp; Logs）：用于存储真正的数据，日志、索引和缓存等数据</li>
+</ol>
+</li>
+</ul>
+<h2 id="sql查询慢的原因"><a href="#sql查询慢的原因" class="headerlink" title="sql查询慢的原因"></a>sql查询慢的原因</h2><ul>
+<li>1、没有索引或者没有用到索引（这是查询慢最常见的问题，是程序设计的缺陷）</li>
+<li>2、I/O 吞吐量小，形成了瓶颈效应。</li>
+<li>3、没有创建计算列导致查询不优化。</li>
+<li>4、内存不足</li>
+<li>5、网络速度慢</li>
+<li>6、查询出的数据量过大（可采用多次查询，其他的方法降低数据量）</li>
+<li>7、锁或者死锁（这是查询慢最常见的问题，是程序设计的缺陷）</li>
+<li>8、sp_lock,sp_who,活动的用户查看,原因是读写竞争资源。</li>
+<li>9、返回了不必要的行和列</li>
+<li>10、查询语句不好，没有优化</li>
+</ul>
+<h2 id="待回答问题"><a href="#待回答问题" class="headerlink" title="待回答问题"></a>待回答问题</h2><p>MySQL存储与索引有关问题<br>Float、Decimal 存储金额的区别？<br>Datetime、Timestamp 存储时间的区别？<br>Char、Varchar、Varbinary 存储字符的区别？<br>什么是索引？<br>对比一下B+树索引和 Hash索引？<br>MySQL索引类型有？<br>如何管理 MySQL索引？<br>对Explain参数及重要参数的理解？<br>索引利弊是什么及索引分类？<br>二叉树的转置是什么？<br>聚簇索引和非聚簇索引的区别？<br>B+tree 如何进行优化？索引遵循哪些原则？存储引擎会进行哪些自动优化？到底何时索引会失效？<br>索引与锁有什么关系？<br>还有什么其他的索引类型，各自索引有哪些优缺点？<br>MySQL事务和锁有关问题<br>谈谈对Innodb事务的理解？<br>说说数据库事务特点及潜在问题？<br>什么是MySQL隔离级别？<br>有多少种事务失效的场景，如何解决？<br>一致性非锁定读和一致性锁定读是什么？<br>Innodb如何解决幻读？<br>讲讲Innodb行锁？<br>死锁及监控是什么？<br>自增长与锁 ，锁的算法，锁问题，锁升级是什么？<br>乐观锁的线程如何做失败补偿？<br>高并发场景（领红包）如何防止死锁，保证数据一致性？<br>谈谈MySQL的锁并发？<br>MySQL性能优化有关问题<br>回表和集群因子是什么？<br>讲讲表与表之间的关系？<br>了解查询优化器模块；<br>查询优化的基本思路是什么？<br>说说MySQL读写分离、分库分表？<br>Query语句对数据库性能有什么影响？<br>Schema设计对系统性能有什么影响？<br>硬件环境对数据库的性能有什么影响？<br>表结构对性能有什么影响?<br>浅谈索引优化？<br>JOIN的原理是什么？<br>说说Sql优化的几点原则？<br>MySQL表设计及规范？<br>说说MySQL几种存储引擎应用场景？<br>MySQL常用优化方式有哪些？<br>MySQL常用监控？<br>MySQL瓶颈分析？<br>MySQL的系统学习方法</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/13/she-ji-mo-shi-ti-hui-zong/" rel="prev" title="设计模式题汇总">
+      <i class="fa fa-chevron-left"></i> 设计模式题汇总
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/16/jvm-mian-shi-zong-jie/" rel="next" title="JVM面试总结">
+      JVM面试总结 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#相关概念理解"><span class="nav-number">1.</span> <span class="nav-text">相关概念理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#联合主键和复合主键"><span class="nav-number">1.1.</span> <span class="nav-text">联合主键和复合主键</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库三大范式"><span class="nav-number">2.</span> <span class="nav-text">数据库三大范式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mysql索引"><span class="nav-number">3.</span> <span class="nav-text">Mysql索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql索引目的"><span class="nav-number">3.1.</span> <span class="nav-text">Mysql索引目的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引有哪几种"><span class="nav-number">3.2.</span> <span class="nav-text">索引有哪几种</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#“为什么底层数据结构使用B-树，而不是B树？”"><span class="nav-number">3.3.</span> <span class="nav-text">“为什么底层数据结构使用B+树，而不是B树？”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#聚簇索引与非聚簇索引"><span class="nav-number">3.4.</span> <span class="nav-text">聚簇索引与非聚簇索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引的底层实现-B-树和红黑树、B树比较"><span class="nav-number">3.5.</span> <span class="nav-text">索引的底层实现 B+树和红黑树、B树比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引失效"><span class="nav-number">3.6.</span> <span class="nav-text">索引失效</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-索引不存储null值"><span class="nav-number">3.6.1.</span> <span class="nav-text">1.索引不存储null值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-不适合键值较少的列（重复数据较多的列）"><span class="nav-number">3.6.2.</span> <span class="nav-text">2.不适合键值较少的列（重复数据较多的列）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-前导模糊查询不能利用索引-like-‘-XX’或者like-‘-XX-’"><span class="nav-number">3.6.3.</span> <span class="nav-text">3.前导模糊查询不能利用索引(like ‘%XX’或者like ‘%XX%’)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-索引失效的几种情况"><span class="nav-number">3.6.4.</span> <span class="nav-text">4.索引失效的几种情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-MySQL主要提供2种方式的索引：B-Tree索引，Hash索引"><span class="nav-number">3.6.5.</span> <span class="nav-text">5.MySQL主要提供2种方式的索引：B-Tree索引，Hash索引</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建索引的几大原则"><span class="nav-number">3.7.</span> <span class="nav-text">建索引的几大原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引优化策略"><span class="nav-number">3.8.</span> <span class="nav-text">索引优化策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#explain慢查询优化"><span class="nav-number">3.9.</span> <span class="nav-text">explain慢查询优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mysql事务"><span class="nav-number">4.</span> <span class="nav-text">Mysql事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事务特性-ACID-及其实现"><span class="nav-number">4.1.</span> <span class="nav-text">事务特性(ACID)及其实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原子性"><span class="nav-number">4.2.</span> <span class="nav-text">原子性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">4.2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现原理：undo-log"><span class="nav-number">4.2.2.</span> <span class="nav-text">实现原理：undo log</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#持久性"><span class="nav-number">4.3.</span> <span class="nav-text">持久性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义-1"><span class="nav-number">4.3.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现原理：redo-log"><span class="nav-number">4.3.2.</span> <span class="nav-text">实现原理：redo log</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#redo-log与binlog"><span class="nav-number">4.3.3.</span> <span class="nav-text">redo log与binlog</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#隔离性"><span class="nav-number">4.4.</span> <span class="nav-text">隔离性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义-2"><span class="nav-number">4.4.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事务的隔离级别-读未提交、读已提交、重复读、序列化"><span class="nav-number">4.4.2.</span> <span class="nav-text">事务的隔离级别(读未提交、读已提交、重复读、序列化)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过锁的方式实现隔离性"><span class="nav-number">4.4.3.</span> <span class="nav-text">通过锁的方式实现隔离性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MVCC在MySQL的InnoDB中的实现"><span class="nav-number">4.4.4.</span> <span class="nav-text">MVCC在MySQL的InnoDB中的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Innodb的RR级别如何解决幻读问题"><span class="nav-number">4.4.5.</span> <span class="nav-text">Innodb的RR级别如何解决幻读问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一致性"><span class="nav-number">4.5.</span> <span class="nav-text">一致性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本概念"><span class="nav-number">4.5.1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现"><span class="nav-number">4.5.2.</span> <span class="nav-text">实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事务的隔离级别分别解决哪些问题-脏读、不可重复读、幻读丢失修改"><span class="nav-number">4.6.</span> <span class="nav-text">事务的隔离级别分别解决哪些问题(脏读、不可重复读、幻读丢失修改)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事务的回滚-undo、redo日志"><span class="nav-number">4.7.</span> <span class="nav-text">事务的回滚(undo、redo日志)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储引擎"><span class="nav-number">5.</span> <span class="nav-text">存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MyISAM与InnoDB的区别"><span class="nav-number">5.1.</span> <span class="nav-text">MyISAM与InnoDB的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#上述存储引擎在索引结构方面的区别"><span class="nav-number">5.2.</span> <span class="nav-text">上述存储引擎在索引结构方面的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#各自的使用场景"><span class="nav-number">5.3.</span> <span class="nav-text">各自的使用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁-共享锁、排他锁、行锁、表锁、间隙锁"><span class="nav-number">6.</span> <span class="nav-text">锁(共享锁、排他锁、行锁、表锁、间隙锁)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何避免死锁"><span class="nav-number">6.1.</span> <span class="nav-text">如何避免死锁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL语句-常见为聚类函数的使用、表连接查询"><span class="nav-number">7.</span> <span class="nav-text">SQL语句(常见为聚类函数的使用、表连接查询)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分库分表策略"><span class="nav-number">8.</span> <span class="nav-text">分库分表策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL注入原理-常用SQL防注入框架"><span class="nav-number">9.</span> <span class="nav-text">SQL注入原理(常用SQL防注入框架)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mysql的sql处理过程"><span class="nav-number">10.</span> <span class="nav-text">Mysql的sql处理过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql逻辑分层"><span class="nav-number">10.1.</span> <span class="nav-text">Mysql逻辑分层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql组件："><span class="nav-number">10.2.</span> <span class="nav-text">Mysql组件：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sql查询慢的原因"><span class="nav-number">11.</span> <span class="nav-text">sql查询慢的原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#待回答问题"><span class="nav-number">12.</span> <span class="nav-text">待回答问题</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Wang Huan</p>
+  <div class="site-description" itemprop="description">记录学习心得、读书感受以及一些Java知识。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/njustwh2014" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;njustwh2014" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:seuwh2018@foxmail.com" title="E-Mail → mailto:seuwh2018@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Huan</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">215k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:16</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Fhg8nAsyMme0K6TqY820NK17-gzGzoHsz',
+      appKey     : 'zoqpwVMBfhi2YQ9xf94Jdbf2',
+      placeholder: "欢迎批评指正！",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
